@@ -1,10 +1,10 @@
 export default function TourTypeSection() {
-  const tourTypes = [
-    { title: "Short Trip", count: "08", image: "/short-trip.jpg" },
-    { title: "Nature", count: "02", image: "/nature.jpg" },
-    { title: "Safari", count: "03", image: "/safari.jpg" },
-    { title: "Beach Stay", count: "05", image: "/beach.jpg" },
-  ];
+  // const tourTypes = [
+  //   { title: "Short Trip", count: "08", image: "/short-trip.jpg" },
+  //   { title: "Nature", count: "02", image: "/nature.jpg" },
+  //   { title: "Safari", count: "03", image: "/safari.jpg" },
+  //   { title: "Beach Stay", count: "05", image: "/beach.jpg" },
+  // ];
 
   return (
     // <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto pt-185">

@@ -11,11 +11,11 @@ const workSans = Work_Sans({
   variable: "--font-work-sans",
 });
 
-const waterBrush = Water_Brush({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-water",
-});
+// const waterBrush = Water_Brush({
+//   subsets: ["latin"],
+//   weight: "400",
+//   variable: "--font-water",
+// });
 
 const carattere = Carattere({
   subsets: ["latin"],

@@ -3,7 +3,6 @@ import TravelActivity from "@/app/components/TravelActivity";
 import TourPackages from "@/app/components/TourPackages";
 import Testimonials from "@/app/components/Testimonials";
 import ContactSection from "@/app/components/ContactSection";
-import Footer from "@/app/components/Footer";
 import TourTypeSection from "./components/TourTypeSection";
 
 export default function Home() {
