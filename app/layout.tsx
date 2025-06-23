@@ -1,6 +1,5 @@
 import Header from "@/app/components/Header";
 import "./globals.css";
-// import { Water_Brush } from "next/font/google";
 import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "./components/Footer";
@@ -10,12 +9,6 @@ const workSans = Work_Sans({
   weight: "200",
   variable: "--font-work-sans",
 });
-
-// const waterBrush = Water_Brush({
-//   subsets: ["latin"],
-//   weight: "400",
-//   variable: "--font-water",
-// });
 
 const carattere = Carattere({
   subsets: ["latin"],
