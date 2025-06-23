@@ -1,6 +1,6 @@
 import Header from "@/app/components/Header";
 import "./globals.css";
-import { Water_Brush } from "next/font/google";
+// import { Water_Brush } from "next/font/google";
 import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "./components/Footer";
