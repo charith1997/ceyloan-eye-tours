@@ -14,7 +14,7 @@ export default function Hotels() {
                         Accommodation
                     </p>
                     <p className="font-work text-[16px] font-medium leading-[24px] tracking-[0] w-full sm:w-3/5 text-center">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s,
                     </p>
                 </div>
             </div>

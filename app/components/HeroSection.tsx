@@ -24,7 +24,7 @@ export default function HeroSection() {
           </h1>
           <p className="font-work font-normal text-base leading-6 tracking-[0] w-full md:w-lg">
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
+            industry. Lorem Ipsum has been the industry&apos;s standard dummy text
             ever since the 1500s,
           </p>
 
