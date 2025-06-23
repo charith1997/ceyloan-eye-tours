@@ -10,12 +10,14 @@ const validTourTypes = [
   "bird-watching",
 ];
 
-export default async function TourCategoryPage({
-  params,
-}: {
-  params: { type: string; category: string };
-}) {
-  const { category } = params;
+// Updated interface to match Next.js App Router requirements
+interface PageProps {
+  params: Promise<{ category: string }>;
+}
+
+export default async function TourCategoryPage({ params }: PageProps) {
+  // Await the params Promise
+  const { category } = await params;
 
   if (!validTourTypes.includes(category)) {
     return notFound();
