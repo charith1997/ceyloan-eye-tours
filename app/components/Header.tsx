@@ -19,7 +19,6 @@ const navLinks = [
   { label: "Day Tours", href: "/" },
   { label: "Destinations", href: "/" },
   { label: "Hotels", href: "/hotels" },
-  { label: "Destinations", href: "/" },
   { label: "Rent a vehicle", href: "/" },
   { label: "Reviews", href: "/" },
   { label: "About Us", href: "/" },

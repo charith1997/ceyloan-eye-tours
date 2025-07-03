@@ -13,13 +13,11 @@ const validTourTypes = [
   "general",
 ];
 
-// Updated interface to match Next.js App Router requirements
 interface PageProps {
   params: Promise<{ type: string }>;
 }
 
 export default async function TourTypePage({ params }: PageProps) {
-  // Await the params Promise
   const { type } = await params;
 
   if (!validTourTypes.includes(type)) {
