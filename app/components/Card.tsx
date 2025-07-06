@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface CardProps {
@@ -17,7 +18,7 @@ const Card = ({ title, count, imageUrl, description, isTitleHighlighted, slug, p
     return (
         <Link href={`/${parentRoute}/${slug}`}>
             <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
-                <img
+                <Image
                     src={imageUrl}
                     alt={title}
                     className="absolute inset-0 w-full h-full object-cover"

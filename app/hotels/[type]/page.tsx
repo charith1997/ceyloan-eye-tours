@@ -1,4 +1,3 @@
-import CTAButton from "@/app/components/CTAButton";
 import DetailCardGrid from "@/app/components/DetailCardGrid";
 import { notFound } from "next/navigation";
 

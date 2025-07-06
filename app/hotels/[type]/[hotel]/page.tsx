@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
-import CTAButton from "@/app/components/CTAButton";
 import { Star, HouseWifi, BriefcaseBusiness, Wind, Waves, CircleParking, ThumbsUp } from 'lucide-react';
+import Image from "next/image";
 
 const validTourTypes = [
     "tamaravila-wilpattu",
@@ -57,7 +56,12 @@ function MasonryImageGrid() {
     return (
         <div className="columns-2 md:columns-3 gap-4 py-4 space-y-4">
             {images.map((src, idx) => (
-                <img key={idx} src={src} className="w-full rounded-lg mb-4" />
+                <Image
+                    key={idx}
+                    src={src}
+                    alt={`Hotel Image ${idx + 1}`}
+                    className="w-full rounded-lg mb-4"
+                />
             ))}
         </div>
     );
@@ -188,7 +192,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
                         </p>
                         <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify">
                             Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has been the industry's standard dummy text
+                            industry. Lorem Ipsum has been the industry&apos;s standard dummy text
                             ever since the 1500s, when an unknown printer took a galley of
                             type and scrambled it to make a type specimen book.
                         </p>
@@ -210,7 +214,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
                             Available Rooms
                         </h1>
                         <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 py-8">
@@ -237,7 +241,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
 
 const HotelRoom = () => {
     return <div className="relative h-80 md:h-100 rounded-lg overflow-hidden shadow-lg group transition-transform hover:scale-105 cursor-pointer">
-        <img
+        <Image
             src="/hotels/Rectangle 70.png"
             alt="Hotel Image"
             className="absolute inset-0 w-full h-60 md:h-80 object-cover bg-center bg-cover"

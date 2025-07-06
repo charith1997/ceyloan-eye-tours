@@ -125,13 +125,13 @@ export default async function TourCategoryPage({ params }: PageProps) {
             </p>
             <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify mb-6">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {images.map((src, i) => (
-                <img
+                <Image
                   key={i}
                   src={src}
                   alt={`tour-${i}`}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
 import { Star } from 'lucide-react'
+import Image from "next/image";
 
 interface DetailCardProps {
     title: string;
@@ -19,7 +20,7 @@ export default function DetailCard({ title, imageUrl, duration, price, slug }: D
     return (
         <Link href={`${pathname}/${slug}`}>
             <div className="relative h-80 md:h-100 rounded-xl overflow-hidden shadow-lg group transition-transform hover:scale-105 cursor-pointer">
-                <img
+                <Image
                     src={imageUrl}
                     alt={title}
                     className="absolute inset-0 w-full h-60 md:h-80 object-cover bg-center bg-cover"
@@ -31,10 +32,10 @@ export default function DetailCard({ title, imageUrl, duration, price, slug }: D
                         <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">{title}</h3>
                         <p className="font-work text-sm md:text-base font-medium">{duration}</p>
                     </div>
-                    {/* <div className="text-end">
+                    <div className="text-end">
                         <h3 className="font-work text-sm md:text-sm font-normal">Starting from</h3>
                         <p className="font-work text-sm md:text-base font-normal">${price}</p>
-                    </div> */}
+                    </div>
                     <div className="flex items-center gap-1">
                         <Star className="w-5 h-5 text-yellow-400 fill-current" />
                         <p className="font-work text-sm md:text-xl font-normal">5</p>

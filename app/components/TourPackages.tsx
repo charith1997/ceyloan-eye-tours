@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const TourPackages = () => {
   const packages = [
     { title: 'Kandy', count: 3, price: 1500, imageUrl: '/tour packages/package_1.jpg' },
@@ -20,7 +22,7 @@ const TourPackages = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {packages.map((tourPackage, index) => (
           <div key={index} className="cursor-pointer font-[Work Sans]">
-            <img
+            <Image
               src={tourPackage.imageUrl}
               alt={tourPackage.title}
               className="w-[320px] h-[320px] object-cover rounded-t-[10px] mx-auto"

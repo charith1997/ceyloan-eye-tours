@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const TravelActivity = () => {
   const activities = [
     {
@@ -51,7 +53,7 @@ const TravelActivity = () => {
             key={index}
             className="group p-8 bg-[#FFF9F0] rounded-[10px] text-[#999] text-center font-[Work Sans] transition-all duration-300 hover:bg-gradient-to-r from-[#cd1a40] to-[#ff803c] hover:text-white cursor-pointer"
           >
-            <img
+            <Image
               src={activity.imageUrl}
               alt={activity.title}
               className="w-[140px] h-[140px] object-contain mx-auto mb-4"
