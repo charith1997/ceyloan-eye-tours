@@ -12,7 +12,6 @@ export default function ContactSection() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // For now, just log it (you can connect to a backend or service later)
-    console.log('Form submitted:', form);
     alert('Message sent successfully!');
     setForm({ name: '', email: '', message: '' });
   };

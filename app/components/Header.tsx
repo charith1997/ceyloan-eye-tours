@@ -20,7 +20,7 @@ const navLinks = [
   { label: "Destinations", href: "/" },
   { label: "Hotels", href: "/hotels" },
   { label: "Rent a vehicle", href: "/" },
-  { label: "Reviews", href: "/" },
+  { label: "Reviews", href: "/reviews" },
   { label: "About Us", href: "/" },
 ];
 
@@ -69,13 +69,13 @@ function Header({ bgClass, pathname }: HeaderProps) {
         <div className="hidden md:flex space-x-8 items-center text-sm">
           <Link
             href="#"
-            className="underline font-work font-bold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+            className="underline font-work font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
           >
             Sign In
           </Link>
           <Link
             href="#"
-            className="bg-gradient-to-r from-red to-orange px-4 py-2 rounded-2xl text-white font-medium"
+            className="bg-red px-4 py-2 rounded-2xl text-white font-semibold"
           >
             SignUp
           </Link>

@@ -13,6 +13,58 @@ const validTourTypes = [
   "general",
 ];
 
+const tourPackages = [
+  {
+    title: "Secrets of Lanka",
+    imageUrl: "/family tours/Secrets of lanka.jpg",
+    duration: "14 Days | 13 Nights",
+    price: "1500",
+    slug: "secrets-of-lanka",
+  },
+  {
+    title: "Wildlife",
+    imageUrl: "/family tours/Wildlife.jpg",
+    duration: "3 Days | 2 Nights",
+    price: "1500",
+    slug: "wildlife",
+  },
+  {
+    title: "Love Island",
+    imageUrl: "/family tours/Love Island.jpg",
+    duration: "3 Days | 2 Nights",
+    price: "1500",
+    slug: "love-island"
+  },
+  {
+    title: "Soft Adventure",
+    imageUrl: "/family tours/Soft Adventure.jpg",
+    duration: "14 Days | 13 Nights",
+    price: "1500",
+    slug: "soft-adventure"
+  },
+  {
+    title: "Mini adventure",
+    imageUrl: "/family tours/Mini adventure.jpg",
+    duration: "3 Days | 2 Nights",
+    price: "1500",
+    slug: "mini-adventure"
+  },
+  {
+    title: "Down south",
+    imageUrl: "/family tours/Down south.jpg",
+    duration: "3 Days | 2 Nights",
+    price: "1500",
+    slug: "down-south"
+  },
+  {
+    title: "Bird watching",
+    imageUrl: "/family tours/Bird watching.jpg",
+    duration: "3 Days | 2 Nights",
+    price: "1500",
+    slug: "bird-watching"
+  },
+];
+
 interface PageProps {
   params: Promise<{ type: string }>;
 }
@@ -74,7 +126,7 @@ export default async function TourTypePage({ params }: PageProps) {
         </p>
       </div>
       <div className="min-h-screen">
-        <DetailCardGrid />
+        <DetailCardGrid packages={tourPackages} />
         <CTAButton />
       </div>
     </section>

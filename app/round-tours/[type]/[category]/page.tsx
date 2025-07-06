@@ -145,9 +145,9 @@ export default async function TourCategoryPage({ params }: PageProps) {
             <h3 className="font-work text-[36px] tracking-[0] font-medium text-red mb-4">
               Tour Highlights
             </h3>
-            <ul className="list-disc list-inside text-gray-300 text-sm space-y-2">
+            <ul className="list-disc list-inside text-sm space-y-2">
               {highlights.map((point, i) => (
-                <li key={i}>{point}</li>
+                <li className="font-semibold" key={i}>{point}</li>
               ))}
             </ul>
             <button className="mt-6 w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white py-3 rounded-md font-semibold">

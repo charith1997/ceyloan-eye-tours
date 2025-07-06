@@ -12,3 +12,7 @@
     --font-work: "Work Sans", "sans-serif";
     --font-carattere: "Carattere", "cursive";
   }
+
+body {
+  font-family: "Work Sans", sans-serif;
+}
