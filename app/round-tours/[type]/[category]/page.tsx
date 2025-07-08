@@ -125,13 +125,13 @@ export default async function TourCategoryPage({ params }: PageProps) {
             </p>
             <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify mb-6">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {images.map((src, i) => (
-                <Image
+                <img
                   key={i}
                   src={src}
                   alt={`tour-${i}`}
@@ -147,7 +147,9 @@ export default async function TourCategoryPage({ params }: PageProps) {
             </h3>
             <ul className="list-disc list-inside text-sm space-y-2">
               {highlights.map((point, i) => (
-                <li className="font-semibold" key={i}>{point}</li>
+                <li className="font-semibold" key={i}>
+                  {point}
+                </li>
               ))}
             </ul>
             <button className="mt-6 w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white py-3 rounded-md font-semibold">
@@ -175,14 +177,19 @@ export default async function TourCategoryPage({ params }: PageProps) {
             Tour Price Excludes
           </h2>
           <ul className="list-disc list-inside space-y-2 font-work text-[16px]">
-            <li>Air ticket expenses from your country to Sri Lanka and return journey.</li>
+            <li>
+              Air ticket expenses from your country to Sri Lanka and return
+              journey.
+            </li>
             <li>Extra items consumed / facilities utilized in Hotels.</li>
             <li>Tips to service men and drivers.</li>
             <li>Expenses of personal nature such as liquor, cigarettes etc.</li>
-            <li>Camera Charges and video recording charges payable at the sites.</li>
+            <li>
+              Camera Charges and video recording charges payable at the sites.
+            </li>
           </ul>
         </div>
-        <div className="lg:w-1/2 p-6 xl:mx-32">
+        <div className="relative lg:w-1/2 p-6 xl:mx-32">
           <Image
             src="/round tours/Map.png"
             alt="Map of Tour"

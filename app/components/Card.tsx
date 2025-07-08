@@ -22,6 +22,7 @@ const Card = ({ title, count, imageUrl, description, isTitleHighlighted, slug, p
                     src={imageUrl}
                     alt={title}
                     className="absolute inset-0 w-full h-full object-cover"
+                    fill
                 />
                 <div className="absolute inset-0 bg-black/50 rounded-xl z-0" />
 

@@ -24,6 +24,7 @@ export default function DetailCard({ title, imageUrl, duration, price, slug }: D
                     src={imageUrl}
                     alt={title}
                     className="absolute inset-0 w-full h-60 md:h-80 object-cover bg-center bg-cover"
+                    fill
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition" />
 

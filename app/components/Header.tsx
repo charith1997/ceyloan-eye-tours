@@ -19,7 +19,7 @@ const navLinks = [
   { label: "Day Tours", href: "/" },
   { label: "Destinations", href: "/" },
   { label: "Hotels", href: "/hotels" },
-  { label: "Rent a vehicle", href: "/" },
+  { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
   { label: "About Us", href: "/" },
 ];
@@ -43,8 +43,9 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-200 ${pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
-        }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-200 ${
+        pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
+      }`}
     >
       <div className="mx-auto px-4 md:px-16 py-4 flex justify-between items-center text-white">
         <Link

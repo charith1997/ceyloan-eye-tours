@@ -26,6 +26,8 @@ const TourPackages = () => {
               src={tourPackage.imageUrl}
               alt={tourPackage.title}
               className="w-[320px] h-[320px] object-cover rounded-t-[10px] mx-auto"
+              width={320}
+              height={320}
             />
             <div className="flex justify-between items-center bg-[#FFF9F0] text-left px-4 py-3 rounded-b-[10px] w-[320px] mx-auto">
               <div>

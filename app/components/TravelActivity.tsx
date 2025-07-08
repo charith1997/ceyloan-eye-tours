@@ -57,6 +57,8 @@ const TravelActivity = () => {
               src={activity.imageUrl}
               alt={activity.title}
               className="w-[140px] h-[140px] object-contain mx-auto mb-4"
+              width={140}
+              height={140}
             />
             <h3 className="text-[32px] font-bold leading-none mb-2">
               {activity.title}
