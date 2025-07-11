@@ -69,16 +69,16 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
         <div className="hidden md:flex space-x-8 items-center text-sm">
           <Link
-            href="#"
+            href="/login"
             className="underline font-work font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
           >
             Sign In
           </Link>
           <Link
-            href="#"
+            href="/register"
             className="bg-red px-4 py-2 rounded-2xl text-white font-semibold"
           >
-            SignUp
+            Sign Up
           </Link>
         </div>
 
