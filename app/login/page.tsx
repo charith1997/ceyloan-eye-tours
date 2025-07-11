@@ -174,7 +174,7 @@ export default function LoginPage(): JSX.Element {
           <p className="mt-8 text-center text-gray-600">
             Don’t have an account?{" "}
             <a
-              href="#"
+              href="/register"
               className="text-red-500 hover:text-red-600 font-semibold"
             >
               Sign Up

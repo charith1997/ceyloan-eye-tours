@@ -186,7 +186,7 @@ export default function RegisterPage(): JSX.Element {
           <p className="mt-8 text-center text-gray-600">
             Have an account?{" "}
             <a
-              href="#"
+              href="/login"
               className="text-red-500 hover:text-red-600 font-semibold"
             >
               Sign In
