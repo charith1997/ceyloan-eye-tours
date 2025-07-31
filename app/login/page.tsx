@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React, { JSX, useState } from "react";
 
 interface FormData {
@@ -25,6 +26,13 @@ export default function LoginPage(): JSX.Element {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
+    const { password } = formData;
+    if (password === "admin" || password === "Admin") {
+      localStorage.setItem("userRole", "admin");
+    } else {
+      localStorage.setItem("userRole", "user");
+    }
+    window.location.href = "/";
     console.log("Form submitted:", formData);
   };
 

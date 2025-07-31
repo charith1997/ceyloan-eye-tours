@@ -6,6 +6,7 @@ import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "./components/Footer";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -24,7 +25,13 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const pathName = usePathname();
+
+  useEffect(() => {
+    const role = localStorage.getItem("userRole");
+    setIsAdmin(role === "admin");
+  }, []);
 
   if (pathName === "/register" || pathName === "/login") {
     return (
@@ -34,6 +41,21 @@ export default function RootLayout({
         </head>
         <body>
           <main>{children}</main>
+        </body>
+      </html>
+    );
+  }
+
+  if (isAdmin) {
+    return (
+      <html lang="en" className={`${workSans.variable}${carattere.variable}`}>
+        <head>
+          <title>Ceyloan Eye Tours</title>
+        </head>
+        <body>
+          <main>
+            <>{children}</>
+          </main>
         </body>
       </html>
     );
