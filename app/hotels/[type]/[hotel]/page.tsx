@@ -73,11 +73,13 @@ function MasonryImageGrid() {
   return (
     <div className="columns-2 md:columns-3 gap-4 py-4 space-y-4">
       {images.map((src, idx) => (
-        <img
+        <Image
           key={idx}
           src={src}
           alt={`Hotel Image ${idx + 1}`}
           className="w-full rounded-lg mb-4"
+          width={300}
+          height={200}
         />
       ))}
     </div>

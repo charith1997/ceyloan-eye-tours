@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { JSX, useState } from "react";
 
 interface FormData {
@@ -196,10 +197,12 @@ export default function RegisterPage(): JSX.Element {
       </div>
 
       <div className="hidden lg:block lg:w-1/2 relative">
-        <img
-          src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        <Image
+          src="/family tours/Secrets of Lanka Tour.jpg"
           alt="Aerial view of ancient rock fortress surrounded by lush green landscape"
           className="w-full h-full object-cover rounded-l-2xl"
+          width={1000}
+          height={800}
         />
         <div className="absolute inset-0 bg-black/10 z-20 rounded-l-2xl"></div>
       </div>

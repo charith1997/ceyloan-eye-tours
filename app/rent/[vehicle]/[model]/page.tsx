@@ -1,6 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { Users } from "lucide-react";
+import Image from "next/image";
 
 const validVehicleTypes = ["bus", "van", "car", "layland"];
 
@@ -18,11 +19,13 @@ function MasonryImageGrid() {
   return (
     <div className="columns-2 md:columns-3 gap-4 pt-16 pb-8 space-y-4">
       {images.map((src, idx) => (
-        <img
+        <Image
           key={idx}
           src={src}
           alt={`Hotel Image ${idx + 1}`}
           className="w-full rounded-lg mb-4"
+          width={300}
+          height={200}
         />
       ))}
     </div>

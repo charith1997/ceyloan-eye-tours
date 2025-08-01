@@ -2,7 +2,7 @@ import { Menu } from "lucide-react";
 import React from "react";
 
 interface MainContentData {
-  setShowSidebar: (data: any) => void;
+  setShowSidebar: (data: boolean) => void;
   children?: React.ReactNode;
 }
 

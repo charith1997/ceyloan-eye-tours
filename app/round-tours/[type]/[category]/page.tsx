@@ -131,11 +131,13 @@ export default async function TourCategoryPage({ params }: PageProps) {
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {images.map((src, i) => (
-                <img
+                <Image
                   key={i}
                   src={src}
                   alt={`tour-${i}`}
                   className="rounded-lg object-cover w-full h-52"
+                  width={300}
+                  height={200}
                 />
               ))}
             </div>
