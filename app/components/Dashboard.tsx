@@ -6,6 +6,7 @@ import AdminTours from "./AdminTours";
 import AdminHotels from "./AdminHotels";
 import AdminVehicles from "./AdminVehicles";
 import AdminPlaces from "./AdminPlaces";
+import AdminOrders from "./AdminOrders";
 
 type NavigationItem = {
   name: string;
@@ -18,7 +19,7 @@ const initialNavigationItems: NavigationItem[] = [
   { name: "Tours", active: false, component: <AdminTours /> },
   { name: "Hotels", active: false, component: <AdminHotels /> },
   { name: "Vehicles", active: false, component: <AdminVehicles /> },
-  { name: "Orders", active: false, component: <Home /> },
+  { name: "Orders", active: false, component: <AdminOrders /> },
   { name: "Chats", active: false, component: <Home /> },
   { name: "Gallery", active: false, component: <Home /> },
   { name: "Places", active: false, component: <AdminPlaces /> },

@@ -30,8 +30,8 @@ const priceDetails = (
 
 const actionButtons = (
   <div className="flex gap-4">
-    <button className="w-24 p-2 rounded-lg text-white bg-orange">Edit</button>
-    <button className="w-24 p-2 rounded-lg text-white bg-red">Delete</button>
+    <button className="w-16 md:w-24 p-2 rounded-lg text-white bg-orange">Edit</button>
+    <button className="w-16 md:w-24 p-2 rounded-lg text-white bg-red">Delete</button>
   </div>
 );
 

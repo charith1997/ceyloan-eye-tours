@@ -6,6 +6,7 @@ interface SearchContainerProps {
   title: string;
   buttonName: string;
   onClick?: () => void;
+  isDisplayActionButton?: boolean;
 }
 
 const SearchContainer = ({
@@ -13,6 +14,7 @@ const SearchContainer = ({
   title,
   buttonName,
   onClick,
+  isDisplayActionButton = true,
 }: SearchContainerProps) => {
   return (
     <div className="flex flex-col gap-8">
@@ -68,13 +70,15 @@ const SearchContainer = ({
       </div>
       <div className="flex items-center justify-between">
         <h4 className="text-xl font-bold">{title}</h4>
-        <button
-          className="flex items-center gap-2 bg-gradient-to-r from-red to-orange text-white px-4 py-2 rounded-lg uppercase cursor-pointer"
-          onClick={onClick}
-        >
-          <Plus width={20} height={20} />
-          {buttonName}
-        </button>
+        {isDisplayActionButton && (
+          <button
+            className="flex items-center gap-2 bg-gradient-to-r from-red to-orange text-white px-4 py-2 rounded-lg uppercase cursor-pointer"
+            onClick={onClick}
+          >
+            <Plus width={20} height={20} />
+            {buttonName}
+          </button>
+        )}
       </div>
     </div>
   );
