@@ -29,6 +29,8 @@ const priceDetails = (
 );
 
 const actionButtons = (item: { id: number; imageURL: string }) => {
+  console.log("item", item);
+  
   return (
     <div className="flex gap-4">
       <button className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase">

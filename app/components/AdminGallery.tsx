@@ -24,6 +24,8 @@ const cardDetails_1 = (
 const priceDetails_1 = null;
 
 const actionButtons_1 = (item: { id: number; imageURL: string }) => {
+  console.log("item", item);
+  
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />
@@ -66,6 +68,8 @@ const cardDetails_2 = (
 const priceDetails_2 = null;
 
 const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+  console.log("item", item);
+  
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />

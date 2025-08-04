@@ -60,6 +60,8 @@ const priceDetails_2 = (
 );
 
 const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+  console.log("item", item);
+  
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />
@@ -104,6 +106,8 @@ const AdminOrders = () => {
   const [activeTab, setActiveTab] = useState("tab1");
 
   const actionButtons_1 = (item: { id: number; imageURL: string }) => {
+    console.log("item", item);
+    
     return (
       <div className="flex gap-4 items-center">
         <Eye
