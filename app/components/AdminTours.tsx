@@ -28,16 +28,18 @@ const priceDetails = (
   </div>
 );
 
-const actionButtons = (
-  <div className="flex gap-4">
-    <button className="w-16 md:w-24 p-2 rounded-md md:rounded-lg text-white bg-orange text-sm md:text-base">
-      Edit
-    </button>
-    <button className="w-16 md:w-24 p-2 rounded-md md:rounded-lg text-white bg-red text-sm md:text-base">
-      Delete
-    </button>
-  </div>
-);
+const actionButtons = (item: { id: number; imageURL: string }) => {
+  return (
+    <div className="flex gap-4">
+      <button className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase">
+        Edit
+      </button>
+      <button className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase">
+        Delete
+      </button>
+    </div>
+  );
+};
 
 const mobileViewCardDetails = (
   <div className="flex flex-col gap-1 text-sm">
@@ -93,7 +95,10 @@ const AdminTours = () => {
         onClose={() => setShowModal(false)}
         title="Tour Form"
       >
-        <form id="tour-form" className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
+        <form
+          id="tour-form"
+          className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextField label="Tour name:" />
             <TextField label="Day count:" />
@@ -126,11 +131,22 @@ const AdminTours = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextField label="Price:" />
           </div>
-
         </form>
         <div className="flex justify-center gap-6 mt-4 bg-white">
-          <Button onClick={() => setShowModal(false)} className="bg-[#1976D2] text-lg font-semibold uppercase">Cancel</Button>
-          <Button type="submit" form="tour-form" className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase" onClick={() => { }}>Save</Button>
+          <Button
+            onClick={() => setShowModal(false)}
+            className="bg-[#1976D2] text-lg font-semibold uppercase"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form="tour-form"
+            className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+            onClick={() => {}}
+          >
+            Save
+          </Button>
         </div>
       </Modal>
     </>

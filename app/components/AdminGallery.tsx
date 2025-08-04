@@ -2,67 +2,34 @@ import React, { useState } from "react";
 import SearchContainer from "./SearchContainer";
 import NavigationContainer from "./NavigationContainer";
 import ListContainer from "./ListContainer";
-import { CalendarDays, Eye, Users } from "lucide-react";
+import { Eye, MapPin, User } from "lucide-react";
 import Modal from "./Modal";
+import TextField from "./TextField";
+import Dropdown from "./Dropdown";
+import Button from "./Button";
 
 const cardDetails_1 = (
   <div className="flex flex-col gap-2">
-    <h3 className="text-md font-bold uppercase">Tour Package Name</h3>
+    <h3 className="text-md font-bold uppercase">Image Name</h3>
     <p className="text-sm flex gap-2 items-center">
-      <Users fill="black" width={16} />
-      05 Peoples
+      <MapPin width={16} />
+      Location
     </p>
     <span className="flex text-sm gap-2 items-center">
-      <CalendarDays width={16} /> 02 May 2025 - 15 May 2025
+      <User width={16} /> Captured By
     </span>
   </div>
 );
 
-const priceDetails_1 = (
-  <div className="block justify-items-center text-sm font-bold">
-    <h3>$</h3>
-    <h3>1500</h3>
-  </div>
-);
+const priceDetails_1 = null;
 
-const mobileViewCardDetails_1 = (
-  <div className="flex flex-col gap-1 text-sm">
-    <h3 className="font-bold uppercase">Tour Package Name</h3>
-    <p className="flex gap-2 items-center">
-      <Users fill="black" width={16} />
-      05 Peoples
-    </p>
-    <span className="flex gap-1 items-center">
-      <CalendarDays width={16} /> 02 May 2025 - 15 May 2025
-    </span>
-    <p className="font-bold">$ 1500</p>
-  </div>
-);
-
-const cardDetails_2 = (
-  <div className="flex flex-col gap-2">
-    <h3 className="text-md font-bold uppercase">Tour Package Name</h3>
-    <p className="text-sm flex gap-2 items-center">
-      <Users fill="black" width={16} />
-      05 Peoples
-    </p>
-    <span className="flex text-sm gap-2 items-center">
-      <CalendarDays width={16} /> 02 May 2025 - 15 May 2025
-    </span>
-  </div>
-);
-
-const priceDetails_2 = (
-  <div className="block justify-items-center text-sm font-bold">
-    <h3>$</h3>
-    <h3>1500</h3>
-  </div>
-);
-
-const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+const actionButtons_1 = (item: { id: number; imageURL: string }) => {
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />
+      <button className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase">
+        Approve
+      </button>
       <button className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase">
         Cancel
       </button>
@@ -70,17 +37,55 @@ const actionButtons_2 = (item: { id: number; imageURL: string }) => {
   );
 };
 
-const mobileViewCardDetails_2 = (
+const mobileViewCardDetails_1 = (
   <div className="flex flex-col gap-1 text-sm">
-    <h3 className="font-bold uppercase">Tour Package Name</h3>
+    <h3 className="font-bold uppercase">Image Name</h3>
     <p className="flex gap-2 items-center">
-      <Users fill="black" width={16} />
-      05 Peoples
+      <MapPin width={16} />
+      Location
     </p>
     <span className="flex gap-1 items-center">
-      <CalendarDays width={16} /> 02 May 2025 - 15 May 2025
+      <User width={16} /> Captured By
     </span>
-    <p className="font-bold">$ 1500</p>
+  </div>
+);
+
+const cardDetails_2 = (
+  <div className="flex flex-col gap-2">
+    <h3 className="text-md font-bold uppercase">Image Name</h3>
+    <p className="text-sm flex gap-2 items-center">
+      <MapPin width={16} />
+      Location
+    </p>
+    <span className="flex text-sm gap-2 items-center">
+      <User width={16} /> Captured By
+    </span>
+  </div>
+);
+
+const priceDetails_2 = null;
+
+const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+  return (
+    <div className="flex gap-4 items-center">
+      <Eye color="orange" className="cursor-pointer" />
+      <button className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase">
+        Delete
+      </button>
+    </div>
+  );
+};
+
+const mobileViewCardDetails_2 = (
+  <div className="flex flex-col gap-1 text-sm">
+    <h3 className="font-bold uppercase">Image Name</h3>
+    <p className="flex gap-2 items-center">
+      <MapPin width={16} />
+      Location
+    </p>
+    <span className="flex gap-1 items-center">
+      <User width={16} /> Captured By
+    </span>
   </div>
 );
 
@@ -99,36 +104,17 @@ const ToursList = [
   },
 ];
 
-const AdminOrders = () => {
+const AdminGallery = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("tab1");
-
-  const actionButtons_1 = (item: { id: number; imageURL: string }) => {
-    return (
-      <div className="flex gap-4 items-center">
-        <Eye
-          color="orange"
-          className="cursor-pointer"
-          onClick={() => setShowModal(true)}
-        />
-        <button className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase">
-          Approve
-        </button>
-        <button className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase">
-          Cancel
-        </button>
-      </div>
-    );
-  };
-
   return (
     <>
       <NavigationContainer>
         <SearchContainer
-          searchPlaceholder="Search Orders..."
-          title="Orders"
-          buttonName="Add Order"
-          onClick={() => {}}
+          searchPlaceholder="Search Gallery..."
+          title="Gallery"
+          buttonName="Add Image"
+          onClick={() => setShowModal(true)}
           isDisplayActionButton={false}
         />
 
@@ -178,58 +164,64 @@ const AdminOrders = () => {
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Order Details"
+        title="Tour Form"
       >
-        <div className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
-          <DisplayDetails
-            label="Tour Package :"
-            value="Secrets of Lanka Tour"
-          />
-          <DisplayDetails label="Client Name :" value="Kavindu Chinthaka" />
-          <DisplayDetails
-            label="Client Email :"
-            value="KavinduChintaka@gmail.com"
-          />
+        <form
+          id="tour-form"
+          className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <DisplayDetails label="Tour start Date :" value="21 May 2025" />
-            <DisplayDetails label="Tour End Date :" value="28 May 2025" />
-            <DisplayDetails label="Contact Number :" value="0767783752" />
-            <DisplayDetails label="Nationality :" value="Sri Lankan" />
+            <TextField label="Tour name:" />
+            <TextField label="Day count:" />
           </div>
 
-          <DisplayDetails label="Pick up Location :" value="Colombo" />
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <DisplayDetails label="Adults :" value="2" />
-            <DisplayDetails label="Children :" value="1" />
+            <Dropdown options={["Option 1", "Option 2"]} label="Tour Type:" />
+            <Dropdown
+              options={["Option 1", "Option 2"]}
+              label="Places to visit:"
+            />
           </div>
 
-          <DisplayDetails
-            label="Message :"
-            value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen "
-          />
+          <TextField label="Description:" isTextArea classname="h-24" />
+          <TextField label="Tour Highlights:" isTextArea classname="h-24" />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField label="Price Includes:" isTextArea classname="h-24" />
+            <TextField label="Price Excludes:" isTextArea classname="h-24" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium">Images:</label>
+            <input
+              type="file"
+              className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-orange-500 file:text-white hover:file:bg-orange-600"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <TextField label="Price:" />
+          </div>
+        </form>
+        <div className="flex justify-center gap-6 mt-4 bg-white">
+          <Button
+            onClick={() => setShowModal(false)}
+            className="bg-[#1976D2] text-lg font-semibold uppercase"
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form="tour-form"
+            className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+            onClick={() => {}}
+          >
+            Save
+          </Button>
         </div>
       </Modal>
     </>
   );
 };
 
-export default AdminOrders;
-
-interface DisplayDetailsProps {
-  label?: string;
-  value?: string;
-}
-
-const DisplayDetails = ({ label, value }: DisplayDetailsProps) => {
-  return (
-    <div
-      className={`flex gap-4 text-sm ${
-        label === "Message :" ? "flex-col md:w-lg text-justify" : ""
-      }`}
-    >
-      <h4>{label}</h4>
-      <p className="text-[#7A7A7A]">{value}</p>
-    </div>
-  );
-};
+export default AdminGallery;

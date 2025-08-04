@@ -4,7 +4,7 @@ import Image from "next/image";
 interface ListContainerProps {
   cardDetails: React.ReactNode;
   priceDetails: React.ReactNode;
-  actionButtons?: React.ReactNode;
+  actionButtons: (item: { id: number; imageURL: string }) => React.ReactNode;
   mobileViewCardDetails?: React.ReactNode;
   list: {
     id: number;
@@ -37,7 +37,7 @@ const ListContainer = ({
 
             {priceDetails}
 
-            {actionButtons}
+            {actionButtons(item)}
           </div>
 
           <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
@@ -50,7 +50,7 @@ const ListContainer = ({
             />
             <div className="grid gap-2">
               {mobileViewCardDetails}
-              {actionButtons}
+              {actionButtons(item)}
             </div>
           </div>
         </>
