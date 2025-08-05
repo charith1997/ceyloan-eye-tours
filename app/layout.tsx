@@ -7,6 +7,7 @@ import { Carattere } from "next/font/google";
 import Footer from "./components/Footer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import ReduxProvider from "@/providers/ReduxProvider";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -40,7 +41,9 @@ export default function RootLayout({
           <title>Ceyloan Eye Tours</title>
         </head>
         <body>
-          <main>{children}</main>
+          <main>
+            <ReduxProvider>{children}</ReduxProvider>
+          </main>
         </body>
       </html>
     );
@@ -54,7 +57,7 @@ export default function RootLayout({
         </head>
         <body>
           <main>
-            <>{children}</>
+            <ReduxProvider>{children}</ReduxProvider>
           </main>
         </body>
       </html>
@@ -68,11 +71,11 @@ export default function RootLayout({
       </head>
       <body>
         <main className="pt-16">
-          <>
+          <ReduxProvider>
             <Header />
             {children}
             <Footer />
-          </>
+          </ReduxProvider>
         </main>
       </body>
     </html>
