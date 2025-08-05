@@ -5,9 +5,9 @@ import ListContainer from "./ListContainer";
 import { Star, Component } from "lucide-react";
 import Modal from "./Modal";
 import Dropdown from "./Dropdown";
-import Button from "./Button";
 import { Input } from "@/components/atoms/Input";
 import TextArea from "@/components/atoms/TextArea";
+import Button from "@/components/atoms/Button";
 
 const cardDetails = (
   <div className="flex flex-col gap-2">
@@ -165,17 +165,15 @@ const AdminHotels = () => {
           <Button
             onClick={() => setShowModal(false)}
             className="bg-[#1976D2] text-lg font-semibold uppercase"
-          >
-            Cancel
-          </Button>
+            label="Cancel"
+          />
           <Button
             type="submit"
             form="tour-form"
             className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
             onClick={() => {}}
-          >
-            Save
-          </Button>
+            label="Save"
+          />
         </div>
       </Modal>
     </>
