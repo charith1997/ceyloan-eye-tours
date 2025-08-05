@@ -4,8 +4,9 @@ import NavigationContainer from "./NavigationContainer";
 import ListContainer from "./ListContainer";
 import { Users, Component } from "lucide-react";
 import Modal from "./Modal";
-import TextField from "./TextField";
 import Button from "./Button";
+import { Input } from "@/components/atoms/Input";
+import TextArea from "@/components/atoms/TextArea";
 
 const cardDetails = (
   <div className="flex flex-col gap-2">
@@ -70,6 +71,10 @@ const ToursList = [
   },
 ];
 
+const textFieldClassNames =
+  "w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none";
+const labelClassNames = "block text-sm font-medium";
+
 const AdminVehicles = () => {
   const [showModal, setShowModal] = useState(false);
   return (
@@ -100,22 +105,62 @@ const AdminVehicles = () => {
           className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Vehicle Name:" />
-            <TextField label="People Count:" />
-            <TextField label="Vehicle Type:" />
-            <TextField label="Location:" />
-            <TextField label="Owner Name:" />
-            <TextField label="Contact Number:" />
+            <Input
+              label="Vehicle Name:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="People Count:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="Vehicle Type:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="Location:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="Owner Name:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="Contact Number:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
           </div>
 
-          <TextField label="Description:" isTextArea classname="h-24" />
+          <TextArea
+            label="Description:"
+            labelClassNames={labelClassNames}
+            textAreaClassNames={`${textFieldClassNames} h-24`}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Facilities:" isTextArea classname="h-24" />
-            <TextField label="Excludes:" isTextArea classname="h-24" />
+            <TextArea
+              label="Facilities:"
+              labelClassNames={labelClassNames}
+              textAreaClassNames={`${textFieldClassNames} h-24`}
+            />
+            <TextArea
+              label="Excludes:"
+              labelClassNames={labelClassNames}
+              textAreaClassNames={`${textFieldClassNames} h-24`}
+            />
           </div>
 
-          <TextField label="Terms & Conditions:" isTextArea classname="h-24" />
+          <TextArea
+            label="Terms & Conditions:"
+            labelClassNames={labelClassNames}
+            textAreaClassNames={`${textFieldClassNames} h-24`}
+          />
 
           <div>
             <label className="block text-sm font-medium">Images:</label>
@@ -126,7 +171,11 @@ const AdminVehicles = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Price:" />
+            <Input
+              label="Price:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
           </div>
         </form>
         <div className="flex justify-center gap-6 mt-4 bg-white">

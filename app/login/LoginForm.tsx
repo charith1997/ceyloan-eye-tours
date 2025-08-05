@@ -13,11 +13,16 @@ const LoginForm = () => {
     rememberMe: false,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value, type } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]:
+        type === "checkbox" && "checked" in e.target
+          ? (e.target as HTMLInputElement).checked
+          : value,
     }));
   };
 

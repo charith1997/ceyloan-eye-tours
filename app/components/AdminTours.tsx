@@ -4,9 +4,10 @@ import NavigationContainer from "./NavigationContainer";
 import ListContainer from "./ListContainer";
 import { CalendarDays, Component } from "lucide-react";
 import Modal from "./Modal";
-import TextField from "./TextField";
 import Dropdown from "./Dropdown";
 import Button from "./Button";
+import { Input } from "@/components/atoms/Input";
+import TextArea from "@/components/atoms/TextArea";
 
 const cardDetails = (
   <div className="flex flex-col gap-2">
@@ -30,7 +31,7 @@ const priceDetails = (
 
 const actionButtons = (item: { id: number; imageURL: string }) => {
   console.log("item", item);
-  
+
   return (
     <div className="flex gap-4">
       <button className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase">
@@ -72,6 +73,10 @@ const ToursList = [
   },
 ];
 
+const textFieldClassNames =
+  "w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none";
+const labelClassNames = "block text-sm font-medium";
+
 const AdminTours = () => {
   const [showModal, setShowModal] = useState(false);
   return (
@@ -102,8 +107,16 @@ const AdminTours = () => {
           className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Tour name:" />
-            <TextField label="Day count:" />
+            <Input
+              label="Tour name:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
+            <Input
+              label="Day count:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -113,13 +126,28 @@ const AdminTours = () => {
               label="Places to visit:"
             />
           </div>
-
-          <TextField label="Description:" isTextArea classname="h-24" />
-          <TextField label="Tour Highlights:" isTextArea classname="h-24" />
+          <TextArea
+            label="Description:"
+            labelClassNames={labelClassNames}
+            textAreaClassNames={`${textFieldClassNames} h-24`}
+          />
+          <TextArea
+            label="Tour Highlights:"
+            labelClassNames={labelClassNames}
+            textAreaClassNames={`${textFieldClassNames} h-24`}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Price Includes:" isTextArea classname="h-24" />
-            <TextField label="Price Excludes:" isTextArea classname="h-24" />
+            <TextArea
+              label="Price Includes:"
+              labelClassNames={labelClassNames}
+              textAreaClassNames={`${textFieldClassNames} h-24`}
+            />
+            <TextArea
+              label="Price Excludes:"
+              labelClassNames={labelClassNames}
+              textAreaClassNames={`${textFieldClassNames} h-24`}
+            />
           </div>
 
           <div>
@@ -131,7 +159,11 @@ const AdminTours = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Price:" />
+            <Input
+              label="Price:"
+              inputClassNames={textFieldClassNames}
+              labelClassNames={labelClassNames}
+            />
           </div>
         </form>
         <div className="flex justify-center gap-6 mt-4 bg-white">

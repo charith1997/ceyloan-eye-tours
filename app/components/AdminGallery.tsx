@@ -3,10 +3,6 @@ import SearchContainer from "./SearchContainer";
 import NavigationContainer from "./NavigationContainer";
 import ListContainer from "./ListContainer";
 import { Eye, MapPin, User } from "lucide-react";
-import Modal from "./Modal";
-import TextField from "./TextField";
-import Dropdown from "./Dropdown";
-import Button from "./Button";
 
 const cardDetails_1 = (
   <div className="flex flex-col gap-2">
@@ -25,7 +21,7 @@ const priceDetails_1 = null;
 
 const actionButtons_1 = (item: { id: number; imageURL: string }) => {
   console.log("item", item);
-  
+
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />
@@ -69,7 +65,7 @@ const priceDetails_2 = null;
 
 const actionButtons_2 = (item: { id: number; imageURL: string }) => {
   console.log("item", item);
-  
+
   return (
     <div className="flex gap-4 items-center">
       <Eye color="orange" className="cursor-pointer" />
@@ -109,7 +105,6 @@ const ToursList = [
 ];
 
 const AdminGallery = () => {
-  const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("tab1");
   return (
     <>
@@ -118,7 +113,7 @@ const AdminGallery = () => {
           searchPlaceholder="Search Gallery..."
           title="Gallery"
           buttonName="Add Image"
-          onClick={() => setShowModal(true)}
+          onClick={() => {}}
           isDisplayActionButton={false}
         />
 
@@ -164,66 +159,6 @@ const AdminGallery = () => {
           </div>
         </div>
       </NavigationContainer>
-
-      <Modal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        title="Tour Form"
-      >
-        <form
-          id="tour-form"
-          className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Tour name:" />
-            <TextField label="Day count:" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Dropdown options={["Option 1", "Option 2"]} label="Tour Type:" />
-            <Dropdown
-              options={["Option 1", "Option 2"]}
-              label="Places to visit:"
-            />
-          </div>
-
-          <TextField label="Description:" isTextArea classname="h-24" />
-          <TextField label="Tour Highlights:" isTextArea classname="h-24" />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Price Includes:" isTextArea classname="h-24" />
-            <TextField label="Price Excludes:" isTextArea classname="h-24" />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium">Images:</label>
-            <input
-              type="file"
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-orange-500 file:text-white hover:file:bg-orange-600"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <TextField label="Price:" />
-          </div>
-        </form>
-        <div className="flex justify-center gap-6 mt-4 bg-white">
-          <Button
-            onClick={() => setShowModal(false)}
-            className="bg-[#1976D2] text-lg font-semibold uppercase"
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            form="tour-form"
-            className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
-            onClick={() => {}}
-          >
-            Save
-          </Button>
-        </div>
-      </Modal>
     </>
   );
 };
