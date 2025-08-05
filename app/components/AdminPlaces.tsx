@@ -128,13 +128,13 @@ const AdminPlaces = () => {
         <div className="flex justify-center gap-6 mt-4 bg-white">
           <Button
             onClick={() => setShowModal(false)}
-            className="bg-[#1976D2] text-lg font-semibold uppercase"
+            className="w-full text-white px-8 py-2 rounded-lg cursor-pointer bg-[#1976D2] text-lg font-semibold uppercase"
             label="Cancel"
           />
           <Button
             type="submit"
             form="tour-form"
-            className="bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+            className="w-full text-white px-8 py-2 rounded-lg cursor-pointer bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
             onClick={() => {}}
             label="Save"
           />

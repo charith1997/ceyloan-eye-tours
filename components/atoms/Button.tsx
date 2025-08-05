@@ -16,12 +16,7 @@ const Button = ({
   form,
 }: ButtonProps) => {
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      className={`w-full text-white px-8 py-2 rounded-lg cursor-pointer ${className}`}
-      form={form}
-    >
+    <button type={type} onClick={onClick} className={className} form={form}>
       {label}
     </button>
   );
