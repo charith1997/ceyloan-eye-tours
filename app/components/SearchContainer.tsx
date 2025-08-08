@@ -1,3 +1,4 @@
+import Button from "@/components/atoms/Button";
 import { CircleUserRound, Plus } from "lucide-react";
 import React from "react";
 
@@ -71,13 +72,16 @@ const SearchContainer = ({
       <div className="flex items-center justify-between">
         <h4 className="text-xl font-bold">{title}</h4>
         {isDisplayActionButton && (
-          <button
+          <Button
+            label={
+              <>
+                <Plus width={20} height={20} />
+                {buttonName}
+              </>
+            }
             className="flex items-center gap-2 bg-gradient-to-r from-red to-orange text-white px-4 py-2 rounded-lg uppercase cursor-pointer"
             onClick={onClick}
-          >
-            <Plus width={20} height={20} />
-            {buttonName}
-          </button>
+          />
         )}
       </div>
     </div>

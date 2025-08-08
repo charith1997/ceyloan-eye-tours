@@ -1,5 +1,6 @@
 import React from "react";
 import TimelineItem from "./TimelineItem";
+import Button from "@/components/atoms/Button";
 
 const trips = [
   {
@@ -39,9 +40,10 @@ const Timeline = () => {
           ))}
         </div>
         <div className="flex justify-center mt-8">
-          <button className="bg-gradient-to-r from-pink-500 to-orange-400 text-white px-6 py-2 rounded-full shadow hover:scale-105 transition">
-            Show More ...
-          </button>
+          <Button
+            label="Show More ..."
+            className="bg-gradient-to-r from-pink-500 to-orange-400 text-white px-6 py-2 rounded-full shadow hover:scale-105 transition"
+          />
         </div>
       </div>
     </div>

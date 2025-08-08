@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import Button from "@/components/atoms/Button";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -82,12 +83,11 @@ function Header({ bgClass, pathname }: HeaderProps) {
           </Link>
         </div>
 
-        <button
+        <Button
+          label={mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           className="md:hidden"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        />
       </div>
       {mobileMenuOpen && (
         <div className="md:hidden bg-white px-4 py-2 shadow-md">

@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Timeline from "./Timeline";
 import Image from "next/image";
 import CTAButton from "@/app/components/CTAButton";
+import Button from "@/components/atoms/Button";
 
 const validTourTypes = [
   "secrets-of-lanka",
@@ -154,9 +155,10 @@ export default async function TourCategoryPage({ params }: PageProps) {
                 </li>
               ))}
             </ul>
-            <button className="mt-6 w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white py-3 rounded-md font-semibold">
-              BOOK NOW
-            </button>
+            <Button
+              label="BOOK NOW"
+              className="mt-6 w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white py-3 rounded-md font-semibold"
+            />
           </div>
         </div>
       </div>

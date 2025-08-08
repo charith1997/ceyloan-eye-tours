@@ -1,3 +1,8 @@
+import Button from "@/components/atoms/Button";
+
+const btnClassNames =
+  "cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity";
+
 export default function TourTypeSection() {
   return (
     <section className="max-w-[1200px] mx-auto mt-8 px-4 py-8 text-center pt-180">
@@ -18,9 +23,7 @@ export default function TourTypeSection() {
           <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
             <p className="font-[Carattere] text-[46px]">Short Trip</p>
-            <button className="cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity">
-              08 Tours
-            </button>
+            <Button label="08 Tours" className={btnClassNames} />
           </div>
         </div>
 
@@ -33,9 +36,7 @@ export default function TourTypeSection() {
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
                 <p className="font-[Carattere] text-[46px]">Nature</p>
-                <button className="cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity">
-                  02 Tours
-                </button>
+                <Button label="02 Tours" className={btnClassNames} />
               </div>
             </div>
 
@@ -46,9 +47,7 @@ export default function TourTypeSection() {
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
                 <p className="font-[Carattere] text-[46px]">Safari</p>
-                <button className="cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity">
-                  03 Tours
-                </button>
+                <Button label="03 Tours" className={btnClassNames} />
               </div>
             </div>
           </div>
@@ -60,17 +59,16 @@ export default function TourTypeSection() {
             <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
               <p className="font-[Carattere] text-[46px]">Beach Stay</p>
-              <button className="cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity">
-                05 Tours
-              </button>
+              <Button label="05 Tours" className={btnClassNames} />
             </div>
           </div>
         </div>
       </div>
 
-      <button className="mt-8 px-4 py-2 rounded-[14px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-[Work Sans] text-[14px] font-normal hover:opacity-90 transition-opacity cursor-pointer">
-        VIEW MORE
-      </button>
+      <Button
+        label="VIEW MORE"
+        className="mt-8 px-4 py-2 rounded-[14px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-[Work Sans] text-[14px] font-normal hover:opacity-90 transition-opacity cursor-pointer"
+      />
     </section>
   );
 }

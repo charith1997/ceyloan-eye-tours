@@ -1,3 +1,4 @@
+import Button from "@/components/atoms/Button";
 import React, { useState } from "react";
 
 interface FormData {
@@ -100,12 +101,11 @@ const LoginForm = () => {
         </div>
       </div>
 
-      <button
+      <Button
+        label="Login"
         type="submit"
         className="w-full bg-gradient-to-r from-red-500 to-orange-400 text-white py-3 px-4 rounded-lg font-semibold cursor-pointer duration-200"
-      >
-        Login
-      </button>
+      />
 
       <div className="relative mt-4">
         <div className="absolute inset-0 flex items-center">

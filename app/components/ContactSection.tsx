@@ -1,19 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import Button from "@/components/atoms/Button";
+import { useState } from "react";
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // For now, just log it (you can connect to a backend or service later)
-    alert('Message sent successfully!');
-    setForm({ name: '', email: '', message: '' });
+    alert("Message sent successfully!");
+    setForm({ name: "", email: "", message: "" });
   };
 
   return (
@@ -21,12 +24,18 @@ export default function ContactSection() {
       <div className="max-w-3xl mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
         <p className="text-gray-600 mb-8">
-          Have questions or ready to plan your trip? Fill out the form below and we’ll get back to you!
+          Have questions or ready to plan your trip? Fill out the form below and
+          we’ll get back to you!
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-6 text-left">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Name
+            </label>
             <input
               type="text"
               name="name"
@@ -39,7 +48,12 @@ export default function ContactSection() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
             <input
               type="email"
               name="email"
@@ -52,7 +66,12 @@ export default function ContactSection() {
           </div>
 
           <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Message
+            </label>
             <textarea
               name="message"
               id="message"
@@ -64,12 +83,11 @@ export default function ContactSection() {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
+            label="Send Message"
             className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-full transition"
-          >
-            Send Message
-          </button>
+          />
         </form>
       </div>
     </section>

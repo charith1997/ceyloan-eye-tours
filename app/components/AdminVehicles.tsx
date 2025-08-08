@@ -32,12 +32,14 @@ const actionButtons = (item: { id: number; imageURL: string }) => {
   console.log("item", item);
   return (
     <div className="flex gap-4">
-      <button className="w-20 text-sm p-2 rounded-md text-white bg-orange uppercase">
-        Edit
-      </button>
-      <button className="w-20 text-sm p-2 rounded-md text-white bg-red uppercase">
-        Delete
-      </button>
+      <Button
+        label="Edit"
+        className="w-20 text-sm p-2 rounded-md text-white bg-orange uppercase"
+      />
+      <Button
+        label="Delete"
+        className="w-20 text-sm p-2 rounded-md text-white bg-red uppercase"
+      />
     </div>
   );
 };
