@@ -5,8 +5,14 @@ export const categoryApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
   endpoints: (builder) => ({
     // Get all categories (with token)
-    getAllCategories: builder.query<any, void>({
-      query: () => "/categories/get-all",
+    getAllCategories: builder.query<any, { tourType?: string }>({
+      query: ({ tourType }) => {
+        let url = "/categories/get-all";
+        if (tourType) {
+          url += `?tourType=${encodeURIComponent(tourType)}`;
+        }
+        return url;
+      },
     }),
     // Create category (form data)
     createCategory: builder.mutation<any, FormData>({

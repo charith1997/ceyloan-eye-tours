@@ -1,15 +1,15 @@
 "use client";
 
-import React from "react";
-import CTAButton from "../components/CTAButton";
 import CategoryGrid from "@/components/organisams/CategoryGrid";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
+import React from "react";
+import CTAButton from "../components/CTAButton";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
 
-export default function RoundTours() {
+const DayTours = () => {
   const { data, error, isLoading } = useGetAllCategoriesQuery({
-    tourType: "0",
+    tourType: "1",
   });
   if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error loading categories</div>;
@@ -19,8 +19,8 @@ export default function RoundTours() {
   return (
     <section className="py-16 px-4 md:px-16">
       <Jumbotron
-        title="Round Tours"
-        description="Explore our exciting round tours."
+        title="Day Tours"
+        description="Explore the beauty of Sri Lanka with our curated day tours."
         imageUrl="/round tours/round-tours_main.png"
       />
       <PageDetails
@@ -41,4 +41,6 @@ export default function RoundTours() {
       </div>
     </section>
   );
-}
+};
+
+export default DayTours;

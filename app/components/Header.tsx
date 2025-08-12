@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
+import { useDispatch } from "react-redux";
+import { pushRoute, resetRoute, setStack } from "@/features/routingSlice";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -17,7 +19,7 @@ export default function HeaderWrapper() {
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Round Tours", href: "/round-tours" },
-  { label: "Day Tours", href: "/" },
+  { label: "Day Tours", href: "/day-tours" },
   { label: "Destinations", href: "/" },
   { label: "Hotels", href: "/hotels" },
   { label: "Rent a vehicle", href: "/rent" },
@@ -31,6 +33,7 @@ type HeaderProps = {
 };
 
 function Header({ bgClass, pathname }: HeaderProps) {
+  const dispatch = useDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -52,6 +55,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
         <Link
           href="/"
           className="font-carattere font-normal text-[35px] leading-[100%] tracking-[0]"
+          onClick={() => dispatch(setStack(["home"]))}
         >
           Ceylon Eye Tours
         </Link>
@@ -62,6 +66,13 @@ function Header({ bgClass, pathname }: HeaderProps) {
               key={item.label}
               href={item.href}
               className="font-work text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+              onClick={() => {
+                if (item.href === "/") {
+                  dispatch(setStack(["home"]));
+                } else {
+                  dispatch(resetRoute(item.href.replace("/", "")));
+                }
+              }}
             >
               {item.label}
             </Link>
@@ -72,12 +83,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
           <Link
             href="/login"
             className="underline font-work font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+            onClick={() => dispatch(setStack(["login"]))}
           >
             Sign In
           </Link>
           <Link
             href="/register"
             className="bg-red px-4 py-2 rounded-2xl text-white font-semibold"
+            onClick={() => dispatch(setStack(["register"]))}
           >
             Sign Up
           </Link>
@@ -96,7 +109,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
               key={link.label}
               href={link.href}
               className="block py-2 text-gray-700 hover:text-blue-600"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (link.href === "/") {
+                  dispatch(setStack(["home"]));
+                } else {
+                  dispatch(resetRoute(link.href.replace("/", "")));
+                }
+              }}
             >
               {link.label}
             </Link>

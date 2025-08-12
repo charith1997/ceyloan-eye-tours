@@ -9,6 +9,7 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import Image from "next/image";
+import Jumbotron from "@/components/molecules/Jumbotron";
 
 const validTourTypes = [
   "tamaravila-wilpattu",
@@ -135,25 +136,11 @@ export default async function TourCategoryPage({ params }: PageProps) {
 
   return (
     <section className="py-16 px-4 md:px-16">
-      <div
-        className="rounded-xl shadow-md bg-cover bg-center h-[300px] relative inset-0 z-0"
-        style={{
-          backgroundImage: 'url("/family tours/Secrets of Lanka Tour.jpg")',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50 rounded-xl z-0" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white gap-6">
-          <p className="font-[Work_Sans] text-[36px] md:text-[64px] font-bold leading-[100%] tracking-[0] whitespace-nowrap">
-            Tamaravila Wilpattu
-          </p>
-          <p className="font-[Work_Sans] text-[16px] font-medium leading-[24px] tracking-[0] w-full sm:w-3/5 text-center">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s,
-          </p>
-        </div>
-      </div>
-
+      <Jumbotron
+        title="Tamaravila Wilpattu"
+        description="Experience the beauty of wildlife."
+        imageUrl="/family tours/Secrets of Lanka Tour.jpg"
+      />
       <div className="text-sm font-medium text-gray-700 mt-8">
         <span className="font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
           Home

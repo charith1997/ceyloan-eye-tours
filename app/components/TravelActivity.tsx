@@ -1,38 +1,12 @@
+import { useGetAllActivitiesQuery } from "@/services/activityApi";
 import Image from "next/image";
 
 const TravelActivity = () => {
-  const activities = [
-    {
-      title: "Adventure",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_1.png",
-    },
-    {
-      title: "Camping",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_2.png",
-    },
-    {
-      title: "Hiking",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_3.png",
-    },
-    {
-      title: "Off Road",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_4.png",
-    },
-    {
-      title: "Surfing",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_5.png",
-    },
-    {
-      title: "Rafting",
-      content: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`,
-      imageUrl: "/activity/Layer_6.png",
-    },
-  ];
+  const { data, error, isLoading } = useGetAllActivitiesQuery();
+  if (isLoading) return <div>Loading soon..........</div>;
+  if (error) return <div>Error loading categories</div>;
+
+  const activities = Array.isArray(data?.data) ? data.data : [];
 
   return (
     <section className="max-w-[1200px] mx-auto px-4 py-8 text-center">
@@ -48,23 +22,23 @@ const TravelActivity = () => {
 
       {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {activities.map((activity, index) => (
+        {activities.map((activity: any, index: number) => (
           <div
             key={index}
             className="group p-8 bg-[#FFF9F0] rounded-[10px] text-[#999] text-center font-[Work Sans] transition-all duration-300 hover:bg-gradient-to-r from-[#cd1a40] to-[#ff803c] hover:text-white cursor-pointer"
           >
             <Image
-              src={activity.imageUrl}
-              alt={activity.title}
+              src="/activity/Layer_1.png"
+              alt={activity.name}
               className="w-[140px] h-[140px] object-contain mx-auto mb-4"
               width={140}
               height={140}
             />
             <h3 className="text-[32px] font-bold leading-none mb-2">
-              {activity.title}
+              {activity.name}
             </h3>
             <p className="text-[16px] font-normal leading-[22px]">
-              {activity.content}
+              Description
             </p>
           </div>
         ))}

@@ -2,6 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 import { Users } from "lucide-react";
 import Image from "next/image";
+import Jumbotron from "@/components/molecules/Jumbotron";
 
 const validVehicleTypes = ["bus", "van", "car", "layland"];
 
@@ -44,22 +45,11 @@ export default async function VehicleModel({ params }: PageProps) {
   }
   return (
     <section className="py-16 px-4 md:px-16">
-      <div
-        className="rounded-xl shadow-md bg-cover bg-center h-[300px]  inset-0 z-0 relative"
-        style={{ backgroundImage: 'url("/rent/Rent Vehicle.jpg")' }}
-      >
-        <div className="absolute inset-0 bg-black/20 rounded-xl z-0" />
-        <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white gap-6">
-          <p className="font-[Work_Sans] text-[36px] md:text-[64px] font-bold leading-[100%] tracking-[0] whitespace-nowrap">
-            Wagon R 2017
-          </p>
-          <p className="font-[Work_Sans] text-[16px] font-medium leading-[24px] tracking-[0] w-full sm:w-3/5 text-center">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s,
-          </p>
-        </div>
-      </div>
+      <Jumbotron
+        title="Wagon R 2017"
+        description="Find the perfect vehicle for your journey."
+        imageUrl="/rent/Rent Vehicle.jpg"
+      />
       <MasonryImageGrid />
       <div className="block md:flex py-8">
         <div className="w-full md:w-2/3">

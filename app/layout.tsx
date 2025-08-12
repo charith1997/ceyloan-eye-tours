@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReduxProvider from "@/providers/ReduxProvider";
+import { useSelector } from "react-redux";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -21,13 +22,14 @@ const carattere = Carattere({
   variable: "--font-carattere",
 });
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
+  const routingStack = useSelector((state: any) => state.routing.stack);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const pathName = usePathname();
+
+  useEffect(() => {
+    localStorage.setItem("routingStack", JSON.stringify(routingStack));
+  }, [routingStack]);
 
   useEffect(() => {
     const role = localStorage.getItem("userRole");
@@ -35,48 +37,36 @@ export default function RootLayout({
   }, []);
 
   if (pathName === "/register" || pathName === "/login") {
-    return (
-      <html lang="en" className={`${workSans.variable}${carattere.variable}`}>
-        <head>
-          <title>Ceyloan Eye Tours</title>
-        </head>
-        <body>
-          <main>
-            <ReduxProvider>{children}</ReduxProvider>
-          </main>
-        </body>
-      </html>
-    );
+    return <main>{children}</main>;
   }
 
   if (isAdmin) {
-    return (
-      <html lang="en" className={`${workSans.variable}${carattere.variable}`}>
-        <head>
-          <title>Ceyloan Eye Tours</title>
-        </head>
-        <body>
-          <main>
-            <ReduxProvider>{children}</ReduxProvider>
-          </main>
-        </body>
-      </html>
-    );
+    return <main>{children}</main>;
   }
 
+  return (
+    <main className="pt-16">
+      <Header />
+      {children}
+      <Footer />
+    </main>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" className={`${workSans.variable}${carattere.variable}`}>
       <head>
         <title>Ceyloan Eye Tours</title>
       </head>
       <body>
-        <main className="pt-16">
-          <ReduxProvider>
-            <Header />
-            {children}
-            <Footer />
-          </ReduxProvider>
-        </main>
+        <ReduxProvider>
+          <LayoutContent>{children}</LayoutContent>
+        </ReduxProvider>
       </body>
     </html>
   );

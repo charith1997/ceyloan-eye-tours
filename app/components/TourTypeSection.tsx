@@ -1,9 +1,18 @@
 import Button from "@/components/atoms/Button";
+import { useGetAllCategoriesQuery } from "@/services/categoryApi";
+import Link from "next/link";
 
 const btnClassNames =
   "cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity";
 
 export default function TourTypeSection() {
+  const { data, error, isLoading } = useGetAllCategoriesQuery({});
+
+  if (isLoading) return <div>Loading soon..........</div>;
+  if (error) return <div>Error loading categories</div>;
+
+  const categories = Array.isArray(data?.data) ? data.data.slice(0, 4) : [];
+
   return (
     <section className="max-w-[1200px] mx-auto mt-8 px-4 py-8 text-center pt-180">
       <div className="mb-8">
@@ -22,8 +31,11 @@ export default function TourTypeSection() {
         >
           <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
-            <p className="font-[Carattere] text-[46px]">Short Trip</p>
-            <Button label="08 Tours" className={btnClassNames} />
+            <p className="font-[Carattere] text-[46px]">{categories[0].name}</p>
+            <Button
+              label={`${categories[0].packageCount} Tours`}
+              className={btnClassNames}
+            />
           </div>
         </div>
 
@@ -35,8 +47,13 @@ export default function TourTypeSection() {
             >
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
-                <p className="font-[Carattere] text-[46px]">Nature</p>
-                <Button label="02 Tours" className={btnClassNames} />
+                <p className="font-[Carattere] text-[46px]">
+                  {categories[1].name}
+                </p>
+                <Button
+                  label={`${categories[1].packageCount} Tours`}
+                  className={btnClassNames}
+                />
               </div>
             </div>
 
@@ -46,8 +63,13 @@ export default function TourTypeSection() {
             >
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
-                <p className="font-[Carattere] text-[46px]">Safari</p>
-                <Button label="03 Tours" className={btnClassNames} />
+                <p className="font-[Carattere] text-[46px]">
+                  {categories[2].name}
+                </p>
+                <Button
+                  label={`${categories[2].packageCount} Tours`}
+                  className={btnClassNames}
+                />
               </div>
             </div>
           </div>
@@ -58,15 +80,20 @@ export default function TourTypeSection() {
           >
             <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
-              <p className="font-[Carattere] text-[46px]">Beach Stay</p>
-              <Button label="05 Tours" className={btnClassNames} />
+              <p className="font-[Carattere] text-[46px]">
+                {categories[3].name}
+              </p>
+              <Button
+                label={`${categories[3].packageCount} Tours`}
+                className={btnClassNames}
+              />
             </div>
           </div>
         </div>
       </div>
 
       <Button
-        label="VIEW MORE"
+        label={<Link href="/categories">VIEW MORE</Link>}
         className="mt-8 px-4 py-2 rounded-[14px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-[Work Sans] text-[14px] font-normal hover:opacity-90 transition-opacity cursor-pointer"
       />
     </section>

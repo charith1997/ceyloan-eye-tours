@@ -2,29 +2,27 @@
 
 import React from "react";
 import CTAButton from "../components/CTAButton";
+import Jumbotron from "@/components/molecules/Jumbotron";
 import CategoryGrid from "@/components/organisams/CategoryGrid";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
-import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
+import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/styles/font";
 
-export default function RoundTours() {
-  const { data, error, isLoading } = useGetAllCategoriesQuery({
-    tourType: "0",
-  });
+export default function Categories() {
+  const { data, error, isLoading } = useGetAllCategoriesQuery({});
   if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error loading categories</div>;
 
   const categories = Array.isArray(data?.data) ? data.data : [];
-
   return (
     <section className="py-16 px-4 md:px-16">
       <Jumbotron
-        title="Round Tours"
-        description="Explore our exciting round tours."
+        title="Ceylon Eye Tours"
+        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
         imageUrl="/round tours/round-tours_main.png"
       />
       <PageDetails
-        title="Sri Lanka Tours"
+        title="Tour Categories"
         description="Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type

@@ -4,8 +4,12 @@ import Image from "next/image";
 import React, { JSX } from "react";
 import LoginForm from "./LoginForm";
 import SocialLoginButtons from "./SocialLoginButtons";
+import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setStack } from "@/features/routingSlice";
 
 export default function LoginPage(): JSX.Element {
+  const dispatch = useDispatch();
   return (
     <div className="min-h-screen flex">
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8 py-8">
@@ -24,12 +28,13 @@ export default function LoginPage(): JSX.Element {
 
           <p className="mt-8 text-center text-gray-600">
             Don’t have an account?{" "}
-            <a
+            <Link
               href="/register"
               className="text-red-500 hover:text-red-600 font-semibold"
+              onClick={() => dispatch(setStack(["register"]))}
             >
               Sign Up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
