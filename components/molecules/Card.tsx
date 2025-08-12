@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 
 interface CardProps {
   title: string;
@@ -7,8 +6,6 @@ interface CardProps {
   imageUrl: string;
   description: string;
   isTitleHighlighted: boolean;
-  slug: string;
-  parentRoute: string;
 }
 
 const classNameForTitle =
@@ -22,43 +19,39 @@ const Card = ({
   imageUrl,
   description,
   isTitleHighlighted,
-  slug,
-  parentRoute,
 }: CardProps) => {
   return (
-    <Link href={`/${parentRoute}/${slug}`}>
-      <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
-        <Image
-          src={imageUrl || "/round tours/General Tours.jpg"}
-          alt={title}
-          className="absolute inset-0 w-full h-full object-cover"
-          fill
-        />
-        <div className="absolute inset-0 bg-black/50 rounded-xl z-0" />
+    <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
+      <Image
+        src={imageUrl || "/round tours/General Tours.jpg"}
+        alt={title}
+        className="absolute inset-0 w-full h-full object-cover"
+        fill
+      />
+      <div className="absolute inset-0 bg-black/50 rounded-xl z-0" />
 
-        <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-          <div>
-            <h3
-              className={
-                isTitleHighlighted ? classNameForTitle : classNameForDescription
-              }
-            >
-              {title}
-            </h3>
-            <p
-              className={
-                isTitleHighlighted ? classNameForDescription : classNameForTitle
-              }
-            >
-              {description}
-            </p>
-          </div>
-          <span className="font-work self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2">
-            {count.toString().padStart(2, "0")} TOURS
-          </span>
+      <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
+        <div>
+          <h3
+            className={
+              isTitleHighlighted ? classNameForTitle : classNameForDescription
+            }
+          >
+            {title}
+          </h3>
+          <p
+            className={
+              isTitleHighlighted ? classNameForDescription : classNameForTitle
+            }
+          >
+            {description}
+          </p>
         </div>
+        <span className="font-work self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2">
+          {count.toString().padStart(2, "0")} TOURS
+        </span>
       </div>
-    </Link>
+    </div>
   );
 };
 

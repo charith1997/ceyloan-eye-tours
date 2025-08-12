@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { useDispatch } from "react-redux";
-import { pushRoute, resetRoute, setStack } from "@/features/routingSlice";
+import { resetRoute, setStack } from "@/features/routingSlice";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
