@@ -28,6 +28,10 @@ export const packageApi = createApi({
     getPackagesByTourType: builder.query<any, string>({
       query: (tourTypeId) => `/packages/tour-type/${tourTypeId}`,
     }),
+    // Get package by URL prefix
+    getPackageByUrlPrefix: builder.query<any, string>({
+      query: (slug) => `/packages/get-by-urlprefix/${slug}`,
+    }),
   }),
 });
 
@@ -37,4 +41,5 @@ export const {
   useAddPackageMutation,
   useGetPackagesByCategoryQuery,
   useGetPackagesByTourTypeQuery,
+  useGetPackageByUrlPrefixQuery,
 } = packageApi;

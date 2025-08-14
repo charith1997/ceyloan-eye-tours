@@ -8,9 +8,7 @@ export const categoryApi = createApi({
     getAllCategories: builder.query<any, { tourType?: string }>({
       query: ({ tourType }) => {
         let url = "/categories/get-all";
-        if (tourType) {
-          url += `?tourType=${encodeURIComponent(tourType)}`;
-        }
+        if (tourType) url += `?tourType=${tourType}`;
         return url;
       },
     }),
@@ -41,6 +39,18 @@ export const categoryApi = createApi({
     getAllCategoriesWithPackages: builder.query<any, void>({
       query: () => "/categories",
     }),
+    // Get category by ID
+    getCategoryById: builder.query<any, { id: string; tourType?: string }>({
+      query: ({ id, tourType }) => {
+        let url = `/categories/get-by-id/${id}`;
+        if (tourType) url += `?tourType=${tourType}`;
+        return url;
+      },
+    }),
+    // Get category by URL prefix
+    getCategoryByUrlPrefix: builder.query<any, string>({
+      query: (slug) => `/categories/get-by-urlprefix/${slug}`,
+    }),
   }),
 });
 
@@ -50,4 +60,6 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useGetAllCategoriesWithPackagesQuery,
+  useGetCategoryByIdQuery,
+  useGetCategoryByUrlPrefixQuery,
 } = categoryApi;
