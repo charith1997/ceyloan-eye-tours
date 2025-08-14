@@ -1,3 +1,4 @@
+import Carousel from "@/components/organisams/Carousel";
 import { useGetAllPackagesQuery } from "@/services/packageApi";
 import Image from "next/image";
 
@@ -21,32 +22,7 @@ const TourPackages = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {packages.map((tourPackage: any, index: number) => (
-          <div key={index} className="cursor-pointer font-[Work Sans]">
-            <Image
-              src="/tour packages/package_1.jpg"
-              alt={tourPackage.title}
-              className="w-[320px] h-[320px] object-cover rounded-t-[10px] mx-auto"
-              width={320}
-              height={320}
-            />
-            <div className="flex justify-between items-center bg-[#FFF9F0] text-left px-4 py-3 rounded-b-[10px] w-[320px] mx-auto">
-              <div>
-                <h3 className="text-[24px] font-semibold uppercase text-[#1e1e1e] m-0">
-                  {tourPackage.title}
-                </h3>
-                <p className="text-[16px] font-light text-[#1e1e1e] mt-1">
-                  {tourPackage.count} days trip
-                </p>
-              </div>
-              <h3 className="text-[24px] font-bold text-[#1e1e1e] m-0">
-                ${tourPackage.price}
-              </h3>
-            </div>
-          </div>
-        ))}
-      </div>
+      <Carousel />
     </section>
   );
 };

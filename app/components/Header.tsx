@@ -18,6 +18,7 @@ export default function HeaderWrapper() {
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "Categories", href: "/categories" },
   { label: "Round Tours", href: "/round-tours" },
   { label: "Day Tours", href: "/day-tours" },
   { label: "Destinations", href: "/" },
