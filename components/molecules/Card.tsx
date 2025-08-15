@@ -23,7 +23,7 @@ const Card = ({
   return (
     <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
       <Image
-        src={imageUrl || "/round tours/General Tours.jpg"}
+        src={imageUrl}
         alt={title}
         className="absolute inset-0 w-full h-full object-cover"
         fill

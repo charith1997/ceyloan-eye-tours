@@ -15,14 +15,13 @@ const CategoryGrid = ({ categories }: { categories: any[] }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
       {categories.map((category: any, index: number) => (
         <Link
-          href={`${pathname}/${category.name
+          href={`${pathname}/${category.url_prefix
             .toLowerCase()
             .replace(/\s+/g, "-")}`}
           onClick={() => {
             dispatch(
               pushRoute(category.name.toLowerCase().replace(/\s+/g, "-"))
             );
-            history.pushState({ id: category.id }, "", null);
           }}
           key={index}
         >

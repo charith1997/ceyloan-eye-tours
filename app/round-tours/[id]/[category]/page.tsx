@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import Timeline from "./Timeline";
 import Image from "next/image";
 import CTAButton from "@/app/components/CTAButton";
 import Button from "@/components/atoms/Button";
 import Jumbotron from "@/components/molecules/Jumbotron";
+import Timeline from "@/components/organisams/Timeline";
 
 const validTourTypes = [
   "secrets-of-lanka",

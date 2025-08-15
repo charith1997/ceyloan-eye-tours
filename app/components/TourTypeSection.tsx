@@ -1,12 +1,15 @@
 import Button from "@/components/atoms/Button";
+import { pushRoute } from "@/features/routingSlice";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
 
 const btnClassNames =
   "cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity";
 
 export default function TourTypeSection() {
   const { data, error, isLoading } = useGetAllCategoriesQuery({});
+  const dispatch = useDispatch();
 
   if (isLoading) return <div>Loading soon..........</div>;
   if (error) return <div>Error loading categories</div>;
@@ -27,7 +30,7 @@ export default function TourTypeSection() {
       <div className="flex flex-col md:flex-row gap-6 h-[70vh]">
         <div
           className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
-          style={{ backgroundImage: 'url("/tour types/Rectangle 17.png")' }}
+          style={{ backgroundImage: `url(${categories[0].image_url})` }}
         >
           <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
           <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
@@ -43,7 +46,7 @@ export default function TourTypeSection() {
           <div className="flex gap-6 h-1/2">
             <div
               className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
-              style={{ backgroundImage: 'url("/tour types/Rectangle 19.png")' }}
+              style={{ backgroundImage: `url(${categories[1].image_url})` }}
             >
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
@@ -59,7 +62,7 @@ export default function TourTypeSection() {
 
             <div
               className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
-              style={{ backgroundImage: 'url("/tour types/Rectangle 18.png")' }}
+              style={{ backgroundImage: `url(${categories[2].image_url})` }}
             >
               <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
               <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
@@ -76,7 +79,7 @@ export default function TourTypeSection() {
 
           <div
             className="h-1/2 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
-            style={{ backgroundImage: 'url("/tour types/Rectangle 20.png")' }}
+            style={{ backgroundImage: `url(${categories[3].image_url})` }}
           >
             <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
             <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
@@ -93,7 +96,14 @@ export default function TourTypeSection() {
       </div>
 
       <Button
-        label={<Link href="/categories">VIEW MORE</Link>}
+        label={
+          <Link
+            href="/categories"
+            onClick={() => dispatch(pushRoute("categories"))}
+          >
+            VIEW MORE
+          </Link>
+        }
         className="mt-8 px-4 py-2 rounded-[14px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-[Work Sans] text-[14px] font-normal hover:opacity-90 transition-opacity cursor-pointer"
       />
     </section>

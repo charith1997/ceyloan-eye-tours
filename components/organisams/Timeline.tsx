@@ -1,6 +1,6 @@
 import React from "react";
-import TimelineItem from "./TimelineItem";
 import Button from "@/components/atoms/Button";
+import TimelineItem from "../molecules/TimelineItem";
 
 const trips = [
   {

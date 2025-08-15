@@ -6,15 +6,15 @@ import Jumbotron from "@/components/molecules/Jumbotron";
 import CategoryGrid from "@/components/organisams/CategoryGrid";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import PageDetails from "@/components/organisams/PageDetails";
-import { PAGE_TITLE, PAGE_DESCRIPTION } from "@/styles/font";
 
 export default function Categories() {
   const { data, error, isLoading } = useGetAllCategoriesQuery({});
+
   if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error loading categories</div>;
 
   const categories = Array.isArray(data?.data) ? data.data : [];
-  return (
+    return (
     <section className="py-16 px-4 md:px-16">
       <Jumbotron
         title="Ceylon Eye Tours"

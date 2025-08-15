@@ -1,11 +1,19 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const PageRouting = () => {
+  const [isHydrated, setIsHydrated] = useState(false);
   const routingStack = useSelector((state: any) => state.routing.stack);
-  console.log(routingStack);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return <div className="mb-4 text-sm font-medium text-gray-700 h-6" />;
+  }
 
   return (
     <div className="mb-4 text-sm font-medium text-gray-700">
