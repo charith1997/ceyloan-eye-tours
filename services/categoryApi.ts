@@ -48,8 +48,12 @@ export const categoryApi = createApi({
       },
     }),
     // Get category by URL prefix
-    getCategoryByUrlPrefix: builder.query<any, string>({
-      query: (slug) => `/categories/get-by-urlprefix/${slug}`,
+    getCategoryByUrlPrefix: builder.query<any, {slug: string; tourType?: string}>({
+      query: ({slug, tourType}) => {
+        let url = `/categories/get-by-urlprefix/${slug}`;
+        if (tourType) url += `?tourType=${tourType}`;
+        return url;
+      },
     }),
   }),
 });

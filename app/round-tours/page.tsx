@@ -1,11 +1,8 @@
 "use client";
 
 import React from "react";
-import CTAButton from "../components/CTAButton";
-import CategoryGrid from "@/components/organisams/CategoryGrid";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
-import Jumbotron from "@/components/molecules/Jumbotron";
-import PageDetails from "@/components/organisams/PageDetails";
+import CategoriesPage from "@/components/pages/CategoriesPage";
 
 export default function RoundTours() {
   const { data, error, isLoading } = useGetAllCategoriesQuery({
@@ -17,28 +14,13 @@ export default function RoundTours() {
   const categories = Array.isArray(data?.data) ? data.data : [];
 
   return (
-    <section className="py-16 px-4 md:px-16">
-      <Jumbotron
-        title="Round Tours"
-        description="Explore our exciting round tours."
-        imageUrl="/round tours/round-tours_main.png"
-      />
-      <PageDetails
-        title="Sri Lanka Tours"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum."
-      />
-      <div className="min-h-screen">
-        <CategoryGrid categories={categories} />
-        <CTAButton />
-      </div>
-    </section>
+    <CategoriesPage
+      heroTitle="Round Tours"
+      heroDescription="Explore our exciting round tours."
+      imageUrl="/round tours/round-tours_main.png"
+      description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+      categories={categories}
+      title="Sri Lanka Tours"
+    />
   );
 }

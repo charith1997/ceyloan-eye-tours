@@ -15,7 +15,7 @@ interface DetailCardProps {
   duration: string;
   price: string;
   slug: string;
-  review: number;
+  rating: number;
 }
 
 export default function DetailCard({
@@ -24,7 +24,7 @@ export default function DetailCard({
   duration,
   price,
   slug,
-  review,
+  rating,
 }: DetailCardProps) {
   const pathname = usePathname();
   const dispatch = useDispatch();
@@ -65,10 +65,10 @@ export default function DetailCard({
           <div className="flex items-center gap-1">
             <Star
               className={`w-5 h-5 ${
-                review === 0 ? "" : "text-yellow-400"
+                rating === 0 ? "" : "text-yellow-400"
               } fill-current`}
             />
-            <p className="font-work text-sm md:text-xl font-normal">{review}</p>
+            <p className="font-work text-sm md:text-xl font-normal">{rating}</p>
           </div>
         </div>
       </div>

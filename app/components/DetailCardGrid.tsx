@@ -6,7 +6,7 @@ interface Package {
   duration: string;
   price: string;
   url_prefix: string;
-  review: number;
+  rating: number;
 }
 
 interface DetailCardGridProps {
@@ -16,7 +16,7 @@ interface DetailCardGridProps {
 export default function DetailCardGrid({ packages }: DetailCardGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 px-4 py-8">
-      {packages.map((packagex, index) => (
+      {packages?.map((packagex, index) => (
         <DetailCard
           key={index}
           {...packagex}

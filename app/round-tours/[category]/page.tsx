@@ -4,17 +4,17 @@ import { useGetCategoryByUrlPrefixQuery } from "@/services/categoryApi";
 import { getLastParam } from "@/utils/common";
 import CategoryPage from "@/components/pages/CategoryPage";
 
-export default function SingleCategoryPage() {
+export default function CategoryByRoundToursPage() {
   const lastSegment = getLastParam();
 
   const { data, error, isLoading } = useGetCategoryByUrlPrefixQuery({
     slug: lastSegment,
+    tourType: "0",
   });
   if (isLoading) return <div>Loading category...</div>;
   if (error) return <div>Error loading category</div>;
 
   const categoryData = data?.data ?? {};
-
   return (
     <CategoryPage
       heroTitle={categoryData.name}
