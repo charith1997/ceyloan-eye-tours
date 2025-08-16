@@ -11,7 +11,7 @@ interface PlacesPageProps {
   imageUrl: string;
   title: string;
   description: string;
-  places: Array<{ id: number; name: string; imageUrl: string }>;
+  places: any[];
 }
 
 function PlacesPage({
@@ -32,8 +32,6 @@ function PlacesPage({
       <PageDetails title={title} description={description} />
       <div className="min-h-screen">
         <CardGrid
-          title={title}
-          imageUrl={imageUrl}
           data={places.map((place: any) => ({
             cardTitle: place.name,
             cardDescription: place.location,

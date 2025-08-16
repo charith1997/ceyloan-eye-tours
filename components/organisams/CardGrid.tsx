@@ -6,8 +6,6 @@ import { useDispatch } from "react-redux";
 import { pushRoute } from "@/features/routingSlice";
 
 interface CardGridProps {
-  title: string;
-  imageUrl: string;
   data: any[];
   isLinked?: boolean;
   children: (

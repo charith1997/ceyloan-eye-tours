@@ -6,6 +6,7 @@ import { categoryApi } from "./services/categoryApi";
 import { activityApi } from "./services/activityApi";
 import { packageApi } from "./services/packageApi";
 import { placesApi } from "./services/placesApi";
+import { hotelApi } from "./services/hotelApi";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     [activityApi.reducerPath]: activityApi.reducer,
     [packageApi.reducerPath]: packageApi.reducer,
     [placesApi.reducerPath]: placesApi.reducer,
+    [hotelApi.reducerPath]: hotelApi.reducer,
     auth: authReducer,
     routing: routingReducer,
   },
@@ -23,7 +25,8 @@ export const store = configureStore({
       .concat(activityApi.middleware)
       .concat(packageApi.middleware)
       .concat(authApi.middleware)
-      .concat(placesApi.middleware),
+      .concat(placesApi.middleware)
+      .concat(hotelApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,27 +1,27 @@
 import React from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
-import CTAButton from "@/components/molecules/CTAButton";
+import CTAButton from "../molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
 import { CARD_DESCRIPTION, CARD_TITLE } from "@/styles/font";
 
-interface CategoriesPageProps {
+interface HotelsPageProps {
   heroTitle: string;
   heroDescription: string;
-  categories: any[];
-  description: string;
   imageUrl: string;
   title: string;
+  description: string;
+  hotels: any[];
 }
 
-const CategoriesPage = ({
+function HotelsPage({
   heroTitle,
-  title,
-  categories,
-  description,
   heroDescription,
   imageUrl,
-}: CategoriesPageProps) => {
+  title,
+  description,
+  hotels,
+}: HotelsPageProps) {
   return (
     <section className="py-16 px-4 md:px-16">
       <Jumbotron
@@ -32,22 +32,19 @@ const CategoriesPage = ({
       <PageDetails title={title} description={description} />
       <div className="min-h-screen">
         <CardGrid
-          data={categories.map((category: any) => ({
-            cardTitle: category.name,
-            cardDescription: "Tours",
-            count: category.packageCount,
-            ...category,
+          data={hotels.map((hotel: any) => ({
+            cardTitle: hotel.name,
+            cardDescription: hotel.Place.name,
+            url_prefix: "hotel-id",
+            ...hotel,
           }))}
         >
-          {(cardTitle: string, cardDescription: string, count: number) => (
+          {(cardTitle: string, cardDescription: string) => (
             <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
               <div>
                 <h3 className={CARD_TITLE}>{cardTitle}</h3>
                 <p className={CARD_DESCRIPTION}>{cardDescription}</p>
               </div>
-              <span className="font-work self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2">
-                {Number(count).toString().padStart(2, "0")} TOURS
-              </span>
             </div>
           )}
         </CardGrid>
@@ -55,6 +52,6 @@ const CategoriesPage = ({
       </div>
     </section>
   );
-};
+}
 
-export default CategoriesPage;
+export default HotelsPage;
