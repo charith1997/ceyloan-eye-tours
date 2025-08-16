@@ -21,7 +21,7 @@ const navLinks = [
   { label: "Categories", href: "/categories" },
   { label: "Round Tours", href: "/round-tours" },
   { label: "Day Tours", href: "/day-tours" },
-  { label: "Destinations", href: "/" },
+  { label: "Destinations", href: "/destinations" },
   { label: "Hotels", href: "/hotels" },
   { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
