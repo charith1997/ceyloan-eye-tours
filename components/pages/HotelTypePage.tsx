@@ -1,27 +1,27 @@
-import React from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import DetailCardGrid from "@/components/organisams/DetailCardGrid";
 import CTAButton from "../molecules/CTAButton";
 import { formatDuration } from "@/utils/package";
+import { Star } from "lucide-react";
 
-interface CategoryPageProps {
+interface HotelTypePageProps {
   heroTitle: string;
   heroDescription: string;
-  packages: any[];
+  hotels: any[];
   description: string;
   imageUrl: string;
   title: string;
 }
 
-const CategoryPage = ({
+const HotelTypePage = ({
   heroTitle,
   heroDescription,
-  packages,
+  hotels,
   description,
   imageUrl,
   title,
-}: CategoryPageProps) => {
+}: HotelTypePageProps) => {
   return (
     <section className="py-16 px-4 md:px-16">
       <Jumbotron
@@ -31,23 +31,30 @@ const CategoryPage = ({
       />
       <PageDetails title={title} description={description} />
       <div className="min-h-screen">
-        <DetailCardGrid data={packages}>
+        <DetailCardGrid
+          data={hotels.map((hotel) => ({
+            ...hotel,
+            Images: hotel.images,
+          }))}
+        >
           {(item: any) => (
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
                 <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
-                  {item.title}
+                  {item.name}
                 </h3>
                 <p className="font-work text-sm md:text-base font-medium">
                   {formatDuration(item.duration)}
                 </p>
               </div>
-              <div className="text-end">
-                <h3 className="font-work text-sm md:text-sm font-normal">
-                  Starting from
-                </h3>
-                <p className="font-work text-sm md:text-base font-normal">
-                  ${item.price}
+              <div className="flex items-center gap-1">
+                <Star
+                  className={`w-5 h-5 ${
+                    item.rating === 0 ? "" : "text-yellow-400"
+                  } fill-current`}
+                />
+                <p className="font-work text-sm md:text-xl font-normal">
+                  {item.rating}
                 </p>
               </div>
             </div>
@@ -59,4 +66,4 @@ const CategoryPage = ({
   );
 };
 
-export default CategoryPage;
+export default HotelTypePage;

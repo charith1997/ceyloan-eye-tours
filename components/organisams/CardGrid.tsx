@@ -1,5 +1,5 @@
 import React from "react";
-import Card1 from "../molecules/Card1";
+import Card from "../molecules/Card";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -31,17 +31,17 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
             }}
             key={index}
           >
-            <Card1 title={item.name} imageUrl={item.image_url}>
+            <Card title={item.name} imageUrl={item.image_url}>
               {children(item.cardTitle, item.cardDescription, item.count ?? "")}
-            </Card1>
+            </Card>
           </Link>
         ))}
 
       {!isLinked &&
         data.map((item: any, index: number) => (
-          <Card1 title={item.name} imageUrl={item.image_url} key={index}>
+          <Card title={item.name} imageUrl={item.image_url} key={index}>
             {children(item.cardTitle, item.cardDescription, item.count ?? "")}
-          </Card1>
+          </Card>
         ))}
     </div>
   );
