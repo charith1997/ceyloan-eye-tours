@@ -1,91 +1,19 @@
+"use client";
+
 import React from "react";
 import TestimonialCard from "../components/TestimonialCard";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
-
-interface TestimonialData {
-  quote: string;
-  testimonial: string;
-  name: string;
-  location: string;
-  rating: number;
-}
+import { useGetAllReviewsQuery } from "@/services/reviewApi";
 
 const ReviewsPage: React.FC = () => {
-  const testimonials: TestimonialData[] = [
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-    {
-      quote: "Very friendly, communicative, reliable",
-      testimonial:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-      name: "John D",
-      location: "UK",
-      rating: 4.5,
-    },
-  ];
+  const { data, error, isLoading } = useGetAllReviewsQuery();
+
+  if (isLoading) return <div>Loading categories...</div>;
+  if (error) return <div>Error loading categories</div>;
+
+  const reviews = Array.isArray(data?.data) ? data.data : [];
+  console.log("reviews", reviews);
 
   return (
     <section className="py-16 px-4 md:px-16">
@@ -108,14 +36,14 @@ const ReviewsPage: React.FC = () => {
       />
       <div className="max-w-full">
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {testimonials.map((testimonial: TestimonialData, index: number) => (
+          {reviews.map((review: any, index: number) => (
             <div key={index} className="break-inside-avoid mb-6">
               <TestimonialCard
-                quote={testimonial.quote}
-                testimonial={testimonial.testimonial}
-                name={testimonial.name}
-                location={testimonial.location}
-                rating={testimonial.rating}
+                quote={review.review}
+                testimonial={review.testimonial}
+                name={review.Customer.name}
+                location={review.Customer.email}
+                rating={review.rating}
                 className="hover:shadow-lg transition-shadow duration-300"
               />
             </div>

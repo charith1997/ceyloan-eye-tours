@@ -8,6 +8,7 @@ import { packageApi } from "./services/packageApi";
 import { placesApi } from "./services/placesApi";
 import { hotelApi } from "./services/hotelApi";
 import { hotelTypeApi } from "./services/hotelTypeApi";
+import { reviewApi } from "./services/reviewApi";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     [placesApi.reducerPath]: placesApi.reducer,
     [hotelApi.reducerPath]: hotelApi.reducer,
     [hotelTypeApi.reducerPath]: hotelTypeApi.reducer,
+    [reviewApi.reducerPath]: reviewApi.reducer,
     auth: authReducer,
     routing: routingReducer,
   },
@@ -30,6 +32,7 @@ export const store = configureStore({
       .concat(placesApi.middleware)
       .concat(hotelApi.middleware)
       .concat(hotelTypeApi.middleware)
+      .concat(reviewApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;
