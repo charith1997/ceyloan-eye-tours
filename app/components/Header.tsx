@@ -55,7 +55,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
       <div className="mx-auto px-4 md:px-16 py-4 flex justify-between items-center text-white">
         <Link
           href="/"
-          className="font-carattere font-normal text-[35px] leading-[100%] tracking-[0]"
+          className="font-carattere font-normal text-3xl leading-[100%] tracking-[0]"
           onClick={() => dispatch(setStack(["home"]))}
         >
           Ceylon Eye Tours

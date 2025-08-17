@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import AdminNavigation from "./AdminNavigation";
-import MainContent from "./MainContent";
-import Home from "./Home";
-import AdminTours from "./AdminTours";
-import AdminHotels from "./AdminHotels";
-import AdminVehicles from "./AdminVehicles";
-import AdminPlaces from "./AdminPlaces";
-import AdminOrders from "./AdminOrders";
-import AdminGallery from "./AdminGallery";
+import Home from "../../app/components/Home";
+import AdminToursPage from "./admin/AdminToursPage";
+import AdminHotelsPage from "./admin/AdminHotelsPage";
+import AdminVehiclesPage from "./admin/AdminVehiclesPage";
+import AdminPlacesPage from "./admin/AdminPlacesPage";
+import AdminOrdersPage from "./admin/AdminOrdersPage";
+import AdminGalleryPage from "./admin/AdminGalleryPage";
+import AdminNavigation from "../organisams/AdminNavigation";
+import MainContent from "../organisams/MainContent";
 
 type NavigationItem = {
   name: string;
@@ -17,13 +17,13 @@ type NavigationItem = {
 
 const initialNavigationItems: NavigationItem[] = [
   { name: "Home", active: true, component: <Home /> },
-  { name: "Tours", active: false, component: <AdminTours /> },
-  { name: "Hotels", active: false, component: <AdminHotels /> },
-  { name: "Vehicles", active: false, component: <AdminVehicles /> },
-  { name: "Orders", active: false, component: <AdminOrders /> },
+  { name: "Packages", active: false, component: <AdminToursPage /> },
+  { name: "Accommodations", active: false, component: <AdminHotelsPage /> },
+  { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
+  { name: "Orders", active: false, component: <AdminOrdersPage /> },
   { name: "Chats", active: false, component: <Home /> },
-  { name: "Gallery", active: false, component: <AdminGallery /> },
-  { name: "Places", active: false, component: <AdminPlaces /> },
+  { name: "Gallery", active: false, component: <AdminGalleryPage /> },
+  { name: "Places", active: false, component: <AdminPlacesPage /> },
 ];
 
 const DashboardPage = () => {

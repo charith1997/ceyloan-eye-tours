@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import SearchContainer from "./SearchContainer";
-import NavigationContainer from "./NavigationContainer";
-import ListContainer from "./ListContainer";
 import { CalendarDays, Eye, Users } from "lucide-react";
-import Modal from "./Modal";
 import Button from "@/components/atoms/Button";
+import NavigationContainer from "@/components/containers/NavigationContainer";
+import SearchContainer from "@/components/containers/SearchContainer";
+import ListContainer from "@/components/containers/ListContainer";
+import Modal from "@/components/molecules/Modal";
 
-const cardDetails_1 = (
+const cardDetails_1 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-2">
     <h3 className="text-md font-bold uppercase">Tour Package Name</h3>
     <p className="text-sm flex gap-2 items-center">
@@ -19,14 +19,14 @@ const cardDetails_1 = (
   </div>
 );
 
-const priceDetails_1 = (
+const priceDetails_1 = (item: { model: string; type: string }) => (
   <div className="block justify-items-center text-sm font-bold">
     <h3>$</h3>
     <h3>1500</h3>
   </div>
 );
 
-const mobileViewCardDetails_1 = (
+const mobileViewCardDetails_1 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-1 text-sm">
     <h3 className="font-bold uppercase">Tour Package Name</h3>
     <p className="flex gap-2 items-center">
@@ -40,7 +40,7 @@ const mobileViewCardDetails_1 = (
   </div>
 );
 
-const cardDetails_2 = (
+const cardDetails_2 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-2">
     <h3 className="text-md font-bold uppercase">Tour Package Name</h3>
     <p className="text-sm flex gap-2 items-center">
@@ -53,14 +53,14 @@ const cardDetails_2 = (
   </div>
 );
 
-const priceDetails_2 = (
+const priceDetails_2 = (item: { model: string; type: string }) => (
   <div className="block justify-items-center text-sm font-bold">
     <h3>$</h3>
     <h3>1500</h3>
   </div>
 );
 
-const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+const actionButtons_2 = (item: { id: number; image_url: string }) => {
   console.log("item", item);
 
   return (
@@ -74,7 +74,7 @@ const actionButtons_2 = (item: { id: number; imageURL: string }) => {
   );
 };
 
-const mobileViewCardDetails_2 = (
+const mobileViewCardDetails_2 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-1 text-sm">
     <h3 className="font-bold uppercase">Tour Package Name</h3>
     <p className="flex gap-2 items-center">
@@ -91,23 +91,23 @@ const mobileViewCardDetails_2 = (
 const ToursList = [
   {
     id: 0,
-    imageURL: "/tour packages/package_1.jpg",
+    image_url: "/tour packages/package_1.jpg",
   },
   {
     id: 1,
-    imageURL: "/tour packages/package_2.jpg",
+    image_url: "/tour packages/package_2.jpg",
   },
   {
     id: 2,
-    imageURL: "/tour packages/package_3.jpg",
+    image_url: "/tour packages/package_3.jpg",
   },
 ];
 
-const AdminOrders = () => {
+const AdminOrdersPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("tab1");
 
-  const actionButtons_1 = (item: { id: number; imageURL: string }) => {
+  const actionButtons_1 = (item: { id: number; image_url: string }) => {
     console.log("item", item);
 
     return (
@@ -220,7 +220,7 @@ const AdminOrders = () => {
   );
 };
 
-export default AdminOrders;
+export default AdminOrdersPage;
 
 interface DisplayDetailsProps {
   label?: string;

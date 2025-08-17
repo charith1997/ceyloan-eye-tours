@@ -1,91 +1,94 @@
 import React, { useState } from "react";
-import SearchContainer from "./SearchContainer";
-import NavigationContainer from "./NavigationContainer";
-import ListContainer from "./ListContainer";
-import { Users, Component } from "lucide-react";
-import Modal from "./Modal";
+import { CalendarDays, Component } from "lucide-react";
 import { Input } from "@/components/atoms/Input";
 import TextArea from "@/components/atoms/TextArea";
 import Button from "@/components/atoms/Button";
+import NavigationContainer from "@/components/containers/NavigationContainer";
+import SearchContainer from "@/components/containers/SearchContainer";
+import ListContainer from "@/components/containers/ListContainer";
+import Modal from "@/components/molecules/Modal";
+import Dropdown from "@/components/atoms/Dropdown";
+import { useGetAllPackagesQuery } from "@/services/packageApi";
+import { formatDuration } from "@/utils/package";
+import { displayTourType } from "@/utils/common";
 
-const cardDetails = (
+const cardDetails = (item: {
+  title: string;
+  tour_type: number;
+  duration: string;
+}) => (
   <div className="flex flex-col gap-2">
-    <h3 className="text-md font-bold uppercase">Vehicle Model</h3>
-    <p className="flex text-sm gap-2 items-center">
+    <h3 className="text-md font-bold uppercase">{item.title}</h3>
+    <p className="text-sm flex gap-2 items-center">
       <Component fill="black" width={16} />
-      Vehicle Type
+      {displayTourType(item.tour_type)}
     </p>
     <span className="flex text-sm gap-2 items-center">
-      <Users width={16} fill="black" /> 08 Peoples
+      <CalendarDays width={16} /> {formatDuration(item.duration)}
     </span>
   </div>
 );
 
-const priceDetails = (
-  <div className="block justify-items-center text-sm">
-    <h3>Starting from</h3>
-    <h3 className="font-bold">$ 150</h3>
+const priceDetails = (item: { price: string }) => (
+  <div className="block justify-items-center text-sm font-bold">
+    <h3>$</h3>
+    <h3>{item.price}</h3>
   </div>
 );
 
-const actionButtons = (item: { id: number; imageURL: string }) => {
-  console.log("item", item);
+const actionButtons = (item: { id: number; image_url: string }) => {
+  // console.log("item", item);
+
   return (
     <div className="flex gap-4">
       <Button
         label="Edit"
-        className="w-20 text-sm p-2 rounded-md text-white bg-orange uppercase"
+        className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase"
       />
       <Button
         label="Delete"
-        className="w-20 text-sm p-2 rounded-md text-white bg-red uppercase"
+        className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
       />
     </div>
   );
 };
 
-const mobileViewCardDetails = (
+const mobileViewCardDetails = (item: {
+  title: string;
+  duration: string;
+  price: string;
+  tour_type: number;
+}) => (
   <div className="flex flex-col gap-1 text-sm">
-    <h3 className="font-bold uppercase">Vehicle Model</h3>
+    <h3 className="font-bold uppercase">{item.title}</h3>
     <p className="flex gap-2 items-center">
       <Component fill="black" width={16} />
-      Vehicle Type
+      {displayTourType(item.tour_type)}
     </p>
     <span className="flex gap-1 items-center">
-      <Users fill="black" width={16} /> 08 Peoples
+      <CalendarDays width={16} /> {formatDuration(item.duration)}
     </span>
-    <p className="font-bold">$ 150</p>
+    <p className="font-bold">${item.price}</p>
   </div>
 );
-
-const ToursList = [
-  {
-    id: 0,
-    imageURL: "/tour packages/package_1.jpg",
-  },
-  {
-    id: 1,
-    imageURL: "/tour packages/package_2.jpg",
-  },
-  {
-    id: 2,
-    imageURL: "/tour packages/package_3.jpg",
-  },
-];
 
 const textFieldClassNames =
   "w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none";
 const labelClassNames = "block text-sm font-medium";
 
-const AdminVehicles = () => {
+const AdminToursPage = () => {
   const [showModal, setShowModal] = useState(false);
+
+  const { data, error, isLoading } = useGetAllPackagesQuery();
+  const packages = Array.isArray(data?.data) ? data.data : [];
+
   return (
     <>
       <NavigationContainer>
         <SearchContainer
-          searchPlaceholder="Search Vehicles..."
-          title="Vehicles"
-          buttonName="Add Vehicle"
+          searchPlaceholder="Search Packages..."
+          title="Packages"
+          buttonName="Add Package"
           onClick={() => setShowModal(true)}
         />
         <ListContainer
@@ -93,76 +96,65 @@ const AdminVehicles = () => {
           priceDetails={priceDetails}
           actionButtons={actionButtons}
           mobileViewCardDetails={mobileViewCardDetails}
-          list={ToursList}
+          list={packages.map((pkg: any) => ({
+            ...pkg,
+            image_url: "/tour packages/package_1.jpg",
+          }))}
         />
       </NavigationContainer>
 
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-        title="Vehicle Form"
+        title="Tour Form"
       >
         <form
-          id="vehicle-form"
+          id="tour-form"
           className="space-y-4 flex-1 overflow-y-auto py-2 pr-2"
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Input
-              label="Vehicle Name:"
+              label="Tour name:"
               inputClassNames={textFieldClassNames}
               labelClassNames={labelClassNames}
             />
             <Input
-              label="People Count:"
-              inputClassNames={textFieldClassNames}
-              labelClassNames={labelClassNames}
-            />
-            <Input
-              label="Vehicle Type:"
-              inputClassNames={textFieldClassNames}
-              labelClassNames={labelClassNames}
-            />
-            <Input
-              label="Location:"
-              inputClassNames={textFieldClassNames}
-              labelClassNames={labelClassNames}
-            />
-            <Input
-              label="Owner Name:"
-              inputClassNames={textFieldClassNames}
-              labelClassNames={labelClassNames}
-            />
-            <Input
-              label="Contact Number:"
+              label="Day count:"
               inputClassNames={textFieldClassNames}
               labelClassNames={labelClassNames}
             />
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Dropdown options={["Option 1", "Option 2"]} label="Tour Type:" />
+            <Dropdown
+              options={["Option 1", "Option 2"]}
+              label="Places to visit:"
+            />
+          </div>
           <TextArea
             label="Description:"
             labelClassNames={labelClassNames}
             textAreaClassNames={`${textFieldClassNames} h-24`}
           />
+          <TextArea
+            label="Tour Highlights:"
+            labelClassNames={labelClassNames}
+            textAreaClassNames={`${textFieldClassNames} h-24`}
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <TextArea
-              label="Facilities:"
+              label="Price Includes:"
               labelClassNames={labelClassNames}
               textAreaClassNames={`${textFieldClassNames} h-24`}
             />
             <TextArea
-              label="Excludes:"
+              label="Price Excludes:"
               labelClassNames={labelClassNames}
               textAreaClassNames={`${textFieldClassNames} h-24`}
             />
           </div>
-
-          <TextArea
-            label="Terms & Conditions:"
-            labelClassNames={labelClassNames}
-            textAreaClassNames={`${textFieldClassNames} h-24`}
-          />
 
           <div>
             <label className="block text-sm font-medium">Images:</label>
@@ -199,4 +191,4 @@ const AdminVehicles = () => {
   );
 };
 
-export default AdminVehicles;
+export default AdminToursPage;

@@ -7,7 +7,7 @@ import Testimonials from "@/app/components/Testimonials";
 import ContactSection from "@/app/components/ContactSection";
 import TourTypeSection from "./components/TourTypeSection";
 import { useEffect, useState } from "react";
-import DashboardPage from "./components/Dashboard";
+import DashboardPage from "../components/pages/Dashboard";
 
 export default function Home() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);

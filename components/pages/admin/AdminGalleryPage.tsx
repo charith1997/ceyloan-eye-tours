@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import SearchContainer from "./SearchContainer";
-import NavigationContainer from "./NavigationContainer";
-import ListContainer from "./ListContainer";
 import { Eye, MapPin, User } from "lucide-react";
 import Button from "@/components/atoms/Button";
+import NavigationContainer from "@/components/containers/NavigationContainer";
+import SearchContainer from "@/components/containers/SearchContainer";
+import ListContainer from "@/components/containers/ListContainer";
 
-const cardDetails_1 = (
+const cardDetails_1 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-2">
     <h3 className="text-md font-bold uppercase">Image Name</h3>
     <p className="text-sm flex gap-2 items-center">
@@ -18,9 +18,9 @@ const cardDetails_1 = (
   </div>
 );
 
-const priceDetails_1 = null;
+const priceDetails_1 = (item: { model: string; type: string }) => null;
 
-const actionButtons_1 = (item: { id: number; imageURL: string }) => {
+const actionButtons_1 = (item: { id: number; image_url: string }) => {
   console.log("item", item);
 
   return (
@@ -38,7 +38,7 @@ const actionButtons_1 = (item: { id: number; imageURL: string }) => {
   );
 };
 
-const mobileViewCardDetails_1 = (
+const mobileViewCardDetails_1 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-1 text-sm">
     <h3 className="font-bold uppercase">Image Name</h3>
     <p className="flex gap-2 items-center">
@@ -51,7 +51,7 @@ const mobileViewCardDetails_1 = (
   </div>
 );
 
-const cardDetails_2 = (
+const cardDetails_2 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-2">
     <h3 className="text-md font-bold uppercase">Image Name</h3>
     <p className="text-sm flex gap-2 items-center">
@@ -64,9 +64,9 @@ const cardDetails_2 = (
   </div>
 );
 
-const priceDetails_2 = null;
+const priceDetails_2 = (item: { model: string; type: string }) => null;
 
-const actionButtons_2 = (item: { id: number; imageURL: string }) => {
+const actionButtons_2 = (item: { id: number; image_url: string }) => {
   console.log("item", item);
 
   return (
@@ -80,7 +80,7 @@ const actionButtons_2 = (item: { id: number; imageURL: string }) => {
   );
 };
 
-const mobileViewCardDetails_2 = (
+const mobileViewCardDetails_2 = (item: { model: string; type: string }) => (
   <div className="flex flex-col gap-1 text-sm">
     <h3 className="font-bold uppercase">Image Name</h3>
     <p className="flex gap-2 items-center">
@@ -96,19 +96,19 @@ const mobileViewCardDetails_2 = (
 const ToursList = [
   {
     id: 0,
-    imageURL: "/tour packages/package_1.jpg",
+    image_url: "/tour packages/package_1.jpg",
   },
   {
     id: 1,
-    imageURL: "/tour packages/package_2.jpg",
+    image_url: "/tour packages/package_2.jpg",
   },
   {
     id: 2,
-    imageURL: "/tour packages/package_3.jpg",
+    image_url: "/tour packages/package_3.jpg",
   },
 ];
 
-const AdminGallery = () => {
+const AdminGalleryPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   return (
     <>
@@ -165,4 +165,4 @@ const AdminGallery = () => {
   );
 };
 
-export default AdminGallery;
+export default AdminGalleryPage;
