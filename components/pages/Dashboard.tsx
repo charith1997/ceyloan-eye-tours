@@ -8,6 +8,7 @@ import AdminOrdersPage from "./admin/AdminOrdersPage";
 import AdminGalleryPage from "./admin/AdminGalleryPage";
 import AdminNavigation from "../organisams/AdminNavigation";
 import MainContent from "../organisams/MainContent";
+import AdminCategoryPage from "./admin/AdminCategoryPage";
 
 type NavigationItem = {
   name: string;
@@ -17,6 +18,7 @@ type NavigationItem = {
 
 const initialNavigationItems: NavigationItem[] = [
   { name: "Home", active: true, component: <Home /> },
+  { name: "Categories", active: false, component: <AdminCategoryPage /> },
   { name: "Packages", active: false, component: <AdminToursPage /> },
   { name: "Accommodations", active: false, component: <AdminHotelsPage /> },
   { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },

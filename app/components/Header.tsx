@@ -48,7 +48,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-all ${
         pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
       }`}
     >

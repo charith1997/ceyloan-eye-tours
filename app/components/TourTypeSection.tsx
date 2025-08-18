@@ -17,7 +17,7 @@ export default function TourTypeSection() {
   const categories = Array.isArray(data?.data) ? data.data.slice(0, 4) : [];
 
   return (
-    <section className="max-w-[1200px] mx-auto mt-8 px-4 py-8 text-center pt-180">
+    <section className="max-w-[1200px] mx-auto mt-8 px-4 py-8 text-center">
       <div className="mb-8">
         <h2 className="font-[Carattere] text-[48px] font-normal text-[#CD1A40] leading-none m-0">
           Choose your

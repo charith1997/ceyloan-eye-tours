@@ -3,7 +3,7 @@ import { CalendarDays, MapPin, Search } from "lucide-react";
 
 export default function HeroSection() {
   return (
-    <section className="absolute top-0 bg-center bg-cover h-screen w-full text-white">
+    <section className="top-0 bg-center bg-cover h-screen w-full text-white">
       <div
         className="absolute inset-0 bg-center bg-cover"
         style={{ backgroundImage: "url('/hero.png')" }}

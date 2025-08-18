@@ -7,6 +7,7 @@ interface TextAreaProps {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   textAreaClassNames?: string;
   labelClassNames?: string;
+  name?: string;
 }
 
 const TextArea = ({
@@ -15,6 +16,7 @@ const TextArea = ({
   onChange,
   textAreaClassNames,
   labelClassNames,
+  name,
 }: TextAreaProps) => {
   return (
     <div>
@@ -26,6 +28,7 @@ const TextArea = ({
         className={textAreaClassNames}
         value={value}
         onChange={onChange}
+        name={name}
       />
     </div>
   );

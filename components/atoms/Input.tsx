@@ -8,6 +8,7 @@ interface InputProps {
   placeholder?: string;
   inputClassNames?: string;
   labelClassNames?: string;
+  name?: string;
 }
 
 export const Input = ({
@@ -18,19 +19,21 @@ export const Input = ({
   onChange,
   placeholder,
   labelClassNames,
+  name,
 }: InputProps) => {
   return (
     <div className="block">
-      <label htmlFor={label} className={labelClassNames}>
+      <label htmlFor={name} className={labelClassNames}>
         {label}
       </label>
       <input
-        id={label}
+        id={name}
         value={value}
         placeholder={placeholder}
         className={inputClassNames}
         onChange={onChange}
         type={type}
+        name={name}
       />
     </div>
   );

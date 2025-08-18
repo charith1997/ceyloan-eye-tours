@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReduxProvider from "@/providers/ReduxProvider";
 import { useSelector } from "react-redux";
+import { Toaster } from "react-hot-toast";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -45,7 +46,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <main className="pt-16">
+    <main>
       <Header />
       {children}
       <Footer />
@@ -66,6 +67,7 @@ export default function RootLayout({
       <body>
         <ReduxProvider>
           <LayoutContent>{children}</LayoutContent>
+          <Toaster position="top-right" />
         </ReduxProvider>
       </body>
     </html>
