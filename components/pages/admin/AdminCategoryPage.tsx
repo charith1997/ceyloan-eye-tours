@@ -8,6 +8,7 @@ import Modal from "@/components/molecules/Modal";
 import {
   useCreateCategoryMutation,
   useGetAllCategoriesQuery,
+  useDeleteCategoryMutation,
 } from "@/services/categoryApi";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -34,7 +35,11 @@ const cardDetails = (item: {
 
 const priceDetails = () => null;
 
-const actionButtons = (item: { id: number; image_url: string }) => {
+const actionButtons = (
+  item: { id: string },
+  displayDeleteModal: (value: boolean) => void,
+  setID: (value: string) => void
+) => {
   return (
     <div className="flex gap-4">
       <Button
@@ -44,6 +49,10 @@ const actionButtons = (item: { id: number; image_url: string }) => {
       <Button
         label="Delete"
         className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+        onClick={() => {
+          displayDeleteModal(true);
+          setID(item.id);
+        }}
       />
     </div>
   );
@@ -69,12 +78,18 @@ const mobileViewCardDetails = (item: {
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
+  const [selectedCategoryId, setSelectedCategoryId] = React.useState<
+    string | null
+  >(null);
 
   const { data, error, isLoading } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
 
   const [createCategory, { isLoading: isCreating }] =
     useCreateCategoryMutation();
+  const [deleteCategory, { isLoading: isDeleting }] =
+    useDeleteCategoryMutation();
 
   return (
     <>
@@ -91,13 +106,49 @@ const AdminCategoryPage = () => {
           actionButtons={actionButtons}
           mobileViewCardDetails={mobileViewCardDetails}
           list={categories}
+          displayDeleteModal={setShowDeleteModal}
+          setID={setSelectedCategoryId}
         />
       </NavigationContainer>
+
+      <Modal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        title="Delete Category"
+        className="md:w-fit"
+      >
+        <p>Are you sure you want to delete this category?</p>
+        <div className="flex justify-between gap-6 pt-6">
+          <Button
+            className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+            label="Cancel"
+            onClick={() => setShowDeleteModal(false)}
+          />
+          <Button
+            className="w-full text-white px-8 py-2 rounded-lg bg-red text-lg font-semibold uppercase"
+            label="Delete"
+            onClick={async () => {
+              if (selectedCategoryId) {
+                try {
+                  const response = await deleteCategory(
+                    selectedCategoryId
+                  ).unwrap();
+                  toast.success(response.message);
+                  setShowDeleteModal(false);
+                } catch (err: any) {
+                  toast.error(err?.data?.message);
+                }
+              }
+            }}
+          />
+        </div>
+      </Modal>
 
       <Modal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         title="Category Form"
+        className="md:w-lg"
       >
         <Formik
           initialValues={{ name: "", description: "", image: null }}
@@ -133,15 +184,15 @@ const AdminCategoryPage = () => {
 
             <FileUploader name="image" label="Upload Image" />
 
-            <div className="flex justify-center gap-6 mt-4 bg-white">
+            <div className="flex gap-6">
               <Button
                 onClick={() => setShowModal(false)}
-                className="w-full text-white px-8 py-2 rounded-lg cursor-pointer bg-[#1976D2] text-lg font-semibold uppercase"
+                className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
                 label="Cancel"
               />
               <Button
                 type="submit"
-                className="w-full text-white px-8 py-2 rounded-lg cursor-pointer bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+                className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
                 label="Save"
               />
             </div>

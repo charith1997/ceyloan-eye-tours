@@ -4,12 +4,18 @@ import Image from "next/image";
 interface ListContainerProps {
   cardDetails: (item: any) => React.ReactNode;
   priceDetails: (item: any) => React.ReactNode;
-  actionButtons: (item: { id: number; image_url: string }) => React.ReactNode;
+  actionButtons: (
+    item: { id: string },
+    action: (value: boolean) => void,
+    setID: (value: string) => void
+  ) => React.ReactNode;
   mobileViewCardDetails: (item: any) => React.ReactNode;
   list: {
-    id: number;
+    id: string;
     image_url: string;
   }[];
+  displayDeleteModal: (value: boolean) => void;
+  setID: (id: string) => void;
 }
 
 const ListContainer = ({
@@ -18,10 +24,12 @@ const ListContainer = ({
   actionButtons,
   mobileViewCardDetails,
   list,
+  displayDeleteModal,
+  setID,
 }: ListContainerProps) => {
   return (
     <div className="flex flex-col gap-4">
-      {list.map((item: { id: number; image_url: string }, index: number) => (
+      {list.map((item: { id: string; image_url: string }, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
             <div className="flex items-center gap-8">
@@ -37,7 +45,11 @@ const ListContainer = ({
 
             {priceDetails(item)}
 
-            {actionButtons(item)}
+            {actionButtons(
+              item,
+              (value) => displayDeleteModal(value),
+              (value) => setID(value)
+            )}
           </div>
 
           <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
@@ -50,7 +62,11 @@ const ListContainer = ({
             />
             <div className="grid gap-2">
               {mobileViewCardDetails(item)}
-              {actionButtons(item)}
+              {actionButtons(
+                item,
+                (value) => displayDeleteModal(value),
+                (value) => setID(value)
+              )}
             </div>
           </div>
         </div>

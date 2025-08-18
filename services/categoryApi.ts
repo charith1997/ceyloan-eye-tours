@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const categoryApi = createApi({
   reducerPath: "categoryApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  tagTypes: ["Category"],
   endpoints: (builder) => ({
     // Get all categories (with token)
     getAllCategories: builder.query<any, { tourType?: string }>({
@@ -11,6 +12,7 @@ export const categoryApi = createApi({
         if (tourType) url += `?tourType=${tourType}`;
         return url;
       },
+      providesTags: ["Category"]
     }),
     // Create category (form data)
     createCategory: builder.mutation<any, FormData>({
@@ -19,6 +21,7 @@ export const categoryApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Category"]
     }),
     // Update category
     updateCategory: builder.mutation<any, { id: string; data: { name: string; description: string } }>({
@@ -27,6 +30,7 @@ export const categoryApi = createApi({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Category"]
     }),
     // Delete category
     deleteCategory: builder.mutation<any, string>({
@@ -34,6 +38,7 @@ export const categoryApi = createApi({
         url: `/categories/delete/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Category"]
     }),
     // Get all categories with packages
     getAllCategoriesWithPackages: builder.query<any, void>({

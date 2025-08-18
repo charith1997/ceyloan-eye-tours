@@ -8,14 +8,23 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children?: React.ReactNode;
+  className?: string;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children }) => {
+const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
+  children,
+  className,
+}) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-xl w-full max-w-3xl px-8 py-4 mx-4 shadow-2xl relative overflow-y-auto max-h-[95vh]">
+      <div
+        className={`bg-white rounded-xl px-8 py-4 mx-4 shadow-2xl relative overflow-y-auto max-w-full md:max-w-3xl max-h-[95vh] w-full ${className}`}
+      >
         <Button
           label={<X />}
           onClick={onClose}

@@ -16,7 +16,12 @@ const Button = ({
   form,
 }: ButtonProps) => {
   return (
-    <button type={type} onClick={onClick} className={className} form={form}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={`cursor-pointer ${className}`}
+      form={form}
+    >
       {label}
     </button>
   );
