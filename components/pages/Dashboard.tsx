@@ -9,6 +9,7 @@ import AdminGalleryPage from "./admin/AdminGalleryPage";
 import AdminNavigation from "../organisams/AdminNavigation";
 import MainContent from "../organisams/MainContent";
 import AdminCategoryPage from "./admin/AdminCategoryPage";
+import AdminActivityPage from "./admin/AdminActivityPage";
 
 type NavigationItem = {
   name: string;
@@ -26,6 +27,7 @@ const initialNavigationItems: NavigationItem[] = [
   { name: "Chats", active: false, component: <Home /> },
   { name: "Gallery", active: false, component: <AdminGalleryPage /> },
   { name: "Places", active: false, component: <AdminPlacesPage /> },
+  { name: "Activities", active: false, component: <AdminActivityPage /> },
 ];
 
 const DashboardPage = () => {

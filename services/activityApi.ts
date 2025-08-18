@@ -3,10 +3,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const activityApi = createApi({
   reducerPath: "activityApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  tagTypes: ["Activity"],
   endpoints: (builder) => ({
     // Get all activities
     getAllActivities: builder.query<any, void>({
       query: () => "/activities/get-all",
+      providesTags: ["Activity"],
     }),
     // Get activity by ID
     getActivityById: builder.query<any, string>({
@@ -19,6 +21,7 @@ export const activityApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Activity"],
     }),
     // Delete activity
     deleteActivity: builder.mutation<any, string>({
@@ -26,6 +29,7 @@ export const activityApi = createApi({
         url: `/activities/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Activity"],
     }),
     // Update activity
     updateActivity: builder.mutation<any, { id: string; data: { name: string } }>({
@@ -34,6 +38,7 @@ export const activityApi = createApi({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Activity"],
     }),
   }),
 });
