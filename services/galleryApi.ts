@@ -1,0 +1,27 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const galleryApi = createApi({
+  reducerPath: "galleryApi",
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  tagTypes: ["Gallery"],
+  endpoints: (builder) => ({
+    // Get all gallery items
+    getAllGalleryItems: builder.query<any, void>({
+      query: () => "/gallery/get-all",
+      providesTags: ["Gallery"],
+    }),
+    updateGalleryStatus: builder.mutation<any, { id: string; data: { isApproved: boolean } }>({
+      query: ({ id, data }) => ({
+        url: `/gallery/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Gallery"],
+    }),
+  }),
+});
+
+export const {
+  useGetAllGalleryItemsQuery,
+  useUpdateGalleryStatusMutation,
+} = galleryApi;

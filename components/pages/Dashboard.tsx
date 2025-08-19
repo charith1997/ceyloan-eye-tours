@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import Home from "../../app/components/Home";
-import AdminToursPage from "./admin/AdminToursPage";
-import AdminHotelsPage from "./admin/AdminHotelsPage";
+import AdminPackagePage from "./admin/package/AdminPackagePage";
+import AdminHotelsPage from "./admin/accommodation/AdminHotelsPage";
 import AdminVehiclesPage from "./admin/AdminVehiclesPage";
 import AdminPlacesPage from "./admin/AdminPlacesPage";
 import AdminOrdersPage from "./admin/AdminOrdersPage";
-import AdminGalleryPage from "./admin/AdminGalleryPage";
+import AdminGalleryPage from "./admin/gallery/AdminGalleryPage";
 import AdminNavigation from "../organisams/AdminNavigation";
 import MainContent from "../organisams/MainContent";
-import AdminCategoryPage from "./admin/AdminCategoryPage";
-import AdminActivityPage from "./admin/AdminActivityPage";
+import AdminActivityPage from "./admin/activity/AdminActivityPage";
+import AdminCategoryPage from "./admin/category/AdminCategoryPage";
 
 type NavigationItem = {
   name: string;
@@ -20,7 +20,7 @@ type NavigationItem = {
 const initialNavigationItems: NavigationItem[] = [
   { name: "Home", active: true, component: <Home /> },
   { name: "Categories", active: false, component: <AdminCategoryPage /> },
-  { name: "Packages", active: false, component: <AdminToursPage /> },
+  { name: "Packages", active: false, component: <AdminPackagePage /> },
   { name: "Accommodations", active: false, component: <AdminHotelsPage /> },
   { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
   { name: "Orders", active: false, component: <AdminOrdersPage /> },
