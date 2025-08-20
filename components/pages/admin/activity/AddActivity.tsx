@@ -27,7 +27,7 @@ function AddActivity({ show, onClose }: AddActivityProps) {
         validationSchema={Yup.object({
           name: Yup.string().required("* Name is Required"),
           description: Yup.string().required("* Description is Required"),
-          image: Yup.mixed().required("Image is required"),
+          image: Yup.mixed().required("* Image is required"),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
@@ -50,9 +50,9 @@ function AddActivity({ show, onClose }: AddActivityProps) {
         }}
       >
         <Form className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
-          <FormikInput label="Activity Name:" name="name" />
+          <FormikInput label="Activity Name:" name="name" placeholder="Enter activity name" />
 
-          <FormikInput label="Description:" name="description" />
+          <FormikInput label="Description:" name="description" placeholder="Enter description" />
 
           <FileUploader name="image" label="Upload Image" />
 

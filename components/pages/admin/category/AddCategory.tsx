@@ -51,9 +51,9 @@ function AddCategory({ show, onClose }: AddCategoryProps) {
         }}
       >
         <Form className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
-          <FormikInput label="Category Name:" name="name" />
+          <FormikInput label="Category Name:" name="name" placeholder="Enter category name" />
 
-          <FormikInput label="Description:" name="description" />
+          <FormikInput label="Description:" name="description" placeholder="Enter description" />
 
           <FileUploader name="image" label="Upload Image" />
 

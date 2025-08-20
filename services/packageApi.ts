@@ -3,10 +3,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const packageApi = createApi({
   reducerPath: "packageApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  tagTypes: ["Package"],
   endpoints: (builder) => ({
     // Get all packages
     getAllPackages: builder.query<any, void>({
       query: () => "/packages/get-all",
+      providesTags: ["Package"],
     }),
     // Get package by ID
     getPackageById: builder.query<any, string>({
@@ -19,6 +21,7 @@ export const packageApi = createApi({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Package"],
     }),
     // Get packages by category
     getPackagesByCategory: builder.query<any, string>({
