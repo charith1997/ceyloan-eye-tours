@@ -62,12 +62,14 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                     name={`${name}.${idx}.order`}
                     type="number"
                     placeholder="Enter place order"
+                    min={1}
                   />
                   <FormikInput
                     label="Day No:"
                     name={`${name}.${idx}.day_no`}
                     type="number"
                     placeholder="Enter day number"
+                    min={1}
                   />
                 </div>
 

@@ -1,14 +1,13 @@
 import { ErrorMessage, Field } from "formik";
 import React from "react";
 
-interface InputProps {
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  type?: string;
-  placeholder?: string;
   name: string;
 }
 
-export const FormikInput = ({ label, type, placeholder, name }: InputProps) => {
+export const FormikInput = ({ label, name, ...props }: InputProps) => {
   return (
     <div className="block">
       <label htmlFor={name} className="block text-sm font-medium">
@@ -16,9 +15,9 @@ export const FormikInput = ({ label, type, placeholder, name }: InputProps) => {
       </label>
       <Field
         name={name}
-        type={type}
+        id={name}
         className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
-        placeholder={placeholder}
+        {...props}
       />
       <ErrorMessage
         name={name}

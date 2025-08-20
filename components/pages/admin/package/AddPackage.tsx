@@ -137,7 +137,7 @@ function AddPackage({ show, onClose }: AddPackageProps) {
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
           formData.append("title", values.title);
-          formData.append("price", values.price);
+          formData.append("price", values.price.toString());
           formData.append("duration", values.duration);
           formData.append("tourType", values.tourType);
           formData.append("arrival", values.arrival);
@@ -189,12 +189,19 @@ function AddPackage({ show, onClose }: AddPackageProps) {
                 label="Price:"
                 name="price"
                 placeholder="Enter price"
+                type="number"
               />
               <FormikInput
-                label="Duration:"
+                label={`Duration (days): ${
+                  values.duration &&
+                  `${values.duration} days / ${
+                    Number(values.duration) - 1
+                  } nights`
+                }`}
                 name="duration"
                 type="number"
                 placeholder="Enter duration"
+                min={1}
               />
               <FormikRadioButton
                 label="Tour Type:"
