@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
+import ImageModal from "./ImageModal";
 
 interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
+  setViewImageUrl: (url: string | null) => void;
 }
 
-function RequestedImages({ displayApproveModal }: RequestedImagesProps) {
+function RequestedImages({
+  displayApproveModal,
+  setViewImageUrl,
+}: RequestedImagesProps) {
   const { data, error, isLoading } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
   let requestedGalleryItems = [];
@@ -38,7 +43,11 @@ function RequestedImages({ displayApproveModal }: RequestedImagesProps) {
             </div>
 
             <div className="flex gap-4 items-center">
-              <Eye color="orange" className="cursor-pointer" />
+              <Eye
+                color="orange"
+                className="cursor-pointer"
+                onClick={() => setViewImageUrl(item.image_url)}
+              />
               <Button
                 label="Approve"
                 className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase"
@@ -66,7 +75,11 @@ function RequestedImages({ displayApproveModal }: RequestedImagesProps) {
                 <Camera width={16} /> {item.customer_id}
               </span>
               <div className="flex gap-4 items-center">
-                <Eye color="orange" className="cursor-pointer" />
+                <Eye
+                  color="orange"
+                  className="cursor-pointer"
+                  onClick={() => setViewImageUrl(item.image_url)}
+                />
                 <Button
                   label="Approve"
                   className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase"

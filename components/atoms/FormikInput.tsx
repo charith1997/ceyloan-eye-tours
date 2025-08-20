@@ -23,7 +23,7 @@ export const FormikInput = ({ label, type, placeholder, name }: InputProps) => {
       <ErrorMessage
         name={name}
         component="div"
-        className="justify-self-end text-xs font-medium text-red-500"
+        className="justify-self-end text-xs font-medium text-red"
       />
     </div>
   );

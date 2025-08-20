@@ -7,12 +7,13 @@ import ApprovedImages from "./ApprovedImages";
 import ActionModal from "./ActionModal";
 import { useUpdateGalleryStatusMutation } from "@/services/galleryApi";
 import toast from "react-hot-toast";
+import ImageModal from "./ImageModal";
 
 const AdminGalleryPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  console.log(selectedImage);
+  const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
 
   const [updateGalleryStatus, { isLoading: isUpdating }] =
     useUpdateGalleryStatusMutation();
@@ -53,12 +54,22 @@ const AdminGalleryPage = () => {
                   setShowModal(true);
                   setSelectedImage(id);
                 }}
+                setViewImageUrl={setViewImageUrl}
               />
             )}
-            {activeTab === "tab2" && <ApprovedImages />}
+            {activeTab === "tab2" && (
+              <ApprovedImages setViewImageUrl={setViewImageUrl} />
+            )}
           </div>
         </div>
       </NavigationContainer>
+
+      {viewImageUrl && (
+        <ImageModal
+          imageUrl={viewImageUrl}
+          onClose={() => setViewImageUrl(null)}
+        />
+      )}
 
       <ActionModal
         show={showModal}

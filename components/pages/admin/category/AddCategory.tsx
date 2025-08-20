@@ -28,7 +28,7 @@ function AddCategory({ show, onClose }: AddCategoryProps) {
         validationSchema={Yup.object({
           name: Yup.string().required("* Name is Required"),
           description: Yup.string().required("* Description is Required"),
-          image: Yup.mixed().required("Image is required"),
+          image: Yup.mixed().required("* Image is required"),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();

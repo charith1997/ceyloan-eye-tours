@@ -5,7 +5,11 @@ import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
 
-function ApprovedImages() {
+function ApprovedImages({
+  setViewImageUrl,
+}: {
+  setViewImageUrl: (url: string | null) => void;
+}) {
   const { data, error, isLoading } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
   let approvedGalleryItems = [];
@@ -33,7 +37,11 @@ function ApprovedImages() {
             </div>
 
             <div className="flex gap-4 items-center">
-              <Eye color="orange" className="cursor-pointer" />
+              <Eye
+                color="orange"
+                className="cursor-pointer"
+                onClick={() => setViewImageUrl(item.image_url)}
+              />
               <Button
                 label="Delete"
                 className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
@@ -54,7 +62,11 @@ function ApprovedImages() {
                 <Camera width={16} /> {item.customer_id}
               </span>
               <div className="flex gap-4 items-center">
-                <Eye color="orange" className="cursor-pointer" />
+                <Eye
+                  color="orange"
+                  className="cursor-pointer"
+                  onClick={() => setViewImageUrl(item.image_url)}
+                />
                 <Button
                   label="Delete"
                   className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
