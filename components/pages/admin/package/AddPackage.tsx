@@ -118,6 +118,13 @@ const validationSchema = Yup.object({
   images: Yup.mixed().required("* Image is required"),
 });
 
+const formatDuration = (days: number) => {
+  const nights = days > 0 ? days - 1 : 0;
+  return `${days} ${days === 1 ? "day" : "days"} / ${nights} ${
+    nights === 1 ? "night" : "nights"
+  }`;
+};
+
 function AddPackage({ show, onClose }: AddPackageProps) {
   const { data, error, isLoading } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
@@ -138,7 +145,7 @@ function AddPackage({ show, onClose }: AddPackageProps) {
           const formData = new FormData();
           formData.append("title", values.title);
           formData.append("price", values.price.toString());
-          formData.append("duration", values.duration);
+          formData.append("duration", formatDuration(Number(values.duration)));
           formData.append("tourType", values.tourType);
           formData.append("arrival", values.arrival);
           formData.append("arrivalDescription", values.arrivalDescription);
