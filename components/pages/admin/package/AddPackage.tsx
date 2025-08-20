@@ -154,14 +154,12 @@ function AddPackage({ show, onClose }: AddPackageProps) {
           formData.append("categoryIds", JSON.stringify(values.categoryIds));
           formData.append("placeIds", JSON.stringify(values.placeIds));
 
-          if (values.images) {
-            if (Array.isArray(values.images)) {
-              values.images.forEach((image: File) => {
-                formData.append("images", image);
-              });
-            } else {
-              formData.append("images", values.images);
-            }
+          if (Array.isArray(values.images)) {
+            values.images.forEach((image: File) => {
+              formData.append("images", image);
+            });
+          } else {
+            formData.append("images", values.images);
           }
 
           try {
@@ -276,7 +274,7 @@ function AddPackage({ show, onClose }: AddPackageProps) {
               placeholder="Enter exclude"
             />
 
-            <FileUploader name="images" label="Upload Image:" />
+            <FileUploader name="images" label="Upload Image:" multiple />
 
             <div className="flex gap-6">
               <Button

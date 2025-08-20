@@ -6,6 +6,7 @@ interface FileUploaderProps {
   label?: string;
   accept?: string;
   className?: string;
+  multiple?: boolean;
 }
 
 const FileUploader: React.FC<FileUploaderProps> = ({
@@ -13,15 +14,21 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   label,
   accept = "image/*",
   className = "",
+  multiple = false,
 }) => {
   const [field, meta] = useField(name);
   const { setFieldValue } = useFormikContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.currentTarget.files && e.currentTarget.files[0]) {
-      setFieldValue(name, e.currentTarget.files[0]);
+    const files = e.currentTarget.files;
+    if (files && files.length > 0) {
+      if (multiple) {
+        setFieldValue(name, Array.from(files));
+      } else {
+        setFieldValue(name, files[0]);
+      }
     } else {
-      setFieldValue(name, null);
+      setFieldValue(name, multiple ? [] : null);
     }
   };
 
@@ -37,6 +44,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         name={name}
         type="file"
         accept={accept}
+        multiple={multiple}
         onChange={handleChange}
         className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-orange-500 file:text-white hover:file:bg-orange-600"
       />
