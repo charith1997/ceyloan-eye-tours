@@ -115,7 +115,16 @@ const validationSchema = Yup.object({
     )
     .min(1, "* Add at least one place")
     .required("* Places are required"),
-  images: Yup.mixed().required("* Image is required"),
+  images: Yup.array()
+    .of(
+      Yup.mixed().test(
+        "fileType",
+        "Only image files are allowed",
+        (value) => value instanceof File
+      )
+    )
+    .min(1, "* At least one image is required")
+    .required("* Image is required"),
 });
 
 const formatDuration = (days: number) => {
