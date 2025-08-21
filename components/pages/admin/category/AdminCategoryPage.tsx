@@ -27,7 +27,7 @@ const AdminCategoryPage = () => {
           buttonName="Add Category"
           onClick={() => setShowModal(true)}
         />
-        <DetailContainer>
+        <DetailContainer className="max-h-[calc(100vh-182px)] overflow-y-auto">
           {categories.map((category: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">

@@ -19,7 +19,7 @@ function ApprovedImages({
     );
   }
   return (
-    <DetailContainer>
+    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto">
       {approvedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">

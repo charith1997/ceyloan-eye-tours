@@ -27,7 +27,7 @@ const AdminPackagePage = () => {
           buttonName="Add Package"
           onClick={() => setShowModal(true)}
         />
-        <DetailContainer>
+        <DetailContainer className="max-h-[calc(100vh-182px)] overflow-y-auto">
           {packages.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">

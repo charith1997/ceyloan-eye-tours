@@ -119,7 +119,7 @@ const AdminHotelsPage = () => {
           buttonName={activeTab === "tab1" ? "Add Hotel" : "Add Hotel Type"}
           onClick={() => setShowModal(true)}
         />
-        <div className="w-full ">
+        <div className="w-full">
           <div className="md:max-w-xs flex">
             <Button
               label="Hotels"
@@ -137,9 +137,9 @@ const AdminHotelsPage = () => {
             />
           </div>
 
-          <div className="py-8">
+          <div className="pt-8">
             {activeTab === "tab1" && (
-              <DetailContainer>
+              <DetailContainer className="max-h-[calc(100vh-252px)] overflow-y-auto">
                 {data.map((item: any, index: number) => (
                   <div key={index}>
                     <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
@@ -219,7 +219,7 @@ const AdminHotelsPage = () => {
               </DetailContainer>
             )}
             {activeTab === "tab2" && (
-              <DetailContainer>
+              <DetailContainer className="max-h-[calc(100vh-252px)] overflow-y-auto">
                 {data.map((item: any, index: number) => (
                   <div key={index}>
                     <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">

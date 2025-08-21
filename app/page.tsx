@@ -8,6 +8,7 @@ import ContactSection from "@/app/components/ContactSection";
 import TourTypeSection from "./components/TourTypeSection";
 import { useEffect, useState } from "react";
 import DashboardPage from "../components/pages/Dashboard";
+import '../styles/common.css'
 
 export default function Home() {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);

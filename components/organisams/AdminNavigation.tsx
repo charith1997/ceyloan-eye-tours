@@ -23,7 +23,7 @@ const AdminNavigation = ({
           <h1 className="font-carattere font-normal text-[35px] leading-[100%] tracking-[0]">Ceylon Eye Tours</h1>
         </div>
 
-        <nav className="flex-1 px-4 w-full justify-items-center mt-4">
+        <nav className="flex-1 px-4 w-full justify-items-center mt-4 h-screen overflow-y-auto scrollbar-thin scroll-smooth">
           {navigationItems.map((item) => (
             <div
               key={item.name}
