@@ -1,10 +1,10 @@
 "use client";
 
-import Header from "@/app/components/Header";
+import Header from "@/components/containers/Header";
 import "./globals.css";
 import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
-import Footer from "./components/Footer";
+import Footer from "../components/containers/Footer";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import ReduxProvider from "@/providers/ReduxProvider";

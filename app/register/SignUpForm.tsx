@@ -1,125 +1,120 @@
-import Button from "@/components/atoms/Button";
-import React, { useState } from "react";
+"use client";
 
-interface FormData {
-  name: string;
-  email: string;
-  password: string;
-  agreeToTerms: boolean;
-}
+import React from "react";
+import { useRouter } from "next/navigation";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import Button from "@/components/atoms/Button";
+import { FormikInput } from "@/components/atoms/FormikInput";
+import { useRegisterMutation } from "@/services/authApi";
+import toast from "react-hot-toast";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("* Name is required"),
+  email: Yup.string().email("* Invalid email").required("* Email is required"),
+  country: Yup.string().required("* Country is required"),
+  phoneNo: Yup.string().required("* Phone number is required"),
+  password: Yup.string()
+    .min(6, "* Password must be at least 6 characters")
+    .required("* Password is required"),
+  repeatPassword: Yup.string()
+    .oneOf([Yup.ref("password"), undefined], "* Passwords must match")
+    .required("* Repeat password is required"),
+});
 
 const SignUpForm = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: "",
-    email: "",
-    password: "",
-    agreeToTerms: false,
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
-
+  const [register, { isLoading }] = useRegisterMutation();
+  const router = useRouter();
   return (
-    <form className="space-y-4" onSubmit={handleSubmit}>
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          placeholder="Enter your name"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-none outline-none transition-colors"
-        />
-      </div>
+    <Formik
+      initialValues={{
+        name: "",
+        email: "",
+        country: "",
+        phoneNo: "",
+        password: "",
+        repeatPassword: "",
+      }}
+      validationSchema={validationSchema}
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        const user = {
+          name: values.name,
+          email: values.email,
+          country: values.country,
+          phoneNo: values.phoneNo,
+          password: values.password,
+        };
 
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Email address
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          placeholder="Enter your email"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-none outline-none transition-colors"
-        />
-      </div>
-
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleInputChange}
-          placeholder="Password"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-none outline-none transition-colors"
-        />
-      </div>
-
-      <div className="flex items-center">
-        <input
-          type="checkbox"
-          id="agreeToTerms"
-          name="agreeToTerms"
-          checked={formData.agreeToTerms}
-          onChange={handleInputChange}
-          className="h-4 w-4 text-red-500 focus:ring-red-500 border-gray-300 rounded"
-        />
-        <label
-          htmlFor="agreeToTerms"
-          className="ml-2 block text-sm text-gray-700"
-        >
-          I agree to the{" "}
-          <a href="#" className="text-red-500 hover:text-red-600 underline">
-            terms & policy
-          </a>
-        </label>
-      </div>
-
-      <Button
-        label="Signup"
-        type="submit"
-        className="w-full bg-gradient-to-r from-red-500 to-orange-400 text-white py-3 px-4 rounded-lg font-semibold cursor-pointer duration-200"
-      />
-
-      <div className="relative mt-4">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-300"></div>
+        try {
+          const response: any = await register(user).unwrap();
+          toast.success(response?.message);
+          resetForm();
+          router.push("/login");
+        } catch (error: any) {
+          toast.error(error?.data?.message);
+        } finally {
+          setSubmitting(false);
+        }
+      }}
+    >
+      <Form className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormikInput
+            label="Name:"
+            name="name"
+            placeholder="Enter name"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+          <FormikInput
+            label="Email:"
+            name="email"
+            placeholder="Enter email"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+          <FormikInput
+            label="Country:"
+            name="country"
+            placeholder="Enter country"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+          <FormikInput
+            label="Phone No:"
+            name="phoneNo"
+            placeholder="Enter phone number"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+          <FormikInput
+            label="Password:"
+            name="password"
+            type="password"
+            placeholder="Enter password"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+          <FormikInput
+            label="Repeat Password:"
+            name="repeatPassword"
+            type="password"
+            placeholder="Repeat password"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
         </div>
-        <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">Or</span>
+
+        <Button
+          label="Register"
+          type="submit"
+          className="w-full tracking-[1] bg-gradient-to-r from-red to-orange text-white py-3 rounded-lg font-semibold mt-4"
+        />
+
+        <div className="relative mt-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-white text-gray-500">Or</span>
+          </div>
         </div>
-      </div>
-    </form>
+      </Form>
+    </Formik>
   );
 };
 

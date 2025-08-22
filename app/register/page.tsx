@@ -11,9 +11,9 @@ import { setStack } from "@/features/routingSlice";
 export default function RegisterPage(): JSX.Element {
   const dispatch = useDispatch();
   return (
-    <div className="min-h-screen flex">
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8 py-8">
-        <div className="max-w-md w-full">
+    <div className="min-h-screen block lg:flex">
+      <div className="lg:w-1/2 flex items-center justify-center">
+        <div className="max-w-xl w-full p-4 md:p-0">
           <h1 className="text-4xl font-bold text-gray-900 mb-8">
             Get Started Now
           </h1>
