@@ -30,7 +30,7 @@ const TripCard: React.FC<TripCardProps> = ({
             height={400}
             className="rounded-md object-cover"
           />
-          <div className="w-full absolute top-0 left-0 bg-gradient-to-r from-red to-orange font-work text-white px-4 py-2 text-sm font-semibold rounded-tr-lg rounded-bl-lg text-left">
+          <div className="w-full absolute top-0 left-0 bg-gradient-to-r from-red to-orange text-white px-4 py-2 text-sm font-semibold rounded-tr-lg rounded-bl-lg text-left">
             <span className="pr-8">{day}</span> | <span className="pl-8">{title.toUpperCase()}</span>
           </div>
         </div>

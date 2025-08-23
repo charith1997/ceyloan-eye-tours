@@ -9,11 +9,11 @@ import { usePathname } from "next/navigation";
 import ReduxProvider from "@/providers/ReduxProvider";
 import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
+import { useEffect, useState } from "react";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-work-sans",
 });
 
 const carattere = Carattere({
@@ -24,11 +24,16 @@ const carattere = Carattere({
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
+  const [userRole, setUserRole] = useState<string | null>(null);
   let token;
   if (typeof window !== "undefined") {
     token = localStorage.getItem("authToken");
   }
   const role = getUserRole();
+
+  useEffect(() => {
+    setUserRole(role);
+  }, [role]);
 
   if (
     (pathName === "/register" && !token) ||
@@ -37,11 +42,11 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     return <main>{children}</main>;
   }
 
-  if (role === "admin") {
+  if (userRole === "admin") {
     return <main>{children}</main>;
   }
 
-  if (role === "user") {
+  if (userRole === "user") {
     return (
       <main>
         <Header />
@@ -60,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${workSans.variable}${carattere.variable}`}>
+    <html lang="en" className={`${carattere.variable}`}>
       <head>
         <title>Ceyloan Eye Tours</title>
       </head>

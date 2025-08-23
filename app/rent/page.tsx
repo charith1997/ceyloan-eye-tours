@@ -14,11 +14,11 @@ export default function RentVehicle() {
       />
       <div className="py-12">
         <div className="mb-4 text-sm font-medium text-gray-700">
-          <span className="font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
+          <span className="text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
             Home
           </span>
           <span className="mx-1">{">"}</span>
-          <span className="font-work text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide">
+          <span className="text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide">
             Rent a vehicle
           </span>
         </div>
@@ -27,7 +27,7 @@ export default function RentVehicle() {
           Vehicles
         </h1>
 
-        <p className="text-[#6c6b6b] leading-relaxed font-work text-[16px] tracking-[0] text-justify pb-6">
+        <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify pb-6">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry&apos;s standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type
@@ -40,7 +40,7 @@ export default function RentVehicle() {
           Rules and Regulations
         </h1>
 
-        <p className="text-[#6c6b6b] leading-relaxed font-work text-[16px] tracking-[0] text-justify">
+        <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify">
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry&apos;s standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type
@@ -62,21 +62,19 @@ export default function RentVehicle() {
 
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
-                <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
+                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
                   Mini Bus
                 </h3>
-                <p className="font-work text-sm md:text-md font-medium">
+                <p className="text-sm md:text-md font-medium">
                   Starting from $150
                 </p>
               </div>
               <div className="text-end">
-                <h3 className="font-work text-sm md:text-sm font-normal flex items-center gap-2">
+                <h3 className="text-sm md:text-sm font-normal flex items-center gap-2">
                   <Users />
                   18
                 </h3>
-                <p className="font-work text-sm md:text-base font-normal">
-                  People
-                </p>
+                <p className="text-sm md:text-base font-normal">People</p>
               </div>
             </div>
           </div>
@@ -93,20 +91,18 @@ export default function RentVehicle() {
 
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
-                <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
+                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
                   Van
                 </h3>
-                <p className="font-work text-sm md:text-md font-medium">
+                <p className="text-sm md:text-md font-medium">
                   Starting from $100
                 </p>
               </div>
               <div className="text-end">
-                <h3 className="font-work text-sm md:text-sm font-normal flex items-center gap-2">
+                <h3 className="text-sm md:text-sm font-normal flex items-center gap-2">
                   <Users />8
                 </h3>
-                <p className="font-work text-sm md:text-base font-normal">
-                  People
-                </p>
+                <p className="text-sm md:text-base font-normal">People</p>
               </div>
             </div>
           </div>
@@ -123,20 +119,18 @@ export default function RentVehicle() {
 
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
-                <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
+                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
                   Car
                 </h3>
-                <p className="font-work text-sm md:text-md font-medium">
+                <p className="text-sm md:text-md font-medium">
                   Starting from $50
                 </p>
               </div>
               <div className="text-end">
-                <h3 className="font-work text-sm md:text-sm font-normal flex items-center gap-2">
+                <h3 className="text-sm md:text-sm font-normal flex items-center gap-2">
                   <Users />4
                 </h3>
-                <p className="font-work text-sm md:text-base font-normal">
-                  People
-                </p>
+                <p className="text-sm md:text-base font-normal">People</p>
               </div>
             </div>
           </div>

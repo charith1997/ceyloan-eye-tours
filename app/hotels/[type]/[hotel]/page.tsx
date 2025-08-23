@@ -142,19 +142,19 @@ export default async function TourCategoryPage({ params }: PageProps) {
         imageUrl="/family tours/Secrets of Lanka Tour.jpg"
       />
       <div className="text-sm font-medium text-gray-700 mt-8">
-        <span className="font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
+        <span className="text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
           Home
         </span>
         <span className="mx-1">{">"}</span>
-        <span className="font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
+        <span className="text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
           Hotels
         </span>
         <span className="mx-1">{">"}</span>
-        <span className="font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
+        <span className="text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
           In the wild
         </span>
         <span className="mx-1">{">"}</span>
-        <span className="font-work text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide">
+        <span className="text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide">
           {hotel
             .split("-")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -173,10 +173,10 @@ export default async function TourCategoryPage({ params }: PageProps) {
       <div className="py-8 max-w-[1400px]">
         <div className="flex flex-col lg:flex-row gap-10">
           <div className="flex-1">
-            <h1 className="font-work text-[36px] md:text-[36px] font-semibold leading-[100%] tracking-[0] pb-6 pt-2">
+            <h1 className="text-[36px] md:text-[36px] font-semibold leading-[100%] tracking-[0] pb-6 pt-2">
               Overview
             </h1>
-            <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify mb-6">
+            <p className="leading-relaxed text-[16px] font-normal tracking-[0] text-justify mb-6">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry&apos;s standard dummy
               text ever since the 1500s, when an unknown printer took a galley
@@ -188,7 +188,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
               publishing software like Aldus PageMaker including versions of
               Lorem Ipsum.
             </p>
-            <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify">
+            <p className="leading-relaxed text-[16px] font-normal tracking-[0] text-justify">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry&apos;s standard dummy
               text ever since the 1500s, when an unknown printer took a galley
@@ -215,7 +215,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
             <h1 className="text-[36px] md:text-[36px] leading-[100%] tracking-[0] pb-6 pt-2">
               Available Rooms
             </h1>
-            <p className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify">
+            <p className="leading-relaxed text-[16px] font-normal tracking-[0] text-justify">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry&apos;s standard dummy
               text ever since the 1500s
@@ -228,7 +228,7 @@ export default async function TourCategoryPage({ params }: PageProps) {
           </div>
 
           <div className="lg:w-1/4">
-            <h3 className="font-work text-[36px] tracking-[0] font-medium text-red mb-4">
+            <h3 className="text-[36px] tracking-[0] font-medium text-red mb-4">
               Facilities
             </h3>
             <ul className="list-disc list-inside text-gray-500 text-sm space-y-2">

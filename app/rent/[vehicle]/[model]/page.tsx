@@ -72,7 +72,7 @@ export default async function VehicleModel({ params }: PageProps) {
           <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
             Terms & Conditions
           </h3>
-          <p className="text-[#6c6b6b] leading-relaxed font-work text-[16px] tracking-[0] text-justify pb-6">
+          <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify pb-6">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry&apos;s standard dummy
             text ever since the 1500s, when an unknown printer took a galley of
@@ -87,7 +87,7 @@ export default async function VehicleModel({ params }: PageProps) {
             <div className="text-4xl font-bold">$150</div>
             <div className="flex gap-2 items-center">
               <Users width={20} />
-              <p className="font-work text-xl font-normal">18 People</p>
+              <p className="text-xl font-normal">18 People</p>
             </div>
             <div className="flex pt-2">
               <h3 className="hidden lg:flex text-xl font-semibold tracking-wide">

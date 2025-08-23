@@ -5,16 +5,14 @@ import { usePathname } from "next/navigation";
 
 export default function PageRouting() {
   const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean); // remove empty ""
+  const segments = pathname.split("/").filter(Boolean);
 
   const formatSegment = (segment: string) => {
-    return segment
-      .replace(/-/g, " ") // replace - with space
-      .replace(/\b\w/g, (c) => c.toUpperCase()); // capitalize
+    return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   };
 
   return (
-    <nav className="text-sm text-gray-600">
+    <nav className="text-sm text-gray-600 mb-4">
       <ol className="flex items-center space-x-2">
         <li>
           <Link
@@ -33,7 +31,7 @@ export default function PageRouting() {
             <li key={href} className="flex items-center space-x-2">
               <span className="text-gray-400">{">"}</span>
               {isLast ? (
-                <span className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline text-red">
+                <span className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide text-red">
                   {formatSegment(segment)}
                 </span>
               ) : (

@@ -61,7 +61,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
     >
       {quote && (
         <div className="mb-4">
-          <p className="font-work text-red font-bold text-sm leading-relaxed text-center">
+          <p className=" text-red font-bold text-sm leading-relaxed text-center">
             &quot;{quote}&quot;
           </p>
         </div>
@@ -69,7 +69,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
       {testimonial && (
         <div className="mb-4">
-          <p className="text-[#7A7A7A] text-sm leading-relaxed text-center font-work font-bold italic">
+          <p className="text-[#7A7A7A] text-sm leading-relaxed text-center font-bold italic">
             {testimonial}
           </p>
         </div>

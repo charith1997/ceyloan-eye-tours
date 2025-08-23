@@ -9,13 +9,13 @@ interface PackageOverviewProps {
 const PackageOverview = ({ description, images }: PackageOverviewProps) => {
   return (
     <div className="flex-1">
-      <h1 className="font-work text-[36px] md:text-[36px] font-semibold leading-[100%] tracking-[0] pb-6 pt-2">
+      <h1 className="text-[36px] md:text-[36px] font-semibold leading-[100%] tracking-[0] pb-6 pt-2">
         Overview
       </h1>
       {description &&
         description.map((paragraph: string, index: number) => (
           <p
-            className="leading-relaxed font-work text-[16px] font-normal tracking-[0] text-justify mb-6"
+            className="leading-relaxed text-[16px] font-normal tracking-[0] text-justify mb-6"
             key={index}
           >
             {paragraph}

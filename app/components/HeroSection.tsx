@@ -20,10 +20,10 @@ export default function HeroSection() {
           <h1 className="font-water font-normal text-[46px] leading-[100%] tracking-[0]">
             Explorer and Sri Lanka
           </h1>
-          <h1 className="font-work font-bold text-[86px] leading-[100%] tracking-[0]">
+          <h1 className="font-bold text-[86px] leading-[100%] tracking-[0]">
             Let’s Go Now
           </h1>
-          <p className="font-work font-normal text-base leading-6 tracking-[0] w-full md:w-lg">
+          <p className="font-normal text-base leading-6 tracking-[0] w-full md:w-lg">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry&apos;s standard dummy
             text ever since the 1500s,
@@ -33,10 +33,10 @@ export default function HeroSection() {
             <div className="flex items-center gap-4 w-full md:w-auto">
               <MapPin size={20} />
               <div>
-                <p className="font-work font-normal text-base leading-[24px] tracking-normal">
+                <p className="font-normal text-base leading-[24px] tracking-normal">
                   Location
                 </p>
-                <p className="font-work font-bold text-[20px] leading-[24px] tracking-normal">
+                <p className="font-bold text-[20px] leading-[24px] tracking-normal">
                   Mirissa
                 </p>
               </div>
@@ -45,10 +45,10 @@ export default function HeroSection() {
             <div className="flex items-center gap-4 w-full md:w-auto">
               <CalendarDays size={20} />
               <div>
-                <p className="font-work font-normal text-base leading-[24px] tracking-normal">
+                <p className="font-normal text-base leading-[24px] tracking-normal">
                   Date
                 </p>
-                <p className="font-work font-bold text-[20px] leading-[24px] tracking-normal">
+                <p className="font-bold text-[20px] leading-[24px] tracking-normal">
                   13 May, 2025
                 </p>
               </div>

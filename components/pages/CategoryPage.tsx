@@ -35,18 +35,18 @@ const CategoryPage = ({
           {(item: any) => (
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
-                <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
+                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
                   {item.title}
                 </h3>
-                <p className="font-work text-sm md:text-base font-medium">
+                <p className="text-sm md:text-base font-medium">
                   {formatDuration(item.duration)}
                 </p>
               </div>
               <div className="text-end">
-                <h3 className="font-work text-sm md:text-sm font-normal">
+                <h3 className="text-sm md:text-sm font-normal">
                   Starting from
                 </h3>
-                <p className="font-work text-sm md:text-base font-normal">
+                <p className="text-sm md:text-base font-normal">
                   ${item.price}
                 </p>
               </div>

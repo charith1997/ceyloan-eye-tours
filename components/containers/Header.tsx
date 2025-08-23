@@ -74,7 +74,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             <Link
               key={item.label}
               href={item.href}
-              className="font-work text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+              className="text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
             >
               {item.label}
             </Link>
@@ -85,7 +85,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
           <div className="hidden md:flex space-x-8 items-center text-sm">
             <Link
               href="/login"
-              className="underline font-work font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+              className="underline font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
             >
               Sign In
             </Link>

@@ -45,7 +45,7 @@ const CategoriesPage = ({
                 <h3 className={CARD_TITLE}>{cardTitle}</h3>
                 <p className={CARD_DESCRIPTION}>{cardDescription}</p>
               </div>
-              <span className="font-work self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2">
+              <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2">
                 {Number(count).toString().padStart(2, "0")} TOURS
               </span>
             </div>

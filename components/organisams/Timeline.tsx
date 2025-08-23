@@ -28,7 +28,7 @@ const trips = [
 const Timeline = () => {
   return (
     <div className="relative">
-      <h2 className="font-work text-[36px] tracking-[0] font-medium text-red text-center mb-8">
+      <h2 className="text-[36px] tracking-[0] font-medium text-red text-center mb-8">
         Trip Breakdown
       </h2>
       <div className="relative bg-gray-100 py-10">

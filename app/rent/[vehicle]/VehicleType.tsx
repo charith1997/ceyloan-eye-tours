@@ -23,15 +23,15 @@ const VehicleType = () => {
           />
         </div>
         <div className="w-3/5 bg-red text-white p-3 rounded-r-md">
-          <h3 className="font-work text-md md:text-lg font-extrabold uppercase tracking-widest">
+          <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
             Model
           </h3>
-          <p className="font-work text-sm md:text-md font-medium py-2">
+          <p className="text-sm md:text-md font-medium py-2">
             Starting from $150
           </p>
           <div className="flex gap-2 items-center">
             <Users width={16} />
-            <p className="font-work text-sm font-normal">18 People</p>
+            <p className="text-sm font-normal">18 People</p>
           </div>
           <div className="flex pt-2">
             <h3 className="hidden lg:flex text-sm font-semibold tracking-wide">
