@@ -4,8 +4,6 @@ import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
-import { pushRoute } from "@/features/routingSlice";
 
 interface DetailCardProps {
   title: string;
@@ -22,15 +20,9 @@ export default function DetailCard({
   children,
 }: DetailCardProps) {
   const pathname = usePathname();
-  const dispatch = useDispatch();
 
   return (
-    <Link
-      href={`${pathname}/${slug}`}
-      onClick={() => {
-        dispatch(pushRoute(slug));
-      }}
-    >
+    <Link href={`${pathname}/${slug}`}>
       <div className="relative h-80 md:h-100 rounded-xl overflow-hidden shadow-lg group transition-transform hover:scale-105 cursor-pointer">
         <Image
           src={imageUrl}

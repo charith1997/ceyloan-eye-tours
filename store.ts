@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./services/authApi";
 import authReducer from "./features/authSlice";
-import routingReducer from "./features/routingSlice";
 import { categoryApi } from "./services/categoryApi";
 import { activityApi } from "./services/activityApi";
 import { packageApi } from "./services/packageApi";
@@ -23,7 +22,6 @@ export const store = configureStore({
     [reviewApi.reducerPath]: reviewApi.reducer,
     [galleryApi.reducerPath]: galleryApi.reducer,
     auth: authReducer,
-    routing: routingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -35,7 +33,7 @@ export const store = configureStore({
       .concat(hotelApi.middleware)
       .concat(hotelTypeApi.middleware)
       .concat(reviewApi.middleware)
-      .concat(galleryApi.middleware)
+      .concat(galleryApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

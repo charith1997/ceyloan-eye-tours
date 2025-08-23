@@ -3,7 +3,6 @@ import Card from "../molecules/Card";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { pushRoute } from "@/features/routingSlice";
 
 interface CardGridProps {
   data: any[];
@@ -26,9 +25,6 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
             href={`${pathname}/${item.url_prefix
               .toLowerCase()
               .replace(/\s+/g, "-")}`}
-            onClick={() => {
-              dispatch(pushRoute(item.name.toLowerCase().replace(/\s+/g, "-")));
-            }}
             key={index}
           >
             <Card title={item.name} imageUrl={item.image_url}>

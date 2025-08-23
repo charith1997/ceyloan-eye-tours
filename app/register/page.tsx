@@ -6,7 +6,6 @@ import SignUpForm from "./SignUpForm";
 import SocialSignUpButtons from "./SocialSignUpButtons";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { setStack } from "@/features/routingSlice";
 
 export default function RegisterPage(): JSX.Element {
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ export default function RegisterPage(): JSX.Element {
             <Link
               href="/login"
               className="text-red-500 hover:text-red-600 font-semibold"
-              onClick={() => dispatch(setStack(["login"]))}
             >
               Sign In
             </Link>

@@ -1,5 +1,4 @@
 import Button from "@/components/atoms/Button";
-import { pushRoute } from "@/features/routingSlice";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
@@ -96,14 +95,7 @@ export default function TourTypeSection() {
       </div>
 
       <Button
-        label={
-          <Link
-            href="/categories"
-            onClick={() => dispatch(pushRoute("categories"))}
-          >
-            VIEW MORE
-          </Link>
-        }
+        label={<Link href="/categories">VIEW MORE</Link>}
         className="mt-8 px-4 py-2 rounded-[14px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-[Work Sans] text-[14px] font-normal hover:opacity-90 transition-opacity cursor-pointer"
       />
     </section>
