@@ -2,10 +2,8 @@
 
 import Button from "@/components/atoms/Button";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
 const CTAButton = () => {
-  const dispatch = useDispatch();
   return (
     <div className="flex justify-center mt-6">
       <Button

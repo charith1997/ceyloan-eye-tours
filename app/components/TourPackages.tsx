@@ -1,10 +1,10 @@
 import Carousel from "@/components/organisams/Carousel";
-import { useGetAllPackagesQuery } from "@/services/packageApi";
-import Image from "next/image";
+// import { useGetAllPackagesQuery } from "@/services/packageApi";
+// import Image from "next/image";
 
 const TourPackages = () => {
-  const { data, error, isLoading } = useGetAllPackagesQuery();
-  const packages = Array.isArray(data?.data) ? data.data : [];
+  // const { data, error, isLoading } = useGetAllPackagesQuery();
+  // const packages = Array.isArray(data?.data) ? data.data : [];
 
   return (
     <section className="max-w-[1200px] mx-auto my-8 px-4 text-center">

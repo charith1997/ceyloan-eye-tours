@@ -5,10 +5,8 @@ import React, { JSX } from "react";
 import SignUpForm from "./SignUpForm";
 import SocialSignUpButtons from "./SocialSignUpButtons";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
 export default function RegisterPage(): JSX.Element {
-  const dispatch = useDispatch();
   return (
     <div className="min-h-screen block lg:flex">
       <div className="lg:w-1/2 flex items-center justify-center">

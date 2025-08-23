@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Home from "../../app/components/Home";
 import AdminPackagePage from "./admin/package/AdminPackagePage";
 import AdminHotelsPage from "./admin/accommodation/AdminHotelsPage";
-import AdminVehiclesPage from "./admin/AdminVehiclesPage";
-import AdminPlacesPage from "./admin/AdminPlacesPage";
-import AdminOrdersPage from "./admin/AdminOrdersPage";
+// import AdminVehiclesPage from "./admin/AdminVehiclesPage";
+// import AdminPlacesPage from "./admin/AdminPlacesPage";
+// import AdminOrdersPage from "./admin/AdminOrdersPage";
 import AdminGalleryPage from "./admin/gallery/AdminGalleryPage";
 import AdminNavigation from "../organisams/AdminNavigation";
 import MainContent from "../organisams/MainContent";
@@ -22,11 +22,11 @@ const initialNavigationItems: NavigationItem[] = [
   { name: "Categories", active: false, component: <AdminCategoryPage /> },
   { name: "Packages", active: false, component: <AdminPackagePage /> },
   { name: "Accommodations", active: false, component: <AdminHotelsPage /> },
-  { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
-  { name: "Orders", active: false, component: <AdminOrdersPage /> },
+  // { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
+  // { name: "Orders", active: false, component: <AdminOrdersPage /> },
   { name: "Chats", active: false, component: <Home /> },
   { name: "Gallery", active: false, component: <AdminGalleryPage /> },
-  { name: "Places", active: false, component: <AdminPlacesPage /> },
+  // { name: "Places", active: false, component: <AdminPlacesPage /> },
   { name: "Activities", active: false, component: <AdminActivityPage /> },
 ];
 

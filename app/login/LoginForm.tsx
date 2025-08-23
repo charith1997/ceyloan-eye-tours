@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "@/components/atoms/Button";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -22,6 +22,9 @@ const LoginForm = () => {
   const [login, { isLoading }] = useLoginMutation();
   const router = useRouter();
   const dispatch = useDispatch();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <Formik
       initialValues={{

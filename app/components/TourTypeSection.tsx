@@ -1,14 +1,12 @@
 import Button from "@/components/atoms/Button";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
 const btnClassNames =
   "cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity";
 
 export default function TourTypeSection() {
   const { data, error, isLoading } = useGetAllCategoriesQuery({});
-  const dispatch = useDispatch();
 
   if (isLoading) return <div>Loading soon..........</div>;
   if (error) return <div>Error loading categories</div>;

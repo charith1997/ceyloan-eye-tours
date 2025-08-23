@@ -5,10 +5,8 @@ import React, { JSX } from "react";
 import LoginForm from "./LoginForm";
 import SocialLoginButtons from "./SocialLoginButtons";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 
 export default function LoginPage(): JSX.Element {
-  const dispatch = useDispatch();
   return (
     <div className="min-h-screen flex">
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-8 py-8">
