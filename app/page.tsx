@@ -1,39 +1,31 @@
-'use client';
+"use client";
 
-import HeroSection from "@/app/components/HeroSection";
-import TravelActivity from "@/app/components/TravelActivity";
-import TourPackages from "@/app/components/TourPackages";
-import Testimonials from "@/app/components/Testimonials";
-import ContactSection from "@/app/components/ContactSection";
-import TourTypeSection from "./components/TourTypeSection";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardPage from "../components/pages/Dashboard";
-import '../styles/common.css'
+import "../styles/common.css";
+import { getUserRole } from "@/utils/auth";
+import { useRouter } from "next/navigation";
+import HomePage from "@/components/pages/home/page";
 
 export default function Home() {
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const router = useRouter();
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const role = localStorage.getItem("userRole");
-    setIsAdmin(role === "admin");
-  }, []);
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
+    setRole(getUserRole());
+  }, [router]);
 
-  if (isAdmin === null) {
-    return <div>Loading...</div>;
-  }
-
-  if (isAdmin) {
+  if (role === "admin") {
     return <DashboardPage />;
   }
 
-  return (
-    <>
-      <HeroSection />
-      <TourTypeSection />
-      <TravelActivity />
-      <TourPackages />
-      <Testimonials />
-      <ContactSection />
-    </>
-  );
+  if (role === "user") {
+    return <HomePage />;
+  }
+  return null;
 }

@@ -6,10 +6,9 @@ import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "../components/containers/Footer";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import ReduxProvider from "@/providers/ReduxProvider";
-import { useSelector } from "react-redux";
 import { Toaster } from "react-hot-toast";
+import { getUserRole } from "@/utils/auth";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -24,34 +23,32 @@ const carattere = Carattere({
 });
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const routingStack = useSelector((state: any) => state.routing.stack);
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const pathName = usePathname();
+  const token = localStorage.getItem("authToken");
+  const role = getUserRole();
 
-  useEffect(() => {
-    localStorage.setItem("routingStack", JSON.stringify(routingStack));
-  }, [routingStack]);
-
-  useEffect(() => {
-    const role = localStorage.getItem("userRole");
-    setIsAdmin(role === "admin");
-  }, []);
-
-  if (pathName === "/register" || pathName === "/login") {
+  if (
+    (pathName === "/register" && !token) ||
+    (pathName === "/login" && !token)
+  ) {
     return <main>{children}</main>;
   }
 
-  if (isAdmin) {
+  if (role === "admin") {
     return <main>{children}</main>;
   }
 
-  return (
-    <main>
-      <Header />
-      {children}
-      <Footer />
-    </main>
-  );
+  if (role === "user") {
+    return (
+      <main>
+        <Header />
+        {children}
+        <Footer />
+      </main>
+    );
+  }
+
+  return <main>{children}</main>;
 }
 
 export default function RootLayout({
