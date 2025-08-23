@@ -1,38 +1,53 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-const PageRouting = () => {
-  const [isHydrated, setIsHydrated] = useState(false);
-  const routingStack = useSelector((state: any) => state.routing.stack);
+export default function PageRouting() {
+  const pathname = usePathname();
+  const segments = pathname.split("/").filter(Boolean); // remove empty ""
 
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
-
-  if (!isHydrated) {
-    return <div className="mb-4 text-sm font-medium text-gray-700 h-6" />;
-  }
+  const formatSegment = (segment: string) => {
+    return segment
+      .replace(/-/g, " ") // replace - with space
+      .replace(/\b\w/g, (c) => c.toUpperCase()); // capitalize
+  };
 
   return (
-    <div className="mb-4 text-sm font-medium text-gray-700">
-      {routingStack.map((route: string, idx: number) => (
-        <React.Fragment key={route}>
-          <span
-            className={
-              idx === routingStack.length - 1
-                ? "font-work text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide"
-                : "font-work text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide"
-            }
+    <nav className="text-sm text-gray-600">
+      <ol className="flex items-center space-x-2">
+        <li>
+          <Link
+            href="/"
+            className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline"
           >
-            {route.charAt(0).toUpperCase() + route.slice(1).replace(/-/g, " ")}
-          </span>
-          {idx < routingStack.length - 1 && <span className="mx-1">{">"}</span>}
-        </React.Fragment>
-      ))}
-    </div>
-  );
-};
+            Home
+          </Link>
+        </li>
 
-export default PageRouting;
+        {segments.map((segment, idx) => {
+          const href = "/" + segments.slice(0, idx + 1).join("/");
+          const isLast = idx === segments.length - 1;
+
+          return (
+            <li key={href} className="flex items-center space-x-2">
+              <span className="text-gray-400">{">"}</span>
+              {isLast ? (
+                <span className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline text-red">
+                  {formatSegment(segment)}
+                </span>
+              ) : (
+                <Link
+                  href={href}
+                  className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline"
+                >
+                  {formatSegment(segment)}
+                </Link>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+  );
+}

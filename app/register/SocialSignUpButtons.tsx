@@ -11,7 +11,7 @@ const SocialSignUpButtons = () => {
   };
 
   return (
-    <div className="mt-6 space-y-3">
+    <div className="mt-6 space-y-3 flex flex-col md:flex-row gap-4">
       <Button
         label={
           <>
@@ -37,7 +37,7 @@ const SocialSignUpButtons = () => {
           </>
         }
         onClick={handleGoogleSignIn}
-        className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
+        className="w-full m-0 flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
       />
 
       <Button

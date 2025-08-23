@@ -24,7 +24,10 @@ const carattere = Carattere({
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathName = usePathname();
-  const token = localStorage.getItem("authToken");
+  let token;
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem("authToken");
+  }
   const role = getUserRole();
 
   if (
