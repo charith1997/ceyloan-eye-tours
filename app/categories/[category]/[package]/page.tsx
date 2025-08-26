@@ -15,15 +15,16 @@ export default function SinglePackagePage() {
   const packageData = data?.data ?? {};
   return (
     <PackagePage
-      title={packageData.title}
-      description={packageData.description}
-      duration={packageData.duration}
-      Images={packageData.Images}
-      excludes={packageData.excludes}
-      includes={packageData.includes}
-      imageUrl={packageData.imageUrl}
-      package_highlights={packageData.package_highlights}
-      tour_type={packageData.tour_type}
+      title={packageData.package.title}
+      description={packageData.package.description}
+      duration={packageData.package.duration}
+      Images={packageData.package.Images}
+      excludes={packageData.package.excludes}
+      includes={packageData.package.includes}
+      imageUrl={packageData.package.imageUrl}
+      package_highlights={packageData.package.package_highlights}
+      tour_type={packageData.package.tour_type}
+      places={packageData.places}
     />
   );
 }

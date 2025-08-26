@@ -12,6 +12,7 @@ interface PackageDetailsProps {
   includes: string[];
   excludes: string[];
   images: string[];
+  places: any[];
 }
 
 const PackageDetails = ({
@@ -20,6 +21,7 @@ const PackageDetails = ({
   highlights,
   includes,
   excludes,
+  places
 }: PackageDetailsProps) => {
   return (
     <>
@@ -31,7 +33,7 @@ const PackageDetails = ({
         </div>
       </div>
 
-      <Timeline />
+      <Timeline places={places} />
 
       <div className="flex flex-col lg:flex-row">
         <IncludesAndExcludes includes={includes} excludes={excludes} />

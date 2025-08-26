@@ -15,6 +15,7 @@ interface PackagePageProps {
   includes: string[];
   excludes: string[];
   Images: string[];
+  places: any[];
 }
 
 const PackagePage: React.FC<PackagePageProps> = ({
@@ -27,6 +28,7 @@ const PackagePage: React.FC<PackagePageProps> = ({
   imageUrl,
   package_highlights,
   tour_type,
+  places
 }) => {
   return (
     <section className="py-16 px-4 md:px-16">
@@ -45,6 +47,7 @@ const PackagePage: React.FC<PackagePageProps> = ({
         highlights={package_highlights}
         includes={includes}
         excludes={excludes}
+        places={places}
       />
 
       <CTAButton />

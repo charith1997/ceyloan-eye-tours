@@ -25,7 +25,8 @@ export default function TourTypeSection() {
       </div>
 
       <div className="flex flex-col md:flex-row gap-6 h-[70vh]">
-        <div
+        <Link
+          href={`/${categories[0].url_prefix}`}
           className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
           style={{ backgroundImage: `url(${categories[0].image_url})` }}
         >
@@ -37,11 +38,12 @@ export default function TourTypeSection() {
               className={btnClassNames}
             />
           </div>
-        </div>
+        </Link>
 
         <div className="flex-1 flex flex-col gap-6">
           <div className="flex gap-6 h-1/2">
-            <div
+            <Link
+              href={`/${categories[1].url_prefix}`}
               className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
               style={{ backgroundImage: `url(${categories[1].image_url})` }}
             >
@@ -55,9 +57,10 @@ export default function TourTypeSection() {
                   className={btnClassNames}
                 />
               </div>
-            </div>
+            </Link>
 
-            <div
+            <Link
+              href={`/${categories[2].url_prefix}`}
               className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
               style={{ backgroundImage: `url(${categories[2].image_url})` }}
             >
@@ -71,10 +74,11 @@ export default function TourTypeSection() {
                   className={btnClassNames}
                 />
               </div>
-            </div>
+            </Link>
           </div>
 
-          <div
+          <Link
+            href={`/${categories[3].url_prefix}`}
             className="h-1/2 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
             style={{ backgroundImage: `url(${categories[3].image_url})` }}
           >
@@ -88,7 +92,7 @@ export default function TourTypeSection() {
                 className={btnClassNames}
               />
             </div>
-          </div>
+          </Link>
         </div>
       </div>
 

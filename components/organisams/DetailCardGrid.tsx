@@ -25,7 +25,9 @@ export default function DetailCardGrid({
         <DetailCard
           key={index}
           {...item}
-          imageUrl={item?.Images[0]}
+          imageUrl={item?.Images[0] || "/family tours/Wildlife.jpg"}
+          title={item.title}
+          price={item.price}
           slug={item.url_prefix}
         >
           {children(item)}

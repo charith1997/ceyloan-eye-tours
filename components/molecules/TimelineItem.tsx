@@ -2,20 +2,18 @@ import React from "react";
 import TripCard from "./TripCard";
 
 interface TimelineItemProps {
-  day: string;
-  title: string;
-  imageUrl: string;
-  points: string[];
-  isLeft?: boolean;
+  trip: any;
+  id: number;
 }
 
-const TimelineItem: React.FC<TimelineItemProps> = (props) => {
-  const { isLeft = false } = props;
+const TimelineItem: React.FC<TimelineItemProps> = ({ trip, id }) => {
   return (
     <div
-      className={`flex w-full ${isLeft ? "justify-start" : "justify-end"} my-4`}
+      className={`flex w-full my-4 ${
+        id % 2 === 0 ? "justify-end" : "justify-start"
+      }`}
     >
-      <TripCard {...props} />
+      <TripCard trip={trip} id={id}/>
     </div>
   );
 };
