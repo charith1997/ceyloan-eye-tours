@@ -41,8 +41,8 @@ const ReviewsPage: React.FC = () => {
               <TestimonialCard
                 quote={review.review}
                 testimonial={review.testimonial}
-                name={review.Customer.name}
-                location={review.Customer.email}
+                name={review.User.name}
+                location={review.User.email}
                 rating={review.rating}
                 className="hover:shadow-lg transition-shadow duration-300"
               />

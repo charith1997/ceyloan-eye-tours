@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -8,6 +8,8 @@ import Button from "@/components/atoms/Button";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import { useRegisterMutation } from "@/services/authApi";
 import toast from "react-hot-toast";
+import ProfileImage from "./ProfileImage";
+
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("* Name is required"),
@@ -23,8 +25,16 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpForm = () => {
-  const [register, { isLoading }] = useRegisterMutation();
+  const [register] = useRegisterMutation();
   const router = useRouter();
+  const [profileImage, setProfileImage] = useState(null);
+
+  const handleImageChange = (file: any) => {
+    if (file) {
+      setProfileImage(file);
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -34,19 +44,23 @@ const SignUpForm = () => {
         phoneNo: "",
         password: "",
         repeatPassword: "",
+        profileImage: null
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
-        const user = {
-          name: values.name,
-          email: values.email,
-          country: values.country,
-          phoneNo: values.phoneNo,
-          password: values.password,
-        };
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        formData.append("country", values.country);
+        formData.append("phoneNo", values.phoneNo);
+        formData.append("password", values.password);
+
+        if (profileImage) {
+          formData.append("profileImage", profileImage);
+        }
 
         try {
-          const response: any = await register(user).unwrap();
+          const response: any = await register(formData).unwrap();
           toast.success(response?.message);
           resetForm();
           router.push("/login");
@@ -58,6 +72,7 @@ const SignUpForm = () => {
       }}
     >
       <Form className="space-y-3">
+        <ProfileImage updateProfileImage={handleImageChange} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormikInput
             label="Name:"

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import DashboardPage from "../components/pages/Dashboard";
+import DashboardPage from "../components/pages/DashboardPage";
 import "../styles/common.css";
 import { getUserRole } from "@/utils/auth";
 import { useRouter } from "next/navigation";

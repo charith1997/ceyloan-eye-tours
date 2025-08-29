@@ -10,6 +10,7 @@ import ReduxProvider from "@/providers/ReduxProvider";
 import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
 import { useEffect, useState } from "react";
+import GlobalLoader from "@/components/organisams/GlobalLoader";
 
 const workSans = Work_Sans({
   subsets: ["latin"],
@@ -73,6 +74,7 @@ export default function RootLayout({
         <ReduxProvider>
           <LayoutContent>{children}</LayoutContent>
           <Toaster position="top-right" />
+          <GlobalLoader />
         </ReduxProvider>
       </body>
     </html>
