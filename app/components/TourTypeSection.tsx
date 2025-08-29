@@ -22,7 +22,7 @@ export default function TourTypeSection() {
         </h1>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 h-[70vh]">
+      {categories.length > 0 && <div className="flex flex-col md:flex-row gap-6 h-[70vh]">
         <Link
           href={`/${categories[0].url_prefix}`}
           className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
@@ -92,7 +92,7 @@ export default function TourTypeSection() {
             </div>
           </Link>
         </div>
-      </div>
+      </div>}
 
       <Button
         label={<Link href="/categories">VIEW MORE</Link>}

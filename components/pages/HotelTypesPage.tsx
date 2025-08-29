@@ -23,14 +23,14 @@ function HotelTypesPage({
   hotelTypes,
 }: HotelsPageProps) {
   return (
-    <section className="py-16 px-4 md:px-16">
+    <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
         title={heroTitle}
         description={heroDescription}
         imageUrl={imageUrl}
       />
       <PageDetails title={title} description={description} />
-      <div className="min-h-screen">
+      <div>
         <CardGrid
           data={hotelTypes.map((hotelType: any) => ({
             cardTitle: "In the",

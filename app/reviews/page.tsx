@@ -15,7 +15,7 @@ const ReviewsPage: React.FC = () => {
   console.log("reviews", reviews);
 
   return (
-    <section className="py-16 px-4 md:px-16">
+    <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
         title="Customer Reviews"
         description="See what our customers have to say about their experiences."

@@ -1,3 +1,4 @@
+import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/styles/font";
 import Image from "next/image";
 import React from "react";
 
@@ -9,13 +10,13 @@ interface PackageOverviewProps {
 const PackageOverview = ({ description, images }: PackageOverviewProps) => {
   return (
     <div className="flex-1">
-      <h1 className="text-[36px] md:text-[36px] font-semibold leading-[100%] tracking-[0] pb-6 pt-2">
+      <h1 className={PAGE_TITLE}>
         Overview
       </h1>
       {description &&
         description.map((paragraph: string, index: number) => (
           <p
-            className="leading-relaxed text-[16px] font-normal tracking-[0] text-justify mb-6"
+            className={PAGE_DESCRIPTION + " mb-4"}
             key={index}
           >
             {paragraph}

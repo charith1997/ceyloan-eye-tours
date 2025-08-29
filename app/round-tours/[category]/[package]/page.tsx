@@ -10,7 +10,20 @@ export default function PackageByRoundToursPage() {
   const { data, error } = useGetPackageByUrlPrefixQuery(lastParam);
   if (error) return <div>Error loading package details</div>;
 
-  const packageData = data?.data ?? {};
+  const packageData = data?.data ?? {
+    package: {
+      title: "",
+      description: "",
+      duration: "",
+      Images: [],
+      excludes: [],
+      includes: [],
+      imageUrl: "",
+      package_highlights: [],
+      tour_type: 0
+    },
+    places: []
+  };
   return (
     <PackagePage
       title={packageData.package.title}

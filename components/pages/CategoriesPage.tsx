@@ -23,14 +23,14 @@ const CategoriesPage = ({
   imageUrl,
 }: CategoriesPageProps) => {
   return (
-    <section className="py-16 px-4 md:px-16">
+    <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
         title={heroTitle}
         description={heroDescription}
         imageUrl={imageUrl}
       />
       <PageDetails title={title} description={description} />
-      <div className="min-h-screen">
+      <div>
         <CardGrid
           data={categories.map((category: any) => ({
             cardTitle: category.name,
@@ -41,7 +41,7 @@ const CategoriesPage = ({
         >
           {(cardTitle: string, cardDescription: string, count: number) => (
             <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-              <div>
+              <div className="flex flex-col gap-1">
                 <h3 className={CARD_TITLE}>{cardTitle}</h3>
                 <p className={CARD_DESCRIPTION}>{cardDescription}</p>
               </div>
