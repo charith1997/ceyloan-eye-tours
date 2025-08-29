@@ -19,12 +19,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-  const [login, { isLoading }] = useLoginMutation();
+  const [login] = useLoginMutation();
   const router = useRouter();
   const dispatch = useDispatch();
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
   return (
     <Formik
       initialValues={{

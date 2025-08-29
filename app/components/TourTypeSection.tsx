@@ -6,9 +6,7 @@ const btnClassNames =
   "cursor-pointer mt-2 w-[100px] h-[48px] rounded-[18px] bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-medium hover:opacity-90 transition-opacity";
 
 export default function TourTypeSection() {
-  const { data, error, isLoading } = useGetAllCategoriesQuery({});
-
-  if (isLoading) return <div>Loading soon..........</div>;
+  const { data, error } = useGetAllCategoriesQuery({});
   if (error) return <div>Error loading categories</div>;
 
   const categories = Array.isArray(data?.data) ? data.data.slice(0, 4) : [];

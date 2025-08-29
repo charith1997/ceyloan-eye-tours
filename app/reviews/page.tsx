@@ -7,9 +7,8 @@ import PageDetails from "@/components/organisams/PageDetails";
 import { useGetAllReviewsQuery } from "@/services/reviewApi";
 
 const ReviewsPage: React.FC = () => {
-  const { data, error, isLoading } = useGetAllReviewsQuery();
+  const { data, error } = useGetAllReviewsQuery();
 
-  if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error loading categories</div>;
 
   const reviews = Array.isArray(data?.data) ? data.data : [];

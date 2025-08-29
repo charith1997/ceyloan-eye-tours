@@ -5,9 +5,8 @@ import { useGetAllPlacesQuery } from "@/services/placesApi";
 import React from "react";
 
 function Destinations() {
-  const { data, error, isLoading } = useGetAllPlacesQuery();
+  const { data, error } = useGetAllPlacesQuery();
 
-  if (isLoading) return <div>Loading places...</div>;
   if (error) return <div>Error loading places</div>;
 
   const places = Array.isArray(data?.data) ? data.data : [];

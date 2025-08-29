@@ -7,14 +7,13 @@ import { getLastParam } from "@/utils/common";
 export default function SingleHotelType() {
   const lastSegment = getLastParam();
 
-  const { data, error, isLoading } =
+  const { data, error } =
     useGetHotelTypeByUrlPrefixQuery(lastSegment);
-  if (isLoading) return <div>Loading category...</div>;
   if (error) return <div>Error loading category</div>;
 
   const hotelTypeData = data?.data ?? {};
   console.log('hotelTypeData', hotelTypeData);
-  
+
 
   return (
     <HotelTypePage

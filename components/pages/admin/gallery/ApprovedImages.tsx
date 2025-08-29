@@ -10,7 +10,7 @@ function ApprovedImages({
 }: {
   setViewImageUrl: (url: string | null) => void;
 }) {
-  const { data, error, isLoading } = useGetAllGalleryItemsQuery();
+  const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
   let approvedGalleryItems = [];
   if (list) {

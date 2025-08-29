@@ -7,8 +7,7 @@ import PackagePage from "@/components/pages/PackagePage";
 export default function PackageByRoundToursPage() {
   const lastParam = getLastParam();
 
-  const { data, error, isLoading } = useGetPackageByUrlPrefixQuery(lastParam);
-  if (isLoading) return <div>Loading package details...</div>;
+  const { data, error } = useGetPackageByUrlPrefixQuery(lastParam);
   if (error) return <div>Error loading package details</div>;
 
   const packageData = data?.data ?? {};

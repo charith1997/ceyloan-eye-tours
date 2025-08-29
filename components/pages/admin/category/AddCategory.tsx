@@ -14,8 +14,7 @@ interface AddCategoryProps {
 }
 
 function AddCategory({ show, onClose }: AddCategoryProps) {
-  const [createCategory, { isLoading: isCreating }] =
-    useCreateCategoryMutation();
+  const [createCategory] = useCreateCategoryMutation();
   return (
     <Modal
       isOpen={show}

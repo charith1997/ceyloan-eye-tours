@@ -2,8 +2,7 @@ import { useGetAllActivitiesQuery } from "@/services/activityApi";
 import Image from "next/image";
 
 const TravelActivity = () => {
-  const { data, error, isLoading } = useGetAllActivitiesQuery();
-  if (isLoading) return <div>Loading soon..........</div>;
+  const { data, error } = useGetAllActivitiesQuery();
   if (error) return <div>Error loading categories</div>;
 
   const activities = Array.isArray(data?.data) ? data.data : [];

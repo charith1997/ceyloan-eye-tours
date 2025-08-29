@@ -5,9 +5,8 @@ import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
 import React from "react";
 
 function HotelTypes() {
-  const { data, error, isLoading } = useGetAllHotelTypesQuery();
+  const { data, error } = useGetAllHotelTypesQuery();
 
-  if (isLoading) return <div>Loading hotel types...</div>;
   if (error) return <div>Error loading hotel types</div>;
 
   const hotelTypes = Array.isArray(data?.data) ? data.data : [];

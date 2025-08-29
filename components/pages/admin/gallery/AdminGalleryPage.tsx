@@ -15,8 +15,7 @@ const AdminGalleryPage = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
 
-  const [updateGalleryStatus, { isLoading: isUpdating }] =
-    useUpdateGalleryStatusMutation();
+  const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
 
   return (
     <>
@@ -25,7 +24,7 @@ const AdminGalleryPage = () => {
           searchPlaceholder="Search Gallery..."
           title="Gallery"
           buttonName="Add Image"
-          onClick={() => {}}
+          onClick={() => { }}
           isDisplayActionButton={false}
         />
 
@@ -33,16 +32,14 @@ const AdminGalleryPage = () => {
           <div className="md:max-w-xs flex">
             <Button
               label="Requested"
-              className={`flex-1 p-2 text-center text-sm cursor-pointer ${
-                activeTab === "tab1" ? "border-b-2 text-red" : "text-gray-500"
-              }`}
+              className={`flex-1 p-2 text-center text-sm cursor-pointer ${activeTab === "tab1" ? "border-b-2 text-red" : "text-gray-500"
+                }`}
               onClick={() => setActiveTab("tab1")}
             />
             <Button
               label="Approved"
-              className={`flex-1 p-2 text-center text-sm cursor-pointer ${
-                activeTab === "tab2" ? "border-b-2 text-red" : "text-gray-500"
-              }`}
+              className={`flex-1 p-2 text-center text-sm cursor-pointer ${activeTab === "tab2" ? "border-b-2 text-red" : "text-gray-500"
+                }`}
               onClick={() => setActiveTab("tab2")}
             />
           </div>

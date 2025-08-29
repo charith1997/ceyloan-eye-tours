@@ -15,7 +15,7 @@ function RequestedImages({
   displayApproveModal,
   setViewImageUrl,
 }: RequestedImagesProps) {
-  const { data, error, isLoading } = useGetAllGalleryItemsQuery();
+  const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
   let requestedGalleryItems = [];
   if (list) {

@@ -15,7 +15,7 @@ const AdminPackagePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
-  const { data, error, isLoading } = useGetAllPackagesQuery();
+  const { data, error, } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
 
   return (

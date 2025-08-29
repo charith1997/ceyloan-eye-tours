@@ -15,7 +15,7 @@ const AdminCategoryPage = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
     null
   );
-  const { data, error, isLoading } = useGetAllCategoriesQuery({});
+  const { data, error } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
 
   return (

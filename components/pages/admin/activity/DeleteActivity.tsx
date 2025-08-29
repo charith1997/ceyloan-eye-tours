@@ -11,8 +11,7 @@ interface DeleteActivityProps {
 }
 
 function DeleteActivity({ show, onClose, selectedID }: DeleteActivityProps) {
-  const [deleteActivity, { isLoading: isDeleting }] =
-    useDeleteActivityMutation();
+  const [deleteActivity] = useDeleteActivityMutation();
   return (
     <Modal
       isOpen={show}
