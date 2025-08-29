@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CircleUser, Menu, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/features/authSlice";
+import { getUserDetails } from "@/utils/auth";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -25,6 +24,7 @@ const navLinks = [
   { label: "Hotels", href: "/hotels" },
   { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
+  { label: "Gallery", href: "/reviews" },
   { label: "About Us", href: "/" },
 ];
 
@@ -34,11 +34,11 @@ type HeaderProps = {
 };
 
 function Header({ bgClass, pathname }: HeaderProps) {
-  const dispatch = useDispatch();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const token = localStorage.getItem("authToken");
   const [showModal, setShowModal] = useState(false);
+  const [userDetails, setUserDetails] = useState<any>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,16 +50,24 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
-    dispatch(setCredentials({ user: null }));
     setShowModal(false);
-    window.location.href = "/login";
   };
+
+  useEffect(() => {
+    const userDetails = getUserDetails();
+    if (userDetails) {
+      setUserDetails(userDetails);
+    } else {
+      setUserDetails(null);
+    }
+  }, [token]);
+  console.log('userDetails', userDetails);
+
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all ${
-        pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
-      }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all ${pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
+        }`}
     >
       <div className="mx-auto px-4 md:pl-16 md:pr-8 py-4 flex justify-between items-center text-white">
         <Link
@@ -81,7 +89,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
           ))}
         </nav>
 
-        {!token && (
+        {!userDetails && (
           <div className="hidden md:flex space-x-8 items-center text-sm">
             <Link
               href="/login"
@@ -97,7 +105,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             </Link>
           </div>
         )}
-        {token && (
+        {userDetails && (
           <CircleUser
             width={30}
             height={30}
@@ -107,13 +115,13 @@ function Header({ bgClass, pathname }: HeaderProps) {
         )}
 
         {showModal && (
-          <div className="z-50 flex bg-white rounded shadow-lg p-4 min-w-[200px] absolute right-0 mr-8 mt-44">
-            <div className="flex flex-col">
+          <div className="z-50 flex bg-white rounded shadow-lg p-4 min-w-[200px] absolute right-0 mr-8 mt-42">
+            <div className="flex flex-col w-full gap-2">
               <div className="font-semibold text-lg text-gray-500">
-                Charith Jayakantha
+                {userDetails?.userName}
               </div>
               <button
-                className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="py-2 bg-gradient-to-r from-red to-orange text-white rounded cursor-pointer"
                 onClick={handleLogout}
               >
                 Logout

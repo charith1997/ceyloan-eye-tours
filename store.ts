@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./services/authApi";
-import authReducer from "./features/authSlice";
 import { categoryApi } from "./services/categoryApi";
 import { activityApi } from "./services/activityApi";
 import { packageApi } from "./services/packageApi";
@@ -21,7 +20,6 @@ export const store = configureStore({
     [hotelTypeApi.reducerPath]: hotelTypeApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
     [galleryApi.reducerPath]: galleryApi.reducer,
-    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

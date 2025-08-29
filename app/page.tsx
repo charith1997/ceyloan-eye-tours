@@ -12,11 +12,6 @@ export default function Home() {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
     setRole(getUserRole());
   }, [router]);
 
@@ -27,5 +22,5 @@ export default function Home() {
   if (role === "user") {
     return <HomePage />;
   }
-  return null;
+  return <HomePage />;
 }

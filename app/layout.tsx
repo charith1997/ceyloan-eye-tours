@@ -2,7 +2,6 @@
 
 import Header from "@/components/containers/Header";
 import "./globals.css";
-import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "../components/containers/Footer";
 import { usePathname } from "next/navigation";
@@ -11,11 +10,6 @@ import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
 import { useEffect, useState } from "react";
 import GlobalLoader from "@/components/organisams/GlobalLoader";
-
-const workSans = Work_Sans({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -57,7 +51,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     );
   }
 
-  return <main>{children}</main>;
+  return (
+    <main>
+      <Header />
+      {children}
+      <Footer />
+    </main>
+  );
 }
 
 export default function RootLayout({
