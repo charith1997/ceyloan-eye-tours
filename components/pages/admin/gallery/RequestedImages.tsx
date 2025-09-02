@@ -9,11 +9,13 @@ import ImageModal from "./ImageModal";
 interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
   setViewImageUrl: (url: string | null) => void;
+  displayDeleteModal: (id: string) => void;
 }
 
 function RequestedImages({
   displayApproveModal,
   setViewImageUrl,
+  displayDeleteModal,
 }: RequestedImagesProps) {
   const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
@@ -25,7 +27,7 @@ function RequestedImages({
   }
 
   return (
-    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto">
+    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto py-2">
       {requestedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
@@ -56,8 +58,11 @@ function RequestedImages({
                 }}
               />
               <Button
-                label="Cancel"
+                label="Delete"
                 className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                onClick={() => {
+                  displayDeleteModal(item.id);
+                }}
               />
             </div>
           </div>
@@ -88,8 +93,11 @@ function RequestedImages({
                   }}
                 />
                 <Button
-                  label="Cancel"
+                  label="Delete"
                   className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                  onClick={() => {
+                    displayDeleteModal(item.id);
+                  }}
                 />
               </div>
             </div>

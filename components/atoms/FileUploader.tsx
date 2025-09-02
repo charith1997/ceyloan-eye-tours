@@ -49,7 +49,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         className="block w-full text-sm text-gray-500 file:mr-4 file:py-1 file:px-4 file:rounded file:border-0 file:bg-orange-500 file:text-white hover:file:bg-orange-600"
       />
       {meta.touched && meta.error && (
-        <div className="text-red-500 text-xs mt-1">{meta.error}</div>
+        <div className="text-red text-xs mt-1">{meta.error}</div>
       )}
     </div>
   );

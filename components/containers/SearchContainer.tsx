@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/Button";
+import { getUserDetails } from "@/utils/auth";
 import { CircleUserRound, Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -17,16 +18,23 @@ const SearchContainer = ({
   onClick,
   isDisplayActionButton = true,
 }: SearchContainerProps) => {
+  const [showModal, setShowModal] = useState(false);
+  const userDetails = getUserDetails();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setShowModal(false);
+  };
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col md:flex-row justify-between w-full md:items-center gap-4">
         <div className="flex justify-between">
           <div className="flex text-red">
             <h1 className="text-2xl">Welcome, </h1>
-            <h1 className="text-2xl font-bold ps-2">Chinthaka</h1>
+            <h1 className="text-2xl font-bold ps-2">{userDetails?.userName}</h1>
           </div>
           <span className="md:hidden">
-            <CircleUserRound width={40} height={40} />
+            <CircleUserRound width={40} height={40} onClick={() => setShowModal(!showModal)} />
           </span>
         </div>
         <div className="flex items-center gap-6 justify-between">
@@ -65,8 +73,21 @@ const SearchContainer = ({
             </div>
           </form>
           <span className="hidden md:flex">
-            <CircleUserRound width={40} height={40} />
+            <CircleUserRound width={40} height={40} onClick={() => setShowModal(!showModal)} />
           </span>
+          {showModal && <div className="z-50 flex bg-gray-100 rounded shadow-2xl p-4 min-w-[200px] absolute right-0 mr-4 mt-12 md:mt-42">
+            <div className="flex flex-col w-full gap-2">
+              <div className="font-semibold text-lg text-gray-500">
+                {userDetails?.userName}
+              </div>
+              <button
+                className="py-2 bg-gradient-to-r from-red to-orange text-white rounded cursor-pointer"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </div>
+          </div>}
         </div>
       </div>
       <div className="flex items-center justify-between">

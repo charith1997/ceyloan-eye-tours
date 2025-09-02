@@ -5,11 +5,17 @@ import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
 
+interface ApprovedImagesProps {
+  setViewImageUrl: (url: string | null) => void;
+  displayCancelModal: (id: string) => void;
+  displayDeleteModal: (id: string) => void;
+}
+
 function ApprovedImages({
   setViewImageUrl,
-}: {
-  setViewImageUrl: (url: string | null) => void;
-}) {
+  displayCancelModal,
+  displayDeleteModal,
+}: ApprovedImagesProps) {
   const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
   let approvedGalleryItems = [];
@@ -19,7 +25,7 @@ function ApprovedImages({
     );
   }
   return (
-    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto">
+    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto py-2">
       {approvedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
@@ -43,8 +49,18 @@ function ApprovedImages({
                 onClick={() => setViewImageUrl(item.image_url)}
               />
               <Button
+                label="Cancel"
+                className="w-20 p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase"
+                onClick={() => {
+                  displayCancelModal(item.id);
+                }}
+              />
+              <Button
                 label="Delete"
                 className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                onClick={() => {
+                  displayDeleteModal(item.id);
+                }}
               />
             </div>
           </div>
@@ -68,8 +84,18 @@ function ApprovedImages({
                   onClick={() => setViewImageUrl(item.image_url)}
                 />
                 <Button
+                  label="Cancel"
+                  className="w-20 p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase"
+                  onClick={() => {
+                    displayCancelModal(item.id);
+                  }}
+                />
+                <Button
                   label="Delete"
                   className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                  onClick={() => {
+                    displayDeleteModal(item.id);
+                  }}
                 />
               </div>
             </div>

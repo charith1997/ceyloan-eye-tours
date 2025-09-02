@@ -8,13 +8,13 @@ interface PlaceOption {
   label: string;
 }
 
-interface FormikPlaceArrayProps {
+interface FormikActivityArrayProps {
   name: string;
   label?: string;
   placeOptions: PlaceOption[];
 }
 
-const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
+const FormikActivityArray: React.FC<FormikActivityArrayProps> = ({
   name,
   label,
   placeOptions,
@@ -123,7 +123,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                   />
                   <Button
                     type="button"
-                    label="Add Place"
+                    label="Add Activity"
                     onClick={() =>
                       push({
                         place_id: "",
@@ -141,7 +141,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
             {(!form.values[name] || form.values[name].length === 0) && (
               <Button
                 type="button"
-                label="Add Place"
+                label="Add Activity"
                 onClick={() =>
                   push({
                     place_id: "",
@@ -164,4 +164,4 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
   );
 };
 
-export default FormikPlaceArray;
+export default FormikActivityArray;

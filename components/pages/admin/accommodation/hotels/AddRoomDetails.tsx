@@ -3,22 +3,12 @@ import { FieldArray, Field, ErrorMessage, useFormikContext } from "formik";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import Button from "@/components/atoms/Button";
 
-interface PlaceOption {
-  value: string;
-  label: string;
-}
-
-interface FormikPlaceArrayProps {
+interface AddRoomDetailsProps {
   name: string;
   label?: string;
-  placeOptions: PlaceOption[];
 }
 
-const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
-  name,
-  label,
-  placeOptions,
-}) => {
+const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
   const { errors, touched } = useFormikContext<any>();
   return (
     <div className="mb-4">
@@ -31,67 +21,34 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                 key={idx}
                 className="border border-gray-400 rounded p-3 mb-2"
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium">Place Name:</label>
-                    <Field
-                      as="select"
-                      name={`${name}.${idx}.place_id`}
-                      className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
-                    >
-                      <option value="">Select Place</option>
-                      {placeOptions.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
-                          {opt.label}
-                        </option>
-                      ))}
-                    </Field>
-                    <ErrorMessage
-                      name={`${name}.${idx}.place_id`}
-                      component="div"
-                      className="text-red text-xs justify-self-end"
-                    />
-                  </div>
-                  <FormikInput
-                    label="Place Description:"
-                    name={`${name}.${idx}.description`}
-                    placeholder="Enter place description"
-                  />
-                  <FormikInput
-                    label="Place Order:"
-                    name={`${name}.${idx}.order`}
-                    type="number"
-                    placeholder="Enter place order"
-                    min={1}
-                  />
-                  <FormikInput
-                    label="Day No:"
-                    name={`${name}.${idx}.day_no`}
-                    type="number"
-                    placeholder="Enter day number"
-                    min={1}
-                  />
-                </div>
+                <FormikInput
+                  label="Room Type:"
+                  name={`${name}.${idx}.room_type`}
+                  placeholder="Enter room type (Double room/Triple Room/Family Room/etc.)"
+                />
 
-                <FieldArray name={`${name}.${idx}.events`}>
+                <FieldArray name={`${name}.${idx}.description`}>
                   {({ push, remove, form }) => {
-                    const events = form.values[name][idx].events || [];
+                    const description =
+                      form.values[name][idx].description || [];
                     return (
                       <div>
-                        <label className="text-sm font-medium">Events:</label>
-                        {events.map((event: string, eventIdx: number) => (
-                          <div key={eventIdx}>
+                        <label className="text-sm font-medium">
+                          Description:
+                        </label>
+                        {description.map((desc: string, descIdx: number) => (
+                          <div key={descIdx}>
                             <div className="flex gap-2 mb-2">
                               <Field
-                                name={`${name}.${idx}.events.${eventIdx}`}
-                                placeholder="Enter event"
+                                name={`${name}.${idx}.description.${descIdx}`}
+                                placeholder="Enter description"
                                 className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
                               />
                               <button
                                 type="button"
-                                onClick={() => remove(eventIdx)}
+                                onClick={() => remove(descIdx)}
                                 className="btn"
-                                disabled={events.length === 1}
+                                disabled={description.length === 1}
                               >
                                 -
                               </button>
@@ -104,7 +61,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                               </button>
                             </div>
                             <ErrorMessage
-                              name={`${name}.${idx}.events.${eventIdx}`}
+                              name={`${name}.${idx}.description.${descIdx}`}
                               component="div"
                               className="justify-self-end text-xs font-medium text-red"
                             />
@@ -123,14 +80,11 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                   />
                   <Button
                     type="button"
-                    label="Add Place"
+                    label="Add Room"
                     onClick={() =>
                       push({
-                        place_id: "",
-                        description: "",
-                        order: 1,
-                        day_no: 1,
-                        events: [""],
+                        room_type: "",
+                        description: [""],
                       })
                     }
                     className="bg-green-500 text-white text-sm px-2 py-1 rounded"
@@ -141,14 +95,11 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
             {(!form.values[name] || form.values[name].length === 0) && (
               <Button
                 type="button"
-                label="Add Place"
+                label="Add Room"
                 onClick={() =>
                   push({
-                    place_id: "",
-                    description: "",
-                    order: 1,
-                    day_no: 1,
-                    events: [""],
+                    room_type: "",
+                    description: [""],
                   })
                 }
                 className="bg-green-500 text-white text-sm px-2 py-1 rounded mt-2"
@@ -164,4 +115,4 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
   );
 };
 
-export default FormikPlaceArray;
+export default AddRoomDetails;

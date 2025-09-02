@@ -61,7 +61,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
       setUserDetails(null);
     }
   }, [token]);
-  console.log('userDetails', userDetails);
 
 
   return (

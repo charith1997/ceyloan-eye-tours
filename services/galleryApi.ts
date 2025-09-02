@@ -10,11 +10,21 @@ export const galleryApi = createApi({
       query: () => "/gallery/get-all",
       providesTags: ["Gallery"],
     }),
-    updateGalleryStatus: builder.mutation<any, { id: string; data: { isApproved: boolean } }>({
+    updateGalleryStatus: builder.mutation<
+      any,
+      { id: string; data: { isApproved: boolean } }
+    >({
       query: ({ id, data }) => ({
         url: `/gallery/${id}`,
         method: "PUT",
         body: data,
+      }),
+      invalidatesTags: ["Gallery"],
+    }),
+    deleteGalleryImage: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/gallery/${id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["Gallery"],
     }),
@@ -24,4 +34,5 @@ export const galleryApi = createApi({
 export const {
   useGetAllGalleryItemsQuery,
   useUpdateGalleryStatusMutation,
+  useDeleteGalleryImageMutation,
 } = galleryApi;
