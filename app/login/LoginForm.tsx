@@ -7,7 +7,8 @@ import Link from "next/link";
 import { useLoginMutation } from "@/services/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { jwtDecode } from "jwt-decode";
+import { login as setLogin } from "@/features/authSlice";
+import { useDispatch } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("* Invalid email").required("* Email is required"),
@@ -19,6 +20,7 @@ const validationSchema = Yup.object().shape({
 const LoginForm = () => {
   const [login] = useLoginMutation();
   const router = useRouter();
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
@@ -33,12 +35,7 @@ const LoginForm = () => {
           resetForm();
           if (response.data) {
             localStorage.setItem("authToken", response.data);
-            const decoded: {
-              userId: string;
-              userName: string;
-              email: string;
-              role: string;
-            } = jwtDecode(response.data);
+            dispatch(setLogin());
           }
           router.push("/");
         } catch (error: any) {

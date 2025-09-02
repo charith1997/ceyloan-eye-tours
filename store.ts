@@ -9,6 +9,7 @@ import { hotelTypeApi } from "./services/hotelTypeApi";
 import { reviewApi } from "./services/reviewApi";
 import { galleryApi } from "./services/galleryApi";
 import { placeActivity } from "./services/placeActivity";
+import authReducer from "./features/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     [reviewApi.reducerPath]: reviewApi.reducer,
     [galleryApi.reducerPath]: galleryApi.reducer,
     [placeActivity.reducerPath]: placeActivity.reducer,
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()

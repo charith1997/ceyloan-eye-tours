@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { CircleUser, Menu, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { getUserDetails } from "@/utils/auth";
+import { useDispatch } from "react-redux";
+import { logout } from "@/features/authSlice";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -39,6 +41,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const token = localStorage.getItem("authToken");
   const [showModal, setShowModal] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,6 +53,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    dispatch(logout());
     setShowModal(false);
   };
 
@@ -62,11 +66,11 @@ function Header({ bgClass, pathname }: HeaderProps) {
     }
   }, [token]);
 
-
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-all ${pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
-        }`}
+      className={`fixed top-0 left-0 w-full z-50 transition-all ${
+        pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
+      }`}
     >
       <div className="mx-auto px-4 md:pl-16 md:pr-8 py-4 flex justify-between items-center text-white">
         <Link

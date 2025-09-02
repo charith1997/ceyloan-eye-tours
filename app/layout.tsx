@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
 import { useEffect, useState } from "react";
 import GlobalLoader from "@/components/organisams/GlobalLoader";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -18,17 +20,21 @@ const carattere = Carattere({
 });
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const pathName = usePathname();
+  const [token, setToken] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("authToken");
-  }
-  const role = getUserRole();
+  const pathName = usePathname();
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
 
   useEffect(() => {
-    setUserRole(role);
-  }, [role]);
+    const token = localStorage.getItem("authToken");
+    if (token) setToken(token);
+    else setToken(null);
+
+    const role = getUserRole();
+
+    if (role) setUserRole(role);
+    else setUserRole(null);
+  }, [isLogged]);
 
   if (
     (pathName === "/register" && !token) ||
@@ -39,16 +45,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
   if (userRole === "admin") {
     return <main>{children}</main>;
-  }
-
-  if (userRole === "user") {
-    return (
-      <main>
-        <Header />
-        {children}
-        <Footer />
-      </main>
-    );
   }
 
   return (
