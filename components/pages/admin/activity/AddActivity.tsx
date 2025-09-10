@@ -14,7 +14,7 @@ interface AddActivityProps {
 }
 
 function AddActivity({ show, onClose }: AddActivityProps) {
-  const [createActivity, { isLoading: isCreating }] = useAddActivityMutation();
+  const [createActivity] = useAddActivityMutation();
   return (
     <Modal
       isOpen={show}

@@ -11,8 +11,7 @@ interface DeleteCategoryProps {
 }
 
 function DeleteCategory({ show, onClose, selectedID }: DeleteCategoryProps) {
-  const [deleteCategory, { isLoading: isDeleting }] =
-    useDeleteCategoryMutation();
+  const [deleteCategory] = useDeleteCategoryMutation();
   return (
     <Modal
       isOpen={show}

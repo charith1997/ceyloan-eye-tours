@@ -91,7 +91,7 @@ const AdminActivityPage = () => {
     string | null
   >(null);
 
-  const { data, error, isLoading } = useGetAllActivitiesQuery();
+  const { data, error } = useGetAllActivitiesQuery();
   const activities = Array.isArray(data?.data) ? data.data : [];
 
   return (

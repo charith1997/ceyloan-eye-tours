@@ -7,10 +7,9 @@ import CategoryPage from "@/components/pages/CategoryPage";
 export default function SingleCategoryPage() {
   const lastSegment = getLastParam();
 
-  const { data, error, isLoading } = useGetCategoryByUrlPrefixQuery({
+  const { data, error } = useGetCategoryByUrlPrefixQuery({
     slug: lastSegment,
   });
-  if (isLoading) return <div>Loading category...</div>;
   if (error) return <div>Error loading category</div>;
 
   const categoryData = data?.data ?? {};

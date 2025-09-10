@@ -18,3 +18,30 @@ export function getUserRole() {
     return null;
   }
 }
+
+export function getUserDetails() {
+  if (typeof window === "undefined") return null;
+  const token = localStorage.getItem("authToken");
+  if (!token) return null;
+
+  try {
+    const decoded: {
+      userId: string;
+      userName: string;
+      email: string;
+      role: string;
+      iat: number;
+      exp: number;
+      profileImage: string;
+    } = jwtDecode(token);
+    return {
+      userId: decoded.userId,
+      userName: decoded.userName,
+      email: decoded.email,
+      profileImage: decoded.profileImage,
+      role: decoded.role,
+    };
+  } catch {
+    return null;
+  }
+}

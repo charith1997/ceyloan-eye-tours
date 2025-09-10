@@ -2,7 +2,6 @@
 
 import Header from "@/components/containers/Header";
 import "./globals.css";
-import { Work_Sans } from "next/font/google";
 import { Carattere } from "next/font/google";
 import Footer from "../components/containers/Footer";
 import { usePathname } from "next/navigation";
@@ -10,11 +9,9 @@ import ReduxProvider from "@/providers/ReduxProvider";
 import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
 import { useEffect, useState } from "react";
-
-const workSans = Work_Sans({
-  subsets: ["latin"],
-  weight: "400",
-});
+import GlobalLoader from "@/components/organisams/GlobalLoader";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -23,17 +20,21 @@ const carattere = Carattere({
 });
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const pathName = usePathname();
+  const [token, setToken] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
-  let token;
-  if (typeof window !== "undefined") {
-    token = localStorage.getItem("authToken");
-  }
-  const role = getUserRole();
+  const pathName = usePathname();
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
 
   useEffect(() => {
-    setUserRole(role);
-  }, [role]);
+    const token = localStorage.getItem("authToken");
+    if (token) setToken(token);
+    else setToken(null);
+
+    const role = getUserRole();
+
+    if (role) setUserRole(role);
+    else setUserRole(null);
+  }, [isLogged]);
 
   if (
     (pathName === "/register" && !token) ||
@@ -46,17 +47,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     return <main>{children}</main>;
   }
 
-  if (userRole === "user") {
-    return (
-      <main>
-        <Header />
-        {children}
-        <Footer />
-      </main>
-    );
-  }
-
-  return <main>{children}</main>;
+  return (
+    <main>
+      <Header />
+      {children}
+      <Footer />
+    </main>
+  );
 }
 
 export default function RootLayout({
@@ -73,6 +70,7 @@ export default function RootLayout({
         <ReduxProvider>
           <LayoutContent>{children}</LayoutContent>
           <Toaster position="top-right" />
+          <GlobalLoader />
         </ReduxProvider>
       </body>
     </html>

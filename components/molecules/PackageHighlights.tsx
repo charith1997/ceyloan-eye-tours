@@ -8,12 +8,12 @@ interface PackageHighlightsProps {
 const PackageHighlights = ({ highlights }: PackageHighlightsProps) => {
   return (
     <div className="lg:w-1/4 lg:self-end">
-      <h3 className="text-[36px] tracking-[0] font-medium text-red mb-4">
+      <h3 className="text-3xl md:text-4xl text-red mb-4">
         Tour Highlights
       </h3>
-      <ul className="list-disc list-inside text-sm space-y-2">
+      <ul className="list-disc list-inside space-y-2">
         {highlights?.map((point: string, i: number) => (
-          <li className="font-semibold" key={i}>
+          <li key={i}>
             {point}
           </li>
         ))}

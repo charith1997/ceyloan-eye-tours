@@ -49,7 +49,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                     <ErrorMessage
                       name={`${name}.${idx}.place_id`}
                       component="div"
-                      className="text-red-500 text-xs"
+                      className="text-red text-xs justify-self-end"
                     />
                   </div>
                   <FormikInput

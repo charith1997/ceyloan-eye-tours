@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authApi } from "./services/authApi";
-import authReducer from "./features/authSlice";
 import { categoryApi } from "./services/categoryApi";
 import { activityApi } from "./services/activityApi";
 import { packageApi } from "./services/packageApi";
@@ -9,6 +8,8 @@ import { hotelApi } from "./services/hotelApi";
 import { hotelTypeApi } from "./services/hotelTypeApi";
 import { reviewApi } from "./services/reviewApi";
 import { galleryApi } from "./services/galleryApi";
+import { placeActivity } from "./services/placeActivity";
+import authReducer from "./features/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +22,7 @@ export const store = configureStore({
     [hotelTypeApi.reducerPath]: hotelTypeApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,
     [galleryApi.reducerPath]: galleryApi.reducer,
+    [placeActivity.reducerPath]: placeActivity.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -33,7 +35,8 @@ export const store = configureStore({
       .concat(hotelApi.middleware)
       .concat(hotelTypeApi.middleware)
       .concat(reviewApi.middleware)
-      .concat(galleryApi.middleware),
+      .concat(galleryApi.middleware)
+      .concat(placeActivity.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

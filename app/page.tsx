@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import DashboardPage from "../components/pages/Dashboard";
+import DashboardPage from "../components/pages/DashboardPage";
 import "../styles/common.css";
-import { getUserRole } from "@/utils/auth";
+import { getUserDetails, getUserRole } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 import HomePage from "@/components/pages/home/page";
 
@@ -12,20 +12,13 @@ export default function Home() {
   const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.push("/login");
-      return;
-    }
-    setRole(getUserRole());
+    const userDetails = getUserDetails();
+    setRole(userDetails && userDetails.role ? userDetails.role : "user");
   }, [router]);
 
   if (role === "admin") {
     return <DashboardPage />;
   }
 
-  if (role === "user") {
-    return <HomePage />;
-  }
-  return null;
+  return <HomePage />;
 }

@@ -20,14 +20,14 @@ const AdminNavigation = ({
           } lg:translate-x-0 fixed lg:static z-30 w-64 lg:w-96 bg-gradient-to-b from-orange-400 to-red-500 text-white flex flex-col transition-transform duration-300 ease-in-out h-full items-center`}
       >
         <div className="px-4 pt-6 pb-4 border-b-2 border-white">
-          <h1 className="font-carattere font-normal text-[35px] leading-[100%] tracking-[0]">Ceylon Eye Tours</h1>
+          <h1 className="font-carattere text-[35px] leading-[100%] tracking-[0]">Ceylon Eye Tours</h1>
         </div>
 
-        <nav className="flex-1 px-4 w-full justify-items-center mt-4 h-screen overflow-y-auto scrollbar-thin scroll-smooth">
+        <nav className="flex-1 px-4 pt-4 w-full h-screen overflow-y-auto scrollbar-thin scroll-smooth navigation-scrollbar">
           {navigationItems.map((item) => (
             <div
               key={item.name}
-              className={`w-full py-4 px-4 mb-1 cursor-pointer transition-colors flex justify-center ${item.active
+              className={`w-full py-3 px-4 mb-1 cursor-pointer transition-colors flex justify-center ${item.active
                 ? "bg-pink-200 text-red-800 rounded"
                 : "hover:bg-white/10"
                 }`}

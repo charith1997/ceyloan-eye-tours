@@ -7,12 +7,24 @@ import PackagePage from "@/components/pages/PackagePage";
 export default function Package() {
   const lastParam = getLastParam();
 
-  const { data, error, isLoading } = useGetPackageByUrlPrefixQuery(lastParam);
+  const { data, error } = useGetPackageByUrlPrefixQuery(lastParam);
 
-  if (isLoading) return <div>Loading package details...</div>;
   if (error) return <div>Error loading package details</div>;
 
-  const packageData = data?.data ?? {};
+  const packageData = data?.data ?? {
+    package: {
+      title: "",
+      description: "",
+      duration: "",
+      Images: [],
+      excludes: [],
+      includes: [],
+      imageUrl: "",
+      package_highlights: [],
+      tour_type: 0
+    },
+    places: []
+  };
 
   return (
     <PackagePage

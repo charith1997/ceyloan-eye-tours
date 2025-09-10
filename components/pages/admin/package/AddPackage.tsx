@@ -129,22 +129,20 @@ const validationSchema = Yup.object({
 
 const formatDuration = (days: number) => {
   const nights = days > 0 ? days - 1 : 0;
-  return `${days} ${days === 1 ? "day" : "days"} / ${nights} ${
-    nights === 1 ? "night" : "nights"
-  }`;
+  return `${days} ${days === 1 ? "day" : "days"} / ${nights} ${nights === 1 ? "night" : "nights"
+    }`;
 };
 
 function AddPackage({ show, onClose }: AddPackageProps) {
-  const { data, error, isLoading } = useGetAllCategoriesQuery({});
+  const { data, error } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
 
   const {
     data: placeData,
-    error: placeError,
-    isLoading: placeLoading,
+    error: placeError
   } = useGetAllPlacesQuery();
   const places = Array.isArray(placeData?.data) ? placeData.data : [];
-  const [addPackage, { isLoading: isAdding }] = useAddPackageMutation();
+  const [addPackage] = useAddPackageMutation();
   return (
     <Modal isOpen={show} onClose={onClose} title="Package Form">
       <Formik
@@ -206,12 +204,10 @@ function AddPackage({ show, onClose }: AddPackageProps) {
                 type="number"
               />
               <FormikInput
-                label={`Duration (days): ${
-                  values.duration &&
-                  `${values.duration} days / ${
-                    Number(values.duration) - 1
+                label={`Duration (days): ${values.duration &&
+                  `${values.duration} days / ${Number(values.duration) - 1
                   } nights`
-                }`}
+                  }`}
                 name="duration"
                 type="number"
                 placeholder="Enter duration"

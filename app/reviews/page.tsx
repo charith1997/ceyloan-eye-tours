@@ -7,16 +7,15 @@ import PageDetails from "@/components/organisams/PageDetails";
 import { useGetAllReviewsQuery } from "@/services/reviewApi";
 
 const ReviewsPage: React.FC = () => {
-  const { data, error, isLoading } = useGetAllReviewsQuery();
+  const { data, error } = useGetAllReviewsQuery();
 
-  if (isLoading) return <div>Loading categories...</div>;
   if (error) return <div>Error loading categories</div>;
 
   const reviews = Array.isArray(data?.data) ? data.data : [];
   console.log("reviews", reviews);
 
   return (
-    <section className="py-16 px-4 md:px-16">
+    <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
         title="Customer Reviews"
         description="See what our customers have to say about their experiences."
@@ -41,8 +40,8 @@ const ReviewsPage: React.FC = () => {
               <TestimonialCard
                 quote={review.review}
                 testimonial={review.testimonial}
-                name={review.Customer.name}
-                location={review.Customer.email}
+                name={review.User.name}
+                location={review.User.email}
                 rating={review.rating}
                 className="hover:shadow-lg transition-shadow duration-300"
               />

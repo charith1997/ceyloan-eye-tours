@@ -5,18 +5,23 @@ import SearchContainer from "@/components/containers/SearchContainer";
 import RequestedImages from "./RequestedImages";
 import ApprovedImages from "./ApprovedImages";
 import ActionModal from "./ActionModal";
-import { useUpdateGalleryStatusMutation } from "@/services/galleryApi";
+import {
+  useDeleteGalleryImageMutation,
+  useUpdateGalleryStatusMutation,
+} from "@/services/galleryApi";
 import toast from "react-hot-toast";
 import ImageModal from "./ImageModal";
+import DeleteModal from "./DeleteModal";
 
 const AdminGalleryPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
-  const [showModal, setShowModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [showApproveModal, setShowApproveModal] = useState(false);
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
-
-  const [updateGalleryStatus, { isLoading: isUpdating }] =
-    useUpdateGalleryStatusMutation();
+  const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
+  const [deleteGalleryImage] = useDeleteGalleryImageMutation();
 
   return (
     <>
@@ -51,14 +56,28 @@ const AdminGalleryPage = () => {
             {activeTab === "tab1" && (
               <RequestedImages
                 displayApproveModal={(id) => {
-                  setShowModal(true);
-                  setSelectedImage(id);
+                  setShowApproveModal(true);
+                  setSelectedImageId(id);
                 }}
                 setViewImageUrl={setViewImageUrl}
+                displayDeleteModal={(id) => {
+                  setShowDeleteModal(true);
+                  setSelectedImageId(id);
+                }}
               />
             )}
             {activeTab === "tab2" && (
-              <ApprovedImages setViewImageUrl={setViewImageUrl} />
+              <ApprovedImages
+                setViewImageUrl={setViewImageUrl}
+                displayCancelModal={(id) => {
+                  setShowCancelModal(true);
+                  setSelectedImageId(id);
+                }}
+                displayDeleteModal={(id) => {
+                  setShowDeleteModal(true);
+                  setSelectedImageId(id);
+                }}
+              />
             )}
           </div>
         </div>
@@ -72,19 +91,62 @@ const AdminGalleryPage = () => {
       )}
 
       <ActionModal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        title="Approve Image"
-        description="Are you sure you want to approve this image?"
+        show={showApproveModal || showCancelModal}
+        onClose={() => {
+          setShowApproveModal(false);
+          setShowCancelModal(false);
+          setSelectedImageId(null);
+        }}
+        title={showApproveModal ? "Approve Image" : "Reject Image"}
+        description={
+          showApproveModal
+            ? "Are you sure you want to approve this image?"
+            : "Are you sure you want to reject this image?"
+        }
         handleSubmit={async () => {
-          if (selectedImage) {
+          if (selectedImageId) {
             try {
-              const response = await updateGalleryStatus({
-                id: selectedImage,
-                data: { isApproved: true },
-              }).unwrap();
+              if (showApproveModal) {
+                const response = await updateGalleryStatus({
+                  id: selectedImageId,
+                  data: { isApproved: true },
+                }).unwrap();
+                toast.success(response.message);
+              } else {
+                const response = await updateGalleryStatus({
+                  id: selectedImageId,
+                  data: { isApproved: false },
+                }).unwrap();
+                toast.success(response.message);
+              }
+              setShowApproveModal(false);
+              setShowCancelModal(false);
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            }
+          }
+        }}
+        buttonLabel={showApproveModal ? "Cancel" : "Cancel"}
+        submitLabel={showApproveModal ? "Approve" : "Reject"}
+        submitLabelColor={showApproveModal ? "bg-[#4CAF50]" : "bg-red"}
+      />
+
+      <DeleteModal
+        title="Delete Image"
+        description="Are you sure you want to delete this image?"
+        show={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setSelectedImageId(null);
+        }}
+        handleDelete={async () => {
+          if (selectedImageId) {
+            try {
+              const response = await deleteGalleryImage(
+                selectedImageId
+              ).unwrap();
               toast.success(response.message);
-              setShowModal(false);
+              setShowDeleteModal(false);
             } catch (err: any) {
               toast.error(err?.data?.message);
             }

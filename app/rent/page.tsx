@@ -6,7 +6,7 @@ import React from "react";
 
 export default function RentVehicle() {
   return (
-    <section className="py-16 px-4 md:px-16">
+    <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
         title="Rent a Vehicle"
         description="Find the perfect vehicle for your journey."
