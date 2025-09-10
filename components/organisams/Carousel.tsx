@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useGetAllPackagesQuery } from "@/services/packageApi";
+import { useRouter } from "next/navigation";
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -9,6 +10,7 @@ const Carousel = () => {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   const { data } = useGetAllPackagesQuery();
   const slides = Array.isArray(data?.data) ? data.data : [];
@@ -73,8 +75,6 @@ const Carousel = () => {
     return visibleSlides;
   };
 
-  console.log("currentIndex", currentIndex);
-
   return (
     <div
       ref={carouselRef}
@@ -128,7 +128,8 @@ const Carousel = () => {
                     }`}
                     onClick={() => {
                       if (isLeft) goToPrevious();
-                      if (isRight) goToNext();
+                      else if (isRight) goToNext();
+                      else router.push(`/packages/${slide.url_prefix}`);
                     }}
                   >
                     <div className="relative h-64 lg:h-80 overflow-hidden rounded-lg">

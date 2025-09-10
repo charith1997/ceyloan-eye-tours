@@ -21,6 +21,7 @@ export default function HeaderWrapper() {
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Categories", href: "/categories" },
+  { label: "Packages", href: "/packages" },
   { label: "Round Tours", href: "/round-tours" },
   { label: "Day Tours", href: "/day-tours" },
   { label: "Destinations", href: "/destinations" },
@@ -41,7 +42,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null);
-  console.log("userDetails", userDetails);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
