@@ -6,30 +6,54 @@ import Modal from "@/components/molecules/Modal";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import { useCreateCategoryMutation } from "@/services/categoryApi";
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+} from "@/services/categoryApi";
 
 interface AddCategoryProps {
   show: boolean;
   onClose: () => void;
+  isEdit?: boolean;
+  initialValues?: {
+    id: string;
+    name: string;
+    description: string;
+    image?: File | null;
+  };
 }
 
-function AddCategory({ show, onClose }: AddCategoryProps) {
-  const [createCategory, { isLoading: isCreating }] =
-    useCreateCategoryMutation();
+function AddCategory({
+  show,
+  onClose,
+  isEdit = false,
+  initialValues,
+}: AddCategoryProps) {
+  const [createCategory] = useCreateCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
+
+  const defaultInitialValues = initialValues || {
+    name: "",
+    description: "",
+    image: null,
+  };
+  const validationSchema = Yup.object({
+    name: Yup.string().required("* Name is Required"),
+    description: Yup.string().required("* Description is Required"),
+    image: isEdit ? Yup.mixed() : Yup.mixed().required("* Image is required"),
+  });
+
   return (
     <Modal
       isOpen={show}
       onClose={onClose}
-      title="Category Form"
+      title={isEdit ? "Edit Category" : "Category Form"}
       className="md:w-lg"
     >
       <Formik
-        initialValues={{ name: "", description: "", image: null }}
-        validationSchema={Yup.object({
-          name: Yup.string().required("* Name is Required"),
-          description: Yup.string().required("* Description is Required"),
-          image: Yup.mixed().required("* Image is required"),
-        })}
+        enableReinitialize
+        initialValues={defaultInitialValues}
+        validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
           formData.append("name", values.name);
@@ -39,8 +63,20 @@ function AddCategory({ show, onClose }: AddCategoryProps) {
           }
 
           try {
-            const response = await createCategory(formData).unwrap();
-            toast.success(response.message);
+            if (isEdit) {
+              const response = await updateCategory({
+                id: initialValues?.id,
+                data: {
+                  name: values.name,
+                  description: values.description,
+                },
+              }).unwrap();
+              toast.success(response.message);
+            } else {
+              const response = await createCategory(formData).unwrap();
+              toast.success(response.message);
+            }
+
             resetForm();
             onClose();
           } catch (err: any) {
@@ -51,11 +87,19 @@ function AddCategory({ show, onClose }: AddCategoryProps) {
         }}
       >
         <Form className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
-          <FormikInput label="Category Name:" name="name" placeholder="Enter category name" />
+          <FormikInput
+            label="Category Name:"
+            name="name"
+            placeholder="Enter category name"
+          />
 
-          <FormikInput label="Description:" name="description" placeholder="Enter description" />
+          <FormikInput
+            label="Description:"
+            name="description"
+            placeholder="Enter description"
+          />
 
-          <FileUploader name="image" label="Upload Image" />
+          {!isEdit && <FileUploader name="image" label="Upload Image" />}
 
           <div className="flex gap-6">
             <Button

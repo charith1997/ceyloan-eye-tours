@@ -16,7 +16,7 @@ const Timeline = ({ places }: TimelineProps) => {
       </h2>
       <div className="relative bg-gray-100 py-8">
         <div className="relative mx-auto w-full max-w-4xl">
-          <div className="absolute left-1/2 top-0 h-full w-1 bg-gray-300 transform -translate-x-1/2 z-0"></div>
+          <div className="absolute left-1/2 h-full w-1 bg-gray-300 -translate-x-1/2 hidden lg:block"></div>
 
           {places?.length >= 2 &&
             !showFullItinerary &&

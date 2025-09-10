@@ -9,11 +9,12 @@ interface TimelineItemProps {
 const TimelineItem: React.FC<TimelineItemProps> = ({ trip, id }) => {
   return (
     <div
-      className={`flex w-full my-4 ${
+      className={`relative flex w-full my-4 ${
         id % 2 === 0 ? "justify-end" : "justify-start"
       }`}
     >
-      <TripCard trip={trip} id={id}/>
+      <span className="absolute w-3 h-3 bg-red-500 rounded-full left-1/2 -translate-x-1/2 hidden lg:block cursor-pointer"></span>
+      <TripCard trip={trip} id={id} />
     </div>
   );
 };

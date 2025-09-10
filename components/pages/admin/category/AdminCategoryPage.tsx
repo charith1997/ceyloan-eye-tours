@@ -12,10 +12,9 @@ import DeleteCategory from "./DeleteCategory";
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    null
-  );
-  const { data, error, isLoading } = useGetAllCategoriesQuery({});
+  const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
+  const [isEdit, setIsEdit] = useState(false);
+  const { data } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
 
   return (
@@ -57,13 +56,18 @@ const AdminCategoryPage = () => {
                 <div className="flex gap-4">
                   <Button
                     label="Edit"
+                    onClick={() => {
+                      setIsEdit(true);
+                      setSelectedCategory(category);
+                      setShowModal(true);
+                    }}
                     className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
                   />
                   <Button
                     label="Delete"
                     className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
                     onClick={() => {
-                      setSelectedCategoryId(category.id);
+                      setSelectedCategory(category);
                       setDeleteModal(true);
                     }}
                   />
@@ -108,12 +112,24 @@ const AdminCategoryPage = () => {
         </DetailContainer>
       </NavigationContainer>
 
-      <AddCategory show={showModal} onClose={() => setShowModal(false)} />
+      <AddCategory
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedCategory(null);
+          setIsEdit(false);
+        }}
+        isEdit={isEdit}
+        initialValues={isEdit ? selectedCategory : null}
+      />
 
       <DeleteCategory
         show={deleteModal}
-        onClose={() => setDeleteModal(false)}
-        selectedID={selectedCategoryId}
+        onClose={() => {
+          setDeleteModal(false);
+          setSelectedCategory(null);
+        }}
+        selectedID={selectedCategory?.id}
       />
     </>
   );
