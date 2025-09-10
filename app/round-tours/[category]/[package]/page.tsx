@@ -20,9 +20,9 @@ export default function PackageByRoundToursPage() {
       includes: [],
       imageUrl: "",
       package_highlights: [],
-      tour_type: 0
+      tour_type: 0,
     },
-    places: []
+    places: [],
   };
   return (
     <PackagePage
@@ -36,6 +36,7 @@ export default function PackageByRoundToursPage() {
       package_highlights={packageData.package.package_highlights}
       tour_type={packageData.package.tour_type}
       places={packageData.places}
+      packageId={packageData.package.id}
     />
   );
 }

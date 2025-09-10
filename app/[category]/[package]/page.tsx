@@ -21,9 +21,10 @@ export default function Package() {
       includes: [],
       imageUrl: "",
       package_highlights: [],
-      tour_type: 0
+      tour_type: 0,
+      id: "",
     },
-    places: []
+    places: [],
   };
 
   return (
@@ -38,6 +39,7 @@ export default function Package() {
       package_highlights={packageData.package.package_highlights}
       tour_type={packageData.package.tour_type}
       places={packageData.places}
+      packageId={packageData.package.id}
     />
   );
 }

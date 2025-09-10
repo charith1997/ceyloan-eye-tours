@@ -13,6 +13,7 @@ interface PackageDetailsProps {
   excludes: string[];
   images: string[];
   places: any[];
+  handleBooking: () => void;
 }
 
 const PackageDetails = ({
@@ -21,7 +22,8 @@ const PackageDetails = ({
   highlights,
   includes,
   excludes,
-  places
+  places,
+  handleBooking,
 }: PackageDetailsProps) => {
   return (
     <>
@@ -29,7 +31,10 @@ const PackageDetails = ({
         <div className="flex flex-col lg:flex-row gap-10">
           <PackageOverview description={description} images={images} />
 
-          <PackageHighlights highlights={highlights} />
+          <PackageHighlights
+            highlights={highlights}
+            handleBooking={handleBooking}
+          />
         </div>
       </div>
 

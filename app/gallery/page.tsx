@@ -1,25 +1,25 @@
 "use client";
 
 import React from "react";
-import TestimonialCard from "../components/TestimonialCard";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
-import { useGetAllReviewsQuery } from "@/services/reviewApi";
+import { useGetAllApprovedGalleryItemsQuery } from "@/services/galleryApi";
+import Image from "next/image";
 
-function ReviewsPage() {
-  const { data } = useGetAllReviewsQuery();
+function GalleryPage() {
+  const { data } = useGetAllApprovedGalleryItemsQuery();
 
-  const reviews = Array.isArray(data?.data) ? data.data : [];
+  const galleryItems = Array.isArray(data?.data) ? data.data : [];
 
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Customer Reviews"
-        description="See what our customers have to say about their experiences."
+        title="Gallery"
+        description="See our beautiful gallery of images."
         imageUrl="/round tours/round-tours_main.png"
       />
       <PageDetails
-        title="Reviews"
+        title="Gallery"
         description="Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type
@@ -30,24 +30,30 @@ function ReviewsPage() {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum."
       />
-      <div className="max-w-full">
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {reviews.map((review: any, index: number) => (
-            <div key={index} className="break-inside-avoid mb-6">
-              <TestimonialCard
-                quote={review.review}
-                testimonial={review.description}
-                name={review.User.name}
-                location={review.User.email}
-                rating={review.rating}
-                className="hover:shadow-lg transition-shadow duration-300"
-              />
-            </div>
-          ))}
+      {galleryItems && galleryItems.length > 0 && (
+        <div className="max-w-full">
+          <MasonryImageGrid images={galleryItems} />
         </div>
-      </div>
+      )}
     </section>
   );
 }
 
-export default ReviewsPage;
+export default GalleryPage;
+
+function MasonryImageGrid({ images }: { images: any[] }) {
+  return (
+    <div className="columns-2 md:columns-3 lg:columns-4 gap-6 ">
+      {images?.map((image, idx) => (
+        <Image
+          key={idx}
+          src={image.image_url}
+          alt={`Hotel Image ${idx + 1}`}
+          className="w-full rounded-lg mb-4"
+          width={300}
+          height={200}
+        />
+      ))}
+    </div>
+  );
+}

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { CircleUser, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Calendar, CircleUser, Menu, Power, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { getUserDetails } from "@/utils/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/authSlice";
+import { RootState } from "@/store";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -26,7 +27,7 @@ const navLinks = [
   { label: "Hotels", href: "/hotels" },
   { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
-  { label: "Gallery", href: "/reviews" },
+  { label: "Gallery", href: "/gallery" },
   { label: "About Us", href: "/" },
 ];
 
@@ -38,10 +39,14 @@ type HeaderProps = {
 function Header({ bgClass, pathname }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const token = localStorage.getItem("authToken");
   const [showModal, setShowModal] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null);
+  console.log("userDetails", userDetails);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const dispatch = useDispatch();
+  const isLogged = useSelector((state: RootState) => state.auth.isLogged);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,7 +69,56 @@ function Header({ bgClass, pathname }: HeaderProps) {
     } else {
       setUserDetails(null);
     }
-  }, [token]);
+  }, [isLogged]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(target) &&
+        !target.closest(".user-profile-icon")
+      ) {
+        setShowModal(false);
+      }
+    }
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal]);
+
+  const toggleModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowModal(!showModal);
+  };
+
+  const userImage = (height: number, width: number) => (
+    <div onClick={toggleModal} className="cursor-pointer user-profile-icon">
+      {userDetails && userDetails?.profileImage ? (
+        <img
+          className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
+          src={userDetails?.profileImage}
+          alt="Bordered avatar"
+        />
+      ) : (
+        <div
+          className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
+        >
+          <span>
+            {userDetails?.userName
+              .split(" ")
+              .map((word: string) => word[0])
+              .join("")}
+          </span>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <header
@@ -72,7 +126,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
         pathname === "/" && !isScrolled ? "bg-transparent" : `${bgClass}`
       }`}
     >
-      <div className="mx-auto px-4 md:pl-16 md:pr-8 py-4 flex justify-between items-center text-white">
+      <div className="mx-auto px-4 md:pl-16 py-4 flex justify-between items-center text-white">
         <Link
           href="/"
           className="font-carattere font-normal text-3xl leading-[100%] tracking-[0]"
@@ -92,7 +146,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
           ))}
         </nav>
 
-        {!userDetails && (
+        {!isLogged && (
           <div className="hidden md:flex space-x-8 items-center text-sm">
             <Link
               href="/login"
@@ -108,27 +162,39 @@ function Header({ bgClass, pathname }: HeaderProps) {
             </Link>
           </div>
         )}
-        {userDetails && (
-          <CircleUser
-            width={30}
-            height={30}
-            className="cursor-pointer"
-            onClick={() => setShowModal(!showModal)}
-          />
-        )}
+        {isLogged && userImage(10, 10)}
 
         {showModal && (
-          <div className="z-50 flex bg-white rounded shadow-lg p-4 min-w-[200px] absolute right-0 mr-8 mt-42">
-            <div className="flex flex-col w-full gap-2">
-              <div className="font-semibold text-lg text-gray-500">
-                {userDetails?.userName}
+          <div
+            ref={modalRef}
+            className="z-50 bg-white rounded-xl shadow-lg p-4 min-w-[200px] absolute top-16 right-4"
+          >
+            <div className="flex flex-col w-full gap-1">
+              <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
+                {userImage(8, 8)}
+                <div className="font-semibold text-lg text-black">
+                  {userDetails?.userName}
+                </div>
               </div>
-              <button
-                className="py-2 bg-gradient-to-r from-red to-orange text-white rounded cursor-pointer"
+              <div className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer">
+                <CircleUser width={20} height={20} />
+                <h6>My Profile</h6>
+              </div>
+              <Link
+                href="/bookings"
+                // onClick={() => setShowModal(false)}
+                className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+              >
+                <Calendar width={20} height={20} />
+                <h6>My Bookings</h6>
+              </Link>
+              <div
+                className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
                 onClick={handleLogout}
               >
-                Logout
-              </button>
+                <Power width={20} height={20} />
+                <h6>Logout</h6>
+              </div>
             </div>
           </div>
         )}

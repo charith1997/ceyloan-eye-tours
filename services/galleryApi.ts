@@ -10,6 +10,10 @@ export const galleryApi = createApi({
       query: () => "/gallery/get-all",
       providesTags: ["Gallery"],
     }),
+    getAllApprovedGalleryItems: builder.query<any, void>({
+      query: () => "/gallery/get-all-approved",
+      providesTags: ["Gallery"],
+    }),
     updateGalleryStatus: builder.mutation<
       any,
       { id: string; data: { isApproved: boolean } }
@@ -33,6 +37,7 @@ export const galleryApi = createApi({
 
 export const {
   useGetAllGalleryItemsQuery,
+  useGetAllApprovedGalleryItemsQuery,
   useUpdateGalleryStatusMutation,
   useDeleteGalleryImageMutation,
 } = galleryApi;

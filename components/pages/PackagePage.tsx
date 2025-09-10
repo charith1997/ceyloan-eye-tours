@@ -4,6 +4,7 @@ import PageRouting from "../molecules/PageRouting";
 import CTAButton from "../molecules/CTAButton";
 import DurationCard from "../molecules/DurationCard";
 import PackageDetails from "../organisams/PackageDetails";
+import BookPackage from "../organisams/BookPackage";
 
 interface PackagePageProps {
   title: string;
@@ -16,6 +17,7 @@ interface PackagePageProps {
   excludes: string[];
   Images: string[];
   places: any[];
+  packageId: string;
 }
 
 const PackagePage: React.FC<PackagePageProps> = ({
@@ -28,8 +30,10 @@ const PackagePage: React.FC<PackagePageProps> = ({
   imageUrl,
   package_highlights,
   tour_type,
-  places
+  places,
+  packageId,
 }) => {
+  const [showBooking, setShowBooking] = React.useState(false);
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
@@ -48,9 +52,15 @@ const PackagePage: React.FC<PackagePageProps> = ({
         includes={includes}
         excludes={excludes}
         places={places}
+        handleBooking={() => setShowBooking(true)}
       />
 
       <CTAButton />
+      <BookPackage
+        show={showBooking}
+        onClose={() => setShowBooking(false)}
+        packageId={packageId}
+      />
     </section>
   );
 };

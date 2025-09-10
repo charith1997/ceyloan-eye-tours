@@ -15,3 +15,11 @@
 body {
   font-family: "Work Sans", sans-serif;
 }
+
+:root {
+  --font-carattere: 'Carattere', cursive;
+}
+
+.font-\[Carattere\] {
+  font-family: var(--font-carattere), cursive;
+}

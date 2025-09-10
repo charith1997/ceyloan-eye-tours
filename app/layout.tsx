@@ -10,8 +10,9 @@ import { Toaster } from "react-hot-toast";
 import { getUserRole } from "@/utils/auth";
 import { useEffect, useState } from "react";
 import GlobalLoader from "@/components/organisams/GlobalLoader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { login, logout } from "@/features/authSlice";
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -20,26 +21,30 @@ const carattere = Carattere({
 });
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const [token, setToken] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string | null>(null);
   const pathName = usePathname();
   const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isLogged) {
+      const role = getUserRole();
+
+      if (role) setUserRole(role);
+      else setUserRole(null);
+    }
+  }, [isLogged]);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    if (token) setToken(token);
-    else setToken(null);
+    if (token) {
+      dispatch(login());
+    } else {
+      dispatch(logout());
+    }
+  }, []);
 
-    const role = getUserRole();
-
-    if (role) setUserRole(role);
-    else setUserRole(null);
-  }, [isLogged]);
-
-  if (
-    (pathName === "/register" && !token) ||
-    (pathName === "/login" && !token)
-  ) {
+  if (pathName === "/register" || pathName === "/login") {
     return <main>{children}</main>;
   }
 
