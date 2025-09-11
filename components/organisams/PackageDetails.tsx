@@ -5,6 +5,7 @@ import PackageOverview from "../molecules/PackageOverview";
 import PackageHighlights from "../molecules/PackageHighlights";
 import Timeline from "./Timeline";
 import IncludesAndExcludes from "../molecules/IncludesAndExcludes";
+import MapWithLines from "../molecules/MapWithLines";
 
 interface PackageDetailsProps {
   description: string[];
@@ -42,14 +43,26 @@ const PackageDetails = ({
 
       <div className="flex flex-col lg:flex-row">
         <IncludesAndExcludes includes={includes} excludes={excludes} />
-        <div className="relative lg:w-1/2 p-6 xl:mx-32">
-          <Image
-            src="/round tours/Map.png"
-            alt="Map of Tour"
-            width={500}
-            height={300}
-            className="rounded-lg object-fill w-full h-120"
-          />
+        <div className="relative lg:w-1/2">
+          {places.length > 0 && (
+            <MapWithLines
+              places={places.map((item) => ({
+                coordinates: [
+                  parseFloat(item.place.longitude).toFixed(
+                    4
+                  ) as unknown as number,
+                  parseFloat(item.place.latitude).toFixed(
+                    4
+                  ) as unknown as number,
+                ] as [number, number],
+                name: item.place.name,
+                description: item.place.description,
+                details:
+                  "Population: ~750,000 | Major port city and financial center",
+                color: "green",
+              }))}
+            />
+          )}
         </div>
       </div>
     </>
