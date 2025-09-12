@@ -22,21 +22,29 @@ interface Booking {
   notes?: string;
 }
 
-const BookingsPage: React.FC = () => {
-  const userDetails: any = getUserDetails();
-  const { data } = useGetBookingByIdQuery(userDetails.userId);
-  const bookings = Array.isArray(data?.data) ? data.data : [];
 
+const BookingsPage: React.FC = () => {
+  const [userDetails, setUserDetails] = useState<any>(null);
   const [filter, setFilter] = useState<
     "all" | "pending" | "confirmed" | "completed" | "cancelled"
   >("all");
-
-  const [filteredBookings, setFilteredBookings] = useState<Booking[]>(bookings);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  );
+  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(null);
   const [showPayHereCheckout, setShowPayHereCheckout] = useState(false);
+
+  // Only get user details on client
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserDetails(getUserDetails());
+    }
+  }, []);
+
+  // Only fetch bookings if userDetails is available
+  const { data } = useGetBookingByIdQuery(userDetails?.userId || "", {
+    skip: !userDetails?.userId,
+  });
+  const bookings = Array.isArray(data?.data) ? data.data : [];
+  const [filteredBookings, setFilteredBookings] = useState<Booking[]>(bookings);
 
   const getStatusColor = (status: Booking["status"]) => {
     switch (status) {
@@ -62,7 +70,7 @@ const BookingsPage: React.FC = () => {
         ? bookings
         : bookings.filter((booking: any) => booking.status === filter);
     setFilteredBookings(filtered);
-  }, [filter]);
+  }, [filter, bookings]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -78,6 +86,11 @@ const BookingsPage: React.FC = () => {
       currency: "USD",
     }).format(price);
   };
+
+  // Prevent rendering on server or before userDetails is loaded
+  if (typeof window === "undefined" || !userDetails) {
+    return null;
+  }
 
   return (
     <>
