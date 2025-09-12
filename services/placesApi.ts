@@ -3,10 +3,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const placesApi = createApi({
   reducerPath: "placesApi",
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+  tagTypes: ["Places"],
   endpoints: (builder) => ({
     // Get all places
     getAllPlaces: builder.query<any, void>({
       query: () => "/places/get-all",
+      providesTags: ["Places"],
     }),
     getAllPlacesWithHotels: builder.query<any, void>({
       query: () => "/places/get-all-with-hotels",
@@ -18,10 +20,11 @@ export const placesApi = createApi({
     // Create a new place
     createPlace: builder.mutation<any, FormData>({
       query: (formData) => ({
-        url: "/places/create",
+        url: "/places/add",
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: ["Places"],
     }),
     // Update an existing place
     updatePlace: builder.mutation<any, { id: string; data: any }>({

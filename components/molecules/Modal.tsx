@@ -23,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div
-        className={`bg-white rounded-xl px-8 py-4 mx-4 shadow-2xl relative overflow-y-auto max-w-full md:max-w-3xl w-full ${className}`}
+        className={`bg-white rounded-xl pl-8 pr-4 py-4 mx-4 shadow-2xl relative overflow-y-auto max-w-full md:max-w-3xl w-full ${className}`}
       >
         <Button
           label={<X />}
