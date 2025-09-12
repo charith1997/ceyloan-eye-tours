@@ -91,7 +91,7 @@ function AddPlace({ show, onClose }: AddPlaceProps) {
 
             <div
               style={{
-                height: "100vh",
+                height: "250px",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",

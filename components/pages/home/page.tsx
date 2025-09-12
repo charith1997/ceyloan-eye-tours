@@ -14,7 +14,7 @@ function HomePage() {
         <TravelActivity />
         <TourPackages />
         <Testimonials />
-        <ContactSection />
+        {/* <ContactSection /> */}
       </>
   )
 }

@@ -36,7 +36,7 @@ function AddHotel({ show, onClose }: AddHotelProps) {
           description: [""],
           facilities: [""],
           roomsDetails: [],
-          rating: 5,
+          rating: 1,
           typeId: "",
           images: [],
         }}
