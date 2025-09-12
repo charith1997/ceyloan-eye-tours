@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { CalendarIcon, ClockIcon, UserIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, UsersIcon } from "lucide-react";
 import { useGetBookingByIdQuery } from "@/services/bookingApi";
 import { getUserDetails } from "@/utils/auth";
 import { formatDuration } from "@/utils/package";
-import Button from "../atoms/Button";
+import Button from "../../components/atoms/Button";
 import CancelBooking from "@/app/bookings/CancelBooking";
+import PayHereCheckout from "./PayHereCheckout";
 
 interface Booking {
   id: string;
@@ -35,6 +36,7 @@ const BookingsPage: React.FC = () => {
   const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
     null
   );
+  const [showPayHereCheckout, setShowPayHereCheckout] = useState(false);
 
   const getStatusColor = (status: Booking["status"]) => {
     switch (status) {
@@ -257,7 +259,7 @@ const BookingsPage: React.FC = () => {
                           </div>
 
                           <div className="flex items-center text-sm text-gray-600">
-                            <UserIcon className="w-4 h-4 mr-2 text-gray-400" />
+                            <UsersIcon className="w-4 h-4 mr-2 text-gray-400" />
                             <span>{`${booking.adult_count} adults & ${booking.child_count} children`}</span>
                           </div>
                         </div>
@@ -288,11 +290,15 @@ const BookingsPage: React.FC = () => {
                       {booking.status === "pending" && (
                         <>
                           <Button
-                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none"
                             label="Pay Now"
+                            onClick={() => {
+                              setShowPayHereCheckout(true);
+                              setSelectedBookingId(booking.id);
+                            }}
                           />
                           <Button
-                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none"
                             label="Cancel"
                             onClick={() => {
                               setSelectedBookingId(booking.id);
@@ -327,6 +333,15 @@ const BookingsPage: React.FC = () => {
           setSelectedBookingId(null);
         }}
         selectedID={selectedBookingId}
+      />
+
+      <PayHereCheckout
+        bookingId={selectedBookingId!}
+        show={showPayHereCheckout}
+        onClose={() => {
+          setShowPayHereCheckout(false);
+          setSelectedBookingId(null);
+        }}
       />
     </>
   );

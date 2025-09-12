@@ -2,6 +2,7 @@ import Button from "@/components/atoms/Button";
 import { logout } from "@/features/authSlice";
 import { getUserDetails } from "@/utils/auth";
 import { CircleUserRound, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -23,11 +24,13 @@ const SearchContainer = ({
   const [showModal, setShowModal] = useState(false);
   const userDetails = getUserDetails();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     dispatch(logout());
     setShowModal(false);
+    router.push("/");
   };
   return (
     <div className="flex flex-col gap-8">

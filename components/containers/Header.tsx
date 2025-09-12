@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Calendar, CircleUser, Menu, Power, X } from "lucide-react";
 import Button from "@/components/atoms/Button";
@@ -44,6 +44,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const [userDetails, setUserDetails] = useState<any>(null);
 
   const modalRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const dispatch = useDispatch();
   const isLogged = useSelector((state: RootState) => state.auth.isLogged);
@@ -60,6 +61,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
     localStorage.removeItem("authToken");
     dispatch(logout());
     setShowModal(false);
+    router.push("/");
   };
 
   useEffect(() => {
@@ -182,7 +184,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
               </div>
               <Link
                 href="/bookings"
-                // onClick={() => setShowModal(false)}
+                onClick={() => setShowModal(false)}
                 className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
               >
                 <Calendar width={20} height={20} />

@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "@/components/atoms/Button";
-import BookingsPage from "@/components/pages/BookingsPage";
+import BookingsPage from "@/app/bookings/BookingsPage";
 import DetailContainer from "@/components/containers/DetailContainer";
 import PageRouting from "@/components/molecules/PageRouting";
 import PageDetails from "@/components/organisams/PageDetails";

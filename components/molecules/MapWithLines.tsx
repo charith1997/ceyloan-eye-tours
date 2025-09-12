@@ -107,5 +107,5 @@ export default function MapWithLines({ places }: { places: any[] }) {
     });
   }, []);
 
-  return <div ref={mapContainer} style={{ width: "100%", height: "40vh" }} />;
+  return <div ref={mapContainer} style={{ width: "100%", height: "100%" }} />;
 }
