@@ -1,25 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-    --color-red: #CD1A40;
-    --color-orange: #FF803C;
-    /* --color-gray: #CD1A40; */
-    /* --color-black: #000000; */
-    /* --color-gray1: #262626; */
-    /* --color-gray2: #808080; */
-    /* --color-black-100: oklch(70.4% 0.04 256.788); */
-    --font-water: "Water Brush", "cursive";
-    --font-carattere: "Carattere", "cursive";
-  }
+  --color-red: #cd1a40;
+  --color-orange: #ff803c;
+  /* --color-gray: #CD1A40; */
+  /* --color-black: #000000; */
+  /* --color-gray1: #262626; */
+  /* --color-gray2: #808080; */
+  /* --color-black-100: oklch(70.4% 0.04 256.788); */
+  --font-water: "Water Brush", "cursive";
+  --font-carattere: "Carattere", "cursive";
+}
 
 body {
   font-family: "Work Sans", sans-serif;
 }
 
 :root {
-  --font-carattere: 'Carattere', cursive;
+  --font-carattere: "Carattere", cursive;
 }
 
 .font-\[Carattere\] {
   font-family: var(--font-carattere), cursive;
+}
+
+.slick-dots {
+  bottom: 0 !important;
+}
+
+.slick-dots li button::before {
+  font-size: 8px !important;
+  opacity: 0.6 !important;
+  color: white !important;
+}
+.slick-dots li.slick-active button::before {
+  font-size: 12px !important;
+  opacity: 1 !important;
+  color: white !important;
 }
