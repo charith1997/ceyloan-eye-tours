@@ -19,9 +19,6 @@ const AdminPlacesPage = () => {
   const { data } = useGetAllPlacesQuery();
   const places = Array.isArray(data?.data) ? data.data : [];
 
-  const myLoader = ({ src }: { src: string }) => {
-    return `${process.env.NEXT_PUBLIC_IMAGE_URL}${src}`;
-  };
   return (
     <>
       <NavigationContainer>
@@ -37,7 +34,7 @@ const AdminPlacesPage = () => {
               <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
                 <div className="flex items-center gap-8">
                   <Image
-                    src={place.image_url}
+                    src={checkImageUrl(place.image_url)}
                     alt={`Place ${place.id}`}
                     width={120}
                     height={100}
@@ -81,14 +78,11 @@ const AdminPlacesPage = () => {
 
               <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
                 <Image
-                  // src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${place.image_url}`}
                   src={checkImageUrl(place.image_url)}
-                  // src={'http://173.249.53.165/uploads/places/1d5a9c74-c055-42ec-a9b6-16f331977c38.jpg'}
                   alt={`Place ${place.id}`}
                   width={160}
                   height={160}
                   className="object-cover rounded-lg w-36 h-36"
-                  loader={myLoader}
                 />
                 <div className="grid gap-2">
                   <div className="flex flex-col gap-1 text-sm">
