@@ -38,3 +38,11 @@ body {
   opacity: 1 !important;
   color: white !important;
 }
+
+.mapboxgl-map {
+  height: 100%;
+  @media (max-width: 768px) {
+    height: 300px;
+  }
+  
+}
