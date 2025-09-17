@@ -28,7 +28,7 @@ const AdminPlacesPage = () => {
           buttonName="Add Place"
           onClick={() => setShowModal(true)}
         />
-        <DetailContainer className="max-h-[calc(100vh-182px)] overflow-y-auto scrollbar-thin scroll-smooth py-2">
+        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {places.map((place: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

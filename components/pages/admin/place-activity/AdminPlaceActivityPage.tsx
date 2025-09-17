@@ -36,7 +36,7 @@ const AdminPlaceActivityPage = () => {
           buttonName="Add Place Activity"
           onClick={() => setShowAddActivityModal(true)}
         />
-        <DetailContainer className="max-h-[calc(100vh-182px)] overflow-y-auto scrollbar-thin scroll-smooth py-2">
+        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {placeActivities.map(
             ({ placeDetails, activities }: any, index: number) => (
               <div key={index}>

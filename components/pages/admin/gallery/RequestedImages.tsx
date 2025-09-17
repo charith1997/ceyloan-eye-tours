@@ -27,7 +27,7 @@ function RequestedImages({
   }
 
   return (
-    <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto py-2">
+    <DetailContainer className="max-h-[calc(100vh-365px)] md:max-h-[calc(100vh-240px)]">
       {requestedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

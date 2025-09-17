@@ -17,7 +17,7 @@ function AdminHotelTypes({
   const { data } = useGetAllHotelTypesQuery();
   const hotelTypes = Array.isArray(data?.data) ? data.data : [];
   return (
-    <DetailContainer className="max-h-[calc(100vh-252px)] overflow-y-auto">
+    <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
       {hotelTypes.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
