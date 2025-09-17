@@ -30,7 +30,7 @@ const AdminPackagePage = () => {
         <DetailContainer className="max-h-[calc(100vh-182px)] overflow-y-auto">
           {packages.map((item: any, index: number) => (
             <div key={index}>
-              <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
+              <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <Image
                     src={item.image_url || "/tour packages/package_1.jpg"}
@@ -72,7 +72,7 @@ const AdminPackagePage = () => {
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
+              <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
                 <Image
                   src={item.image_url || "/tour packages/package_1.jpg"}
                   alt={`Tour ${item.id}`}

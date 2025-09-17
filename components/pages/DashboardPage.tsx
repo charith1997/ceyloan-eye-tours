@@ -9,6 +9,7 @@ import AdminActivityPage from "./admin/activity/AdminActivityPage";
 import AdminCategoryPage from "./admin/category/AdminCategoryPage";
 import AdminPlaceActivityPage from "./admin/place-activity/AdminPlaceActivityPage";
 import AdminPlacesPage from "./admin/place/AdminPlacesPage";
+import AdminBookingsPage from "./admin/bookings/AdminBookingsPage";
 
 type NavigationItem = {
   name: string;
@@ -33,7 +34,7 @@ const initialNavigationItems: NavigationItem[] = [
     component: <AdminPlaceActivityPage />,
   },
   { name: "Vehicles", active: false, component: <Home /> },
-  { name: "Orders", active: false, component: <Home /> },
+  { name: "Bookings", active: false, component: <AdminBookingsPage /> },
   { name: "Chats", active: false, component: <Home /> },
   { name: "Gallery", active: false, component: <AdminGalleryPage /> },
 ];

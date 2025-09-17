@@ -28,7 +28,7 @@ function ApprovedImages({
     <DetailContainer className="max-h-[calc(100vh-240px)] overflow-y-auto py-2">
       {approvedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
-          <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
+          <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">
               <Image
                 src={item.image_url}
@@ -65,7 +65,7 @@ function ApprovedImages({
             </div>
           </div>
 
-          <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
+          <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
             <Image
               src={item.image_url}
               alt={`Tour ${item.id}`}
