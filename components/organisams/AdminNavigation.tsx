@@ -1,4 +1,16 @@
 import React from "react";
+import {
+  Home,
+  Users,
+  Calendar,
+  MapPin,
+  Settings,
+  BarChart3,
+  MessageSquare,
+  Camera,
+  Menu,
+  X,
+} from "lucide-react";
 
 interface AdminNavigationProps {
   showSidebar: boolean;
@@ -6,6 +18,23 @@ interface AdminNavigationProps {
   navigationItems: { name: string; active: boolean }[];
   clickNavItem: (name: string) => void;
 }
+
+// Icon mapping for navigation items
+const getIcon = (name: string) => {
+  const iconMap: { [key: string]: any } = {
+    Dashboard: Home,
+    Users: Users,
+    Tours: MapPin,
+    Bookings: Calendar,
+    Analytics: BarChart3,
+    Messages: MessageSquare,
+    Gallery: Camera,
+    Settings: Settings,
+  };
+
+  const IconComponent = iconMap[name] || Home;
+  return <IconComponent size={20} />;
+};
 
 const AdminNavigation = ({
   showSidebar,
@@ -15,36 +44,103 @@ const AdminNavigation = ({
 }: AdminNavigationProps) => {
   return (
     <>
+      {!showSidebar && (
+        <button
+          className="fixed top-4 left-4 z-50 lg:hidden bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow border border-white/20"
+          onClick={() => setShowSidebar(true)}
+        >
+          <Menu size={24} className="text-gray-700" />
+        </button>
+      )}
+
       <div
-        className={`${showSidebar ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 fixed lg:static z-30 w-64 lg:w-96 bg-gradient-to-b from-orange-400 to-red-500 text-white flex flex-col transition-transform duration-300 ease-in-out h-full items-center`}
+        className={`${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0 fixed lg:static z-30 w-3/4 md:w-1/4 bg-white shadow-2xl flex flex-col transition-all duration-300 ease-in-out h-full border-r border-gray-100`}
       >
-        <div className="px-4 pt-6 pb-4 border-b-2 border-white">
-          <h1 className="font-carattere text-[35px] leading-[100%] tracking-[0]">Ceylon Eye Tours</h1>
+        <div className="px-6 py-8 bg-gradient-to-r from-red-500 to-orange-500 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/10"></div>
+
+          <button
+            className="absolute top-6 right-4 lg:hidden bg-white/20 backdrop-blur-sm p-1.5 rounded-lg z-50"
+            onClick={() => setShowSidebar(false)}
+          >
+            <X size={20} className="text-white" />
+          </button>
+
+          <div className="relative z-10">
+            <h1 className="font-carattere text-3xl md:text-4xl text-white tracking-wide px-4">
+              Ceylon Eye Tours
+            </h1>
+          </div>
         </div>
 
-        <nav className="flex-1 px-4 pt-4 w-full h-screen overflow-y-auto scrollbar-thin scroll-smooth navigation-scrollbar">
-          {navigationItems.map((item) => (
-            <div
-              key={item.name}
-              className={`w-full py-3 px-4 mb-1 cursor-pointer transition-colors flex justify-center ${item.active
-                ? "bg-pink-200 text-red-800 rounded"
-                : "hover:bg-white/10"
+        <nav className="flex-1 px-4 py-6 overflow-y-auto scrollbar-thin scroll-smooth">
+          <div className="space-y-2">
+            {navigationItems.map((item, index) => (
+              <div
+                key={item.name}
+                className={`group relative flex items-center space-x-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
+                  item.active
+                    ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg transform scale-[1.02]"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:scale-[1.01]"
                 }`}
-              onClick={() => {
-                clickNavItem(item.name);
-                setShowSidebar(false);
-              }}
-            >
-              <span className="text-lg font-medium">{item.name}</span>
-            </div>
-          ))}
+                onClick={() => {
+                  clickNavItem(item.name);
+                  setShowSidebar(false);
+                }}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div
+                  className={`flex-shrink-0 ${
+                    item.active
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-gray-600"
+                  }`}
+                >
+                  {getIcon(item.name)}
+                </div>
+
+                <span className="font-medium text-sm tracking-wide">
+                  {item.name}
+                </span>
+
+                {item.active && (
+                  <div className="absolute right-3 w-2 h-2 bg-white rounded-full opacity-80"></div>
+                )}
+
+                <div
+                  className={`absolute inset-0 rounded-xl transition-opacity duration-200 ${
+                    item.active
+                      ? "opacity-0"
+                      : "opacity-0 group-hover:opacity-3 bg-gradient-to-r from-orange-500 to-red-500"
+                  }`}
+                ></div>
+              </div>
+            ))}
+          </div>
         </nav>
+
+        <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+              <span className="text-white text-sm font-bold">A</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-gray-900 truncate">
+                Admin User
+              </p>
+              <p className="text-xs text-gray-500 truncate">
+                admin@ceyloneyetours.com
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {showSidebar && (
         <div
-          className="fixed inset-0 z-20 lg:hidden"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20 lg:hidden transition-opacity duration-300"
           onClick={() => setShowSidebar(false)}
         />
       )}
