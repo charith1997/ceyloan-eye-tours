@@ -9,6 +9,7 @@ import { getUserDetails } from "@/utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/authSlice";
 import { RootState } from "@/store";
+import Image from "next/image";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -102,10 +103,12 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const userImage = (height: number, width: number) => (
     <div onClick={toggleModal} className="cursor-pointer user-profile-icon">
       {userDetails && userDetails?.profileImage ? (
-        <img
+        <Image
           className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
           src={userDetails?.profileImage}
           alt="Bordered avatar"
+          width={40}
+          height={40}
         />
       ) : (
         <div

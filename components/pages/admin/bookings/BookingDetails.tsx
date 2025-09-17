@@ -322,7 +322,7 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                           {renderStarRating(booking.Review.rating)}
                         </div>
                         <p className="text-sm text-gray-700">
-                          "{booking.Review.review}"
+                          &quot;{booking.Review.review}&quot;
                         </p>
                       </div>
                     </div>
