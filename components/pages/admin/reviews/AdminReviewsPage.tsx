@@ -60,7 +60,7 @@ const AdminReviewsPage = () => {
                       />
                     ) : (
                       <div
-                        className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
+                        className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500 text-white`}
                       >
                         <span>
                           {review.User?.name
@@ -78,7 +78,7 @@ const AdminReviewsPage = () => {
               </div>
 
               <div className="flex md:hidden w-full items-center justify-between p-4 gap-2 bg-white rounded-lg shadow-sm border border-gray-200">
-                <div className="flex flex-col gap-2 text-sm">
+                <div className="flex flex-col gap-3 text-sm">
                   <div className="text-md font-bold uppercase">
                     <div className="flex text-yellow-500">
                       {Array.from({ length: review.rating }).map((_, i) => (
@@ -110,7 +110,7 @@ const AdminReviewsPage = () => {
                         />
                       ) : (
                         <div
-                          className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
+                          className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500 text-white`}
                         >
                           <span>
                             {review.User?.name

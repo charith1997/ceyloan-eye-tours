@@ -4,13 +4,19 @@ import {
   Users,
   Calendar,
   MapPin,
-  Settings,
-  BarChart3,
-  MessageSquare,
-  Camera,
   Menu,
   X,
+  Grid,
+  Package,
+  Hotel,
+  Activity,
+  LocateIcon,
+  Car,
+  MessageCircle,
+  Image,
+  Star,
 } from "lucide-react";
+import { getUserDetails } from "@/utils/auth";
 
 interface AdminNavigationProps {
   showSidebar: boolean;
@@ -22,14 +28,19 @@ interface AdminNavigationProps {
 // Icon mapping for navigation items
 const getIcon = (name: string) => {
   const iconMap: { [key: string]: any } = {
-    Dashboard: Home,
-    Users: Users,
-    Tours: MapPin,
+    Home: Home,
+    Categories: Grid,
+    Packages: Package,
+    Accommodations: Hotel,
+    Activities: Activity,
+    Places: MapPin,
+    "Place Activity": LocateIcon,
+    Vehicles: Car,
     Bookings: Calendar,
-    Analytics: BarChart3,
-    Messages: MessageSquare,
-    Gallery: Camera,
-    Settings: Settings,
+    Users: Users,
+    Chats: MessageCircle,
+    Gallery: Image,
+    Reviews: Star,
   };
 
   const IconComponent = iconMap[name] || Home;
@@ -42,11 +53,12 @@ const AdminNavigation = ({
   navigationItems,
   clickNavItem,
 }: AdminNavigationProps) => {
+  const userDetails = getUserDetails();
   return (
     <>
       {!showSidebar && (
         <button
-          className="fixed top-4 left-4 z-50 lg:hidden bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow border border-white/20"
+          className="fixed top-4 left-4 lg:hidden bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow border border-white/20"
           onClick={() => setShowSidebar(true)}
         >
           <Menu size={24} className="text-gray-700" />
@@ -128,10 +140,10 @@ const AdminNavigation = ({
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
-                Admin User
+                {userDetails?.userName}
               </p>
               <p className="text-xs text-gray-500 truncate">
-                admin@ceyloneyetours.com
+                {userDetails?.email}
               </p>
             </div>
           </div>
