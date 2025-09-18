@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Calendar, CircleUser, Menu, Power, X } from "lucide-react";
+import {
+  Calendar,
+  CircleUser,
+  Menu,
+  Power,
+  X,
+  ChevronDown,
+} from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { getUserDetails } from "@/utils/auth";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,14 +26,25 @@ export default function HeaderWrapper() {
   return <Header bgClass={bgClass} pathname={pathname} />;
 }
 
-const navLinks = [
+const navItems = [
   { label: "Home", href: "/" },
   { label: "Categories", href: "/categories" },
   { label: "Packages", href: "/packages" },
-  { label: "Round Tours", href: "/round-tours" },
-  { label: "Day Tours", href: "/day-tours" },
-  { label: "Destinations", href: "/destinations" },
-  { label: "Hotels", href: "/hotels" },
+  {
+    label: "Tours",
+    group: [
+      { label: "Round Tours", href: "/round-tours" },
+      { label: "Day Tours", href: "/day-tours" },
+    ],
+  },
+  {
+    label: "Destinations",
+    group: [
+      { label: "Places", href: "/places" },
+      { label: "Hotels", href: "/hotels" },
+      { label: "Hotel Types", href: "/hotel-types" },
+    ],
+  },
   { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
   { label: "Gallery", href: "/gallery" },
@@ -43,6 +61,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userDetails, setUserDetails] = useState<any>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -139,15 +158,50 @@ function Header({ bgClass, pathname }: HeaderProps) {
           Ceylon Eye Tours
         </Link>
 
-        <nav className="hidden md:flex space-x-8 text-sm">
-          {navLinks.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
-            >
-              {item.label}
-            </Link>
+        <nav className="hidden md:flex space-x-8 text-sm items-center">
+          {navItems.map((item) => (
+            <div key={item.label} className="relative">
+              {item.group ? (
+                // Dropdown group
+                <div
+                  className="relative group"
+                  onMouseEnter={() => setActiveDropdown(item.label)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <button className="flex items-center text-[14px] leading-[100%] tracking-[0] whitespace-nowrap hover:text-gray-200 transition-colors">
+                    {item.label}
+                    <ChevronDown size={16} className="ml-1" />
+                  </button>
+
+                  {/* Dropdown menu */}
+                  <div
+                    className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 transition-all duration-200 ${
+                      activeDropdown === item.label
+                        ? "opacity-100 visible translate-y-0"
+                        : "opacity-0 invisible -translate-y-2"
+                    }`}
+                  >
+                    {item.group.map((subItem) => (
+                      <Link
+                        key={subItem.label}
+                        href={subItem.href}
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors text-[14px]"
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                // Regular link
+                <Link
+                  href={item.href}
+                  className="text-[14px] leading-[100%] tracking-[0] whitespace-nowrap hover:text-gray-200 transition-colors"
+                >
+                  {item.label}
+                </Link>
+              )}
+            </div>
           ))}
         </nav>
 
@@ -212,18 +266,77 @@ function Header({ bgClass, pathname }: HeaderProps) {
       </div>
       {mobileMenuOpen && (
         <div className="md:hidden bg-white px-4 py-2 shadow-md">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="block py-2 text-gray-700 hover:text-blue-600"
-              onClick={() => {
-                setMobileMenuOpen(false);
-              }}
-            >
-              {link.label}
-            </Link>
+          {navItems.map((item) => (
+            <div key={item.label}>
+              {item.group ? (
+                <div className="py-2">
+                  <div
+                    className="flex items-center justify-between text-gray-700 font-medium cursor-pointer"
+                    onClick={() =>
+                      setActiveDropdown(
+                        activeDropdown === item.label ? null : item.label
+                      )
+                    }
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${
+                        activeDropdown === item.label ? "rotate-180" : ""
+                      }`}
+                    />
+                  </div>
+                  {activeDropdown === item.label && (
+                    <div className="ml-4 mt-2 space-y-2">
+                      {item.group.map((subItem) => (
+                        <Link
+                          key={subItem.label}
+                          href={subItem.href}
+                          className="block py-1 text-gray-600 hover:text-blue-600"
+                          onClick={() => {
+                            setMobileMenuOpen(false);
+                            setActiveDropdown(null);
+                          }}
+                        >
+                          {subItem.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="block py-2 text-gray-700 hover:text-blue-600"
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    setActiveDropdown(null);
+                  }}
+                >
+                  {item.label}
+                </Link>
+              )}
+            </div>
           ))}
+
+          {!isLogged && (
+            <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+              <Link
+                href="/login"
+                className="block py-2 text-gray-700 hover:text-blue-600 font-semibold"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/register"
+                className="block py-2 bg-red text-white font-semibold rounded-2xl text-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
         </div>
       )}
     </header>

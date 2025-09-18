@@ -1,5 +1,4 @@
 import { useGetAllActivitiesQuery } from "@/services/activityApi";
-import Image from "next/image";
 
 const TravelActivity = () => {
   const { data } = useGetAllActivitiesQuery();
