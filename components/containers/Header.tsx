@@ -120,7 +120,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
   };
 
   const userImage = (height: number, width: number) => (
-    <div onClick={toggleModal} className="cursor-pointer user-profile-icon">
+    <div onClick={toggleModal} className="cursor-pointer user-profile-icon hidden md:flex">
       {userDetails && userDetails?.profileImage ? (
         <Image
           className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}

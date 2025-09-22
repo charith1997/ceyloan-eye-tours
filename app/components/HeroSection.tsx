@@ -84,7 +84,7 @@ export default function HeroSection() {
           <div className="flex items-center gap-4 w-full md:w-auto">
             <MapPin size={20} />
             <div>
-              <p className="font-normal text-base leading-[24px] tracking-normal">
+              <p className="text-base leading-[24px] tracking-normal">
                 Location
               </p>
               <p className="font-bold text-[20px] leading-[24px] tracking-normal">
@@ -96,7 +96,7 @@ export default function HeroSection() {
           <div className="flex items-center gap-4 w-full md:w-auto">
             <CalendarDays size={20} />
             <div>
-              <p className="font-normal text-base leading-[24px] tracking-normal">
+              <p className="text-base leading-[24px] tracking-normal">
                 Date
               </p>
               <p className="font-bold text-[20px] leading-[24px] tracking-normal">
@@ -169,26 +169,26 @@ export default function HeroSection() {
               }}
             >
               <motion.div
-                className="max-w-md md:max-w-4xl xl:max-w-6xl mx-auto flex flex-col justify-center h-full text-white"
+                className="max-w-md md:max-w-4xl xl:max-w-6xl mx-auto flex flex-col gap-2 justify-center text-center md:text-left h-full text-white"
                 variants={slideVariants}
                 initial="hidden"
                 animate="visible"
                 exit="exit"
               >
                 <motion.h1
-                  className="font-water font-normal text-[46px] leading-[100%] tracking-[0]"
+                  className="font-water text-4xl md:text-5xl"
                   variants={textVariants}
                 >
                   {slide.title}
                 </motion.h1>
                 <motion.h1
-                  className="font-bold text-[86px] leading-[100%] tracking-[0]"
+                  className="font-bold text-5xl md:text-7xl"
                   variants={textVariants}
                 >
                   {slide.subtitle}
                 </motion.h1>
                 <motion.p
-                  className="font-normal text-base leading-6 tracking-[0] w-full md:w-lg"
+                  className="text-base leading-6 tracking-[0] w-full md:w-lg"
                   variants={textVariants}
                 >
                   {slide.description}
