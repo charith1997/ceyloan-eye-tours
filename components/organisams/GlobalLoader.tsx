@@ -13,6 +13,7 @@ const apiSlices = [
   "placesApi",
   "reviewApi",
   "tourTypeApi",
+  "customPackageApi",
 ];
 
 const GlobalLoader = () => {

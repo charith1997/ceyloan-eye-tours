@@ -11,6 +11,7 @@ import { galleryApi } from "./services/galleryApi";
 import { placeActivity } from "./services/placeActivity";
 import authReducer from "./features/authSlice";
 import { bookingApi } from "./services/bookingApi";
+import { customPackageApi } from "./services/customPackageApi";
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,7 @@ export const store = configureStore({
     [galleryApi.reducerPath]: galleryApi.reducer,
     [placeActivity.reducerPath]: placeActivity.reducer,
     [bookingApi.reducerPath]: bookingApi.reducer,
+    [customPackageApi.reducerPath]: customPackageApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -39,7 +41,8 @@ export const store = configureStore({
       .concat(reviewApi.middleware)
       .concat(galleryApi.middleware)
       .concat(placeActivity.middleware)
-      .concat(bookingApi.middleware),
+      .concat(bookingApi.middleware)
+      .concat(customPackageApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

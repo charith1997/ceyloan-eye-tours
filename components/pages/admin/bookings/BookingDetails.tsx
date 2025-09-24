@@ -101,15 +101,15 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
   const getStatusColor = (status: string): string => {
     switch (status) {
       case "completed":
-        return "bg-green-200 text-green-800 border-green-200";
+        return "bg-green-200 text-green-800";
       case "pending":
-        return "bg-yellow-200 text-yellow-800 border-yellow-200";
+        return "bg-yellow-200 text-yellow-800";
       case "cancelled":
-        return "bg-red-200 text-red-800 border-red-200";
+        return "bg-red-200 text-red-800";
       case "confirmed":
-        return "bg-blue-200 text-blue-800 border-blue-200";
+        return "bg-blue-200 text-blue-800";
       default:
-        return "bg-gray-200 text-gray-800 border-gray-200";
+        return "bg-gray-200 text-gray-800";
     }
   };
 

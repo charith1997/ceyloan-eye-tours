@@ -11,6 +11,7 @@ import AdminPlaceActivityPage from "./admin/place-activity/AdminPlaceActivityPag
 import AdminPlacesPage from "./admin/place/AdminPlacesPage";
 import AdminBookingsPage from "./admin/bookings/AdminBookingsPage";
 import AdminReviewsPage from "./admin/reviews/AdminReviewsPage";
+import AdminCustomPackagesPage from "./admin/custom-packages/AdminCustomPackagesPage";
 
 type NavigationItem = {
   name: string;
@@ -22,6 +23,11 @@ const initialNavigationItems: NavigationItem[] = [
   { name: "Home", active: true, component: <Home /> },
   { name: "Categories", active: false, component: <AdminCategoryPage /> },
   { name: "Packages", active: false, component: <AdminPackagePage /> },
+  {
+    name: "Custom Packages",
+    active: false,
+    component: <AdminCustomPackagesPage />,
+  },
   {
     name: "Accommodations",
     active: false,

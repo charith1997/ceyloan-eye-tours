@@ -15,6 +15,7 @@ import {
   MessageCircle,
   Image,
   Star,
+  Package2,
 } from "lucide-react";
 import { getUserDetails } from "@/utils/auth";
 
@@ -31,6 +32,7 @@ const getIcon = (name: string) => {
     Home: Home,
     Categories: Grid,
     Packages: Package,
+    "Custom Packages": Package2,
     Accommodations: Hotel,
     Activities: Activity,
     Places: MapPin,

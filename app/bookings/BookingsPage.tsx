@@ -281,8 +281,8 @@ const BookingsPage: React.FC = () => {
                           <p className="text-sm text-gray-600">
                             <span className="font-medium">Notes:</span>{" "}
                             {booking.package_id
-                              ? booking.message
-                              : booking.CustomPackage.message}
+                              ? booking?.message
+                              : booking.CustomPackage?.message}
                           </p>
                         </div>
                       </div>
