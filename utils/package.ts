@@ -9,3 +9,16 @@ export function formatDuration(duration: string) {
 
   return "0 Days | 0 Nights";
 }
+
+export function checkIfSortedOrder(data: any[]) {
+  let filteredData = [];
+  filteredData = data.filter(
+    (item) =>
+      (item.day_no === null || item.day_no === "") &&
+      (item.sort_order === null || item.sort_order === "")
+  );
+  if (filteredData.length > 0) {
+    return false;
+  }
+  return true;
+}

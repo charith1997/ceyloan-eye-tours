@@ -63,7 +63,7 @@ function PlaceOrders({
                         id: pkg.id,
                         sortOrder: values.sortOrder,
                         dayNo: values.dayNo,
-                        description: pkg.description,
+                        description: values.description,
                       }).unwrap();
                       toast.success(response.message);
                       onClose();
@@ -74,14 +74,9 @@ function PlaceOrders({
                 >
                   <Form className="flex w-full gap-16">
                     <div className="flex flex-col w-screen">
-                      <div className="flex justify-between border-b border-gray-300 pb-2">
-                        <p className="flex gap-2 items-center font-bold">
-                          <MapPin width={18} />
-                          {pkg.Place.name}
-                        </p>
-                        <span className="flex text-sm gap-2 items-center mt-2">
-                          <BookText width={16} /> {pkg.description}
-                        </span>
+                      <div className="flex border-b border-gray-300 pb-2 gap-2 items-center font-bold">
+                        <MapPin width={18} />
+                        {pkg.Place.name}
                       </div>
                       <div className="flex w-full gap-4 pt-2">
                         <div className="flex-1">
@@ -137,14 +132,9 @@ function PlaceOrders({
               className="flex flex-col md:hidden w-full bg-white rounded-lg shadow-sm border border-gray-200 pr-1"
             >
               <div className="bg-gray-200 w-full py-3 px-4 rounded-t-lg">
-                <div className="flex flex-col border-b border-gray-300 pb-2">
-                  <p className="flex gap-2 items-center font-bold">
-                    <MapPin width={18} />
-                    {pkg.Place.name}
-                  </p>
-                  <span className="flex text-sm gap-2 items-center mt-2">
-                    <BookText width={16} /> {pkg.description}
-                  </span>
+                <div className="flex border-b border-gray-300 pb-2 gap-2 items-center font-bold">
+                  <MapPin width={18} />
+                  {pkg.Place.name}
                 </div>
                 <Formik
                   initialValues={{
@@ -169,7 +159,7 @@ function PlaceOrders({
                         id: pkg.id,
                         sortOrder: values.sortOrder,
                         dayNo: values.dayNo,
-                        description: pkg.description,
+                        description: values.description,
                       }).unwrap();
                       toast.success(response.message);
                       onClose();
