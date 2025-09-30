@@ -10,10 +10,16 @@ import { useAddBookingMutation } from "@/services/bookingApi";
 interface AddActivityProps {
   show: boolean;
   onClose: () => void;
-  packageId: string;
+  packageId?: string;
+  customPackageId?: string;
 }
 
-function BookPackage({ show, onClose, packageId }: AddActivityProps) {
+function BookPackage({
+  show,
+  onClose,
+  packageId,
+  customPackageId,
+}: AddActivityProps) {
   const [createBooking] = useAddBookingMutation();
   return (
     <Modal isOpen={show} onClose={onClose} title="Book Now" className="md:w-lg">
@@ -39,6 +45,7 @@ function BookPackage({ show, onClose, packageId }: AddActivityProps) {
             adultCount: values.adultCount,
             childCount: values.childCount,
             packageId,
+            customPackageId,
             startDate: values.startDate,
             message: values.message,
           };

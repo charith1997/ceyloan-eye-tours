@@ -10,6 +10,7 @@ import {
   Power,
   X,
   ChevronDown,
+  Package,
 } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { getUserDetails } from "@/utils/auth";
@@ -120,7 +121,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
   };
 
   const userImage = (height: number, width: number) => (
-    <div onClick={toggleModal} className="cursor-pointer user-profile-icon hidden md:flex">
+    <div
+      onClick={toggleModal}
+      className="cursor-pointer user-profile-icon hidden md:flex"
+    >
       {userDetails && userDetails?.profileImage ? (
         <Image
           className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
@@ -239,6 +243,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 <CircleUser width={20} height={20} />
                 <h6>My Profile</h6>
               </div>
+              <Link
+                href="/custom-packages"
+                onClick={() => setShowModal(false)}
+                className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+              >
+                <Package width={20} height={20} />
+                <h6>My Packages</h6>
+              </Link>
               <Link
                 href="/bookings"
                 onClick={() => setShowModal(false)}

@@ -19,10 +19,18 @@ export function getUserRole() {
   }
 }
 
+const DEFAULT_USER = {
+  userId: "",
+  userName: null,
+  email: null,
+  profileImage: null,
+  role: null,
+};
+
 export function getUserDetails() {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined") return DEFAULT_USER;
   const token = localStorage.getItem("authToken");
-  if (!token) return null;
+  if (!token) return DEFAULT_USER;
 
   try {
     const decoded: {
@@ -42,6 +50,6 @@ export function getUserDetails() {
       role: decoded.role,
     };
   } catch {
-    return null;
+    return DEFAULT_USER;
   }
 }

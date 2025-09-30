@@ -32,6 +32,8 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
       if (role) setUserRole(role);
       else setUserRole(null);
+    } else {
+      setUserRole(null);
     }
   }, [isLogged]);
 
