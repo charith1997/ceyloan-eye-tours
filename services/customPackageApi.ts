@@ -65,6 +65,22 @@ export const customPackageApi = createApi({
       }),
       invalidatesTags: (result, error) => (error ? [] : ["Custom Package"]),
     }),
+    createCustomPackagePlace: builder.mutation<
+      any,
+      {
+        places: any[];
+      }
+    >({
+      query: ({ places }) => ({
+        url: `/custom-packages/add`,
+        method: "POST",
+        body: { places },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }),
+      invalidatesTags: ["Custom Package"],
+    }),
   }),
 });
 
@@ -76,4 +92,5 @@ export const {
   useUpdateMessageMutation,
   useUpdatePriceMutation,
   useUpdateCustomPackagePlaceMutation,
+  useCreateCustomPackagePlaceMutation,
 } = customPackageApi;

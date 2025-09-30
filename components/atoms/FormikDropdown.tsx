@@ -6,6 +6,7 @@ interface FormikDropdownProps {
   name: string;
   options: Array<{ value: string; label: string }>;
   defaultOption?: string;
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function FormikDropdown({
@@ -13,6 +14,7 @@ function FormikDropdown({
   name,
   options,
   defaultOption = "Select",
+  onChange,
 }: FormikDropdownProps) {
   return (
     <div>
@@ -21,6 +23,7 @@ function FormikDropdown({
         as="select"
         name={name}
         className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
+        onChange={onChange}
       >
         <option value="">{defaultOption}</option>
         {options.map((opt: any) => (
