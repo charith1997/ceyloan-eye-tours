@@ -1,25 +1,17 @@
+"use client";
+
 import React from "react";
-import { notFound } from "next/navigation";
 import { Users } from "lucide-react";
 import Image from "next/image";
 import Jumbotron from "@/components/molecules/Jumbotron";
+import { getLastParam } from "@/utils/common";
+import { useGetVehicleByPrefixQuery } from "@/services/vehicleApi";
+import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/styles/font";
 
-const validVehicleTypes = ["bus", "van", "car", "layland"];
-
-function MasonryImageGrid() {
-  const images = [
-    "/rent/wagon 1.jpg",
-    "/rent/wagon 2.jpg",
-    "/rent/wagon 3.jpg",
-    "/rent/wagon 4.jpg",
-    "/rent/wagon 5.jpg",
-    "/rent/wagon 6.jpg",
-    "/rent/wagon 7.jpg",
-    "/rent/wagon 8.jpg",
-  ];
+function MasonryImageGrid({ images }: { images: any }) {
   return (
     <div className="columns-2 md:columns-3 gap-4 pt-16 pb-8 space-y-4">
-      {images.map((src, idx) => (
+      {images.map((src: any, idx: number) => (
         <Image
           key={idx}
           src={src}
@@ -33,94 +25,83 @@ function MasonryImageGrid() {
   );
 }
 
-interface PageProps {
-  params: Promise<{ model: string }>;
-}
+function VehicleModel() {
+  const lastSegment = getLastParam();
+  const { data } = useGetVehicleByPrefixQuery(lastSegment);
+  const vehicleDetails = data?.data || null;
 
-export default async function VehicleModel({ params }: PageProps) {
-  const { model } = await params;
-
-  if (!validVehicleTypes.includes(model)) {
-    return notFound();
-  }
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
-      <Jumbotron
-        title="Wagon R 2017"
-        description="Find the perfect vehicle for your journey."
-        imageUrl="/rent/Rent Vehicle.jpg"
-      />
-      <MasonryImageGrid />
-      <div className="block md:flex py-8">
-        <div className="w-full md:w-2/3">
-          <h3 className="text-[36px] tracking-[0] font-medium text-red">
-            Facilities
-          </h3>
-          <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
-            {facilityList.map((point, i) => (
-              <li key={i}>{point}</li>
+      {vehicleDetails && (
+        <>
+          <Jumbotron
+            title={vehicleDetails.name}
+            description="Find the perfect vehicle for your journey."
+            imageUrl="/rent/Rent Vehicle.jpg"
+          />
+          <>
+            <h1 className={`${PAGE_TITLE} mt-8`}>Description</h1>
+            {vehicleDetails.descriptions.map((des: any) => (
+              <p className={PAGE_DESCRIPTION}>{des}</p>
             ))}
-          </ul>
-          <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
-            Excludes
-          </h3>
-          <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
-            {excludeList.map((point, i) => (
-              <li key={i}>{point}</li>
-            ))}
-          </ul>
-          <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
-            Terms & Conditions
-          </h3>
-          <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify pb-6">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book. It has survived
-            not only five centuries, but also the leap into electronic
-            typesetting, remaining essentially unchanged.
-          </p>
-        </div>
-        <div className="w-full md:w-1/3">
-          <div className="bg-red items-center justify-self-center rounded-md p-8 text-white flex flex-col gap-2 ">
-            <div className="text-4xl">Start from</div>
-            <div className="text-4xl font-bold">$150</div>
-            <div className="flex gap-2 items-center">
-              <Users width={20} />
-              <p className="text-xl font-normal">18 People</p>
-            </div>
-            <div className="flex pt-2">
-              <h3 className="hidden lg:flex text-xl font-semibold tracking-wide">
-                Owner Name:
+          </>
+          <MasonryImageGrid images={vehicleDetails.images} />
+          <div className="block md:flex py-8">
+            <div className="w-full md:w-2/3">
+              <h3 className="text-[36px] tracking-[0] font-medium text-red">
+                Facilities
               </h3>
-              <h3 className="text-xl tracking-wide lg:pl-2">Chamika</h3>
+              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+                {vehicleDetails.facilities.map((point: any, i: number) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+              <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
+                Excludes
+              </h3>
+              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+                {vehicleDetails.excludes.map((point: any, i: number) => (
+                  <li key={i}>{point}</li>
+                ))}
+              </ul>
+              <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
+                Terms & Conditions
+              </h3>
+              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+                {vehicleDetails.terms.map((term: any, i: number) => (
+                  <li key={i}>{term}</li>
+                ))}
+              </ul>
             </div>
-            <div className="text-xl">071 234 567 8</div>
-            <div className="text-xl">Galle</div>
+            <div className="w-full md:w-1/3">
+              <div className="bg-red items-center justify-self-center rounded-md p-8 text-white flex flex-col gap-2 ">
+                <div className="text-4xl">Start from</div>
+                <div className="text-4xl font-bold">
+                  LKR {vehicleDetails.price}
+                </div>
+                <div className="flex gap-2 items-center">
+                  <Users width={20} />
+                  <p className="text-xl font-normal">
+                    {vehicleDetails.passenger_capacity} People
+                  </p>
+                </div>
+                <div className="flex pt-2">
+                  <h3 className="hidden lg:flex text-xl font-semibold tracking-wide">
+                    Owner Name:
+                  </h3>
+                  <h3 className="text-xl tracking-wide lg:pl-2">
+                    {vehicleDetails.owner}
+                  </h3>
+                </div>
+                <div className="text-xl">{vehicleDetails.owner_contact}</div>
+                <div className="text-xl">{vehicleDetails.location}</div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </section>
   );
 }
 
-const facilityList = [
-  "Spacious and tallboy design offering ample headroom and legroom",
-  "Available in both Petrol and CNG variants",
-  "Choice of 1.0L and 1.2L engines for better performance",
-  "SmartPlay Studio infotainment system with smartphone connectivity",
-  "Dual front airbags for enhanced safety",
-  "Reverse parking sensors for convenient parking",
-  "60:40 split rear seat for increased luggage flexibility",
-  "ABS with EBD (Anti-lock Braking System with Electronic Brakeforce Distribution)",
-];
-
-const excludeList = [
-  "Accommodation",
-  "International airfare",
-  "Lunch, Dinner & Beverages",
-  "Expenses of a personal nature (telephone calls. laundry etc..)",
-  "Personal travel and medical insurance",
-  "Departure airport tax",
-  "Entrance fees at sites and locations as per itinerary",
-];
+export default VehicleModel;

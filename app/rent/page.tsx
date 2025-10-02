@@ -1,4 +1,5 @@
 import Jumbotron from "@/components/molecules/Jumbotron";
+import PageRouting from "@/components/molecules/PageRouting";
 import { Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,42 +14,66 @@ export default function RentVehicle() {
         imageUrl="/rent/Rent Vehicle.jpg"
       />
       <div className="py-12">
-        <div className="mb-4 text-sm font-medium text-gray-700">
-          <span className="text-[14px] md:text-[16px] text-black font-semibold leading-[100%] tracking-wide">
-            Home
-          </span>
-          <span className="mx-1">{">"}</span>
-          <span className="text-[14px] md:text-[16px] text-red font-semibold leading-[100%] tracking-wide">
-            Rent a vehicle
-          </span>
-        </div>
-
+        <PageRouting />
         <h1 className="text-[28px] md:text-[36px] font-normal leading-[100%] tracking-[0] pb-6 pt-2">
           Vehicles
         </h1>
 
-        <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify pb-6">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into typesetting, remaining
-          essentially unchanged.
+        <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify pb-4">
+          Travel in comfort and style with our wide selection of rental
+          vehicles. Whether you’re heading to the airport, exploring local
+          attractions, or planning a long-distance trip, we provide safe and
+          comfortable rides to suit your needs. From cars and vans to luxury
+          vehicles, each option is designed to make your journey smooth and
+          enjoyable.
         </p>
 
-        <h1 className="text-[28px] md:text-[36px] font-normal leading-[100%] tracking-[0] pb-6 pt-2">
+        <p className="text-[#6c6b6b] pb-4">Our service ensures:</p>
+
+        <ul className="list-disc list-inside mb-6 text-[#6c6b6b]">
+          <li>Clean, well-maintained, and air-conditioned vehicles</li>
+          <li>Experienced and friendly drivers</li>
+          <li>Flexible packages for daily, weekly, or custom trips</li>
+          <li>Affordable pricing with no hidden costs</li>
+        </ul>
+        <p className="text-[#6c6b6b] pb-6">
+          Enjoy stress-free travel while we take care of the driving.
+        </p>
+
+        <h1 className="text-[28px] md:text-[36px] font-normal leading-[100%] tracking-[0] pb-6 pt-4">
           Rules and Regulations
         </h1>
 
-        <p className="text-[#6c6b6b] leading-relaxed text-[16px] tracking-[0] text-justify">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into typesetting, remaining
-          essentially unchanged.
+        <p className="text-[#6c6b6b] pb-4">
+          To make your trip safe and pleasant, we kindly request all passengers
+          to follow these simple guidelines:
+        </p>
+
+        <ul className="list-disc list-inside mb-6 text-[#6c6b6b]">
+          <li>Please wear your seatbelt at all times during the journey.</li>
+          <li>
+            Eating or drinking inside the vehicle is not encouraged to maintain
+            cleanliness.
+          </li>
+          <li>
+            Smoking, alcohol, or any illegal substances are strictly prohibited
+            inside the vehicle.
+          </li>
+          <li>Be respectful to the driver and fellow passengers.</li>
+          <li>
+            For your safety, avoid distracting the driver while on the road.
+          </li>
+          <li>
+            In case of special requests (extra stops, music, etc.), kindly
+            inform the driver in advance.
+          </li>
+        </ul>
+        <p className="text-[#6c6b6b]">
+          By following these rules, you help us ensure a comfortable and
+          enjoyable travel experience for everyone.
         </p>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-8">
         <Link href={`/rent/bus`}>
           <div className="relative h-80 md:h-100 rounded-xl overflow-hidden shadow-lg group transition-transform hover:scale-105 cursor-pointer">

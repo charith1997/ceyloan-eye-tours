@@ -1,7 +1,7 @@
 import React from "react";
 
 interface JumbotronProps {
-  title: string;
+  title: string | React.ReactNode;
   description: string;
   imageUrl: string;
 }

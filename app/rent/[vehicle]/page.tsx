@@ -1,30 +1,30 @@
+"use client";
+
 import React from "react";
-import { notFound } from "next/navigation";
 import VehicleType from "./VehicleType";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
+import { useGetAllVehiclesQuery } from "@/services/vehicleApi";
+import { usePathname } from "next/navigation";
 
-const validVehicleTypes = ["bus", "van", "car"];
+function RentVehicle() {
+  const { data } = useGetAllVehiclesQuery();
+  const vehicles = Array.isArray(data?.data) ? data.data : [];
+  const pathname = usePathname();
 
-interface PageProps {
-  params: Promise<{ vehicle: string }>;
-}
+  const segments = pathname.split("/").filter(Boolean);
 
-export default async function RentVehicle({ params }: PageProps) {
-  const { vehicle } = await params;
-
-  if (!validVehicleTypes.includes(vehicle)) {
-    return notFound();
-  }
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Vans"
+        title={
+          <span className="capitalize">{segments[segments.length - 1]}</span>
+        }
         description="Find the perfect vehicle for your journey."
         imageUrl="/rent/Rent Vehicle.jpg"
       />
       <PageDetails
-        title="Vans"
+        title={segments[segments.length - 1]}
         description="Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy text
           ever since the 1500s, when an unknown printer took a galley of type
@@ -36,11 +36,14 @@ export default async function RentVehicle({ params }: PageProps) {
           including versions of Lorem Ipsum."
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <VehicleType />
-        <VehicleType />
-        <VehicleType />
-        <VehicleType />
+        {vehicles.length > 0
+          ? vehicles.map((vehicle: any) => (
+              <VehicleType key={vehicle.id} {...vehicle} />
+            ))
+          : null}
       </div>
     </section>
   );
 }
+
+export default RentVehicle;
