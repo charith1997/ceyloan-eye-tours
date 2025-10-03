@@ -12,6 +12,7 @@ import AdminPlacesPage from "./admin/place/AdminPlacesPage";
 import AdminBookingsPage from "./admin/bookings/AdminBookingsPage";
 import AdminReviewsPage from "./admin/reviews/AdminReviewsPage";
 import AdminCustomPackagesPage from "./admin/custom-packages/AdminCustomPackagesPage";
+import AdminVehiclesPage from "./admin/vehicle/AdminVehiclesPage";
 
 type NavigationItem = {
   name: string;
@@ -40,7 +41,7 @@ const initialNavigationItems: NavigationItem[] = [
     active: false,
     component: <AdminPlaceActivityPage />,
   },
-  { name: "Vehicles", active: false, component: <Home /> },
+  { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
   { name: "Bookings", active: false, component: <AdminBookingsPage /> },
   { name: "Chats", active: false, component: <Home /> },
   { name: "Gallery", active: false, component: <AdminGalleryPage /> },
