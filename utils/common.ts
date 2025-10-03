@@ -1,7 +1,7 @@
 import { usePathname } from "next/navigation";
 
-export const ROUND_TOURS = 0;
-export const DAY_TOURS = 1;
+export const ROUND_TOURS = 1;
+export const DAY_TOURS = 0;
 
 export const getLastParam = () => {
   const pathname = usePathname();

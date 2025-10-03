@@ -41,8 +41,10 @@ function VehicleModel() {
           />
           <>
             <h1 className={`${PAGE_TITLE} mt-8`}>Description</h1>
-            {vehicleDetails.descriptions.map((des: any) => (
-              <p className={PAGE_DESCRIPTION}>{des}</p>
+            {vehicleDetails.descriptions.map((des: any, index: number) => (
+              <p className={PAGE_DESCRIPTION} key={index}>
+                {des}
+              </p>
             ))}
           </>
           <MasonryImageGrid images={vehicleDetails.images} />

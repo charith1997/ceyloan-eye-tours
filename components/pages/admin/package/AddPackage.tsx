@@ -129,18 +129,16 @@ const validationSchema = Yup.object({
 
 const formatDuration = (days: number) => {
   const nights = days > 0 ? days - 1 : 0;
-  return `${days} ${days === 1 ? "day" : "days"} / ${nights} ${nights === 1 ? "night" : "nights"
-    }`;
+  return `${days} ${days === 1 ? "day" : "days"} / ${nights} ${
+    nights === 1 ? "night" : "nights"
+  }`;
 };
 
 function AddPackage({ show, onClose }: AddPackageProps) {
   const { data, error } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
 
-  const {
-    data: placeData,
-    error: placeError
-  } = useGetAllPlacesQuery();
+  const { data: placeData, error: placeError } = useGetAllPlacesQuery();
   const places = Array.isArray(placeData?.data) ? placeData.data : [];
   const [addPackage] = useAddPackageMutation();
   return (
@@ -149,11 +147,12 @@ function AddPackage({ show, onClose }: AddPackageProps) {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
+          const tour_type = values.tourType === "Round Tours" ? 1 : 0;
           const formData = new FormData();
           formData.append("title", values.title);
           formData.append("price", values.price.toString());
           formData.append("duration", formatDuration(Number(values.duration)));
-          formData.append("tourType", values.tourType);
+          formData.append("tourType", tour_type.toString());
           formData.append("arrival", values.arrival);
           formData.append("arrivalDescription", values.arrivalDescription);
           formData.append("departure", values.departure);
@@ -204,10 +203,12 @@ function AddPackage({ show, onClose }: AddPackageProps) {
                 type="number"
               />
               <FormikInput
-                label={`Duration (days): ${values.duration &&
-                  `${values.duration} days / ${Number(values.duration) - 1
+                label={`Duration (days): ${
+                  values.duration &&
+                  `${values.duration} days / ${
+                    Number(values.duration) - 1
                   } nights`
-                  }`}
+                }`}
                 name="duration"
                 type="number"
                 placeholder="Enter duration"
