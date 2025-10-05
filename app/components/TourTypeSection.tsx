@@ -65,11 +65,17 @@ export default function TourTypeSection() {
 
           <div className="flex-1 flex flex-col gap-6">
             <div className="flex flex-col md:flex-row gap-6 h-1/2">
-              <CategoryCard category={categories[1]} className="flex-1" />
-              <CategoryCard category={categories[2]} className="flex-1" />
+              {categories.length >= 2 && (
+                <CategoryCard category={categories[1]} className="flex-1" />
+              )}
+              {categories.length >= 3 && (
+                <CategoryCard category={categories[2]} className="flex-1" />
+              )}
             </div>
 
-            <CategoryCard category={categories[3]} className="h-1/2" />
+            {categories.length >= 4 && (
+              <CategoryCard category={categories[3]} className="h-1/2" />
+            )}
           </div>
         </div>
       )}
