@@ -13,6 +13,7 @@ import AdminBookingsPage from "./admin/bookings/AdminBookingsPage";
 import AdminReviewsPage from "./admin/reviews/AdminReviewsPage";
 import AdminCustomPackagesPage from "./admin/custom-packages/AdminCustomPackagesPage";
 import AdminVehiclesPage from "./admin/vehicle/AdminVehiclesPage";
+import ChatInterface from "@/app/components/ChatInterface";
 
 type NavigationItem = {
   name: string;
@@ -43,7 +44,7 @@ const initialNavigationItems: NavigationItem[] = [
   },
   { name: "Vehicles", active: false, component: <AdminVehiclesPage /> },
   { name: "Bookings", active: false, component: <AdminBookingsPage /> },
-  { name: "Chats", active: false, component: <Home /> },
+  { name: "Chats", active: false, component: <ChatInterface /> },
   { name: "Gallery", active: false, component: <AdminGalleryPage /> },
   { name: "Reviews", active: false, component: <AdminReviewsPage /> },
 ];

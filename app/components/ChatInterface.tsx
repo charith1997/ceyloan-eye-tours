@@ -154,41 +154,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
   return (
     <div className={`flex h-screen bg-gray-100 ${className}`}>
-      {/* Sidebar Navigation */}
-      <div
-        className={`${
-          showSidebar ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 fixed lg:static z-30 w-64 bg-gradient-to-b from-orange-400 to-red-500 text-white flex flex-col transition-transform duration-300 ease-in-out h-full`}
-      >
-        <div className="p-6">
-          <h1 className="text-2xl font-bold italic">Ceylon Eye Tours</h1>
-        </div>
-
-        <nav className="flex-1 px-4">
-          {navigationItems.map((item) => (
-            <div
-              key={item.name}
-              className={`py-4 px-4 mb-1 cursor-pointer transition-colors ${
-                item.active
-                  ? "bg-pink-200 text-pink-800 rounded-r-full"
-                  : "hover:bg-white/10"
-              }`}
-            >
-              <span className="text-lg font-medium">{item.name}</span>
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      {/* Overlay for mobile sidebar */}
-      {showSidebar && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
-          onClick={() => setShowSidebar(false)}
-        />
-      )}
-
-      {/* Messages List */}
       <div
         className={`${
           showMessages ? "flex" : "hidden"
@@ -196,12 +161,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
       >
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
-            <button
-              onClick={() => setShowSidebar(true)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
             <h2 className="text-xl font-semibold flex items-center">
               Messages
               <ChevronDown className="ml-2 h-4 w-4" />
@@ -267,7 +226,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
         </div>
       </div>
 
-      {/* Chat Area */}
       <div
         className={`${
           showMessages ? "hidden" : "flex"
@@ -275,7 +233,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
       >
         {selectedContact ? (
           <>
-            {/* Chat Header */}
             <div className="bg-white border-b border-gray-200 p-4">
               <div className="flex items-center">
                 <button

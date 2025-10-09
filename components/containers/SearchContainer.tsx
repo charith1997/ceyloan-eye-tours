@@ -1,9 +1,10 @@
 import Button from "@/components/atoms/Button";
 import { logout } from "@/features/authSlice";
 import { getUserDetails } from "@/utils/auth";
-import { CircleUserRound, Plus } from "lucide-react";
+import { Plus, Power } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 interface SearchContainerProps {
@@ -25,6 +26,7 @@ const SearchContainer = ({
   const userDetails = getUserDetails();
   const dispatch = useDispatch();
   const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -32,6 +34,58 @@ const SearchContainer = ({
     setShowModal(false);
     router.push("/");
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(target) &&
+        !target.closest(".user-profile-icon")
+      ) {
+        setShowModal(false);
+      }
+    }
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal]);
+
+  const userImage = (height: number, width: number) => (
+    <div
+      onClick={() => setShowModal(!showModal)}
+      className="cursor-pointer user-profile-icon flex"
+    >
+      {userDetails && userDetails?.profileImage ? (
+        <Image
+          className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
+          src={userDetails?.profileImage}
+          alt="Bordered avatar"
+          width={40}
+          height={40}
+        />
+      ) : (
+        <div
+          className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gradient-to-r from-orange-500 to-red-500 rounded-full text-white`}
+        >
+          {userDetails.userName && (
+            <span>
+              {userDetails?.userName
+                .split(" ")
+                .map((word: string) => word[0])
+                .join("")}
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col md:flex-row justify-between w-full md:items-center gap-4">
@@ -40,13 +94,7 @@ const SearchContainer = ({
             <h1 className="text-2xl">Welcome, </h1>
             <h1 className="text-2xl font-bold ps-2">{userDetails?.userName}</h1>
           </div>
-          <span className="md:hidden">
-            <CircleUserRound
-              width={40}
-              height={40}
-              onClick={() => setShowModal(!showModal)}
-            />
-          </span>
+          <span className="md:hidden">{userImage(10, 10)}</span>
         </div>
         <div className="flex items-center gap-6 justify-between">
           <form className="max-w-full md:max-w-md w-full">
@@ -83,25 +131,26 @@ const SearchContainer = ({
               />
             </div>
           </form>
-          <span className="hidden md:flex">
-            <CircleUserRound
-              width={40}
-              height={40}
-              onClick={() => setShowModal(!showModal)}
-            />
-          </span>
+          <span className="hidden md:flex">{userImage(10, 10)}</span>
           {showModal && (
-            <div className="z-50 flex bg-gray-100 rounded shadow-2xl p-4 min-w-[200px] absolute right-0 mr-4 mt-12 md:mt-42">
+            <div
+              ref={modalRef}
+              className="z-50 bg-white rounded-xl shadow-lg p-4 min-w-[200px] absolute top-32 md:top-16 right-4"
+            >
               <div className="flex flex-col w-full gap-2">
-                <div className="font-semibold text-lg text-gray-500">
-                  {userDetails?.userName}
+                <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
+                  {userImage(8, 8)}
+                  <div className="font-semibold text-lg text-gray-600">
+                    {userDetails?.userName}
+                  </div>
                 </div>
-                <button
-                  className="py-2 bg-gradient-to-r from-red to-orange text-white rounded cursor-pointer"
+                <div
+                  className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
                   onClick={handleLogout}
                 >
-                  Logout
-                </button>
+                  <Power width={20} height={20} />
+                  <h6>Logout</h6>
+                </div>
               </div>
             </div>
           )}
