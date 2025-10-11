@@ -94,15 +94,18 @@ function AdminCarsPage({ cars, handleView }: AdminCarsPageProps) {
               <div className="flex gap-4 justify-end">
                 <Button
                   label="View Details"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
+                  className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                  onClick={() => {
+                    handleView(car);
+                  }}
                 />
                 <Button
                   label="Edit"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
+                  className="w-20 p-2 text-sm rounded-md text-white bg-orange"
                 />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-red uppercase"
+                  className="w-20 p-2 text-sm rounded-md text-white bg-red"
                   onClick={() => {}}
                 />
               </div>

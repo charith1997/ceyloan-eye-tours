@@ -188,7 +188,6 @@ const AdminCustomPackagesPage = () => {
 
       {showPackageDetailsModal && (
         <PackageDetails
-          isOpen={showPackageDetailsModal}
           onClose={() => {
             setShowPackageDetailsModal(false);
           }}

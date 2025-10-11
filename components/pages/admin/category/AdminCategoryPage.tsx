@@ -8,10 +8,12 @@ import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import AddCategory from "./AddCategory";
 import DeleteCategory from "./DeleteCategory";
+import CategoryDetails from "./CategoryDetails";
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [displayDetails, setDisplayDetails] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const { data } = useGetAllCategoriesQuery({});
@@ -44,7 +46,12 @@ const AdminCategoryPage = () => {
                     </h3>
                     <p className="flex text-sm gap-2 items-center">
                       <BookText width={16} />
-                      {category.description}
+                      <span
+                        className="truncate max-w-2xl"
+                        title={category.description}
+                      >
+                        {category.description}
+                      </span>
                     </p>
                     <span className="flex text-sm gap-2 items-center">
                       <Component width={16} /> Package Count:{" "}
@@ -54,6 +61,14 @@ const AdminCategoryPage = () => {
                 </div>
 
                 <div className="flex gap-4">
+                  <Button
+                    label="View Details"
+                    className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                    onClick={() => {
+                      setDisplayDetails(true);
+                      setSelectedCategory(category);
+                    }}
+                  />
                   <Button
                     label="Edit"
                     onClick={() => {
@@ -74,27 +89,33 @@ const AdminCategoryPage = () => {
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 bg-white rounded-lg shadow-sm border border-gray-200">
-                <Image
-                  src={category.image_url}
-                  alt={`Tour ${category.id}`}
-                  width={160}
-                  height={160}
-                  className="object-cover rounded-lg w-36 h-36"
-                />
-                <div className="grid gap-2">
+              <div className="flex md:hidden w-full items-center justify-between py-2 px-4 gap-2 rounded-lg shadow-sm border border-gray-300">
+                <div className="grid gap-4">
                   <div className="flex flex-col gap-1 text-sm">
                     <h3 className="font-bold uppercase">{category.name}</h3>
                     <p className="flex gap-2 items-center">
-                      <BookText width={16} />
-                      {category.description}
+                      <BookText width={16} height={16} />
+                      <span
+                        className="line-clamp-3 w-full"
+                        title={category.description}
+                      >
+                        {category.description}
+                      </span>
                     </p>
                     <p className="flex gap-2 items-center">
                       <Component width={16} />
                       {`Package Count: ${category.packageCount}`}
                     </p>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 justify-end">
+                    <Button
+                      label="View Details"
+                      className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                      onClick={() => {
+                        setDisplayDetails(true);
+                        setSelectedCategory(category);
+                      }}
+                    />
                     <Button
                       label="Edit"
                       className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
@@ -102,7 +123,10 @@ const AdminCategoryPage = () => {
                     <Button
                       label="Delete"
                       className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
-                      onClick={() => setDeleteModal(true)}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setDeleteModal(true);
+                      }}
                     />
                   </div>
                 </div>
@@ -131,6 +155,16 @@ const AdminCategoryPage = () => {
         }}
         selectedID={selectedCategory?.id}
       />
+
+      {displayDetails && (
+        <CategoryDetails
+          category={selectedCategory}
+          onClose={() => {
+            setDisplayDetails(false);
+            setSelectedCategory(null);
+          }}
+        />
+      )}
     </>
   );
 };
