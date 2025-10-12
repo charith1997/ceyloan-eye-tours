@@ -61,6 +61,11 @@ function PackageDetails({ pkg, onClose }: PackageDetailsProps) {
           </div>
         </div>
 
+        <OtherDetails
+          title="Categories"
+          value={pkg.Categories.map((category: any) => category.name)}
+        />
+
         <OtherDetails title="Descriptions" value={pkg.description} />
 
         <OtherDetails

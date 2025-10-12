@@ -30,7 +30,7 @@ export default function TravelItinerary({ id }: TravelItineraryProps) {
   return (
     <>
       {itineraryData.length > 0 ? (
-        <div className="min-h-screen bg-gray-50 p-6 rounded-lg">
+        <div className="min-h-screen bg-gray-50 p-4 rounded-lg">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
@@ -41,8 +41,8 @@ export default function TravelItinerary({ id }: TravelItineraryProps) {
 
             <div className="space-y-8">
               {Object.keys(groupedByDay).map((day) => (
-                <div key={day} className="flex gap-6">
-                  <div className="w-32 flex-shrink-0">
+                <div key={day} className="flex flex-col md:flex md:flex-row gap-6">
+                  <div className="w-full md:w-32 flex-shrink-0">
                     <div className="sticky top-6">
                       <div className="bg-red text-white rounded-xl p-4 text-center shadow-lg">
                         <div className="text-sm font-medium mb-1">Day</div>
@@ -84,7 +84,7 @@ export default function TravelItinerary({ id }: TravelItineraryProps) {
                             </span>
                           </div>
 
-                          <p className="text-gray-700 mb-4">
+                          <p className="text-gray-700 mb-4 text-sm">
                             {item.packagePlace.description}
                           </p>
 
