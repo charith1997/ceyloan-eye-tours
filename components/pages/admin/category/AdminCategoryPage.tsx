@@ -90,13 +90,13 @@ const AdminCategoryPage = () => {
               </div>
 
               <div className="flex md:hidden w-full items-center justify-between py-2 px-4 gap-2 rounded-lg shadow-sm border border-gray-300">
-                <div className="grid gap-4">
+                <div className="grid gap-4 w-full">
                   <div className="flex flex-col gap-1 text-sm">
                     <h3 className="font-bold uppercase">{category.name}</h3>
                     <p className="flex gap-2 items-center">
                       <BookText width={16} height={16} />
                       <span
-                        className="line-clamp-3 w-full"
+                        className="line-clamp-2 w-full"
                         title={category.description}
                       >
                         {category.description}

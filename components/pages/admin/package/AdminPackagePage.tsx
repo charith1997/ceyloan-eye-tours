@@ -10,10 +10,13 @@ import AddPackage from "./AddPackage";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import DeletePackage from "./DeletePackage";
+import PackageDetails from "./PackageDetails";
 
 const AdminPackagePage = () => {
   const [showModal, setShowModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [displayDetails, setDisplayDetails] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<any | null>(null);
 
   const { data, error } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
@@ -61,6 +64,14 @@ const AdminPackagePage = () => {
 
                 <div className="flex gap-4">
                   <Button
+                    label="View Details"
+                    className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                    onClick={() => {
+                      setDisplayDetails(true);
+                      setSelectedPackage(item);
+                    }}
+                  />
+                  <Button
                     label="Edit"
                     className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase"
                   />
@@ -72,15 +83,8 @@ const AdminPackagePage = () => {
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
-                <Image
-                  src={item.image_url || "/tour packages/package_1.jpg"}
-                  alt={`Tour ${item.id}`}
-                  width={160}
-                  height={160}
-                  className="object-cover rounded-lg w-36 h-36"
-                />
-                <div className="grid gap-2">
+              <div className="flex md:hidden w-full items-center justify-between py-2 px-4 gap-2 rounded-lg shadow-sm border border-gray-300">
+                <div className="grid gap-4 w-full">
                   <div className="flex flex-col gap-1 text-sm">
                     <h3 className="font-bold uppercase">{item.title}</h3>
                     <p className="flex gap-2 items-center">
@@ -93,7 +97,15 @@ const AdminPackagePage = () => {
                     </span>
                     <p className="font-bold">${item.price}</p>
                   </div>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 justify-end">
+                    <Button
+                      label="View Details"
+                      className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                      onClick={() => {
+                        setDisplayDetails(true);
+                        setSelectedPackage(item);
+                      }}
+                    />
                     <Button
                       label="Edit"
                       className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase"
@@ -114,6 +126,16 @@ const AdminPackagePage = () => {
       <AddPackage show={showModal} onClose={() => setShowModal(false)} />
 
       <DeletePackage show={deleteModal} onClose={() => setDeleteModal(false)} />
+
+      {displayDetails && (
+        <PackageDetails
+          pkg={selectedPackage}
+          onClose={() => {
+            setDisplayDetails(false);
+            setSelectedPackage(null);
+          }}
+        />
+      )}
     </>
   );
 };
