@@ -11,6 +11,7 @@ import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import DeletePackage from "./DeletePackage";
 import PackageDetails from "./PackageDetails";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 
 const AdminPackagePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -33,15 +34,8 @@ const AdminPackagePage = () => {
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {packages.map((item: any, index: number) => (
             <div key={index}>
-              <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="hidden md:flex w-full items-center justify-between py-2 px-4 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
-                  <Image
-                    src={item.image_url || "/tour packages/package_1.jpg"}
-                    alt={`Package ${item.id}`}
-                    width={120}
-                    height={100}
-                    className="object-cover rounded-lg w-28 h-28"
-                  />
                   <div className="flex flex-col gap-2">
                     <h3 className="text-md font-bold uppercase">
                       {item.title}
@@ -57,15 +51,15 @@ const AdminPackagePage = () => {
                   </div>
                 </div>
 
-                <div className="block justify-items-center text-sm font-bold">
-                  <h3>$</h3>
+                <div className="flex gap-2 text-sm font-bold">
+                  <h3>LKR</h3>
                   <h3>{item.price}</h3>
                 </div>
 
                 <div className="flex gap-4">
                   <Button
                     label="View Details"
-                    className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                    className={`w-fit text-sm uppercase ${viewBtnColor}`}
                     onClick={() => {
                       setDisplayDetails(true);
                       setSelectedPackage(item);
@@ -73,11 +67,11 @@ const AdminPackagePage = () => {
                   />
                   <Button
                     label="Edit"
-                    className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${editBtnColor}`}
                   />
                   <Button
                     label="Delete"
-                    className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                     onClick={() => setDeleteModal(true)}
                   />
                 </div>
@@ -100,19 +94,16 @@ const AdminPackagePage = () => {
                   <div className="flex gap-4 justify-end">
                     <Button
                       label="View Details"
-                      className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                      className={`w-fit ${viewBtnColor}`}
                       onClick={() => {
                         setDisplayDetails(true);
                         setSelectedPackage(item);
                       }}
                     />
-                    <Button
-                      label="Edit"
-                      className="w-20 p-2 rounded-md text-white bg-orange text-sm uppercase"
-                    />
+                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                     <Button
                       label="Delete"
-                      className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                      className={`w-fit ${deleteBtnColor}`}
                       onClick={() => setDeleteModal(true)}
                     />
                   </div>

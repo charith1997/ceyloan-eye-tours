@@ -1,5 +1,6 @@
 import Button from "@/components/atoms/Button";
 import Modal from "@/components/molecules/Modal";
+import { cancelBtnColor } from "@/styles/colors";
 import React from "react";
 
 interface ActionModalProps {
@@ -10,7 +11,6 @@ interface ActionModalProps {
   handleSubmit: () => void;
   buttonLabel?: string;
   submitLabel?: string;
-  buttonLabelColor?: string;
   submitLabelColor?: string;
 }
 
@@ -22,7 +22,6 @@ function ActionModal({
   handleSubmit,
   buttonLabel,
   submitLabel,
-  buttonLabelColor,
   submitLabelColor,
 }: ActionModalProps) {
   return (
@@ -30,12 +29,12 @@ function ActionModal({
       <p>{description}</p>
       <div className="flex justify-between gap-6 pt-6">
         <Button
-          className="w-full text-white px-8 py-2 rounded-lg text-lg font-semibold uppercase bg-[#1976D2]"
+          className={`w-full ${cancelBtnColor}`}
           label={buttonLabel || "Cancel"}
           onClick={onClose}
         />
         <Button
-          className={`w-full text-white px-8 py-2 rounded-lg text-lg font-semibold uppercase ${submitLabelColor}`}
+          className={submitLabelColor}
           label={submitLabel || "Approve"}
           onClick={handleSubmit}
         />

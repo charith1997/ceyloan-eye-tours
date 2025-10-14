@@ -5,13 +5,14 @@ import React from "react";
 interface VehicleDetailsProps {
   visible: boolean;
   details: any;
+  onClose: () => void;
 }
 
-function VehicleDetails({ visible, details }: VehicleDetailsProps) {
+function VehicleDetails({ visible, details, onClose }: VehicleDetailsProps) {
   return (
     <Modal
       isOpen={visible}
-      onClose={() => {}}
+      onClose={onClose}
       title="Activities"
       className="md:w-2xl pb-12"
     >

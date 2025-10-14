@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button";
 import Modal from "@/components/molecules/Modal";
 import { useDeletePlaceActivityMutation } from "@/services/placeActivity";
 import toast from "react-hot-toast";
+import { cancelBtnColor, deleteBtnColor } from "@/styles/colors";
 
 interface DeletePackageProps {
   show: boolean;
@@ -30,12 +31,12 @@ function DeletePlaceActivity({
       <p>Are you sure you want to delete this activity?</p>
       <div className="flex justify-between gap-6 pt-6">
         <Button
-          className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+          className={`w-full ${cancelBtnColor}`}
           label="Cancel"
           onClick={onClose}
         />
         <Button
-          className="w-full text-white px-8 py-2 rounded-lg bg-red text-lg font-semibold uppercase"
+          className={`w-full ${deleteBtnColor}`}
           label="Delete"
           onClick={async () => {
             if (placeId && activityId) {

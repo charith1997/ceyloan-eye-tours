@@ -110,10 +110,10 @@ const FileUploader: React.FC<FileUploaderProps> = ({
         <Button
           type="button"
           onClick={handleButtonClick}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500 text-white text-sm rounded hover:bg-orange-600 transition-colors"
           label={
             <>
-              <Upload size={18} />
+              <Upload size={16} />
               Choose {multiple ? "Files" : "File"}
             </>
           }

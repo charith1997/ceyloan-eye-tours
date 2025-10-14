@@ -74,7 +74,13 @@ const AdminVehiclesPage = () => {
         </div>
       </NavigationContainer>
 
-      {show && <VehicleDetails visible={show} details={details} />}
+      {show && (
+        <VehicleDetails
+          visible={show}
+          details={details}
+          onClose={() => setShow(false)}
+        />
+      )}
     </>
   );
 };

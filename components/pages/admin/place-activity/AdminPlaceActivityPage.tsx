@@ -9,6 +9,7 @@ import DeletePlaceActivity from "./DeletePlaceActivity";
 import { useGetAllPlaceActivitiesQuery } from "@/services/placeActivity";
 import PlaceActivities from "./PlaceActivities";
 import AddPlaceActivity from "./AddPlaceActivity";
+import { viewBtnColor } from "@/styles/colors";
 
 const AdminPlaceActivityPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -65,7 +66,7 @@ const AdminPlaceActivityPage = () => {
 
                   <Button
                     label="View Activities"
-                    className="w-auto p-2 rounded-lg text-white bg-[#1976D2] text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${viewBtnColor}`}
                     onClick={() => {
                       setActivities(activities);
                       setShowModal(true);
@@ -98,7 +99,7 @@ const AdminPlaceActivityPage = () => {
                     </div>
                     <Button
                       label="View Activities"
-                      className="w-auto p-2 rounded-lg text-white bg-[#1976D2] text-sm uppercase"
+                      className={`w-fit ${viewBtnColor}`}
                       onClick={() => {
                         setActivities(activities);
                         setShowModal(true);

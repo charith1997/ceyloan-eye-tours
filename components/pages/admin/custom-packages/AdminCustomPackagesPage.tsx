@@ -9,6 +9,7 @@ import PlaceOrder from "./PlaceOrders";
 import { checkIfSortedOrder } from "@/utils/package";
 import ApprovePackage from "./ApprovePackage";
 import PackageDetails from "./PackageDetails";
+import { approveBtnColor, editBtnColor, updateBtnColor } from "@/styles/colors";
 
 const AdminCustomPackagesPage = () => {
   const [showPlaceOrdersModal, setShowPlaceOrdersModal] = useState(false);
@@ -65,7 +66,11 @@ const AdminCustomPackagesPage = () => {
                           ? "Edit Order"
                           : "Sort Order"
                       }`}
-                      className="w-auto p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase tracking-wide"
+                      className={`w-fit ${
+                        checkIfSortedOrder(item?.CustomizePackagePlaces || [])
+                          ? `${editBtnColor}`
+                          : `${updateBtnColor}`
+                      } uppercase text-sm`}
                       onClick={() => {
                         setShowPlaceOrdersModal(true);
                         setPackageDetails(item);
@@ -76,7 +81,7 @@ const AdminCustomPackagesPage = () => {
                     checkIfSortedOrder(item?.CustomizePackagePlaces || []) && (
                       <Button
                         label="Approve"
-                        className="w-auto p-2 rounded-md text-white bg-green-500 text-sm uppercase tracking-wide"
+                        className={`w-fit ${approveBtnColor} uppercase text-sm`}
                         onClick={() => {
                           setShowApproveModal(true);
                           setPackageDetails(item);
@@ -125,7 +130,13 @@ const AdminCustomPackagesPage = () => {
                               ? "Edit Order"
                               : "Sort Order"
                           }`}
-                          className="w-auto p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase tracking-wide"
+                          className={`w-fit ${
+                            checkIfSortedOrder(
+                              item?.CustomizePackagePlaces || []
+                            )
+                              ? `${editBtnColor}`
+                              : `${updateBtnColor}`
+                          }`}
                           onClick={() => {
                             setShowPlaceOrdersModal(true);
                             setPackageDetails(item);
@@ -138,7 +149,7 @@ const AdminCustomPackagesPage = () => {
                         ) && (
                           <Button
                             label="Approve"
-                            className="w-auto p-2 rounded-md text-white bg-green-500 text-sm uppercase tracking-wide"
+                            className={`w-fit ${approveBtnColor}`}
                             onClick={() => {
                               setShowApproveModal(true);
                               setPackageDetails(item);

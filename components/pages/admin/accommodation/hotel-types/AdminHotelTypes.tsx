@@ -4,6 +4,7 @@ import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
 import { BookText } from "lucide-react";
+import { deleteBtnColor, editBtnColor } from "@/styles/colors";
 
 interface AdminHotelTypesProps {
   setDeleteHotelType: React.Dispatch<React.SetStateAction<boolean>>;
@@ -41,11 +42,11 @@ function AdminHotelTypes({
             <div className="flex gap-4">
               <Button
                 label="Edit"
-                className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
+                className={`w-fit text-sm uppercase ${editBtnColor}`}
               />
               <Button
                 label="Delete"
-                className="w-20 p-2 text-sm rounded-md text-white bg-red uppercase"
+                className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                 onClick={() => {
                   setDeleteHotelType(true);
                   setSelectedHotelTypeId(item.id);
@@ -71,13 +72,10 @@ function AdminHotelTypes({
                 </p>
               </div>
               <div className="flex gap-4">
-                <Button
-                  label="Edit"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
-                />
+                <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-red uppercase"
+                  className={`w-fit ${deleteBtnColor}`}
                   onClick={() => {
                     setDeleteHotelType(true);
                     setSelectedHotelTypeId(item.id);

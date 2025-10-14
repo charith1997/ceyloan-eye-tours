@@ -25,10 +25,10 @@ function CategoryDetails({ category, onClose }: CategoryDetailsProps) {
           height={200}
           className="object-cover rounded-lg w-full md:max-w-60 h-auto"
         />
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-gray-50 rounded-lg p-4 w-full">
           <h4 className="text-lg text-gray-900 mb-4">Category Information</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 text-sm">
-            <SingleInfo title="Category Name" value={category.name} />
+          <div className="flex flex-col md:flex-row justify-between gap-4 pb-4 text-sm">
+            <SingleInfo title="Name" value={category.name} />
             <SingleInfo title="Package Count" value={category.packageCount} />
           </div>
           <SingleInfo title="Description" value={category.description} />

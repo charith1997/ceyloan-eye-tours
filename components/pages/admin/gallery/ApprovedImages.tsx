@@ -4,6 +4,7 @@ import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
+import { cancelBtnColor, deleteBtnColor } from "@/styles/colors";
 
 interface ApprovedImagesProps {
   setViewImageUrl: (url: string | null) => void;
@@ -50,14 +51,14 @@ function ApprovedImages({
               />
               <Button
                 label="Cancel"
-                className="w-20 p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase"
+                className={`w-fit text-sm uppercase ${cancelBtnColor}`}
                 onClick={() => {
                   displayCancelModal(item.id);
                 }}
               />
               <Button
                 label="Delete"
-                className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                 onClick={() => {
                   displayDeleteModal(item.id);
                 }}
@@ -85,14 +86,14 @@ function ApprovedImages({
                 />
                 <Button
                   label="Cancel"
-                  className="w-20 p-2 rounded-md text-white bg-[#1976D2] text-sm uppercase"
+                  className={`w-fit ${cancelBtnColor}`}
                   onClick={() => {
                     displayCancelModal(item.id);
                   }}
                 />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                  className={`w-fit ${deleteBtnColor}`}
                   onClick={() => {
                     displayDeleteModal(item.id);
                   }}

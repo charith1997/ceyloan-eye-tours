@@ -1,5 +1,6 @@
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { MapPin, Phone, User, Users } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -52,18 +53,18 @@ function AdminBusPage({ busses, handleView }: AdminBusPageProps) {
             <div className="flex gap-4">
               <Button
                 label="View Details"
-                className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                className={`w-fit text-sm uppercase ${viewBtnColor}`}
                 onClick={() => {
                   handleView(bus);
                 }}
               />
               <Button
                 label="Edit"
-                className="w-20 p-2 text-sm rounded-md text-white bg-orange"
+                className={`w-fit text-sm uppercase ${editBtnColor}`}
               />
               <Button
                 label="Delete"
-                className="w-20 p-2 text-sm rounded-md text-white bg-red"
+                className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                 onClick={() => {}}
               />
             </div>
@@ -94,15 +95,12 @@ function AdminBusPage({ busses, handleView }: AdminBusPageProps) {
               <div className="flex gap-4 justify-end">
                 <Button
                   label="View Details"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
+                  className={`w-fit ${viewBtnColor}`}
                 />
-                <Button
-                  label="Edit"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-orange uppercase"
-                />
+                <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 text-sm rounded-md text-white bg-red uppercase"
+                  className={`w-fit ${deleteBtnColor}`}
                   onClick={() => {}}
                 />
               </div>

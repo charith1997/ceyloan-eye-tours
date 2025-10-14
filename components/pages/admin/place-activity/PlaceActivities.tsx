@@ -3,6 +3,7 @@ import Button from "@/components/atoms/Button";
 import Modal from "@/components/molecules/Modal";
 import { BookText, DollarSign } from "lucide-react";
 import Image from "next/image";
+import { deleteBtnColor, editBtnColor } from "@/styles/colors";
 
 interface PlaceActivitiesProps {
   show: boolean;
@@ -27,7 +28,7 @@ function PlaceActivities({
       <div className="flex flex-col gap-4">
         {activities.map((activity: any) => (
           <div key={activity.id}>
-            <div className="hidden md:flex w-full items-center justify-between p-2 border-2 rounded-lg border-orange">
+            <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
               <div className="flex items-center gap-8">
                 <Image
                   src={activity.image_url}
@@ -53,16 +54,16 @@ function PlaceActivities({
               <div className="flex gap-4">
                 <Button
                   label="Edit"
-                  className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
+                  className={`w-fit text-sm uppercase ${editBtnColor}`}
                 />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                  className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                   onClick={() => showDeleteModal(activity.id)}
                 />
               </div>
             </div>
-            <div className="flex md:hidden w-full items-center justify-between p-2 border-2 rounded-lg border-orange gap-2">
+            <div className="flex md:hidden w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200 gap-2">
               <Image
                 src={activity.image_url}
                 alt={`Activity ${activity.name}`}
@@ -83,13 +84,10 @@ function PlaceActivities({
                   </p>
                 </div>
                 <div className="flex gap-4">
-                  <Button
-                    label="Edit"
-                    className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
-                  />
+                  <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                   <Button
                     label="Delete"
-                    className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                    className={`w-fit ${deleteBtnColor}`}
                     onClick={() => {}}
                   />
                 </div>

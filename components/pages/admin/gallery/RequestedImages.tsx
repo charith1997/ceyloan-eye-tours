@@ -5,6 +5,7 @@ import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
 import ImageModal from "./ImageModal";
+import { approveBtnColor, deleteBtnColor } from "@/styles/colors";
 
 interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
@@ -52,14 +53,14 @@ function RequestedImages({
               />
               <Button
                 label="Approve"
-                className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase"
+                className={`w-fit text-sm uppercase ${approveBtnColor}`}
                 onClick={() => {
                   displayApproveModal(item.id);
                 }}
               />
               <Button
                 label="Delete"
-                className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                 onClick={() => {
                   displayDeleteModal(item.id);
                 }}
@@ -87,14 +88,14 @@ function RequestedImages({
                 />
                 <Button
                   label="Approve"
-                  className="w-20 p-2 rounded-md text-white bg-[#4CAF50] text-sm uppercase"
+                  className={`w-fit ${approveBtnColor}`}
                   onClick={() => {
                     displayApproveModal(item.id);
                   }}
                 />
                 <Button
                   label="Delete"
-                  className="w-20 p-2 rounded-md text-white bg-red text-sm uppercase"
+                  className={`w-fit ${deleteBtnColor}`}
                   onClick={() => {
                     displayDeleteModal(item.id);
                   }}

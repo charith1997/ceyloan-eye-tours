@@ -9,6 +9,7 @@ import Image from "next/image";
 import AddCategory from "./AddCategory";
 import DeleteCategory from "./DeleteCategory";
 import CategoryDetails from "./CategoryDetails";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +64,7 @@ const AdminCategoryPage = () => {
                 <div className="flex gap-4">
                   <Button
                     label="View Details"
-                    className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                    className={`w-fit text-sm uppercase ${viewBtnColor}`}
                     onClick={() => {
                       setDisplayDetails(true);
                       setSelectedCategory(category);
@@ -76,11 +77,11 @@ const AdminCategoryPage = () => {
                       setSelectedCategory(category);
                       setShowModal(true);
                     }}
-                    className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${editBtnColor}`}
                   />
                   <Button
                     label="Delete"
-                    className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                     onClick={() => {
                       setSelectedCategory(category);
                       setDeleteModal(true);
@@ -110,19 +111,16 @@ const AdminCategoryPage = () => {
                   <div className="flex gap-4 justify-end">
                     <Button
                       label="View Details"
-                      className="w-24 p-2 text-sm rounded-md text-white bg-gray-600"
+                      className={`w-fit ${viewBtnColor}`}
                       onClick={() => {
                         setDisplayDetails(true);
                         setSelectedCategory(category);
                       }}
                     />
-                    <Button
-                      label="Edit"
-                      className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
-                    />
+                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                     <Button
                       label="Delete"
-                      className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                      className={`w-fit ${deleteBtnColor}`}
                       onClick={() => {
                         setSelectedCategory(category);
                         setDeleteModal(true);

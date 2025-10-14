@@ -7,6 +7,7 @@ import { FormikInput } from "@/components/atoms/FormikInput";
 import FileUploader from "@/components/atoms/FileUploader";
 import Button from "@/components/atoms/Button";
 import { useAddActivityMutation } from "@/services/activityApi";
+import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddActivityProps {
   show: boolean;
@@ -50,21 +51,29 @@ function AddActivity({ show, onClose }: AddActivityProps) {
         }}
       >
         <Form className="space-y-4 flex-1 overflow-y-auto py-2 pr-2">
-          <FormikInput label="Activity Name:" name="name" placeholder="Enter activity name" />
+          <FormikInput
+            label="Activity Name:"
+            name="name"
+            placeholder="Enter activity name"
+          />
 
-          <FormikInput label="Description:" name="description" placeholder="Enter description" />
+          <FormikInput
+            label="Description:"
+            name="description"
+            placeholder="Enter description"
+          />
 
           <FileUploader name="image" label="Upload Image" />
 
           <div className="flex gap-6">
             <Button
               onClick={onClose}
-              className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+              className={`w-full ${cancelBtnColor}`}
               label="Cancel"
             />
             <Button
               type="submit"
-              className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+              className={`w-full ${saveBtnColor}`}
               label="Save"
             />
           </div>

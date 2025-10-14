@@ -10,6 +10,7 @@ import {
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
 } from "@/services/categoryApi";
+import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddCategoryProps {
   show: boolean;
@@ -104,12 +105,12 @@ function AddCategory({
           <div className="flex gap-6">
             <Button
               onClick={onClose}
-              className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+              className={`w-full ${cancelBtnColor}`}
               label="Cancel"
             />
             <Button
               type="submit"
-              className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+              className={`w-full ${saveBtnColor}`}
               label="Save"
             />
           </div>

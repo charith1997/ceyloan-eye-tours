@@ -1,88 +1,14 @@
 import React from "react";
 import { BookText, Component } from "lucide-react";
-import { Input } from "@/components/atoms/Input";
-import TextArea from "@/components/atoms/TextArea";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
-import ListContainer from "@/components/containers/ListContainer";
-import Modal from "@/components/molecules/Modal";
-import Dropdown from "@/components/atoms/Dropdown";
-import {
-  useAddActivityMutation,
-  useDeleteActivityMutation,
-  useGetAllActivitiesQuery,
-} from "@/services/activityApi";
-import toast from "react-hot-toast";
-import {
-  useCreateCategoryMutation,
-  useDeleteCategoryMutation,
-} from "@/services/categoryApi";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import { FormikInput } from "@/components/atoms/FormikInput";
-import FileUploader from "@/components/atoms/FileUploader";
+import { useGetAllActivitiesQuery } from "@/services/activityApi";
 import AddActivity from "./AddActivity";
 import DeleteActivity from "./DeleteActivity";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
-
-const cardDetails = (item: { name: string; description: string }) => (
-  <div className="flex flex-col gap-2">
-    <h3 className="text-md font-bold uppercase">{item.name}</h3>
-    <p className="flex text-sm gap-2 items-center">
-      <BookText width={16} />
-      {item.description}
-    </p>
-  </div>
-);
-
-const priceDetails = () => null;
-
-const actionButtons = (
-  item: { id: string },
-  displayDeleteModal: (value: boolean) => void,
-  setID: (value: string) => void
-) => {
-  return (
-    <div className="flex gap-4">
-      <Button
-        label="Edit"
-        className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
-      />
-      <Button
-        label="Delete"
-        className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
-        onClick={() => {
-          displayDeleteModal(true);
-          setID(item.id);
-        }}
-      />
-    </div>
-  );
-};
-
-const mobileViewCardDetails = (item: {
-  name: string;
-  description: string;
-  packageCount: number;
-}) => (
-  <div className="flex flex-col gap-1 text-sm">
-    <h3 className="font-bold uppercase">{item.name}</h3>
-    <p className="flex gap-2 items-center">
-      <BookText width={16} />
-      {item.description}
-    </p>
-    <p className="flex gap-2 items-center">
-      <Component width={16} />
-      {`Package Count: ${item.packageCount}`}
-    </p>
-  </div>
-);
-
-const textFieldClassNames =
-  "w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none";
-const labelClassNames = "block text-sm font-medium";
+import { deleteBtnColor, editBtnColor } from "@/styles/colors";
 
 const AdminActivityPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -91,7 +17,7 @@ const AdminActivityPage = () => {
     string | null
   >(null);
 
-  const { data, error } = useGetAllActivitiesQuery();
+  const { data } = useGetAllActivitiesQuery();
   const activities = Array.isArray(data?.data) ? data.data : [];
 
   return (
@@ -130,11 +56,11 @@ const AdminActivityPage = () => {
                 <div className="flex gap-4">
                   <Button
                     label="Edit"
-                    className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${editBtnColor}`}
                   />
                   <Button
                     label="Delete"
-                    className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                     onClick={() => {
                       setSelectedActivityId(activity.id);
                       setDeleteModal(true);
@@ -164,13 +90,10 @@ const AdminActivityPage = () => {
                     </p>
                   </div>
                   <div className="flex gap-4">
-                    <Button
-                      label="Edit"
-                      className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
-                    />
+                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                     <Button
                       label="Delete"
-                      className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                      className={`w-fit ${deleteBtnColor}`}
                       onClick={() => {
                         setSelectedActivityId(activity.id);
                         setDeleteModal(true);

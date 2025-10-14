@@ -1,5 +1,6 @@
 import Button from "@/components/atoms/Button";
 import { logout } from "@/features/authSlice";
+import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
 import { Plus, Power } from "lucide-react";
 import Image from "next/image";
@@ -166,7 +167,7 @@ const SearchContainer = ({
                 {buttonName}
               </>
             }
-            className="flex items-center gap-2 bg-[#1976D2] text-white px-4 py-2 rounded-lg uppercase cursor-pointer"
+            className={`flex items-center gap-2 uppercase cursor-pointer ${addBtnColor}`}
             onClick={onClick}
           />
         )}

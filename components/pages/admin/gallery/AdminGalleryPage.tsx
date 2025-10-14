@@ -12,6 +12,7 @@ import {
 import toast from "react-hot-toast";
 import ImageModal from "./ImageModal";
 import DeleteModal from "./DeleteModal";
+import { approveBtnColor, declineBtnColor } from "@/styles/colors";
 
 const AdminGalleryPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -128,7 +129,8 @@ const AdminGalleryPage = () => {
         }}
         buttonLabel={showApproveModal ? "Cancel" : "Cancel"}
         submitLabel={showApproveModal ? "Approve" : "Reject"}
-        submitLabelColor={showApproveModal ? "bg-[#4CAF50]" : "bg-red"}
+        // submitLabelColor={showApproveModal ? "bg-[#4CAF50]" : "bg-red"}
+        submitLabelColor={showApproveModal ? `w-full ${approveBtnColor}` : `w-full ${declineBtnColor}`}
       />
 
       <DeleteModal

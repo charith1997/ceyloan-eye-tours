@@ -11,6 +11,7 @@ import FormikDropdown from "@/components/atoms/FormikDropdown";
 import { useGetAllPlacesQuery } from "@/services/placesApi";
 import { useGetAllActivitiesQuery } from "@/services/activityApi";
 import { useCreatePlaceActivityMutation } from "@/services/placeActivity";
+import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddPlaceActivityProps {
   show: boolean;
@@ -118,12 +119,12 @@ function AddPlaceActivity({ show, onClose }: AddPlaceActivityProps) {
           <div className="flex gap-6">
             <Button
               onClick={onClose}
-              className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+              className={`w-full ${cancelBtnColor}`}
               label="Cancel"
             />
             <Button
               type="submit"
-              className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+              className={`w-full ${saveBtnColor}`}
               label="Save"
             />
           </div>

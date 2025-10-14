@@ -9,6 +9,7 @@ import Image from "next/image";
 import DeletePlace from "./DeletePlace";
 import AddPlace from "./AddPlace";
 import { checkImageUrl } from "@/utils/common";
+import { deleteBtnColor, editBtnColor } from "@/styles/colors";
 
 const AdminPlacesPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -63,11 +64,11 @@ const AdminPlacesPage = () => {
                 <div className="flex gap-4">
                   <Button
                     label="Edit"
-                    className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${editBtnColor}`}
                   />
                   <Button
                     label="Delete"
-                    className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                    className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                     onClick={() => {
                       setSelectedPlaceId(place.id);
                       setDeleteModal(true);
@@ -101,13 +102,10 @@ const AdminPlacesPage = () => {
                     </div>
                   </div>
                   <div className="flex gap-4">
-                    <Button
-                      label="Edit"
-                      className="w-20 p-2 rounded-lg text-white bg-orange text-sm uppercase"
-                    />
+                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
                     <Button
                       label="Delete"
-                      className="w-20 p-2 rounded-lg text-white bg-red text-sm uppercase"
+                      className={`w-fit ${deleteBtnColor}`}
                       onClick={() => {
                         setSelectedPlaceId(place.id);
                         setDeleteModal(true);

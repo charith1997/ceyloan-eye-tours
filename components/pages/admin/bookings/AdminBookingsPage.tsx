@@ -19,6 +19,12 @@ import data from "../../../../data.json";
 import CompleteBooking from "./CompleteBooking";
 import ReopenBooking from "./ReopenBooking";
 import BookingDetails from "./BookingDetails";
+import {
+  addBtnColor,
+  approveBtnColor,
+  cancelBtnColor,
+  viewBtnColor,
+} from "@/styles/colors";
 
 interface Booking {
   id: string;
@@ -315,7 +321,7 @@ const AdminBookingsPage: React.FC = () => {
 
                     <div className="flex justify-between space-x-3 pt-4 border-t border-gray-200">
                       <Button
-                        className="px-2 md:px-4 py-2 text-sm font-medium text-indigo-600 bg-white border border-indigo-600 rounded-md hover:bg-indigo-50 focus:outline-none"
+                        className={`w-fit md:text-sm md:uppercase ${viewBtnColor}`}
                         label="View Details"
                         onClick={() => {
                           setBookingDetails(booking);
@@ -327,7 +333,7 @@ const AdminBookingsPage: React.FC = () => {
                         {(booking.status === "pending" ||
                           booking.status === "confirmed") && (
                           <Button
-                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none"
+                            className={`w-fit md:text-sm md:uppercase ${cancelBtnColor}`}
                             label="Cancel"
                             onClick={() => {
                               setSelectedBookingId(booking.id);
@@ -337,7 +343,7 @@ const AdminBookingsPage: React.FC = () => {
                         )}
                         {booking.status === "confirmed" && (
                           <Button
-                            className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none"
+                            className={`w-fit md:text-sm md:uppercase ${approveBtnColor}`}
                             label="Complete"
                             onClick={() => {
                               setSelectedBookingId(booking.id);
@@ -347,7 +353,7 @@ const AdminBookingsPage: React.FC = () => {
                         )}
                         {booking.status === "cancelled" && (
                           <Button
-                            className="px-4 py-2 text-sm font-medium text-white bg-gray-600 border border-transparent rounded-md hover:bg-gray-700 focus:outline-none"
+                            className={`w-fit md:text-sm md:uppercase ${addBtnColor}`}
                             label="Reopen"
                             onClick={() => {
                               setSelectedBookingId(booking.id);

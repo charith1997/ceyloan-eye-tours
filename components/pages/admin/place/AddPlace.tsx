@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import * as Yup from "yup";
 import MapWithGeocoder from "./MapWithGeocoder";
 import { useCreatePlaceMutation } from "@/services/placesApi";
+import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddPlaceProps {
   show: boolean;
@@ -113,12 +114,12 @@ function AddPlace({ show, onClose }: AddPlaceProps) {
             <div className="flex gap-6">
               <Button
                 onClick={onClose}
-                className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+                className={`w-full ${cancelBtnColor}`}
                 label="Cancel"
               />
               <Button
                 type="submit"
-                className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+                className={`w-full ${saveBtnColor}`}
                 label="Save"
               />
             </div>

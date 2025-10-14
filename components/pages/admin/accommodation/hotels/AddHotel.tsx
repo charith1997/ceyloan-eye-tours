@@ -13,6 +13,7 @@ import FormikFieldArray from "@/components/atoms/FormikFieldArray";
 import AddRoomDetails from "./AddRoomDetails";
 import StarRatingInput from "@/components/atoms/StarRatingInput";
 import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
+import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddHotelProps {
   show: boolean;
@@ -177,12 +178,12 @@ function AddHotel({ show, onClose }: AddHotelProps) {
           <div className="flex gap-6">
             <Button
               onClick={onClose}
-              className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+              className={`w-full ${cancelBtnColor}`}
               label="Cancel"
             />
             <Button
               type="submit"
-              className="w-full text-white px-8 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-lg font-semibold uppercase"
+              className={`w-full ${saveBtnColor}`}
               label="Save"
             />
           </div>
