@@ -1,4 +1,8 @@
+import { checkImageUrl } from "@/utils/common";
+import Image from "next/image";
 import React, { useState, useEffect } from "react";
+import Button from "../atoms/Button";
+import { ChevronLeft, ChevronRight, XIcon } from "lucide-react";
 
 interface GalleryImage {
   src: string;
@@ -33,12 +37,11 @@ export default function Gallery({ images = [] }: GalleryProps) {
     );
   }
 
-  // helper for grid classes depending on number of images
   const gridCols = () => {
     if (images.length === 1) return "grid-cols-1";
     if (images.length === 2) return "grid-cols-2";
     if (images.length === 3) return "grid-cols-3 gap-2";
-    return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"; // 4+ fallback
+    return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
   };
 
   const openAt = (index: number) => {
@@ -47,10 +50,9 @@ export default function Gallery({ images = [] }: GalleryProps) {
   };
 
   return (
-    <div>
+    <div className="px-2">
       <div className={`grid ${gridCols()} gap-2`}>
         {images.map((img: any, i) => {
-          // make the first image larger when there are many images
           const isBigFirst = i === 0 && images.length >= 4;
           const tileClass = isBigFirst
             ? "relative overflow-hidden rounded-lg col-span-2 row-span-2 h-64 md:h-72"
@@ -63,14 +65,15 @@ export default function Gallery({ images = [] }: GalleryProps) {
               className={`${tileClass} focus:outline-none focus:ring-4 focus:ring-indigo-300`}
               aria-label={`Open image ${i + 1} of ${images.length}`}
             >
-              <img
-                src={img.src}
+              <Image
+                src={checkImageUrl(img.src)}
                 alt={img.alt || `Image ${i + 1}`}
                 className="object-cover w-full h-full transition-transform duration-300 transform hover:scale-105"
                 loading="lazy"
+                width={250}
+                height={250}
               />
 
-              {/* if this is the last visible tile and there are many images, show +N overlay */}
               {i === images.length - 1 && images.length > 8 && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center text-white text-lg font-semibold">
                   +{images.length - 8}
@@ -81,7 +84,6 @@ export default function Gallery({ images = [] }: GalleryProps) {
         })}
       </div>
 
-      {/* Lightbox modal */}
       {isOpen && (
         <div
           role="dialog"
@@ -94,44 +96,39 @@ export default function Gallery({ images = [] }: GalleryProps) {
           />
 
           <div className="relative max-w-4xl w-full mx-auto bg-transparent">
-            <button
+            <Button
               onClick={() => setIsOpen(false)}
-              className="absolute top-2 right-2 z-20 rounded-full p-2 bg-white/90 shadow focus:outline-none"
+              className="absolute top-2 right-2 z-20 rounded-lg p-1 bg-white/90 shadow focus:outline-none"
               aria-label="Close"
-            >
-              ✕
-            </button>
+              label={<XIcon />}
+            />
 
             <div className="flex items-center justify-between">
-              <button
+              <Button
                 onClick={() =>
                   setCurrent((c) => (c - 1 + images.length) % images.length)
                 }
                 className="p-2 rounded-full bg-white/90 shadow focus:outline-none mx-2"
                 aria-label="Previous image"
-              >
-                ‹
-              </button>
+                label={<ChevronLeft />}
+              />
 
               <div className="relative w-full">
-                <img
-                  src={images[current].src}
+                <Image
+                  src={checkImageUrl(images[current].src)}
                   alt={images[current].alt || `Image ${current + 1}`}
-                  className="mx-auto max-h-[70vh] object-contain rounded"
+                  className="mx-auto h-80 max-h-80 object-contain rounded"
+                  width={250}
+                  height={250}
                 />
-
-                <div className="mt-2 text-center text-sm text-white">
-                  {images[current].alt || `Image ${current + 1}`}
-                </div>
               </div>
 
-              <button
+              <Button
                 onClick={() => setCurrent((c) => (c + 1) % images.length)}
                 className="p-2 rounded-full bg-white/90 shadow focus:outline-none mx-2"
                 aria-label="Next image"
-              >
-                ›
-              </button>
+                label={<ChevronRight />}
+              />
             </div>
 
             {/* thumbnails */}
@@ -145,10 +142,12 @@ export default function Gallery({ images = [] }: GalleryProps) {
                   }`}
                   aria-label={`Thumbnail ${idx + 1}`}
                 >
-                  <img
-                    src={t.src}
+                  <Image
+                    src={checkImageUrl(t.src)}
                     alt={t.alt || `Thumb ${idx + 1}`}
                     className="h-14 w-20 object-cover"
+                    width={100}
+                    height={100}
                   />
                 </button>
               ))}

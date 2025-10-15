@@ -1,9 +1,9 @@
 import AdminDetailsContainer from "@/components/containers/AdminDetailsContainer";
 import { displayTourType } from "@/utils/common";
 import { Star } from "lucide-react";
-import Image from "next/image";
 import React from "react";
 import TravelItinerary from "./TravelItinerary";
+import Gallery from "@/components/organisams/Gallery";
 
 interface PackageDetailsProps {
   pkg: any;
@@ -78,6 +78,13 @@ function PackageDetails({ pkg, onClose }: PackageDetailsProps) {
         <OtherDetails title="Package Excludes" value={pkg.excludes} />
 
         <TravelItinerary id={pkg.url_prefix} />
+
+        <Gallery
+          images={pkg.Images.map((image: any) => ({
+            src: image.image_url,
+            alt: `Packaged Id ${image.id}`,
+          }))}
+        />
       </div>
     </AdminDetailsContainer>
   );

@@ -89,7 +89,7 @@ const AdminPackagePage = () => {
                       <CalendarDays width={16} />{" "}
                       {formatDuration(item.duration)}
                     </span>
-                    <p className="font-bold">${item.price}</p>
+                    <p className="font-bold">LKR {item.price}</p>
                   </div>
                   <div className="flex gap-4 justify-end">
                     <Button
