@@ -1,60 +1,52 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const categoryApi = createApi({
-  reducerPath: "categoryApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Category"],
+export const categoryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Get all categories (with token)
     getAllCategories: builder.query<any, { tourType?: string }>({
       query: ({ tourType }) => {
         let url = "/categories/get-all";
         if (tourType) url += `?tourType=${tourType}`;
         return url;
       },
-      providesTags: ["Category"]
+      providesTags: ["Category"],
     }),
-    // Create category (form data)
     createCategory: builder.mutation<any, FormData>({
       query: (formData) => ({
         url: "/categories/create",
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: ["Category"]
+      invalidatesTags: ["Category"],
     }),
-    // Update category
-    updateCategory: builder.mutation<any, { id: string | undefined; data: { name: string; description: string } }>({
+    updateCategory: builder.mutation<
+      any,
+      {
+        id: string | undefined;
+        data: { name: string; description: string; image_url: string };
+      }
+    >({
       query: ({ id, data }) => ({
         url: `/categories/update/${id}`,
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Category"]
+      invalidatesTags: ["Category"],
     }),
-    // Delete category
     deleteCategory: builder.mutation<any, string>({
       query: (id) => ({
         url: `/categories/delete/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Category"]
+      invalidatesTags: ["Category"],
     }),
-    // Get all categories with packages
     getAllCategoriesWithPackages: builder.query<any, void>({
       query: () => "/categories",
     }),
-    // Get category by ID
-    getCategoryById: builder.query<any, { id: string; tourType?: string }>({
-      query: ({ id, tourType }) => {
-        let url = `/categories/get-by-id/${id}`;
-        if (tourType) url += `?tourType=${tourType}`;
-        return url;
-      },
-    }),
-    // Get category by URL prefix
-    getCategoryByUrlPrefix: builder.query<any, {slug: string; tourType?: string}>({
-      query: ({slug, tourType}) => {
+    getCategoryByUrlPrefix: builder.query<
+      any,
+      { slug: string; tourType?: string }
+    >({
+      query: ({ slug, tourType }) => {
         let url = `/categories/get-by-urlprefix/${slug}`;
         if (tourType) url += `?tourType=${tourType}`;
         return url;
@@ -69,6 +61,5 @@ export const {
   useUpdateCategoryMutation,
   useDeleteCategoryMutation,
   useGetAllCategoriesWithPackagesQuery,
-  useGetCategoryByIdQuery,
   useGetCategoryByUrlPrefixQuery,
 } = categoryApi;

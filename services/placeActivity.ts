@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const placeActivity = createApi({
-  reducerPath: "placeActivity",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["PlaceActivities"],
+export const placeActivity = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllPlaceActivities: builder.query<any, void>({
       query: () => "/place-activities/grouped",

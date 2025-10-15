@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@/components/atoms/Button";
 import FileUploader from "@/components/atoms/FileUploader";
 import { FormikInput } from "@/components/atoms/FormikInput";
@@ -20,7 +20,7 @@ interface AddCategoryProps {
     id: string;
     name: string;
     description: string;
-    image?: File | null;
+    image_url?: File | null;
   };
 }
 
@@ -30,18 +30,31 @@ function AddCategory({
   isEdit = false,
   initialValues,
 }: AddCategoryProps) {
+  console.log('initialValues', initialValues);
+  
+  const [showExistingImage, setShowExistingImage] = useState(
+    !!(isEdit && initialValues?.image_url)
+  );
+
+  console.log('showExistingImage', showExistingImage);
+
+
   const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
 
   const defaultInitialValues = initialValues || {
     name: "",
     description: "",
-    image: null,
+    image_url: null,
   };
   const validationSchema = Yup.object({
     name: Yup.string().required("* Name is Required"),
     description: Yup.string().required("* Description is Required"),
-    image: isEdit ? Yup.mixed() : Yup.mixed().required("* Image is required"),
+    image_url: Yup.mixed().when([], {
+      is: () => !showExistingImage,
+      then: (schema) => schema.required("* Image is required"),
+      otherwise: (schema) => schema.notRequired(),
+    }),
   });
 
   return (
@@ -57,33 +70,51 @@ function AddCategory({
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
-          formData.append("name", values.name);
-          formData.append("description", values.description);
-          if (values.image) {
-            formData.append("image", values.image);
-          }
 
-          try {
-            if (isEdit) {
-              const response = await updateCategory({
-                id: initialValues?.id,
-                data: {
-                  name: values.name,
-                  description: values.description,
-                },
-              }).unwrap();
-              toast.success(response.message);
-            } else {
-              const response = await createCategory(formData).unwrap();
-              toast.success(response.message);
+          if (isEdit) {
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.description !== initialValues?.description)
+              formData.append("description", values.description);
+            if (!showExistingImage && values.image_url !== initialValues?.image_url)
+              formData.append("image", values.image_url || '');
+
+            // If nothing changed, skip the request
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
             }
 
-            resetForm();
-            onClose();
-          } catch (err: any) {
-            toast.error(err?.data?.message);
-          } finally {
-            setSubmitting(false);
+            try {
+              const response = await updateCategory({
+                id: initialValues?.id,
+                data: formData as any,
+              }).unwrap();
+              toast.success(response.message);
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+              onClose();
+            }
+          } else {
+            formData.append("name", values.name);
+            formData.append("description", values.description);
+            if (values.image_url) {
+              formData.append("image", values.image_url);
+            }
+
+            try {
+              const response = await createCategory(formData).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >
@@ -100,7 +131,32 @@ function AddCategory({
             placeholder="Enter description"
           />
 
-          {!isEdit && <FileUploader name="image" label="Upload Image" />}
+          {isEdit ? (
+            showExistingImage ? (
+              <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                <div className="relative group">
+                  <img
+                    src={initialValues?.image_url || ""}
+                    alt="Category"
+                    className="w-full h-28 object-cover rounded-lg border-2 border-gray-200"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowExistingImage(false);
+                    }}
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <FileUploader name="image_url" label="Upload Image" />
+            )
+          ) : (
+            <FileUploader name="image_url" label="Upload Image" />
+          )}
 
           <div className="flex gap-6">
             <Button

@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const packageApi = createApi({
-  reducerPath: "packageApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Package"],
+export const packageApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all packages
     getAllPackages: builder.query<any, void>({

@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const vehicleApi = createApi({
-  reducerPath: "vehicleApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Vehicles"],
+export const vehicleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllVehicles: builder.query<any, void>({
       query: () => "/vehicles/get-all",

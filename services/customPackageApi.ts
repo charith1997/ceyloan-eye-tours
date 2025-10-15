@@ -1,11 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const customPackageApi = createApi({
-  reducerPath: "customPackageApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Custom Package"],
+export const customPackageApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Get all packages
     getAllCustomPackages: builder.query<any, void>({
       query: () => "/custom-packages/get-all",
       providesTags: ["Custom Package"],
@@ -14,7 +10,10 @@ export const customPackageApi = createApi({
       query: (userId) => `/custom-packages/get-all/${userId}`,
       providesTags: ["Custom Package"],
     }),
-    updateStatus: builder.mutation<any, { id: string; isApproved: boolean }>({
+    updateCustomPackageStatus: builder.mutation<
+      any,
+      { id: string; isApproved: boolean }
+    >({
       query: ({ id, isApproved }) => ({
         url: `/custom-packages/${id}/is-approved`,
         method: "PUT",
@@ -75,9 +74,6 @@ export const customPackageApi = createApi({
         url: `/custom-packages/add`,
         method: "POST",
         body: { places },
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
       }),
       invalidatesTags: ["Custom Package"],
     }),
@@ -87,7 +83,7 @@ export const customPackageApi = createApi({
 export const {
   useGetAllCustomPackagesQuery,
   useGetCustomPackagesByUserIDQuery,
-  useUpdateStatusMutation,
+  useUpdateCustomPackageStatusMutation,
   useUpdateRequiredDayCountMutation,
   useUpdateMessageMutation,
   useUpdatePriceMutation,

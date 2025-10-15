@@ -2,34 +2,21 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Spinner from "../atoms/Spinner";
 
-const apiSlices = [
-  "activityApi",
-  "authApi",
-  "categoryApi",
-  "galleryApi",
-  "hotelApi",
-  "hotelTypeApi",
-  "packageApi",
-  "placesApi",
-  "reviewApi",
-  "tourTypeApi",
-  "customPackageApi",
-];
-
 const GlobalLoader = () => {
-  const isLoading = useSelector((state: any) =>
-    apiSlices.some((slice) => {
-      const queries = state[slice]?.queries;
-      const mutations = state[slice]?.mutations;
-      const queriesLoading = Object.values(queries || {}).some(
-        (query: any) => query?.status === "pending"
-      );
-      const mutationsLoading = Object.values(mutations || {}).some(
-        (mutation: any) => mutation?.status === "pending"
-      );
-      return queriesLoading || mutationsLoading;
-    })
-  );
+  const isLoading = useSelector((state: any) => {
+    const queries = state.baseApi?.queries;
+    const mutations = state.baseApi?.mutations;
+
+    const queriesLoading = Object.values(queries || {}).some(
+      (query: any) => query?.status === "pending"
+    );
+
+    const mutationsLoading = Object.values(mutations || {}).some(
+      (mutation: any) => mutation?.status === "pending"
+    );
+
+    return queriesLoading || mutationsLoading;
+  });
 
   if (!isLoading) return null;
 

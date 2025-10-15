@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const hotelApi = createApi({
-  reducerPath: "hotelApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Hotel"],
+export const hotelApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllHotels: builder.query<any, void>({
       query: () => "/hotels/get-all",

@@ -1,20 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const activityApi = createApi({
-  reducerPath: "activityApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Activity"],
+export const activityApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Get all activities
     getAllActivities: builder.query<any, void>({
       query: () => "/activities/get-all",
       providesTags: ["Activity"],
     }),
-    // Get activity by ID
-    getActivityById: builder.query<any, string>({
-      query: (id) => `/activities/${id}`,
-    }),
-    // Add activity (form data)
     addActivity: builder.mutation<any, FormData>({
       query: (formData) => ({
         url: "/activities/create",
@@ -23,7 +14,6 @@ export const activityApi = createApi({
       }),
       invalidatesTags: ["Activity"],
     }),
-    // Delete activity
     deleteActivity: builder.mutation<any, string>({
       query: (id) => ({
         url: `/activities/${id}`,
@@ -31,8 +21,10 @@ export const activityApi = createApi({
       }),
       invalidatesTags: ["Activity"],
     }),
-    // Update activity
-    updateActivity: builder.mutation<any, { id: string; data: { name: string } }>({
+    updateActivity: builder.mutation<
+      any,
+      { id: string; data: { name: string } }
+    >({
       query: ({ id, data }) => ({
         url: `/activities/update/${id}`,
         method: "PUT",
@@ -45,7 +37,6 @@ export const activityApi = createApi({
 
 export const {
   useGetAllActivitiesQuery,
-  useGetActivityByIdQuery,
   useAddActivityMutation,
   useDeleteActivityMutation,
   useUpdateActivityMutation,

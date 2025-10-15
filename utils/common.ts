@@ -21,5 +21,5 @@ export const checkImageUrl = (url: string) => {
     return url;
   }
 
-  return `${process.env.NEXT_PUBLIC_IMAGE_URL}${url}`; // Return a placeholder image URL if the input URL is empty or undefined
+  return `http://173.249.53.165${url}`;
 };

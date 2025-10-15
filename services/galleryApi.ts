@@ -1,9 +1,6 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const galleryApi = createApi({
-  reducerPath: "galleryApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
-  tagTypes: ["Gallery"],
+export const galleryApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Get all gallery items
     getAllGalleryItems: builder.query<any, void>({

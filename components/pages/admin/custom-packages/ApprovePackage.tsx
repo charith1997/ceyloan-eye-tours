@@ -15,7 +15,7 @@ import {
   useUpdateMessageMutation,
   useUpdatePriceMutation,
   useUpdateRequiredDayCountMutation,
-  useUpdateStatusMutation,
+  useUpdateCustomPackageStatusMutation,
 } from "@/services/customPackageApi";
 
 interface AddCategoryProps {
@@ -28,7 +28,7 @@ function ApprovePackage({ show, onClose, packageID }: AddCategoryProps) {
   const [updateRequiredDayCount] = useUpdateRequiredDayCountMutation();
   const [updateMessage] = useUpdateMessageMutation();
   const [updatePrice] = useUpdatePriceMutation();
-  const [updateStatus] = useUpdateStatusMutation();
+  const [updateCustomPackageStatus] = useUpdateCustomPackageStatusMutation();
   const initialValues: FormValues = {
     requiredDayCount: "",
     price: "",
@@ -72,7 +72,7 @@ function ApprovePackage({ show, onClose, packageID }: AddCategoryProps) {
               id,
               message: values.message,
             }).unwrap();
-            await updateStatus({
+            await updateCustomPackageStatus({
               id,
               isApproved: true,
             }).unwrap();

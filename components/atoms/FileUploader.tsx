@@ -3,6 +3,7 @@ import { useField, useFormikContext } from "formik";
 import { X, Upload } from "lucide-react";
 import Image from "next/image";
 import Button from "./Button";
+import { checkImageUrl } from "@/utils/common";
 
 interface FileUploaderProps {
   name: string;
@@ -34,8 +35,12 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     const fileArray = multiple ? files : [files];
     const newPreviews: string[] = [];
 
-    fileArray.forEach((file: File) => {
-      if (file && file.type.startsWith("image/")) {
+    fileArray.forEach((file: any) => {
+      if (!file) return;
+
+      if (typeof file === "string") {
+        newPreviews.push(file);
+      } else if (file.type && file.type.startsWith("image/")) {
         const url = URL.createObjectURL(file);
         newPreviews.push(url);
       }
@@ -50,22 +55,25 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.currentTarget.files;
-    if (files && files.length > 0) {
-      if (multiple) {
-        setFieldValue(name, Array.from(files));
-      } else {
-        setFieldValue(name, files[0]);
-      }
+    if (!files || files.length === 0) return;
+
+    if (multiple) {
+      const existing = Array.isArray(field.value) ? field.value : [];
+      const newFiles = Array.from(files);
+      setFieldValue(name, [...existing, ...newFiles]);
     } else {
-      setFieldValue(name, multiple ? [] : null);
+      const file = files[0];
+      setFieldValue(name, file);
     }
+
+    e.target.value = "";
   };
 
-  const handleRemove = (index: number) => {
+  const handleRemove = (index?: number) => {
     if (multiple) {
-      const files = field.value as File[];
-      const newFiles = files.filter((_, i) => i !== index);
-      setFieldValue(name, newFiles);
+      const currentValues = Array.isArray(field.value) ? field.value : [];
+      const newValues = currentValues.filter((_, i) => i !== index);
+      setFieldValue(name, newValues);
     } else {
       setFieldValue(name, null);
     }
@@ -130,7 +138,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
           {previews.map((preview, index) => (
             <div key={index} className="relative group">
               <Image
-                src={preview}
+                src={checkImageUrl(preview)}
                 alt={`Preview ${index + 1}`}
                 className="w-full h-28 object-cover rounded-lg border-2 border-gray-200"
                 width={100}

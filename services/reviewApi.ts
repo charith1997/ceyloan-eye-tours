@@ -1,16 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseApi } from "./baseApi";
 
-export const reviewApi = createApi({
-  reducerPath: "reviewApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL }),
+export const reviewApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // Get all reviews
     getAllReviews: builder.query<any, void>({
       query: () => "/reviews/get-all",
     }),
   }),
 });
 
-export const {
-  useGetAllReviewsQuery,
-} = reviewApi;
+export const { useGetAllReviewsQuery } = reviewApi;

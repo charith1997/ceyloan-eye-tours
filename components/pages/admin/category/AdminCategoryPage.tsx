@@ -10,6 +10,7 @@ import AddCategory from "./AddCategory";
 import DeleteCategory from "./DeleteCategory";
 import CategoryDetails from "./CategoryDetails";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
+import { checkImageUrl } from "@/utils/common";
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -35,7 +36,7 @@ const AdminCategoryPage = () => {
               <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <Image
-                    src={category.image_url}
+                    src={checkImageUrl(category.image_url)}
                     alt={`Category ${category.id}`}
                     width={120}
                     height={100}
