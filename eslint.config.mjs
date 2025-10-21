@@ -18,6 +18,7 @@ const eslintConfig = [
       "@typescript-eslint/ban-ts-comment": "off",
       "react-hooks/exhaustive-deps": "off",
       "react/display-name": "off",
+      "@next/next/no-img-element": "off",
     },
   },
 ];

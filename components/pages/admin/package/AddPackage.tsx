@@ -488,26 +488,28 @@ function AddPackage({
             {isEdit ? (
               showExistingImage ? (
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {defaultInitialValues.images.map((image: any) => (
-                    <div className="relative group">
-                      <Image
-                        src={checkImageUrl(image.image_url)}
-                        alt="Packagess"
-                        className="w-full h-28 object-cover rounded-lg border-2 border-gray-200"
-                        width={100}
-                        height={100}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setShowExistingImage(false);
-                        }}
-                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
+                  {defaultInitialValues.images.map(
+                    (image: any, index: number) => (
+                      <div className="relative group" key={index}>
+                        <Image
+                          src={checkImageUrl(image.image_url)}
+                          alt="Packagess"
+                          className="w-full h-28 object-cover rounded-lg border-2 border-gray-200"
+                          width={100}
+                          height={100}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowExistingImage(false);
+                          }}
+                          className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )
+                  )}
                 </div>
               ) : (
                 <FileUploader name="images" label="Upload Image:" multiple />
