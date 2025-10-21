@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CalendarDays, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
-import { useGetAllPackagesQuery } from "@/services/packageApi";
+import {
+  useGetAllPackagesQuery,
+  useGetPackageByUrlPrefixQuery,
+} from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
 import { displayTourType } from "@/utils/common";
 import AddPackage from "./AddPackage";
 import DetailContainer from "@/components/containers/DetailContainer";
-import Image from "next/image";
 import DeletePackage from "./DeletePackage";
 import PackageDetails from "./PackageDetails";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
@@ -19,8 +21,30 @@ const AdminPackagePage = () => {
   const [displayDetails, setDisplayDetails] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState<any | null>(null);
 
-  const { data, error } = useGetAllPackagesQuery();
+  const [isEdit, setIsEdit] = useState(false);
+  const [packagePlaceData, setPackagePlaceData] = useState([]);
+
+  const { data } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
+
+  const { data: pkgPlaceData } = useGetPackageByUrlPrefixQuery(
+    isEdit ? selectedPackage?.url_prefix || "" : "",
+    { skip: !isEdit }
+  );
+
+  useEffect(() => {
+    if (isEdit && pkgPlaceData) {
+      setPackagePlaceData(
+        pkgPlaceData?.data.places.map((item: any) => ({
+          place_id: item.place?.id || "",
+          description: item.packagePlace?.description || "",
+          order: item.packagePlace?.sort_order || "",
+          day_no: item.packagePlace?.day_no || "",
+          events: item.packagePlace?.events || [],
+        })) ?? []
+      );
+    }
+  }, [isEdit, pkgPlaceData]);
 
   return (
     <>
@@ -68,6 +92,11 @@ const AdminPackagePage = () => {
                   <Button
                     label="Edit"
                     className={`w-fit text-sm uppercase ${editBtnColor}`}
+                    onClick={() => {
+                      setIsEdit(true);
+                      setSelectedPackage(item);
+                      setShowModal(true);
+                    }}
                   />
                   <Button
                     label="Delete"
@@ -100,7 +129,15 @@ const AdminPackagePage = () => {
                         setSelectedPackage(item);
                       }}
                     />
-                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                    <Button
+                      label="Edit"
+                      className={`w-fit ${editBtnColor}`}
+                      onClick={() => {
+                        setIsEdit(true);
+                        setSelectedPackage(item);
+                        setShowModal(true);
+                      }}
+                    />
                     <Button
                       label="Delete"
                       className={`w-fit ${deleteBtnColor}`}
@@ -114,9 +151,47 @@ const AdminPackagePage = () => {
         </DetailContainer>
       </NavigationContainer>
 
-      <AddPackage show={showModal} onClose={() => setShowModal(false)} />
+      <AddPackage
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedPackage(null);
+          setIsEdit(false);
+        }}
+        isEdit={isEdit}
+        initialValues={
+          isEdit
+            ? {
+                ...selectedPackage,
+                duration: parseInt(
+                  selectedPackage.duration.match(/(\d+)\s*days?/i)?.[1] || "0",
+                  10
+                ),
+                tourType: displayTourType(selectedPackage.tour_type),
+                categoryIds: selectedPackage.Categories.map(
+                  (category: any) => category.id
+                ),
+                arrival: selectedPackage.arrival_location,
+                arrivalDescription: selectedPackage.arrival_description,
+                departure: selectedPackage.departure_location,
+                departureDescription: selectedPackage.departure_description,
+                packageHighlights: selectedPackage.package_highlights,
+                images: selectedPackage.Images.map(
+                  (image: any) => image.image_url
+                ),
+                placeIds: packagePlaceData,
+              }
+            : null
+        }
+      />
 
-      <DeletePackage show={deleteModal} onClose={() => setDeleteModal(false)} />
+      <DeletePackage
+        show={deleteModal}
+        onClose={() => {
+          setDeleteModal(false);
+          setSelectedPackage(null);
+        }}
+      />
 
       {displayDetails && (
         <PackageDetails

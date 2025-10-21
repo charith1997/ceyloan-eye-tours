@@ -27,6 +27,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
   useEffect(() => {
     const files = field.value;
+
     if (!files) {
       setPreviews([]);
       return;
@@ -40,6 +41,8 @@ const FileUploader: React.FC<FileUploaderProps> = ({
 
       if (typeof file === "string") {
         newPreviews.push(file);
+      } else if (file.image_url && typeof file.image_url === "string") {
+        newPreviews.push(file.image_url);
       } else if (file.type && file.type.startsWith("image/")) {
         const url = URL.createObjectURL(file);
         newPreviews.push(url);
@@ -99,7 +102,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
   return (
     <div className={className}>
       {label && (
-        <label htmlFor={name} className="block mb-1 font-medium">
+        <label htmlFor={name} className="block mb-1 text-sm">
           {label}
         </label>
       )}

@@ -30,14 +30,9 @@ function AddCategory({
   isEdit = false,
   initialValues,
 }: AddCategoryProps) {
-  console.log('initialValues', initialValues);
-  
   const [showExistingImage, setShowExistingImage] = useState(
     !!(isEdit && initialValues?.image_url)
   );
-
-  console.log('showExistingImage', showExistingImage);
-
 
   const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
@@ -76,8 +71,11 @@ function AddCategory({
               formData.append("name", values.name);
             if (values.description !== initialValues?.description)
               formData.append("description", values.description);
-            if (!showExistingImage && values.image_url !== initialValues?.image_url)
-              formData.append("image", values.image_url || '');
+            if (
+              !showExistingImage &&
+              values.image_url !== initialValues?.image_url
+            )
+              formData.append("image", values.image_url || "");
 
             // If nothing changed, skip the request
             if ([...formData.keys()].length === 0) {

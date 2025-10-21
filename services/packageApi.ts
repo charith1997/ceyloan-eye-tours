@@ -20,6 +20,21 @@ export const packageApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Package"],
     }),
+    // Update package
+    updatePackage: builder.mutation<
+      any,
+      {
+        id: string | undefined;
+        data: any;
+      }
+    >({
+      query: ({ id, data }) => ({
+        url: `/packages/update/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Package"],
+    }),
     // Get packages by category
     getPackagesByCategory: builder.query<any, string>({
       query: (categoryId) => `/packages/category/${categoryId}`,
@@ -39,6 +54,7 @@ export const {
   useGetAllPackagesQuery,
   useGetPackageByIdQuery,
   useAddPackageMutation,
+  useUpdatePackageMutation,
   useGetPackagesByCategoryQuery,
   useGetPackagesByTourTypeQuery,
   useGetPackageByUrlPrefixQuery,

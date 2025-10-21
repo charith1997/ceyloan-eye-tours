@@ -118,7 +118,15 @@ const AdminCategoryPage = () => {
                         setSelectedCategory(category);
                       }}
                     />
-                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                    <Button
+                      label="Edit"
+                      className={`w-fit ${editBtnColor}`}
+                      onClick={() => {
+                        setIsEdit(true);
+                        setSelectedCategory(category);
+                        setShowModal(true);
+                      }}
+                    />
                     <Button
                       label="Delete"
                       className={`w-fit ${deleteBtnColor}`}
