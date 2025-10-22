@@ -103,7 +103,7 @@ export default function Gallery({ images = [] }: GalleryProps) {
               label={<XIcon />}
             />
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between bg-white p-4 rounded-lg">
               <Button
                 onClick={() =>
                   setCurrent((c) => (c - 1 + images.length) % images.length)

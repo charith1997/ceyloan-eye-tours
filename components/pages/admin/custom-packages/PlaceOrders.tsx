@@ -39,7 +39,7 @@ function PlaceOrders({
               key={pkg.id}
               className="hidden md:flex flex-col w-full bg-white rounded-lg shadow-sm border border-gray-200"
             >
-              <div className="bg-gray-200 w-full py-3 px-4 rounded-t-lg">
+              <div className="bg-gray-100 w-full py-3 px-4 rounded-t-lg">
                 <Formik
                   initialValues={{
                     dayNo: pkg.day_no ? pkg.day_no : "",
@@ -74,12 +74,12 @@ function PlaceOrders({
                 >
                   <Form className="flex w-full gap-16">
                     <div className="flex flex-col w-screen">
-                      <div className="flex border-b border-gray-300 pb-2 gap-2 items-center font-bold">
+                      <div className="flex border-b border-gray-300 pb-2 gap-2 items-center font-bold text-sm">
                         <MapPin width={18} />
                         {pkg.Place.name}
                       </div>
-                      <div className="flex w-full gap-4 pt-2">
-                        <div className="flex-1">
+                      <div className="block w-full gap-4 pt-2">
+                        <div className="flex gap-4 mb-2">
                           <FormikInput
                             label="Day No"
                             className="w-fit text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
@@ -87,8 +87,6 @@ function PlaceOrders({
                             type="number"
                             min={0}
                           />
-                        </div>
-                        <div className="flex-1">
                           <FormikInput
                             label="Sort Order"
                             className="w-fit text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
@@ -97,13 +95,11 @@ function PlaceOrders({
                             min={0}
                           />
                         </div>
-                        <div className="flex-[3]">
-                          <FormikInput
-                            label="Description"
-                            className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
-                            name="description"
-                          />
-                        </div>
+                        <FormikInput
+                          label="Description"
+                          className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
+                          name="description"
+                        />
                       </div>
                     </div>
                     <Button
