@@ -17,6 +17,7 @@ import {
   useUpdateRequiredDayCountMutation,
   useUpdateCustomPackageStatusMutation,
 } from "@/services/customPackageApi";
+import { approveBtnColor, cancelBtnColor } from "@/styles/colors";
 
 interface AddCategoryProps {
   show: boolean;
@@ -114,12 +115,12 @@ function ApprovePackage({ show, onClose, packageID }: AddCategoryProps) {
           <div className="flex gap-6">
             <Button
               onClick={onClose}
-              className="w-full text-white px-8 py-2 rounded-lg bg-[#1976D2] text-lg font-semibold uppercase"
+              className={`w-full ${cancelBtnColor}`}
               label="Cancel"
             />
             <Button
               type="submit"
-              className="w-full text-white px-8 py-2 rounded-lg bg-green-500 text-lg font-semibold uppercase"
+              className={`w-full ${approveBtnColor}`}
               label="Approve"
             />
           </div>

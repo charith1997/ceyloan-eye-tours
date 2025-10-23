@@ -41,7 +41,10 @@ export default function TravelItinerary({ id }: TravelItineraryProps) {
 
             <div className="space-y-8">
               {Object.keys(groupedByDay).map((day) => (
-                <div key={day} className="flex flex-col md:flex md:flex-row gap-6">
+                <div
+                  key={day}
+                  className="flex flex-col md:flex md:flex-row gap-6"
+                >
                   <div className="w-full md:w-32 flex-shrink-0">
                     <div className="sticky top-6">
                       <div className="bg-red text-white rounded-xl p-4 text-center shadow-lg">

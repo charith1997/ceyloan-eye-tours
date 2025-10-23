@@ -2,6 +2,7 @@ import Button from "@/components/atoms/Button";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import Modal from "@/components/molecules/Modal";
 import { useUpdateCustomPackagePlaceMutation } from "@/services/customPackageApi";
+import { saveBtnColor, updateBtnColor } from "@/styles/colors";
 import { Form, Formik } from "formik";
 import {
   Activity,
@@ -27,7 +28,6 @@ function PlaceOrders({
   onClose,
   customizePackagePlaces,
 }: DeleteActivityProps) {
-  console.log("customizePackagePlaces", customizePackagePlaces);
   const [updateCustomPackagePlace] = useUpdateCustomPackagePlaceMutation();
 
   return (
@@ -105,7 +105,7 @@ function PlaceOrders({
                     <Button
                       type="submit"
                       label="Submit"
-                      className="w-min py-1 px-2 rounded-md text-white bg-green-500 text-sm uppercase tracking-wide self-center"
+                      className={`w-full ${saveBtnColor}`}
                     />
                   </Form>
                 </Formik>
@@ -189,8 +189,8 @@ function PlaceOrders({
                     />
                     <Button
                       type="submit"
-                      label="Submit"
-                      className="w-full py-1 px-2 rounded-md text-white bg-green-500 text-sm uppercase tracking-wide self-center"
+                      label="Update"
+                      className={`w-full ${updateBtnColor}`}
                     />
                   </Form>
                 </Formik>

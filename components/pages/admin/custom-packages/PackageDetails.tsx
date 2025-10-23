@@ -1,6 +1,7 @@
 import AdminDetailsContainer from "@/components/containers/AdminDetailsContainer";
 import { MapPin, UserIcon } from "lucide-react";
 import React from "react";
+import TravelItinerary from "./TravelItinerary";
 
 interface Activities {
   name: string;
@@ -45,15 +46,6 @@ interface PackageDetailsProps {
 }
 
 const PackageDetails: React.FC<PackageDetailsProps> = ({ pkg, onClose }) => {
-  const sortedData = (data: any) => {
-    return data.slice().sort((a: any, b: any) => {
-      if (a.day_no === b.day_no) {
-        return a.sort_order - b.sort_order;
-      }
-      return a.day_no - b.day_no;
-    });
-  };
-
   return (
     <AdminDetailsContainer
       onClose={onClose}
@@ -117,34 +109,7 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ pkg, onClose }) => {
         </div>
       </div>
 
-      {pkg?.CustomizePackagePlaces && (
-        <div>
-          <h4 className="text-lg text-gray-900 mb-4">Travel Itinerary</h4>
-          {sortedData(pkg.CustomizePackagePlaces).map((item: any) => (
-            <div
-              className="bg-white border border-gray-200 rounded-lg p-4 mb-2"
-              key={item.id}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="flex gap-2 items-center">
-                  <p className="text-sm text-gray-500">Day No:</p>
-                  <p className="text-sm text-gray-900">{item?.day_no}</p>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <p className="text-sm text-gray-500">Sort Order:</p>
-                  <p className="mt-1 text-sm text-gray-900">
-                    {item?.sort_order}
-                  </p>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <p className="text-sm text-gray-500">Place:</p>
-                  <p className="text-sm text-gray-900">{item?.Place.name}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+      {pkg?.CustomizePackagePlaces && <TravelItinerary pkg={pkg} />}
     </AdminDetailsContainer>
   );
 };

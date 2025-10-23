@@ -183,8 +183,6 @@ function AddPackage({
     images: [],
   };
 
-  console.log("defaultInitialValues", defaultInitialValues);
-
   return (
     <Modal
       isOpen={show}

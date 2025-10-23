@@ -9,7 +9,7 @@ import PlaceOrder from "./PlaceOrders";
 import { checkIfSortedOrder } from "@/utils/package";
 import ApprovePackage from "./ApprovePackage";
 import PackageDetails from "./PackageDetails";
-import { approveBtnColor, editBtnColor, updateBtnColor } from "@/styles/colors";
+import { approveBtnColor, editBtnColor, updateBtnColor, viewBtnColor } from "@/styles/colors";
 
 const AdminCustomPackagesPage = () => {
   const [showPlaceOrdersModal, setShowPlaceOrdersModal] = useState(false);
@@ -36,10 +36,10 @@ const AdminCustomPackagesPage = () => {
               <div className="hidden md:grid grid-cols-3 w-full items-center  p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <div className="flex flex-col gap-2">
-                    <p className="text-sm flex gap-2 items-center">
+                    <div className="text-sm flex gap-2 items-center">
                       <User fill="black" width={16} />
                       {item.User.name}
-                    </p>
+                    </div>
                     <span className="flex text-sm gap-2 items-center">
                       <MapPin width={16} /> {item.User.country}
                     </span>
@@ -47,7 +47,7 @@ const AdminCustomPackagesPage = () => {
                 </div>
 
                 <div className="block justify-items-center">
-                  <h3
+                  <div
                     className={`px-2.5 py-0.5 rounded-full text-xs ${
                       item.is_approved === true
                         ? "bg-green-200 text-green-800"
@@ -55,7 +55,7 @@ const AdminCustomPackagesPage = () => {
                     }`}
                   >
                     {!item.is_approved ? "pending" : "approved"}
-                  </h3>
+                  </div>
                 </div>
 
                 <div className="flex gap-4 justify-end">
@@ -95,7 +95,7 @@ const AdminCustomPackagesPage = () => {
                         setShowPackageDetailsModal(true);
                         setPackageDetails(item);
                       }}
-                      className="w-auto p-2 rounded-md text-white bg-gradient-to-r from-red to-orange text-sm uppercase tracking-wide"
+                      className={`w-fit text-sm uppercase ${viewBtnColor}`}
                     />
                   )}
                 </div>
@@ -103,10 +103,10 @@ const AdminCustomPackagesPage = () => {
 
               <div className="flex md:hidden w-full items-center justify-between p-3 gap-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex flex-col w-full gap-4">
-                  <p className="flex gap-2 items-center text-sm">
+                  <div className="flex gap-2 items-center text-sm">
                     <User fill="black" width={16} />
                     {item.User.name}
-                    <h3
+                    <div
                       className={`w-min px-2.5 py-0.5 rounded-full text-xs ${
                         item.is_approved === true
                           ? "bg-green-200 text-green-800"
@@ -114,8 +114,8 @@ const AdminCustomPackagesPage = () => {
                       }`}
                     >
                       {item.is_approved === false ? "pending" : "approved"}
-                    </h3>
-                  </p>
+                    </div>
+                  </div>
                   <div className="flex items-center gap-2 justify-between">
                     <span className="flex gap-2 items-center text-sm">
                       <MapPin width={16} /> {item.User.country}
@@ -163,7 +163,7 @@ const AdminCustomPackagesPage = () => {
                             setShowPackageDetailsModal(true);
                             setPackageDetails(item);
                           }}
-                          className="w-auto p-2 rounded-md text-white bg-gradient-to-r from-red to-orange text-sm uppercase tracking-wide"
+                          className={`w-fit ${viewBtnColor}`}
                         />
                       )}
                     </div>
