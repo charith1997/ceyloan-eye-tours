@@ -12,7 +12,7 @@ export const hotelApi = baseApi.injectEndpoints({
         method: "POST",
         body: formData,
       }),
-      invalidatesTags: ["Hotel"],
+      invalidatesTags: ["Hotel", "HotelType"],
     }),
     deleteHotel: builder.mutation<any, string>({
       query: (id) => ({
