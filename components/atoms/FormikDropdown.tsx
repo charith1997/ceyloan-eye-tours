@@ -23,7 +23,7 @@ function FormikDropdown({
         as="select"
         name={name}
         className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
-        onChange={onChange}
+        {...(onChange ? { onChange } : {})}
       >
         <option value="">{defaultOption}</option>
         {options.map((opt: any) => (

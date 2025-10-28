@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllHotelsQuery } from "@/services/hotelApi";
-import { Component, Star } from "lucide-react";
-import { deleteBtnColor, editBtnColor } from "@/styles/colors";
+import { MapPin, Star } from "lucide-react";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
+import HotelDetails from "./HotelDetails";
+import { checkImageUrl } from "@/utils/common";
 
 interface AdminHotelProps {
   setDeleteHotel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,79 +14,62 @@ interface AdminHotelProps {
 }
 
 function AdminHotels({ setDeleteHotel, setSelectedHotelId }: AdminHotelProps) {
+  const [showDetails, setShowDetails] = useState(false);
+  const [hotelDetails, setHotelDetails] = useState<any | null>(null);
   const { data } = useGetAllHotelsQuery();
   const hotels = Array.isArray(data?.data) ? data.data : [];
+
   return (
-    <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
-      {hotels.map((item: any, index: number) => (
-        <div key={index}>
-          <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
-            <div className="flex items-center gap-8">
-              <Image
-                src={item?.images[0]}
-                alt={`Tour ${item.id}`}
-                width={120}
-                height={100}
-                className="object-cover rounded-lg w-28 h-28"
-              />
-              <div className="flex flex-col gap-2">
-                <h3 className="text-md font-bold uppercase">{item.name}</h3>
-                <p className="flex text-sm gap-2 items-center">
-                  <Component fill="black" width={16} />
-                  {item.Place.name}
-                </p>
-                <span className="flex text-sm gap-2 items-center">
-                  <Star width={16} fill="black" /> {item.rating} Star
-                </span>
+    <>
+      <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
+        {hotels.map((item: any, index: number) => (
+          <div key={index}>
+            <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
+              <div className="flex items-center gap-8">
+                <Image
+                  src={checkImageUrl(item?.images[0])}
+                  alt={`Tour ${item.id}`}
+                  width={120}
+                  height={100}
+                  className="object-cover rounded-lg w-28 h-28"
+                />
+                <div className="flex flex-col gap-2">
+                  <h3 className="text-md font-bold uppercase">{item.name}</h3>
+                  <p className="flex text-sm gap-2 items-center">
+                    <MapPin width={16} />
+                    {item.Place.name}
+                  </p>
+                  {item.rating > 0 ? (
+                    <div className="flex text-yellow-500">
+                      {Array.from({ length: item.rating }).map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          fill="currentColor"
+                          strokeWidth={0}
+                        />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               </div>
-            </div>
 
-            <div className="block justify-items-center text-sm ">
-              <h3>Starting from</h3>
-              <h3 className="font-bold">$ 1500</h3>
-            </div>
-
-            <div className="flex gap-4">
-              <Button
-                label="Edit"
-                className={`w-fit text-sm uppercase ${editBtnColor}`}
-              />
-              <Button
-                label="Delete"
-                className={`w-fit text-sm uppercase ${deleteBtnColor}`}
-                onClick={() => {
-                  setDeleteHotel(true);
-                  setSelectedHotelId(item.id);
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
-            <Image
-              src={item?.images[0]}
-              alt={`Tour ${item.id}`}
-              width={160}
-              height={160}
-              className="object-cover rounded-lg w-36 h-36"
-            />
-            <div className="grid gap-2">
-              <div className="flex flex-col gap-1 text-sm">
-                <h3 className="font-bold uppercase">{item.name}</h3>
-                <p className="flex gap-2 items-center">
-                  <Component fill="black" width={16} />
-                  {item.Place.name}
-                </p>
-                <span className="flex gap-1 items-center">
-                  <Star fill="black" width={16} /> {item.rating} Star
-                </span>
-                <p className="font-bold">$ 1500</p>
-              </div>
               <div className="flex gap-4">
-                <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                <Button
+                  label="View Details"
+                  className={`w-fit text-sm uppercase ${viewBtnColor}`}
+                  onClick={() => {
+                    setShowDetails(true);
+                    setHotelDetails(item);
+                  }}
+                />
+                <Button
+                  label="Edit"
+                  className={`w-fit text-sm uppercase ${editBtnColor}`}
+                />
                 <Button
                   label="Delete"
-                  className={`w-fit ${deleteBtnColor}`}
+                  className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                   onClick={() => {
                     setDeleteHotel(true);
                     setSelectedHotelId(item.id);
@@ -92,10 +77,65 @@ function AdminHotels({ setDeleteHotel, setSelectedHotelId }: AdminHotelProps) {
                 />
               </div>
             </div>
+
+            <div className="flex md:hidden w-full items-center justify-between py-2 px-4 gap-2 rounded-lg shadow-sm border border-gray-200">
+              <div className="grid gap-6 w-full">
+                <div className="flex flex-col gap-1 text-sm">
+                  <div className="flex gap-4 items-center">
+                    <h3 className="font-bold uppercase">{item.name}</h3>
+                    {item.rating > 0 ? (
+                      <div className="flex text-yellow-500">
+                        {Array.from({ length: item.rating }).map((_, i) => (
+                          <Star
+                            key={i}
+                            size={20}
+                            fill="currentColor"
+                            strokeWidth={0}
+                          />
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                  <p className="flex gap-2 items-center">
+                    <MapPin width={16} />
+                    {item.Place.name}
+                  </p>
+                </div>
+                <div className="flex gap-4 justify-end">
+                  <Button
+                    label="View Details"
+                    className={`w-fit ${viewBtnColor}`}
+                    onClick={() => {
+                      setShowDetails(true);
+                      setHotelDetails(item);
+                    }}
+                  />
+                  <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                  <Button
+                    label="Delete"
+                    className={`w-fit ${deleteBtnColor}`}
+                    onClick={() => {
+                      setDeleteHotel(true);
+                      setSelectedHotelId(item.id);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
-    </DetailContainer>
+        ))}
+      </DetailContainer>
+
+      {showDetails && hotelDetails && (
+        <HotelDetails
+          hotel={hotelDetails}
+          onClose={() => {
+            setShowDetails(false);
+            setHotelDetails(null);
+          }}
+        />
+      )}
+    </>
   );
 }
 
