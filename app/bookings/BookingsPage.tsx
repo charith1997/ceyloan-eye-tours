@@ -6,6 +6,7 @@ import { formatDuration } from "@/utils/package";
 import Button from "../../components/atoms/Button";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import PayHereCheckout from "./PayHereCheckout";
+import axios from "axios";
 
 interface Booking {
   id: string;
@@ -23,6 +24,8 @@ interface Booking {
 }
 
 const BookingsPage: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [userDetails, setUserDetails] = useState<any>(null);
   const [filter, setFilter] = useState<
     "all" | "pending" | "confirmed" | "completed" | "cancelled"
@@ -91,6 +94,55 @@ const BookingsPage: React.FC = () => {
   if (typeof window === "undefined" || !userDetails) {
     return null;
   }
+
+  const handleRefund = async () => {
+    try {
+      setLoading(true);
+      setMessage("");
+
+      const AUTH_CODE = btoa(
+        "4OVyIYpdpoG4JFnJZuvevn3TU:4JAfmkvBP0A8W7cbUgSURV4EqWAk6sTAI8VzrjCGS9n4"
+      );
+      console.log(AUTH_CODE);
+
+      const PAYHERE_TOKEN_URL =
+        "https://sandbox.payhere.lk/merchant/v1/oauth/token";
+
+      const headers = {
+        Authorization: `Basic ${AUTH_CODE}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      };
+
+      const params = new URLSearchParams();
+      params.append("grant_type", "client_credentials");
+
+      // const response = await axios.post(PAYHERE_TOKEN_URL, params, { headers });
+      const response = await fetch(PAYHERE_TOKEN_URL, {
+        method: "POST",
+        headers: headers,
+        body: params,
+      }).then((res) => res.json());
+      
+      console.log("response", response);
+
+      const accessToken = response.data.access_token;
+      console.log("accessToken", accessToken);
+
+      // if (response.data.success) {
+      //   setMessage("Refund successful ✅");
+      //   console.log("Refund Response:", response.data.data);
+      // } else {
+      //   setMessage("Refund failed ❌");
+      // }
+    } catch (error: any) {
+      console.error("Refund Error:", error.response?.data || error.message);
+      setMessage(
+        error.response?.data?.message || "Something went wrong during refund"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -308,6 +360,12 @@ const BookingsPage: React.FC = () => {
                         />
                       </>
                     )}
+
+                    <Button
+                      className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                      label="Refund"
+                      onClick={handleRefund}
+                    />
 
                     {/* <Button
                       className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
