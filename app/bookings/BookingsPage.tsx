@@ -113,16 +113,16 @@ const BookingsPage: React.FC = () => {
       const params = new URLSearchParams();
       params.append("grant_type", "client_credentials");
 
-      // const response = await axios.post(PAYHERE_TOKEN_URL, params, { headers });
-      const response = await fetch(PAYHERE_TOKEN_URL, {
-        method: "POST",
-        headers: headers,
-        body: params,
-      }).then((res) => {
-        console.log(">>>>>>>>>> res", res);
+      const response = await axios.post(PAYHERE_TOKEN_URL, params, { headers });
+      // const response = await fetch(PAYHERE_TOKEN_URL, {
+      //   method: "POST",
+      //   headers: headers,
+      //   body: params,
+      // }).then((res) => {
+      //   console.log(">>>>>>>>>> res", res);
 
-        return res.json();
-      });
+      //   return res.json();
+      // });
       console.log("response", response);
 
       const accessToken = response.data.access_token;
