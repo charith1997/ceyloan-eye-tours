@@ -97,9 +97,6 @@ const BookingsPage: React.FC = () => {
 
   const handleRefund = async () => {
     try {
-      setLoading(true);
-      setMessage("");
-
       const AUTH_CODE = btoa(
         "4OVyIYpdpoG4JFnJZuvevn3TU:4JAfmkvBP0A8W7cbUgSURV4EqWAk6sTAI8VzrjCGS9n4"
       );
@@ -121,12 +118,33 @@ const BookingsPage: React.FC = () => {
         method: "POST",
         headers: headers,
         body: params,
-      }).then((res) => res.json());
-      
+      }).then((res) => {
+        console.log(">>>>>>>>>> res", res);
+
+        return res.json();
+      });
       console.log("response", response);
 
       const accessToken = response.data.access_token;
       console.log("accessToken", accessToken);
+
+      const PAYHERE_REFUND_URL =
+        "https://sandbox.payhere.lk/merchant/v1/payment/refund";
+
+      const payment_id = "320032535974";
+      const description = "Refund";
+
+      const responseRefund = await axios.post(
+        PAYHERE_REFUND_URL,
+        { payment_id, description },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("responseRefund", responseRefund);
 
       // if (response.data.success) {
       //   setMessage("Refund successful ✅");
