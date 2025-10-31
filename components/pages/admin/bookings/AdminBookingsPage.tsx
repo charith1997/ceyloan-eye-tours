@@ -62,10 +62,8 @@ const AdminBookingsPage: React.FC = () => {
     }
   }, []);
 
-  // Only fetch bookings if userDetails is available
-  // const { data } = useGetAllBookingsQuery();
-  // const bookings = Array.isArray(data?.data) ? data.data : [];
-  const bookings = data;
+  const { data } = useGetAllBookingsQuery();
+  const bookings = Array.isArray(data?.data) ? data.data : [];
   const [filteredBookings, setFilteredBookings] = useState(bookings);
 
   const getStatusColor = (status: Booking["status"]) => {
