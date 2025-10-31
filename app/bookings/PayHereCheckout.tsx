@@ -52,25 +52,26 @@ export default function PayHereCheckout({
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
-            // 1️⃣ Call your backend to create payment
-            const res = await fetch("http://techsolutions.site/api/payments/add", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                bookingId,
-                currency: values.currency,
-              }),
-            });
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payments/add`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  bookingId,
+                  currency: values.currency,
+                }),
+              }
+            );
 
             const { data } = await res.json();
 
-            // 2️⃣ Build payload for PayHere
             const payherePayload = {
-              merchant_id: "1230360",
-              return_url: process.env.NEXT_PUBLIC_API_BASE_URL,
-              cancel_url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/payment/cancel`,
-              notify_url: "http://173.249.53.165/api/payments/update",
-              order_id: data.paymentId, // use backend-generated paymentId
+              merchant_id: process.env.NEXT_PUBLIC_PAYHERE_MERCHANT_ID,
+              return_url: `${process.env.NEXT_PUBLIC_BASE_URL}/bookings?success=true`,
+              cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/bookings?cancel=true`,
+              notify_url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/payments/update`,
+              order_id: data.paymentId,
               items: "Booking Payment",
               currency: values.currency,
               amount: data.amount,
@@ -84,7 +85,6 @@ export default function PayHereCheckout({
               hash: data.hash,
             };
 
-            // 3️⃣ Create a form dynamically and submit to PayHere
             const form = document.createElement("form");
             form.method = "POST";
             form.action = "https://sandbox.payhere.lk/pay/checkout";
