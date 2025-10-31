@@ -18,7 +18,14 @@ export const hotelTypeApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["HotelType"],
     }),
-
+    updateHotelType: builder.mutation<any, { id: string; data: any }>({
+      query: ({ id, data }) => ({
+        url: `/hotel-types/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["HotelType"],
+    }),
     getHotelTypeByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/hotel-types/get-by-urlprefix/${slug}`,
     }),
@@ -37,6 +44,7 @@ export const {
   useGetAllHotelTypesQuery,
   useGetAllHotelTypesWithHotelsQuery,
   useCreateHotelTypeMutation,
+  useUpdateHotelTypeMutation,
   useGetHotelTypeByUrlPrefixQuery,
   useDeleteHotelTypeMutation,
 } = hotelTypeApi;

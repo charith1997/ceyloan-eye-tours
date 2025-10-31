@@ -6,16 +6,37 @@ import Modal from "@/components/molecules/Modal";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import { useCreateHotelTypeMutation } from "@/services/hotelTypeApi";
+import {
+  useCreateHotelTypeMutation,
+  useUpdateHotelTypeMutation,
+} from "@/services/hotelTypeApi";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddHotelTypeProps {
   show: boolean;
   onClose: () => void;
+  initialValues?: {
+    id: string;
+    name: string;
+    description: string;
+    image?: File | null;
+  };
+  isEdit?: boolean;
 }
 
-function AddHotelType({ show, onClose }: AddHotelTypeProps) {
+function AddHotelType({
+  show,
+  onClose,
+  initialValues,
+  isEdit,
+}: AddHotelTypeProps) {
   const [createHotelType] = useCreateHotelTypeMutation();
+  const [updateHotelType] = useUpdateHotelTypeMutation();
+  const defaultInitialValues = initialValues || {
+    name: "",
+    description: "",
+    image: null,
+  };
   return (
     <Modal
       isOpen={show}
@@ -24,7 +45,7 @@ function AddHotelType({ show, onClose }: AddHotelTypeProps) {
       className="md:w-lg"
     >
       <Formik
-        initialValues={{ name: "", description: "", image: null }}
+        initialValues={defaultInitialValues}
         validationSchema={Yup.object({
           name: Yup.string().required("* Hotel Type is Required"),
           description: Yup.string().required("* Description is Required"),
@@ -32,21 +53,49 @@ function AddHotelType({ show, onClose }: AddHotelTypeProps) {
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
-          formData.append("name", values.name);
-          formData.append("description", values.description);
-          if (values.image) {
-            formData.append("image", values.image);
-          }
+          if (isEdit) {
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.description !== initialValues?.description)
+              formData.append("description", values.description);
+            if (values.image !== initialValues?.image)
+              formData.append("image", values.image || "");
 
-          try {
-            const response = await createHotelType(formData).unwrap();
-            toast.success(response.message);
-            resetForm();
-            onClose();
-          } catch (err: any) {
-            toast.error(err?.data?.message);
-          } finally {
-            setSubmitting(false);
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
+            }
+
+            try {
+              const response = await updateHotelType({
+                id: initialValues ? initialValues?.id : "",
+                data: formData as any,
+              }).unwrap();
+              toast.success(response.message);
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
+          } else {
+            formData.append("name", values.name);
+            formData.append("description", values.description);
+            if (values.image) {
+              formData.append("image", values.image);
+            }
+
+            try {
+              const response = await createHotelType(formData).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >

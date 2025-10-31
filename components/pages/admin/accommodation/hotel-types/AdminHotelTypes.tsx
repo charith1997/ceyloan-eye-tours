@@ -10,12 +10,14 @@ import HotelDetails from "./HotelDetails";
 
 interface AdminHotelTypesProps {
   setDeleteHotelType: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedHotelTypeId: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedHotelType: React.Dispatch<React.SetStateAction<any | null>>;
+  setShowHotelTypeModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function AdminHotelTypes({
   setDeleteHotelType,
-  setSelectedHotelTypeId,
+  setSelectedHotelType,
+  setShowHotelTypeModal,
 }: AdminHotelTypesProps) {
   const [show, setShow] = useState(false);
   const [hotelTypeURL, setHotelTypeURL] = useState<string | null>(null);
@@ -60,13 +62,17 @@ function AdminHotelTypes({
                 <Button
                   label="Edit"
                   className={`w-fit text-sm uppercase ${editBtnColor}`}
+                  onClick={() => {
+                    setShowHotelTypeModal(true);
+                    setSelectedHotelType(item);
+                  }}
                 />
                 <Button
                   label="Delete"
                   className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                   onClick={() => {
                     setDeleteHotelType(true);
-                    setSelectedHotelTypeId(item.id);
+                    setSelectedHotelType(item);
                   }}
                 />
               </div>
@@ -100,7 +106,7 @@ function AdminHotelTypes({
                     className={`w-fit ${deleteBtnColor}`}
                     onClick={() => {
                       setDeleteHotelType(true);
-                      setSelectedHotelTypeId(item.id);
+                      setSelectedHotelType(item);
                     }}
                   />
                 </div>

@@ -80,7 +80,7 @@ const AdminPackagePage = () => {
                   <h3>{item.price}</h3>
                 </div>
 
-                <div className="flex gap-4">
+                <div className="flex gap-4 justify-end">
                   <Button
                     label="View Details"
                     className={`w-fit text-sm uppercase ${viewBtnColor}`}
