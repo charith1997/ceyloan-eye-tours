@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "@/components/molecules/Modal";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -6,16 +6,42 @@ import toast from "react-hot-toast";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import FileUploader from "@/components/atoms/FileUploader";
 import Button from "@/components/atoms/Button";
-import { useAddActivityMutation } from "@/services/activityApi";
+import {
+  useAddActivityMutation,
+  useUpdateActivityMutation,
+} from "@/services/activityApi";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddActivityProps {
   show: boolean;
   onClose: () => void;
+  isEdit?: boolean;
+  initialValues?: {
+    id: string;
+    name: string;
+    description: string;
+    image?: File | null;
+  };
 }
 
-function AddActivity({ show, onClose }: AddActivityProps) {
+function AddActivity({
+  show,
+  onClose,
+  initialValues,
+  isEdit,
+}: AddActivityProps) {
+  const [showExistingImage, setShowExistingImage] = useState(
+    !!(isEdit && initialValues?.image)
+  );
   const [createActivity] = useAddActivityMutation();
+  const [updateActivity] = useUpdateActivityMutation();
+
+  const defaultInitialValues = initialValues || {
+    name: "",
+    description: "",
+    image: null,
+  };
+
   return (
     <Modal
       isOpen={show}
@@ -24,29 +50,63 @@ function AddActivity({ show, onClose }: AddActivityProps) {
       className="md:w-lg"
     >
       <Formik
-        initialValues={{ name: "", description: "", image: null }}
+        initialValues={defaultInitialValues}
         validationSchema={Yup.object({
           name: Yup.string().required("* Name is Required"),
           description: Yup.string().required("* Description is Required"),
-          image: Yup.mixed().required("* Image is required"),
+          image: Yup.mixed().when([], {
+            is: () => !showExistingImage,
+            then: (schema) => schema.required("* Image is required"),
+            otherwise: (schema) => schema.notRequired(),
+          }),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
-          formData.append("name", values.name);
-          formData.append("description", values.description);
-          if (values.image) {
-            formData.append("logo", values.image);
-          }
+          if (isEdit) {
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.description !== initialValues?.description)
+              formData.append("description", values.description);
+            if (!showExistingImage && values.image !== initialValues?.image)
+              formData.append("logo", values.image || "");
 
-          try {
-            const response = await createActivity(formData).unwrap();
-            toast.success(response.message || "Activity created successfully");
-            onClose();
-            resetForm();
-          } catch (err: any) {
-            toast.error(err?.data?.message);
-          } finally {
-            setSubmitting(false);
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
+            }
+
+            try {
+              const response = await updateActivity({
+                id: initialValues?.id,
+                data: formData as any,
+              }).unwrap();
+              toast.success(response.message);
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
+          } else {
+            formData.append("name", values.name);
+            formData.append("description", values.description);
+            if (values.image) {
+              formData.append("logo", values.image);
+            }
+
+            try {
+              const response = await createActivity(formData).unwrap();
+              toast.success(
+                response.message || "Activity created successfully"
+              );
+              onClose();
+              resetForm();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >

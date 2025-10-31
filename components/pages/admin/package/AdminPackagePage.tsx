@@ -58,7 +58,7 @@ const AdminPackagePage = () => {
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {packages.map((item: any, index: number) => (
             <div key={index}>
-              <div className="hidden md:flex w-full items-center justify-between py-2 px-4 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <div className="flex flex-col gap-2">
                     <h3 className="text-md font-bold uppercase">
@@ -108,7 +108,7 @@ const AdminPackagePage = () => {
 
               <div className="flex md:hidden w-full items-center justify-between py-2 px-4 gap-2 rounded-lg shadow-sm border border-gray-300">
                 <div className="grid gap-4 w-full">
-                  <div className="flex flex-col gap-1 text-sm">
+                  <div className="flex flex-col gap-2 text-sm">
                     <h3 className="font-bold uppercase">{item.title}</h3>
                     <p className="flex gap-2 items-center">
                       <Component fill="black" width={16} />

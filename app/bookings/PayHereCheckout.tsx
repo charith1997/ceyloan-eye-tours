@@ -53,7 +53,7 @@ export default function PayHereCheckout({
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
             // 1️⃣ Call your backend to create payment
-            const res = await fetch("http://173.249.53.165/api/payments/add", {
+            const res = await fetch("http://techsolutions.site/api/payments/add", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({

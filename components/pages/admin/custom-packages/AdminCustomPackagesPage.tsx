@@ -33,7 +33,7 @@ const AdminCustomPackagesPage = () => {
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {packages.map((item: any, index: number) => (
             <div key={index}>
-              <div className="hidden md:grid grid-cols-3 w-full items-center  p-2 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <div className="flex flex-col gap-2">
                     <div className="text-sm flex gap-2 items-center">

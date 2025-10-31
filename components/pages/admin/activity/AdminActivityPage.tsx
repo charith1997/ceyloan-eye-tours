@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BookText, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -9,13 +9,13 @@ import DeleteActivity from "./DeleteActivity";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import { deleteBtnColor, editBtnColor } from "@/styles/colors";
+import { checkImageUrl } from "@/utils/common";
 
 const AdminActivityPage = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
-  const [selectedActivityId, setSelectedActivityId] = React.useState<
-    string | null
-  >(null);
+  const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
+  const [isEdit, setIsEdit] = useState(false);
 
   const { data } = useGetAllActivitiesQuery();
   const activities = Array.isArray(data?.data) ? data.data : [];
@@ -36,7 +36,7 @@ const AdminActivityPage = () => {
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
                   <Image
-                    src={activity.image_url}
+                    src={checkImageUrl(activity.image_url)}
                     alt={`Activity ${activity.id}`}
                     width={120}
                     height={100}
@@ -57,21 +57,26 @@ const AdminActivityPage = () => {
                   <Button
                     label="Edit"
                     className={`w-fit text-sm uppercase ${editBtnColor}`}
+                    onClick={() => {
+                      setIsEdit(true);
+                      setSelectedActivity(activity);
+                      setShowModal(true);
+                    }}
                   />
                   <Button
                     label="Delete"
                     className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                     onClick={() => {
-                      setSelectedActivityId(activity.id);
+                      setSelectedActivity(activity);
                       setDeleteModal(true);
                     }}
                   />
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
+              <div className="flex md:hidden w-full items-center p-2 gap-6 rounded-lg shadow-sm border border-gray-200">
                 <Image
-                  src={activity.image_url}
+                  src={checkImageUrl(activity.image_url)}
                   alt={`Tour ${activity.id}`}
                   width={160}
                   height={160}
@@ -84,18 +89,22 @@ const AdminActivityPage = () => {
                       <BookText width={16} />
                       {activity.description}
                     </p>
-                    <p className="flex gap-2 items-center">
-                      <Component width={16} />
-                      {`Package Count: ${activity.packageCount}`}
-                    </p>
                   </div>
-                  <div className="flex gap-4">
-                    <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                  <div className="flex gap-4 justify-end">
+                    <Button
+                      label="Edit"
+                      className={`w-fit ${editBtnColor}`}
+                      onClick={() => {
+                        setIsEdit(true);
+                        setSelectedActivity(activity);
+                        setShowModal(true);
+                      }}
+                    />
                     <Button
                       label="Delete"
                       className={`w-fit ${deleteBtnColor}`}
                       onClick={() => {
-                        setSelectedActivityId(activity.id);
+                        setSelectedActivity(activity);
                         setDeleteModal(true);
                       }}
                     />
@@ -107,11 +116,24 @@ const AdminActivityPage = () => {
         </DetailContainer>
       </NavigationContainer>
 
-      <AddActivity show={showModal} onClose={() => setShowModal(false)} />
+      <AddActivity
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setSelectedActivity(null);
+          setIsEdit(false);
+        }}
+        isEdit={isEdit}
+        initialValues={
+          isEdit
+            ? { ...selectedActivity, image: selectedActivity.image_url }
+            : null
+        }
+      />
       <DeleteActivity
         show={deleteModal}
         onClose={() => setDeleteModal(false)}
-        selectedID={selectedActivityId}
+        selectedID={selectedActivity?.id}
       />
     </>
   );

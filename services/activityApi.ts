@@ -23,7 +23,7 @@ export const activityApi = baseApi.injectEndpoints({
     }),
     updateActivity: builder.mutation<
       any,
-      { id: string; data: { name: string } }
+      { id: string | undefined; data: { name: string } }
     >({
       query: ({ id, data }) => ({
         url: `/activities/update/${id}`,
