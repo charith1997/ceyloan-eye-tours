@@ -30,6 +30,7 @@ export const placesApi = baseApi.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["Places"],
     }),
     // Delete a place
     deletePlace: builder.mutation<any, string>({
@@ -37,6 +38,7 @@ export const placesApi = baseApi.injectEndpoints({
         url: `/places/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Places"],
     }),
   }),
 });

@@ -133,7 +133,7 @@ const FileUploader: React.FC<FileUploaderProps> = ({
       </div>
 
       {meta.touched && meta.error && (
-        <div className="text-red-500 text-xs mt-1">{meta.error}</div>
+        <div className="text-red text-xs mt-1">{meta.error}</div>
       )}
 
       {previews.length > 0 && (

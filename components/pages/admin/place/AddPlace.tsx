@@ -7,16 +7,39 @@ import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
 import MapWithGeocoder from "./MapWithGeocoder";
-import { useCreatePlaceMutation } from "@/services/placesApi";
+import {
+  useCreatePlaceMutation,
+  useUpdatePlaceMutation,
+} from "@/services/placesApi";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 
 interface AddPlaceProps {
   show: boolean;
   onClose: () => void;
+  initialValues?: {
+    id: string;
+    name: string;
+    description: string;
+    location: string;
+    longitude: string;
+    latitude: string;
+    image: File | null;
+  };
+  isEdit?: boolean;
 }
 
-function AddPlace({ show, onClose }: AddPlaceProps) {
+function AddPlace({ show, onClose, initialValues, isEdit }: AddPlaceProps) {
   const [createPlace] = useCreatePlaceMutation();
+  const [updatePlace] = useUpdatePlaceMutation();
+
+  const defaultInitialValues = initialValues || {
+    name: "",
+    description: "",
+    location: "",
+    longitude: "",
+    latitude: "",
+    image: null,
+  };
 
   return (
     <Modal
@@ -26,53 +49,83 @@ function AddPlace({ show, onClose }: AddPlaceProps) {
       className="md:w-lg"
     >
       <Formik
-        initialValues={{
-          name: "",
-          description: "",
-          location: "",
-          longitude: "",
-          latitude: "",
-          image: [],
-        }}
+        initialValues={defaultInitialValues}
         validationSchema={Yup.object({
-          name: Yup.string().required("* Name is Required"),
+          name: Yup.string()
+            .trim()
+            .required("* Name is Required")
+            .min(1, "* Name cannot be empty"),
           description: Yup.string().required("* Description is Required"),
           location: Yup.string().required("* Location is Required"),
-          image: Yup.array()
-            .of(
-              Yup.mixed().test(
-                "fileType",
-                "Only image files are allowed",
-                (value) => value instanceof File
-              )
-            )
-            .min(1, "* At least one image is required")
-            .required("* Image is required"),
+          image: Yup.mixed()
+            .required("* Image is required")
+            .test("fileType", "Only image files are allowed", (value: any) => {
+              if (typeof value === "string") return true;
+              if (
+                value &&
+                ["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(
+                  value.type
+                )
+              ) {
+                return true;
+              }
+
+              return false;
+            }),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
-          formData.append("name", values.name);
-          formData.append("description", values.description);
-          formData.append("location", values.location);
-          formData.append("longitude", values.longitude);
-          formData.append("latitude", values.latitude);
-          if (Array.isArray(values.image)) {
-            values.image.forEach((image: File) => {
-              formData.append("image", image);
-            });
-          } else {
-            formData.append("image", values.image);
-          }
+          if (isEdit) {
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.description !== initialValues?.description)
+              formData.append("description", values.description);
+            if (values.location !== initialValues?.location) {
+              formData.append("location", values.location);
+              formData.append("longitude", values.longitude);
+              formData.append("latitude", values.latitude);
+            }
+            if (values.image !== initialValues?.image)
+              formData.append("image", values.image || "");
 
-          try {
-            const response = await createPlace(formData).unwrap();
-            toast.success(response.message);
-            resetForm();
-            onClose();
-          } catch (err: any) {
-            toast.error(err?.data?.message || "Failed to create place");
-          } finally {
-            setSubmitting(false);
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
+            }
+
+            try {
+              const response = await updatePlace({
+                id: initialValues?.id || "",
+                data: formData as any,
+              }).unwrap();
+              toast.success(response.message);
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
+          } else {
+            formData.append("name", values.name);
+            formData.append("description", values.description);
+            formData.append("location", values.location);
+            formData.append("longitude", values.longitude);
+            formData.append("latitude", values.latitude);
+            if (values.image) {
+              formData.append("image", values.image);
+            }
+
+            try {
+              const response = await createPlace(formData).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message || "Failed to create place");
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >
@@ -109,7 +162,7 @@ function AddPlace({ show, onClose }: AddPlaceProps) {
               )}
             </div>
 
-            <FileUploader name="image" label="Upload Image" multiple />
+            <FileUploader name="image" label="Upload Image" />
 
             <div className="flex gap-6">
               <Button
