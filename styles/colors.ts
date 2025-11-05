@@ -11,5 +11,6 @@ export const declineBtnColor = "bg-red-600 hover:bg-red-700 text-white px-4 py-2
 export const cancelBtnColor = "bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg";
 export const viewBtnColor = "bg-slate-600 hover:bg-slate-700 text-white px-4 py-2 rounded-lg";
 export const editBtnColor = "bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg";
+export const disableBtnColor = "bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed";
 
   

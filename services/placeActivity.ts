@@ -14,6 +14,17 @@ export const placeActivity = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["PlaceActivities"],
     }),
+    updatePlaceActivity: builder.mutation<
+      any,
+      { placeId: string; activityId: string; data: any }
+    >({
+      query: ({ placeId, activityId, data }) => ({
+        url: "/place-activities/" + placeId + "/" + activityId,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["PlaceActivities"],
+    }),
     deletePlaceActivity: builder.mutation<any, string>({
       query: (id) => ({
         url: `/place-activities/${id}`,
@@ -27,5 +38,6 @@ export const placeActivity = baseApi.injectEndpoints({
 export const {
   useGetAllPlaceActivitiesQuery,
   useCreatePlaceActivityMutation,
+  useUpdatePlaceActivityMutation,
   useDeletePlaceActivityMutation,
 } = placeActivity;

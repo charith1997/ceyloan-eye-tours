@@ -50,17 +50,12 @@ function AddPlaceActivity({ show, onClose }: AddPlaceActivityProps) {
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           const formData = new FormData();
-          formData.append("placeid", values.placeid);
-          const activities = [
-            {
-              id: values.activityid,
-              description: values.description,
-              price: values.price,
-            },
-          ];
-          formData.append("activities", JSON.stringify(activities));
+          formData.append("placeId", values.placeid);
+          formData.append("activityId", values.activityid);
+          formData.append("price", values.price);
+          formData.append("description", values.description);
           if (values.image) {
-            formData.append("images", values.image);
+            formData.append("image", values.image);
           }
 
           try {
