@@ -90,11 +90,11 @@ function AddCategory({
                 data: formData as any,
               }).unwrap();
               toast.success(response.message);
+              onClose();
             } catch (err: any) {
               toast.error(err?.data?.message);
             } finally {
               setSubmitting(false);
-              onClose();
             }
           } else {
             formData.append("name", values.name);

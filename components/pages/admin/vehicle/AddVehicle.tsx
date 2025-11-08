@@ -10,17 +10,29 @@ import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 import FormikDropdown from "@/components/atoms/FormikDropdown";
 import FormikFieldArray from "@/components/atoms/FormikFieldArray";
 import toast from "react-hot-toast";
-import { useCreateVehicleMutation } from "@/services/vehicleApi";
+import {
+  useCreateVehicleMutation,
+  useUpdateVehicleMutation,
+} from "@/services/vehicleApi";
+import { isDifferent } from "@/utils/package";
 
 interface AddCategoryProps {
   show: boolean;
   onClose: () => void;
+  initialValues?: any;
+  isEdit?: boolean;
 }
 
-function AddVehicle({ show, onClose }: AddCategoryProps) {
+function AddVehicle({
+  show,
+  onClose,
+  initialValues,
+  isEdit,
+}: AddCategoryProps) {
   const [createVehicle] = useCreateVehicleMutation();
+  const [updateVehicle] = useUpdateVehicleMutation();
 
-  const initialValues = {
+  const defaultInitialValues = initialValues || {
     vehicleType: "car",
     name: "",
     passengerCapacity: "",
@@ -69,43 +81,138 @@ function AddVehicle({ show, onClose }: AddCategoryProps) {
     <Modal isOpen={show} onClose={onClose} title="Add Vehicle">
       <Formik
         enableReinitialize
-        initialValues={initialValues}
+        initialValues={defaultInitialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          console.log("values", values);
           const formData = new FormData();
-          formData.append("vehicleType", values.vehicleType);
-          formData.append("name", values.name);
-          formData.append(
-            "passengerCapacity",
-            values.passengerCapacity.toString()
-          );
-          formData.append("price", values.price.toString());
-          formData.append("owner", values.owner);
-          formData.append("ownerContact", values.ownerContact);
-          formData.append("location", values.location);
-          formData.append("descriptions", JSON.stringify(values.descriptions));
-          formData.append("facilities", JSON.stringify(values.facilities));
-          formData.append("excludes", JSON.stringify(values.excludes));
-          formData.append("terms", JSON.stringify(values.terms));
-          if (Array.isArray(values.images)) {
-            values.images.forEach((image: File) => {
-              formData.append("images", image);
-            });
-          } else {
-            formData.append("images", values.images);
-          }
+          if (isEdit) {
+            // if (values.vehicleType !== initialValues?.vehicleType)
+            //   formData.append("vehicleType", values.vehicleType);
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.passengerCapacity !== initialValues?.passengerCapacity)
+              formData.append(
+                "passengerCapacity",
+                values.passengerCapacity.toString()
+              );
+            if (values.price !== initialValues?.price)
+              formData.append("price", values.price.toString());
+            if (values.owner !== initialValues?.owner)
+              formData.append("owner", values.owner);
+            if (values.ownerContact !== initialValues?.ownerContact)
+              formData.append("ownerContact", values.ownerContact);
+            if (values.location !== initialValues?.location)
+              formData.append("location", values.location);
+            const descriptions = isDifferent(
+              initialValues?.descriptions,
+              values.descriptions
+            );
+            if (descriptions) {
+              formData.append(
+                "descriptions",
+                JSON.stringify(values.descriptions)
+              );
+            }
 
-          try {
-            const response = await createVehicle(formData).unwrap();
-            toast.success(response.message);
-            resetForm();
-            onClose();
-          } catch (error: any) {
-            console.error("Error submitting form:", error);
-            toast.error(error?.data?.message);
-          } finally {
-            setSubmitting(false);
+            const facilities = isDifferent(
+              initialValues?.facilities,
+              values.facilities
+            );
+            if (facilities) {
+              formData.append("facilities", JSON.stringify(values.facilities));
+            }
+
+            const excludes = isDifferent(
+              initialValues?.excludes,
+              values.excludes
+            );
+            if (excludes) {
+              formData.append("excludes", JSON.stringify(values.excludes));
+            }
+
+            const terms = isDifferent(initialValues?.terms, values.terms);
+            if (terms) {
+              formData.append("terms", JSON.stringify(values.terms));
+            }
+
+            const oldImages = initialValues?.Images || [];
+            const newImages = values.images || [];
+
+            const removedImages = oldImages
+              .filter(
+                (oldImg: any) =>
+                  !newImages.some(
+                    (newImg: any) =>
+                      typeof newImg === "string" && newImg === oldImg.image_url
+                  )
+              )
+              .map((img: any) => img.id);
+
+            const addedImages = newImages.filter(
+              (img: any) => img instanceof File
+            );
+
+            addedImages.forEach((file: any) => formData.append("images", file));
+            if (removedImages.length > 0)
+              formData.append("removeImages", JSON.stringify(removedImages));
+
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
+            }
+
+            try {
+              const response = await updateVehicle({
+                id: values.id,
+                data: formData,
+              }).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (error: any) {
+              console.error("Error updating form:", error);
+              toast.error(error?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
+          } else {
+            // formData.append("vehicleType", values.vehicleType);
+            formData.append("name", values.name);
+            formData.append(
+              "passengerCapacity",
+              values.passengerCapacity.toString()
+            );
+            formData.append("price", values.price.toString());
+            formData.append("owner", values.owner);
+            formData.append("ownerContact", values.ownerContact);
+            formData.append("location", values.location);
+            formData.append(
+              "descriptions",
+              JSON.stringify(values.descriptions)
+            );
+            formData.append("facilities", JSON.stringify(values.facilities));
+            formData.append("excludes", JSON.stringify(values.excludes));
+            formData.append("terms", JSON.stringify(values.terms));
+            if (Array.isArray(values.images)) {
+              values.images.forEach((image: File) => {
+                formData.append("images", image);
+              });
+            } else {
+              formData.append("images", values.images);
+            }
+
+            try {
+              const response = await createVehicle(formData).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (error: any) {
+              console.error("Error submitting form:", error);
+              toast.error(error?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >

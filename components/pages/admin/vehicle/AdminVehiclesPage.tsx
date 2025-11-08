@@ -8,17 +8,29 @@ import AdminBusPage from "./bus/AdminBusPage";
 import { useGetAllVehiclesQuery } from "@/services/vehicleApi";
 import VehicleDetails from "./VehicleDetails";
 import AddVehicle from "./AddVehicle";
+import DeleteVehicle from "./DeleteVehicle";
 
 const AdminVehiclesPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [show, setShow] = useState(false);
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
+  const [deleteModal, setDeleteModal] = useState(false);
   const { data } = useGetAllVehiclesQuery();
   const vehicles = Array.isArray(data?.data) ? data.data : [];
 
   const handleShowDetails = (details: any) => {
     setShow(true);
+    setDetails(details);
+  };
+
+  const handleDeleteVehicle = (details: any) => {
+    setDeleteModal(true);
+    setDetails(details);
+  };
+
+  const handleEditVehicle = (details: any) => {
+    setShowAddVehicle(true);
     setDetails(details);
   };
 
@@ -35,9 +47,7 @@ const AdminVehiclesPage = () => {
           }
           title="Vehicles"
           buttonName="Add Vehicle"
-          onClick={() => {
-            setShowAddVehicle(true);
-          }}
+          onClick={() => setShowAddVehicle(true)}
         />
         <div className="w-full">
           <div className="md:max-w-xs flex">
@@ -66,13 +76,28 @@ const AdminVehiclesPage = () => {
 
           <div className="pt-8">
             {activeTab === "tab1" && (
-              <AdminCarsPage cars={vehicles} handleView={handleShowDetails} />
+              <AdminCarsPage
+                cars={vehicles}
+                handleView={handleShowDetails}
+                handleDelete={handleDeleteVehicle}
+                handleEdit={handleEditVehicle}
+              />
             )}
             {activeTab === "tab2" && (
-              <AdminVansPage vans={vehicles} handleView={handleShowDetails} />
+              <AdminVansPage
+                vans={vehicles}
+                handleView={handleShowDetails}
+                handleDelete={handleDeleteVehicle}
+                handleEdit={handleEditVehicle}
+              />
             )}
             {activeTab === "tab3" && (
-              <AdminBusPage busses={vehicles} handleView={handleShowDetails} />
+              <AdminBusPage
+                busses={vehicles}
+                handleView={handleShowDetails}
+                handleDelete={handleDeleteVehicle}
+                handleEdit={handleEditVehicle}
+              />
             )}
           </div>
         </div>
@@ -80,18 +105,45 @@ const AdminVehiclesPage = () => {
 
       {show && (
         <VehicleDetails
-          visible={show}
-          details={details}
-          onClose={() => setShow(false)}
+          vehicle={details}
+          onClose={() => {
+            setShow(false);
+            setDetails(null);
+          }}
         />
       )}
 
-      <AddVehicle
-        show={showAddVehicle}
-        onClose={() => {
-          setShowAddVehicle(false);
-        }}
-      />
+      {showAddVehicle && (
+        <AddVehicle
+          show={showAddVehicle}
+          onClose={() => {
+            setShowAddVehicle(false);
+            setDetails(null);
+          }}
+          initialValues={
+            Boolean(details)
+              ? {
+                  ...details,
+                  passengerCapacity: details ? details.passenger_capacity : "",
+                  ownerContact: details ? details.owner_contact : "",
+                  vehicleType: "car",
+                }
+              : null
+          }
+          isEdit={Boolean(details)}
+        />
+      )}
+
+      {deleteModal && (
+        <DeleteVehicle
+          show={deleteModal}
+          onClose={() => {
+            setDeleteModal(false);
+            setDetails(null);
+          }}
+          selectedID={details.id}
+        />
+      )}
     </>
   );
 };

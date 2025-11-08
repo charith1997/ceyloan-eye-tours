@@ -9,22 +9,31 @@ import React from "react";
 interface AdminVansPageProps {
   vans: any[];
   handleView: (van: any) => void;
+  handleDelete: (van: any) => void;
+  handleEdit: (van: any) => void;
 }
 
-function AdminVansPage({ vans, handleView }: AdminVansPageProps) {
+function AdminVansPage({
+  vans,
+  handleView,
+  handleDelete,
+  handleEdit,
+}: AdminVansPageProps) {
   return (
     <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
       {vans.map((van: any, index: number) => (
         <div key={index}>
           <div className="hidden md:grid grid-cols-3 w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">
-              <Image
-                src={checkImageUrl(van?.images[0])}
-                alt={`Car ${van.id}`}
-                width={120}
-                height={100}
-                className="object-cover rounded-lg w-28 h-28"
-              />
+              {van.images.length > 0 && (
+                <Image
+                  src={checkImageUrl(van?.images[0])}
+                  alt={`Van ${van.id}`}
+                  width={120}
+                  height={100}
+                  className="object-cover rounded-lg w-28 h-28"
+                />
+              )}
               <div className="flex flex-col gap-2">
                 <h3 className="text-md font-bold flex items-center gap-4">
                   <span className="uppercase">{van.name}</span>
@@ -55,18 +64,17 @@ function AdminVansPage({ vans, handleView }: AdminVansPageProps) {
               <Button
                 label="View Details"
                 className={`w-fit text-sm uppercase ${viewBtnColor}`}
-                onClick={() => {
-                  handleView(van);
-                }}
+                onClick={() => handleView(van)}
               />
               <Button
                 label="Edit"
                 className={`w-fit text-sm uppercase ${editBtnColor}`}
+                onClick={() => handleEdit(van)}
               />
               <Button
                 label="Delete"
                 className={`w-fit text-sm uppercase ${deleteBtnColor}`}
-                onClick={() => {}}
+                onClick={() => handleDelete(van)}
               />
             </div>
           </div>
@@ -97,12 +105,17 @@ function AdminVansPage({ vans, handleView }: AdminVansPageProps) {
                 <Button
                   label="View Details"
                   className={`w-fit ${viewBtnColor}`}
+                  onClick={() => handleView(van)}
                 />
-                <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                <Button
+                  label="Edit"
+                  className={`w-fit ${editBtnColor}`}
+                  onClick={() => handleEdit(van)}
+                />
                 <Button
                   label="Delete"
                   className={`w-fit ${deleteBtnColor}`}
-                  onClick={() => {}}
+                  onClick={() => handleDelete(van)}
                 />
               </div>
             </div>

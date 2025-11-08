@@ -21,5 +21,5 @@ export const checkImageUrl = (url: string) => {
     return url;
   }
 
-  return `http://173.249.53.165${url}`;
+  return `https://service.techsolutions.site${url}`;
 };

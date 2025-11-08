@@ -39,13 +39,17 @@ const FileUploader: React.FC<FileUploaderProps> = ({
     fileArray.forEach((file: any) => {
       if (!file) return;
 
-      if (typeof file === "string") {
-        newPreviews.push(file);
-      } else if (file.image_url && typeof file.image_url === "string") {
-        newPreviews.push(file.image_url);
-      } else if (file.type && file.type.startsWith("image/")) {
-        const url = URL.createObjectURL(file);
-        newPreviews.push(url);
+      try {
+        if (typeof file === "string") {
+          newPreviews.push(file);
+        } else if (file.image_url && typeof file.image_url === "string") {
+          newPreviews.push(file.image_url);
+        } else if (file instanceof File && file.type.startsWith("image/")) {
+          const url = URL.createObjectURL(file);
+          newPreviews.push(url);
+        }
+      } catch (err) {
+        console.warn("Invalid file or URL in FileUploader:", file, err);
       }
     });
 
