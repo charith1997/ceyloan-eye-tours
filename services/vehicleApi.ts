@@ -23,6 +23,7 @@ export const vehicleApi = baseApi.injectEndpoints({
         method: "PUT",
         body: updatedVehicle,
       }),
+      invalidatesTags: ["Vehicles"],
     }),
     deleteVehicle: builder.mutation<any, string>({
       query: (id) => ({

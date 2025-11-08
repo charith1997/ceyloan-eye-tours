@@ -14,7 +14,7 @@ function FormikFieldArray({
   label,
   placeholder = "",
   inputClassName = "w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none",
-  buttonClassName = "btn",
+  buttonClassName = "rounded-lg bg-gray-200 px-3 text-sm hover:bg-gray-300 align-self-center",
 }: FormikFieldArrayProps) {
   const { values } = useFormikContext<any>();
   const arrValues = values[name] || [];

@@ -7,10 +7,12 @@ import AdminVansPage from "./van/AdminVansPage";
 import AdminBusPage from "./bus/AdminBusPage";
 import { useGetAllVehiclesQuery } from "@/services/vehicleApi";
 import VehicleDetails from "./VehicleDetails";
+import AddVehicle from "./AddVehicle";
 
 const AdminVehiclesPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [show, setShow] = useState(false);
+  const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
   const { data } = useGetAllVehiclesQuery();
   const vehicles = Array.isArray(data?.data) ? data.data : [];
@@ -33,7 +35,9 @@ const AdminVehiclesPage = () => {
           }
           title="Vehicles"
           buttonName="Add Vehicle"
-          onClick={() => {}}
+          onClick={() => {
+            setShowAddVehicle(true);
+          }}
         />
         <div className="w-full">
           <div className="md:max-w-xs flex">
@@ -81,6 +85,13 @@ const AdminVehiclesPage = () => {
           onClose={() => setShow(false)}
         />
       )}
+
+      <AddVehicle
+        show={showAddVehicle}
+        onClose={() => {
+          setShowAddVehicle(false);
+        }}
+      />
     </>
   );
 };

@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
+import { checkImageUrl } from "@/utils/common";
 import { MapPin, Phone, User, Users } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -15,10 +16,10 @@ function AdminCarsPage({ cars, handleView }: AdminCarsPageProps) {
     <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
       {cars.map((car: any, index: number) => (
         <div key={index}>
-          <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
+          <div className="hidden md:grid grid-cols-3 w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">
               <Image
-                src={car?.images[0]}
+                src={checkImageUrl(car?.images[0])}
                 alt={`Car ${car.id}`}
                 width={120}
                 height={100}
@@ -50,7 +51,7 @@ function AdminCarsPage({ cars, handleView }: AdminCarsPageProps) {
               </span>
             </div>
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-end">
               <Button
                 label="View Details"
                 className={`w-fit text-sm uppercase ${viewBtnColor}`}
