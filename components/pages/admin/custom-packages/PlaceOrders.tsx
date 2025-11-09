@@ -105,7 +105,7 @@ function PlaceOrders({
                     <Button
                       type="submit"
                       label="Submit"
-                      className={`w-full ${saveBtnColor}`}
+                      className={`w-full self-center ${saveBtnColor}`}
                     />
                   </Form>
                 </Formik>
