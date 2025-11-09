@@ -4,8 +4,8 @@ import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
-import ImageModal from "./ImageModal";
 import { approveBtnColor, deleteBtnColor } from "@/styles/colors";
+import { checkImageUrl } from "@/utils/common";
 
 interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
@@ -34,7 +34,7 @@ function RequestedImages({
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">
               <Image
-                src={item.image_url}
+                src={checkImageUrl(item.image_url)}
                 alt={`Gallery ${item.id}`}
                 width={120}
                 height={100}
@@ -70,7 +70,7 @@ function RequestedImages({
 
           <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
             <Image
-              src={item.image_url}
+              src={checkImageUrl(item.image_url)}
               alt={`Tour ${item.id}`}
               width={160}
               height={160}

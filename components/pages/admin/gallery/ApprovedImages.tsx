@@ -5,6 +5,7 @@ import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
 import { cancelBtnColor, deleteBtnColor } from "@/styles/colors";
+import { checkImageUrl } from "@/utils/common";
 
 interface ApprovedImagesProps {
   setViewImageUrl: (url: string | null) => void;
@@ -32,7 +33,7 @@ function ApprovedImages({
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">
               <Image
-                src={item.image_url}
+                src={checkImageUrl(item.image_url)}
                 alt={`Tour ${item.id}`}
                 width={120}
                 height={100}
@@ -68,7 +69,7 @@ function ApprovedImages({
 
           <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
             <Image
-              src={item.image_url}
+              src={checkImageUrl(item.image_url)}
               alt={`Tour ${item.id}`}
               width={160}
               height={160}

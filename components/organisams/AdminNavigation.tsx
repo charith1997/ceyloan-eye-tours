@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Home,
   Users,
@@ -13,11 +13,16 @@ import {
   LocateIcon,
   Car,
   MessageCircle,
-  Image,
+  Image as ImageIcon,
   Star,
   Package2,
+  Power,
 } from "lucide-react";
 import { getUserDetails } from "@/utils/auth";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { logout } from "@/features/authSlice";
+import { useRouter } from "next/navigation";
 
 interface AdminNavigationProps {
   showSidebar: boolean;
@@ -41,7 +46,7 @@ const getIcon = (name: string) => {
     Bookings: Calendar,
     Users: Users,
     Chats: MessageCircle,
-    Gallery: Image,
+    Gallery: ImageIcon,
     Reviews: Star,
   };
 
@@ -55,7 +60,40 @@ const AdminNavigation = ({
   navigationItems,
   clickNavItem,
 }: AdminNavigationProps) => {
+  const [showModal, setShowModal] = useState(false);
   const userDetails = getUserDetails();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(target) &&
+        !target.closest(".user-profile-icon")
+      ) {
+        setShowModal(false);
+      }
+    }
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    setShowModal(false);
+    dispatch(logout());
+    router.push("/");
+  };
+
   return (
     <>
       {!showSidebar && (
@@ -136,10 +174,32 @@ const AdminNavigation = ({
         </nav>
 
         <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
-          <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
-              <span className="text-white text-sm font-bold">A</span>
-            </div>
+          <div
+            onClick={() => setShowModal(!showModal)}
+            className="flex items-center space-x-3 cursor-pointer user-profile-icon"
+          >
+            {userDetails && userDetails?.profileImage ? (
+              <Image
+                className={`w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
+                src={userDetails?.profileImage}
+                alt="Bordered avatar"
+                width={40}
+                height={40}
+              />
+            ) : (
+              <div
+                className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gradient-to-r from-orange-500 to-red-500 rounded-full text-white`}
+              >
+                {userDetails.userName && (
+                  <span>
+                    {userDetails?.userName
+                      .split(" ")
+                      .map((word: string) => word[0])
+                      .join("")}
+                  </span>
+                )}
+              </div>
+            )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-gray-900 truncate">
                 {userDetails?.userName}
@@ -149,6 +209,27 @@ const AdminNavigation = ({
               </p>
             </div>
           </div>
+          {showModal && (
+            <div
+              ref={modalRef}
+              className="z-50 bg-white border border-gray-200 rounded-xl shadow-xl p-4 min-w-[200px] absolute bottom-0 left-0 right-0 mb-16 mx-4"
+            >
+              <div className="flex flex-col w-full gap-2">
+                <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
+                  <div className="font-semibold text-lg text-gray-600">
+                    {userDetails?.userName}
+                  </div>
+                </div>
+                <div
+                  className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+                  onClick={handleLogout}
+                >
+                  <Power width={20} height={20} />
+                  <h6>Logout</h6>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

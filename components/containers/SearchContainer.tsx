@@ -1,12 +1,8 @@
 import Button from "@/components/atoms/Button";
-import { logout } from "@/features/authSlice";
 import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
-import { Plus, Power } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Plus } from "lucide-react";
+import React from "react";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -23,69 +19,7 @@ const SearchContainer = ({
   onClick,
   isDisplayActionButton = true,
 }: SearchContainerProps) => {
-  const [showModal, setShowModal] = useState(false);
   const userDetails = getUserDetails();
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const modalRef = useRef<HTMLDivElement>(null);
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    dispatch(logout());
-    setShowModal(false);
-    router.push("/");
-  };
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as Element;
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(target) &&
-        !target.closest(".user-profile-icon")
-      ) {
-        setShowModal(false);
-      }
-    }
-
-    if (showModal) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showModal]);
-
-  const userImage = (height: number, width: number) => (
-    <div
-      onClick={() => setShowModal(!showModal)}
-      className="cursor-pointer user-profile-icon flex"
-    >
-      {userDetails && userDetails?.profileImage ? (
-        <Image
-          className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
-          src={userDetails?.profileImage}
-          alt="Bordered avatar"
-          width={40}
-          height={40}
-        />
-      ) : (
-        <div
-          className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gradient-to-r from-orange-500 to-red-500 rounded-full text-white`}
-        >
-          {userDetails.userName && (
-            <span>
-              {userDetails?.userName
-                .split(" ")
-                .map((word: string) => word[0])
-                .join("")}
-            </span>
-          )}
-        </div>
-      )}
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-8">
@@ -95,7 +29,6 @@ const SearchContainer = ({
             <h1 className="text-2xl">Welcome, </h1>
             <h1 className="text-2xl font-bold ps-2">{userDetails?.userName}</h1>
           </div>
-          <span className="md:hidden">{userImage(10, 10)}</span>
         </div>
         <div className="flex items-center gap-6 justify-between">
           <form className="max-w-full md:max-w-md w-full">
@@ -132,29 +65,6 @@ const SearchContainer = ({
               />
             </div>
           </form>
-          <span className="hidden md:flex">{userImage(10, 10)}</span>
-          {showModal && (
-            <div
-              ref={modalRef}
-              className="z-50 bg-white rounded-xl shadow-lg p-4 min-w-[200px] absolute top-32 md:top-16 right-4"
-            >
-              <div className="flex flex-col w-full gap-2">
-                <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
-                  {userImage(8, 8)}
-                  <div className="font-semibold text-lg text-gray-600">
-                    {userDetails?.userName}
-                  </div>
-                </div>
-                <div
-                  className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
-                  onClick={handleLogout}
-                >
-                  <Power width={20} height={20} />
-                  <h6>Logout</h6>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
       <div className="flex items-center justify-between">
