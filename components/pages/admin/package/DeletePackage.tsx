@@ -2,13 +2,18 @@ import React from "react";
 import Button from "@/components/atoms/Button";
 import Modal from "@/components/molecules/Modal";
 import { cancelBtnColor, deleteBtnColor } from "@/styles/colors";
+import { useDeletePackageMutation } from "@/services/packageApi";
+import toast from "react-hot-toast";
 
 interface DeletePackageProps {
   show: boolean;
   onClose: () => void;
+  selectedID: string | null;
 }
 
-function DeletePackage({ show, onClose }: DeletePackageProps) {
+function DeletePackage({ show, onClose, selectedID }: DeletePackageProps) {
+  const [deletePackage] = useDeletePackageMutation();
+  console.log("selectedID", selectedID);
   return (
     <Modal
       isOpen={show}
@@ -26,7 +31,19 @@ function DeletePackage({ show, onClose }: DeletePackageProps) {
         <Button
           className={`w-full ${deleteBtnColor}`}
           label="Delete"
-          onClick={() => {}}
+          onClick={async () => {
+            if (selectedID) {
+              console.log("selectedID", selectedID);
+
+              try {
+                const response = await deletePackage(selectedID).unwrap();
+                toast.success(response.message);
+                onClose();
+              } catch (err: any) {
+                toast.error(err?.data?.message);
+              }
+            }
+          }}
         />
       </div>
     </Modal>

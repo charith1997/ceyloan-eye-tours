@@ -101,7 +101,10 @@ const AdminPackagePage = () => {
                   <Button
                     label="Delete"
                     className={`w-fit text-sm uppercase ${deleteBtnColor}`}
-                    onClick={() => setDeleteModal(true)}
+                    onClick={() => {
+                      setDeleteModal(true);
+                      setSelectedPackage(item);
+                    }}
                   />
                 </div>
               </div>
@@ -141,7 +144,10 @@ const AdminPackagePage = () => {
                     <Button
                       label="Delete"
                       className={`w-fit ${deleteBtnColor}`}
-                      onClick={() => setDeleteModal(true)}
+                      onClick={() => {
+                        setDeleteModal(true);
+                        setSelectedPackage(item);
+                      }}
                     />
                   </div>
                 </div>
@@ -191,6 +197,7 @@ const AdminPackagePage = () => {
           setDeleteModal(false);
           setSelectedPackage(null);
         }}
+        selectedID={selectedPackage ? selectedPackage.id : null}
       />
 
       {displayDetails && (

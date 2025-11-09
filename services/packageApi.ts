@@ -47,6 +47,13 @@ export const packageApi = baseApi.injectEndpoints({
     getPackageByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/packages/get-by-urlprefix/${slug}`,
     }),
+    deletePackage: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/packages/delete/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Package"],
+    }),
   }),
 });
 
@@ -58,4 +65,5 @@ export const {
   useGetPackagesByCategoryQuery,
   useGetPackagesByTourTypeQuery,
   useGetPackageByUrlPrefixQuery,
+  useDeletePackageMutation
 } = packageApi;
