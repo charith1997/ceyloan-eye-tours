@@ -193,7 +193,7 @@ export default function HeroSection() {
                 >
                   {slide.description}
                 </motion.p>
-                {slide.content && slide.content}
+                {/* {slide.content && slide.content} */}
                 {slide.button && (
                   <motion.div variants={textVariants} className="mt-8">
                     <motion.div

@@ -2,17 +2,20 @@ import { useGetAllActivitiesQuery } from "@/services/activityApi";
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
+import ScaleCarousel from "@/components/organisams/ScaleCarousel";
 
 const TravelActivity = () => {
   const { data } = useGetAllActivitiesQuery();
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const activities = Array.isArray(data?.data) ? data.data : [];
-  
+
   // Show 6 activities per slide
   const itemsPerSlide = 6;
   const totalSlides = Math.ceil(activities.length / itemsPerSlide);
-  
+
   const getCurrentSlideActivities = () => {
     const startIndex = currentSlide * itemsPerSlide;
     const endIndex = startIndex + itemsPerSlide;
@@ -41,65 +44,39 @@ const TravelActivity = () => {
       </div>
 
       <div className="relative">
-        {/* Activities Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {displayedActivities.map((activity: any, index: number) => (
-            <div
-              className="flex-1 relative rounded-xl shadow-md bg-cover bg-center bg-no-repeat group hover:-translate-y-1.5 transition-transform duration-300 cursor-pointer"
-              style={{
-                backgroundImage: `url(${activity.image_url})`,
-                height: "300px",
-                width: "100%",
-                objectFit: "cover",
-              }}
-              key={index}
-            >
-              <div className="absolute inset-0 bg-black/40 rounded-xl z-0" />
-              <div className="relative z-10 flex flex-col items-center justify-end h-full p-6 text-white gap-2">
-                <div className="text-4xl font-bold leading-none">
-                  {activity.name}
+        <ScaleCarousel
+          data={activities}
+          renderSlide={(activity: any) => (
+            <div className="py-8">
+              <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={checkImageUrl(activity.image_url)}
+                  alt={activity.name}
+                  fill
+                  className="object-cover"
+                  sizes="60vw"
+                  quality={90}
+                />
+                {/* <img
+                  src={checkImageUrl(activity.image_url)}
+                  alt={activity.name}
+                  className="object-cover"
+                /> */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+                  <h2 className="text-3xl font-bold text-white mb-2">
+                    {activity.name}
+                  </h2>
+                  <p className="text-white/90 text-lg">
+                    {activity.description}
+                  </p>
                 </div>
-                <div className="text-lg">{activity.description}</div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Navigation Arrows */}
-        {totalSlides > 1 && (
-          <>
-            <button
-              onClick={prevSlide}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:shadow-xl"
-            >
-              <ChevronLeft size={24} className="text-gray-700" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white/90 hover:bg-white shadow-lg rounded-full p-3 transition-all duration-300 hover:shadow-xl"
-            >
-              <ChevronRight size={24} className="text-gray-700" />
-            </button>
-          </>
-        )}
+          )}
+          className="w-full"
+        />
       </div>
-
-      {/* Slide Indicators */}
-      {totalSlides > 1 && (
-        <div className="flex justify-center gap-2 mb-6">
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                currentSlide === index
-                  ? 'bg-[#CD1A40] scale-125'
-                  : 'bg-gray-300 hover:bg-gray-400'
-              }`}
-            />
-          ))}
-        </div>
-      )}
 
       {/* View All Button */}
       <div className="flex justify-center">
@@ -108,13 +85,18 @@ const TravelActivity = () => {
           className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-[#CD1A40] to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
         >
           <span>View All Activities</span>
-          <svg 
-            className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </Link>
       </div>

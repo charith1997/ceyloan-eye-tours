@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { MapPin, Calendar, Clock } from "lucide-react";
 import { useGetPackageByUrlPrefixQuery } from "@/services/packageApi";
+import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 interface TravelItineraryProps {
   id: string;
@@ -61,8 +63,10 @@ export default function TravelItinerary({ id }: TravelItineraryProps) {
                         className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
                       >
                         <div className="relative h-64">
-                          <img
-                            src={item.place.image_url}
+                          <Image
+                            src={checkImageUrl(item.place.image_url)}
+                            width={100}
+                            height={100}
                             alt={item.place.name}
                             className="w-full h-full object-cover"
                           />

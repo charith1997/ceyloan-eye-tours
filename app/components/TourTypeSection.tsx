@@ -1,5 +1,7 @@
 import Button from "@/components/atoms/Button";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
+import { checkImageUrl } from "@/utils/common";
+import Image from "next/image";
 import Link from "next/link";
 
 const btnClassNames =
@@ -14,8 +16,12 @@ const CategoryCard = ({
 }) => (
   <div
     className={`${className} relative rounded-xl shadow-lg bg-cover bg-center bg-no-repeat group hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500 overflow-hidden`}
-    style={{ backgroundImage: `url(${category.image_url})` }}
   >
+    <img
+      src={checkImageUrl(category.image_url)}
+      alt={`Category ${category.id}`}
+      className="absolute w-full h-full object-cover rounded-xl"
+    />
     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/10 group-hover:from-black/50 group-hover:via-black/20 group-hover:to-transparent transition-all duration-500 rounded-xl z-0" />
 
     <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-white">
@@ -43,6 +49,54 @@ const CategoryCard = ({
   </div>
 );
 
+const displayCategories = (categories: any[]) => {
+  if (categories.length === 1) {
+    return (
+      <div className="flex flex-col md:flex-row gap-6 md:h-[60vh]">
+        <CategoryCard category={categories[0]} className="flex-1" />
+      </div>
+    );
+  } else if (categories.length === 2) {
+    return (
+      <div className="flex flex-col md:flex-row gap-6 md:h-[60vh]">
+        <CategoryCard category={categories[0]} className="flex-1" />
+        <CategoryCard category={categories[1]} className="flex-1" />
+      </div>
+    );
+  } else if (categories.length === 3) {
+    return (
+      <div className="flex gap-6 md:h-[60vh]">
+        <CategoryCard category={categories[0]} className="flex-1" />
+        <div className="flex flex-col flex-1 gap-6">
+          <CategoryCard category={categories[0]} className="flex-1" />
+          <CategoryCard category={categories[0]} className="flex-1" />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-col md:flex-row gap-6 md:h-[60vh]">
+        <CategoryCard category={categories[0]} className="flex-1" />
+
+        <div className="flex-1 flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row gap-6 h-1/2">
+            {categories.length >= 2 && (
+              <CategoryCard category={categories[1]} className="flex-1" />
+            )}
+            {categories.length >= 3 && (
+              <CategoryCard category={categories[2]} className="flex-1" />
+            )}
+          </div>
+
+          {categories.length >= 4 && (
+            <CategoryCard category={categories[3]} className="h-1/2" />
+          )}
+        </div>
+      </div>
+    );
+  }
+};
+
 export default function TourTypeSection() {
   const { data } = useGetAllCategoriesQuery({});
 
@@ -59,48 +113,31 @@ export default function TourTypeSection() {
         </h1>
       </div>
 
-      {categories.length > 0 && (
-        <div className="flex flex-col md:flex-row gap-6 md:h-[60vh]">
-          <CategoryCard category={categories[0]} className="flex-1" />
+      {categories.length > 0 && displayCategories(categories)}
 
-          <div className="flex-1 flex flex-col gap-6">
-            <div className="flex flex-col md:flex-row gap-6 h-1/2">
-              {categories.length >= 2 && (
-                <CategoryCard category={categories[1]} className="flex-1" />
-              )}
-              {categories.length >= 3 && (
-                <CategoryCard category={categories[2]} className="flex-1" />
-              )}
-            </div>
-
-            {categories.length >= 4 && (
-              <CategoryCard category={categories[3]} className="h-1/2" />
-            )}
-          </div>
+      {categories.length >= 4 && (
+        <div className="flex justify-center">
+          <Link
+            href="/categories"
+            className="mt-10 inline-flex items-center px-8 py-3 bg-gradient-to-r from-red to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+          >
+            <span>View All Categories</span>
+            <svg
+              className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
         </div>
       )}
-
-      <div className="flex justify-center">
-        <Link
-          href="/categories"
-          className="mt-10 inline-flex items-center px-8 py-3 bg-gradient-to-r from-red to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
-        >
-          <span>View All Categories</span>
-          <svg
-            className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
-        </Link>
-      </div>
     </section>
   );
 }

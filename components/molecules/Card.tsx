@@ -1,3 +1,4 @@
+import { checkImageUrl } from "@/utils/common";
 import Image from "next/image";
 
 interface CardProps {
@@ -10,7 +11,7 @@ const Card = ({ title, imageUrl, children }: CardProps) => {
   return (
     <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
       <Image
-        src={imageUrl}
+        src={checkImageUrl(imageUrl)}
         alt={title}
         className="absolute inset-0 w-full h-full object-cover"
         fill
