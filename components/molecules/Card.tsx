@@ -11,7 +11,8 @@ const Card = ({ title, imageUrl, children }: CardProps) => {
   return (
     <div className="relative h-48 md:h-64 rounded-md overflow-hidden">
       <Image
-        src={checkImageUrl(imageUrl)}
+        // src={checkImageUrl(imageUrl)}
+        src="/tour packages/package_1.jpg"
         alt={title}
         className="absolute inset-0 w-full h-full object-cover"
         fill
