@@ -122,7 +122,7 @@ const AdminNavigation = ({
 
           <div className="relative z-10">
             <h1 className="font-carattere text-3xl md:text-4xl text-white tracking-wide px-4">
-              Ceylon Eye Tours
+              Jwing Tours
             </h1>
           </div>
         </div>

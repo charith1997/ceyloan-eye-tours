@@ -159,7 +159,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
           href="/"
           className="font-carattere font-normal text-3xl leading-[100%] tracking-[0]"
         >
-          Ceylon Eye Tours
+          Jwing Tours
         </Link>
 
         <nav className="hidden md:flex space-x-8 text-sm items-center">

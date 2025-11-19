@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${carattere.variable}`}>
       <head>
-        <title>Ceylon Eye Tours</title>
+        <title>Jwing Tours</title>
       </head>
       <body>
         <ReduxProvider>

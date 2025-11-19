@@ -26,7 +26,7 @@ function PackageDetails({ pkg, onClose }: PackageDetailsProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <SingleInfo title="Title" value={pkg.title} />
             <SingleInfo title="Duration" value={pkg.duration} />
-            <SingleInfo title="Price" value={`LKR ${pkg.price}`} />
+            <SingleInfo title="Price" value={`$ ${pkg.price}`} />
             <SingleInfo
               title="Tour Type"
               value={displayTourType(pkg.tour_type)}

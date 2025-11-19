@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="max-w-[1200px] mx-auto grid gap-10 md:grid-cols-4 grid-cols-1">
         <div>
           <h2 className="font-[Carattere] text-3xl text-white mb-4">
-            Ceylon Eye Tours
+            Jwing Tours
           </h2>
           <p className="text-sm leading-relaxed text-gray-300 mb-4">
             Lorem Ipsum is simply dummy text of the printing and typesetting
