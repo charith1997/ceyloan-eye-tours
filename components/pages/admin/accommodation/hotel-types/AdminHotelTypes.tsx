@@ -100,7 +100,14 @@ function AdminHotelTypes({
                       setHotelTypeURL(item.url_prefix);
                     }}
                   />
-                  <Button label="Edit" className={`w-fit ${editBtnColor}`} />
+                  <Button
+                    label="Edit"
+                    className={`w-fit ${editBtnColor}`}
+                    onClick={() => {
+                      setShowHotelTypeModal(true);
+                      setSelectedHotelType(item);
+                    }}
+                  />
                   <Button
                     label="Delete"
                     className={`w-fit ${deleteBtnColor}`}

@@ -16,7 +16,7 @@ const AdminAccommodationPage = () => {
   const [deleteHotel, setDeleteHotel] = useState(false);
   const [activeTab, setActiveTab] = useState("tab1");
   const [selectedHotelType, setSelectedHotelType] = useState<any | null>(null);
-  const [selectedHotelId, setSelectedHotelId] = useState<string | null>(null);
+  const [selectedHotel, setSelectedHotel] = useState<any | null>(null);
 
   return (
     <>
@@ -57,7 +57,10 @@ const AdminAccommodationPage = () => {
             {activeTab === "tab1" && (
               <AdminHotels
                 setDeleteHotel={setDeleteHotel}
-                setSelectedHotelId={setSelectedHotelId}
+                setSelectedHotel={setSelectedHotel}
+                setIsEdit={() => {
+                  setShowHotelModal(true);
+                }}
               />
             )}
             {activeTab === "tab2" && (
@@ -71,18 +74,33 @@ const AdminAccommodationPage = () => {
         </div>
       </NavigationContainer>
 
-      <AddHotel
-        show={showHotelModal}
-        onClose={() => setShowHotelModal(false)}
-      />
+      {showHotelModal && (
+        <AddHotel
+          show={showHotelModal}
+          onClose={() => {
+            setShowHotelModal(false);
+            setSelectedHotel(null);
+          }}
+          initialValues={
+            selectedHotel
+              ? {
+                  ...selectedHotel,
+                  placeId: selectedHotel.place_id,
+                  typeId: selectedHotel.type_id,
+                }
+              : null
+          }
+          isEdit={!!selectedHotel}
+        />
+      )}
 
       <DeleteHotel
         show={deleteHotel}
         onClose={() => {
           setDeleteHotel(false);
-          setSelectedHotelId(null);
+          setSelectedHotel(null);
         }}
-        selectedID={selectedHotelId}
+        selectedID={selectedHotel ? selectedHotel.id : null}
       />
 
       <AddHotelType

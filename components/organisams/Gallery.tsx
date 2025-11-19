@@ -65,13 +65,10 @@ export default function Gallery({ images = [] }: GalleryProps) {
               className={`${tileClass} focus:outline-none focus:ring-4 focus:ring-indigo-300`}
               aria-label={`Open image ${i + 1} of ${images.length}`}
             >
-              <Image
+              <img
                 src={checkImageUrl(img.src)}
                 alt={img.alt || `Image ${i + 1}`}
                 className="object-cover w-full h-full transition-transform duration-300 transform hover:scale-105"
-                loading="lazy"
-                width={250}
-                height={250}
               />
 
               {i === images.length - 1 && images.length > 8 && (
@@ -114,12 +111,10 @@ export default function Gallery({ images = [] }: GalleryProps) {
               />
 
               <div className="relative w-full">
-                <Image
+                <img
                   src={checkImageUrl(images[current].src)}
                   alt={images[current].alt || `Image ${current + 1}`}
                   className="mx-auto h-80 max-h-80 object-contain rounded"
-                  width={250}
-                  height={250}
                 />
               </div>
 
@@ -142,12 +137,10 @@ export default function Gallery({ images = [] }: GalleryProps) {
                   }`}
                   aria-label={`Thumbnail ${idx + 1}`}
                 >
-                  <Image
+                  <img
                     src={checkImageUrl(t.src)}
                     alt={t.alt || `Thumb ${idx + 1}`}
                     className="h-14 w-20 object-cover"
-                    width={100}
-                    height={100}
                   />
                 </button>
               ))}

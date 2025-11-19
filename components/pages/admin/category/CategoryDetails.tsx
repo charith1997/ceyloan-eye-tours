@@ -19,11 +19,9 @@ function CategoryDetails({ category, onClose }: CategoryDetailsProps) {
       }
     >
       <div className="block md:flex gap-4">
-        <Image
+        <img
           src={checkImageUrl(category.image_url)}
           alt="Category Image"
-          width={250}
-          height={200}
           className="object-cover rounded-lg w-full md:max-w-60 max-h-60"
         />
         <div className="bg-gray-50 rounded-lg p-4 w-full">

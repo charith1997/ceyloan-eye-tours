@@ -35,11 +35,9 @@ const AdminCategoryPage = () => {
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
-                  <Image
+                  <img
                     src={checkImageUrl(category.image_url)}
                     alt={`Category ${category.id}`}
-                    width={120}
-                    height={100}
                     className="object-cover rounded-lg w-28 h-28"
                   />
                   <div className="flex flex-col gap-2">

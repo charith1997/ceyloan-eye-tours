@@ -21,6 +21,20 @@ export const hotelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Hotel"],
     }),
+    updateHotel: builder.mutation<
+      any,
+      {
+        id: string | undefined;
+        data: any;
+      }
+    >({
+      query: ({ id, data }) => ({
+        url: `/hotels/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["Hotel"],
+    }),
   }),
 });
 
@@ -28,4 +42,5 @@ export const {
   useGetAllHotelsQuery,
   useCreateHotelMutation,
   useDeleteHotelMutation,
+  useUpdateHotelMutation,
 } = hotelApi;

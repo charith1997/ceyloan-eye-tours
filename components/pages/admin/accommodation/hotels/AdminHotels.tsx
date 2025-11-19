@@ -10,10 +10,15 @@ import { checkImageUrl } from "@/utils/common";
 
 interface AdminHotelProps {
   setDeleteHotel: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedHotelId: React.Dispatch<React.SetStateAction<string | null>>;
+  setSelectedHotel: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsEdit: () => void;
 }
 
-function AdminHotels({ setDeleteHotel, setSelectedHotelId }: AdminHotelProps) {
+function AdminHotels({
+  setDeleteHotel,
+  setSelectedHotel,
+  setIsEdit,
+}: AdminHotelProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [hotelDetails, setHotelDetails] = useState<any | null>(null);
   const { data } = useGetAllHotelsQuery();
@@ -66,13 +71,17 @@ function AdminHotels({ setDeleteHotel, setSelectedHotelId }: AdminHotelProps) {
                 <Button
                   label="Edit"
                   className={`w-fit text-sm uppercase ${editBtnColor}`}
+                  onClick={() => {
+                    setIsEdit();
+                    setSelectedHotel(item);
+                  }}
                 />
                 <Button
                   label="Delete"
                   className={`w-fit text-sm uppercase ${deleteBtnColor}`}
                   onClick={() => {
                     setDeleteHotel(true);
-                    setSelectedHotelId(item.id);
+                    setSelectedHotel(item);
                   }}
                 />
               </div>
@@ -116,7 +125,7 @@ function AdminHotels({ setDeleteHotel, setSelectedHotelId }: AdminHotelProps) {
                     className={`w-fit ${deleteBtnColor}`}
                     onClick={() => {
                       setDeleteHotel(true);
-                      setSelectedHotelId(item.id);
+                      setSelectedHotel(item);
                     }}
                   />
                 </div>

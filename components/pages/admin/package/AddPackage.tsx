@@ -489,12 +489,10 @@ function AddPackage({
                   {defaultInitialValues.images.map(
                     (image: any, index: number) => (
                       <div className="relative group" key={index}>
-                        <Image
+                        <img
                           src={checkImageUrl(image.image_url)}
                           alt="Packagess"
                           className="w-full h-28 object-cover rounded-lg border-2 border-gray-200"
-                          width={100}
-                          height={100}
                         />
                         <button
                           type="button"

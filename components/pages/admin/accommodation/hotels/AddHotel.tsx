@@ -6,7 +6,10 @@ import Modal from "@/components/molecules/Modal";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import { useCreateHotelMutation } from "@/services/hotelApi";
+import {
+  useCreateHotelMutation,
+  useUpdateHotelMutation,
+} from "@/services/hotelApi";
 import FormikDropdown from "@/components/atoms/FormikDropdown";
 import { useGetAllPlacesQuery } from "@/services/placesApi";
 import FormikFieldArray from "@/components/atoms/FormikFieldArray";
@@ -14,33 +17,49 @@ import AddRoomDetails from "./AddRoomDetails";
 import StarRatingInput from "@/components/atoms/StarRatingInput";
 import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
+import { isDifferent } from "@/utils/package";
 
 interface AddHotelProps {
   show: boolean;
   onClose: () => void;
+  initialValues: {
+    id: string;
+    name: string;
+    placeId: string;
+    description: string[];
+    facilities: string[];
+    roomsDetails: any[];
+    rating: number;
+    typeId: string;
+    images: any[];
+  };
+  isEdit: boolean;
 }
 
-function AddHotel({ show, onClose }: AddHotelProps) {
+function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
   const [createHotel] = useCreateHotelMutation();
+  const [updateHotel] = useUpdateHotelMutation();
   const { data: placeData } = useGetAllPlacesQuery();
   const places = Array.isArray(placeData?.data) ? placeData.data : [];
   const { data: hotelTypeData } = useGetAllHotelTypesQuery();
   const hotelTypes = Array.isArray(hotelTypeData?.data)
     ? hotelTypeData.data
     : [];
+
+  const defaultInitialValues = initialValues || {
+    name: "",
+    placeId: "",
+    description: [""],
+    facilities: [""],
+    roomsDetails: [],
+    rating: 1,
+    typeId: "",
+    images: [],
+  };
   return (
     <Modal isOpen={show} onClose={onClose} title="Hotel Form" className="">
       <Formik
-        initialValues={{
-          name: "",
-          placeId: "",
-          description: [""],
-          facilities: [""],
-          roomsDetails: [],
-          rating: 1,
-          typeId: "",
-          images: [],
-        }}
+        initialValues={defaultInitialValues}
         validationSchema={Yup.object({
           name: Yup.string().required("* Name is Required"),
           placeId: Yup.string().required("* Place is Required"),
@@ -90,38 +109,116 @@ function AddHotel({ show, onClose }: AddHotelProps) {
               Yup.mixed().test(
                 "fileType",
                 "Only image files are allowed",
-                (value) => value instanceof File
+                (value, context) => {
+                  if (typeof value === "string") return true;
+                  return value instanceof File;
+                }
               )
             )
             .min(1, "* At least one image is required")
             .required("* Image is required"),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          const formData = new FormData();
-          formData.append("name", values.name);
-          formData.append("placeId", values.placeId);
-          formData.append("description", JSON.stringify(values.description));
-          formData.append("facilities", JSON.stringify(values.facilities));
-          formData.append("roomsDetails", JSON.stringify(values.roomsDetails));
-          formData.append("rating", values.rating.toString());
-          formData.append("typeId", values.typeId);
-          if (Array.isArray(values.images)) {
-            values.images.forEach((image: File) => {
-              formData.append("images", image);
-            });
-          } else {
-            formData.append("images", values.images);
-          }
+          console.log("submit");
 
-          try {
-            const response = await createHotel(formData).unwrap();
-            toast.success(response.message);
-            resetForm();
-            onClose();
-          } catch (err: any) {
-            toast.error(err?.data?.message);
-          } finally {
-            setSubmitting(false);
+          const formData = new FormData();
+          if (isEdit) {
+            console.log("isEdit submit");
+            if (values.name !== initialValues?.name)
+              formData.append("name", values.name);
+            if (values.placeId !== initialValues?.placeId)
+              formData.append("placeId", values.placeId);
+            if (values.typeId !== initialValues?.typeId)
+              formData.append("typeId", values.typeId);
+            if (values.rating !== initialValues?.rating)
+              formData.append("rating", values.rating.toString());
+
+            const decsriptions = isDifferent(
+              initialValues?.description,
+              values.description
+            );
+            if (decsriptions) {
+              formData.append(
+                "description",
+                JSON.stringify(values.description)
+              );
+            }
+
+            const roomFacilities = isDifferent(
+              initialValues?.facilities,
+              values.facilities
+            );
+            if (roomFacilities) {
+              formData.append("facilities", JSON.stringify(values.facilities));
+            }
+
+            const oldImages = initialValues?.images || [];
+            const newImages = values.images || [];
+
+            const removedImages = oldImages.filter(
+              (oldImg) =>
+                !newImages.some(
+                  (newImg) => typeof newImg === "string" && newImg === oldImg
+                )
+            );
+
+            const addedImages = newImages.filter(
+              (newImg) => newImg instanceof File || !oldImages.includes(newImg)
+            );
+            addedImages.forEach((file) => formData.append("images", file));
+
+            if (removedImages.length > 0)
+              formData.append("removeImages", JSON.stringify(removedImages));
+
+            if ([...formData.keys()].length === 0) {
+              toast("No changes detected");
+              setSubmitting(false);
+              return;
+            }
+
+            try {
+              const response = await updateHotel({
+                id: values.id,
+                data: formData,
+              }).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (error: any) {
+              console.error("Error updating form:", error);
+              toast.error(error?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
+          } else {
+            formData.append("name", values.name);
+            formData.append("placeId", values.placeId);
+            formData.append("description", JSON.stringify(values.description));
+            formData.append("facilities", JSON.stringify(values.facilities));
+            formData.append(
+              "roomsDetails",
+              JSON.stringify(values.roomsDetails)
+            );
+            formData.append("rating", values.rating.toString());
+            formData.append("typeId", values.typeId);
+            if (Array.isArray(values.images)) {
+              values.images.forEach((image: File) => {
+                formData.append("images", image);
+              });
+            } else {
+              formData.append("images", values.images);
+            }
+
+            try {
+              const response = await createHotel(formData).unwrap();
+              toast.success(response.message);
+              resetForm();
+              onClose();
+            } catch (err: any) {
+              toast.error(err?.data?.message);
+            } finally {
+              setSubmitting(false);
+            }
           }
         }}
       >
