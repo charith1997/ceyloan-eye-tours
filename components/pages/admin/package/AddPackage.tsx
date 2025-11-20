@@ -248,7 +248,7 @@ function AddPackage({
             );
 
             if (addedOrUpdated.length > 0)
-              formData.append("placeIds", JSON.stringify(addedOrUpdated));
+              formData.append("updateplaceIds", JSON.stringify(addedOrUpdated));
 
             if (removedPlaceIds.length > 0)
               formData.append(

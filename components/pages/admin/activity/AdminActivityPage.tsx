@@ -8,14 +8,16 @@ import AddActivity from "./AddActivity";
 import DeleteActivity from "./DeleteActivity";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
-import { deleteBtnColor, editBtnColor } from "@/styles/colors";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
+import ActivityDetails from "./ActivityDetails";
 
 const AdminActivityPage = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [displayDetails, setDisplayDetails] = useState(false);
 
   const { data } = useGetAllActivitiesQuery();
   const activities = Array.isArray(data?.data) ? data.data : [];
@@ -48,12 +50,25 @@ const AdminActivityPage = () => {
                     </h3>
                     <p className="flex text-sm gap-2 items-center">
                       <BookText width={16} />
-                      {activity.description}
+                      <span
+                        className="truncate max-w-2xl"
+                        title={activity.description}
+                      >
+                        {activity.description}
+                      </span>
                     </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4">
+                  <Button
+                    label="View Details"
+                    className={`w-fit text-sm uppercase ${viewBtnColor}`}
+                    onClick={() => {
+                      setDisplayDetails(true);
+                      setSelectedActivity(activity);
+                    }}
+                  />
                   <Button
                     label="Edit"
                     className={`w-fit text-sm uppercase ${editBtnColor}`}
@@ -74,23 +89,36 @@ const AdminActivityPage = () => {
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center p-2 gap-6 rounded-lg shadow-sm border border-gray-200">
-                <Image
+              <div className="flex md:hidden w-full items-center py-2 px-4 gap-6 rounded-lg shadow-sm border border-gray-200">
+                {/* <Image
                   src={checkImageUrl(activity.image_url)}
                   alt={`Tour ${activity.id}`}
                   width={160}
                   height={160}
                   className="object-cover rounded-lg w-36 h-36"
-                />
+                /> */}
                 <div className="grid gap-2">
                   <div className="flex flex-col gap-1 text-sm">
                     <h3 className="font-bold uppercase">{activity.name}</h3>
                     <p className="flex gap-2 items-center">
-                      <BookText width={16} />
-                      {activity.description}
+                      <BookText width={16} height={16} />
+                      <span
+                        className="line-clamp-2 w-full"
+                        title={activity.description}
+                      >
+                        {activity.description}
+                      </span>
                     </p>
                   </div>
                   <div className="flex gap-4 justify-end">
+                    <Button
+                      label="View Details"
+                      className={`w-fit ${viewBtnColor}`}
+                      onClick={() => {
+                        setDisplayDetails(true);
+                        setSelectedActivity(activity);
+                      }}
+                    />
                     <Button
                       label="Edit"
                       className={`w-fit ${editBtnColor}`}
@@ -135,6 +163,16 @@ const AdminActivityPage = () => {
         onClose={() => setDeleteModal(false)}
         selectedID={selectedActivity?.id}
       />
+
+      {displayDetails && (
+        <ActivityDetails
+          activity={selectedActivity}
+          onClose={() => {
+            setDisplayDetails(false);
+            setSelectedActivity(null);
+          }}
+        />
+      )}
     </>
   );
 };

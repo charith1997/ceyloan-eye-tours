@@ -9,12 +9,14 @@ import Image from "next/image";
 import DeletePlace from "./DeletePlace";
 import AddPlace from "./AddPlace";
 import { checkImageUrl } from "@/utils/common";
-import { deleteBtnColor, editBtnColor } from "@/styles/colors";
+import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
+import PlaceDetails from "./PlaceDetails";
 
 const AdminPlacesPage = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedPlace, setSelectedPlace] = React.useState<any | null>(null);
+  const [displayDetails, setDisplayDetails] = React.useState(false);
   const { data } = useGetAllPlacesQuery();
   const places = Array.isArray(data?.data) ? data.data : [];
 
@@ -30,22 +32,25 @@ const AdminPlacesPage = () => {
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {places.map((place: any, index: number) => (
             <div key={index}>
-              <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
-                  <Image
+                  <img
                     src={checkImageUrl(place.image_url)}
                     alt={`Place ${place.id}`}
-                    width={120}
-                    height={100}
                     className="object-cover rounded-lg w-28 h-28"
                   />
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 w-full">
                     <h3 className="text-md font-bold uppercase">
                       {place.name}
                     </h3>
                     <p className="flex text-sm gap-2 items-center">
                       <BookText width={16} />
-                      {place.description}
+                      <span
+                        className="truncate max-w-2xl"
+                        title={place.description}
+                      >
+                        {place.description}
+                      </span>
                     </p>
                     <span className="flex text-sm gap-2 items-center">
                       <MapPin width={16} />
@@ -54,12 +59,20 @@ const AdminPlacesPage = () => {
                   </div>
                 </div>
 
-                <div className="block justify-items-center text-sm gap-2">
+                {/* <div className="block justify-items-center text-sm gap-2">
                   <div>{`longitude: ${place.longitude}`}</div>
                   <div>{`latitude: ${place.latitude}`}</div>
-                </div>
+                </div> */}
 
-                <div className="flex gap-4 justify-end">
+                <div className="flex gap-4">
+                  <Button
+                    label="View Details"
+                    className={`w-fit text-sm uppercase ${viewBtnColor}`}
+                    onClick={() => {
+                      setDisplayDetails(true);
+                      setSelectedPlace(place);
+                    }}
+                  />
                   <Button
                     label="Edit"
                     className={`w-fit text-sm uppercase ${editBtnColor}`}
@@ -79,31 +92,40 @@ const AdminPlacesPage = () => {
                 </div>
               </div>
 
-              <div className="flex md:hidden w-full items-center justify-between p-2 gap-2 rounded-lg shadow-sm border border-gray-200">
-                <Image
+              <div className="flex md:hidden w-full items-center py-2 px-4 gap-6 rounded-lg shadow-sm border border-gray-200">
+                {/* <Image
                   src={checkImageUrl(place.image_url)}
                   alt={`Place ${place.id}`}
                   width={160}
                   height={160}
                   className="object-cover rounded-lg min-w-36 h-36"
-                />
+                /> */}
                 <div className="grid gap-4 w-full">
                   <div className="flex flex-col gap-2 text-sm">
                     <h3 className="font-bold uppercase">{place.name}</h3>
                     <p className="flex gap-2 items-center">
-                      <BookText width={16} />
-                      {place.description}
+                      <BookText width={16} height={16} />
+                      <span
+                        className="line-clamp-2 w-full"
+                        title={place.description}
+                      >
+                        {place.description}
+                      </span>
                     </p>
                     <p className="flex gap-2 items-center">
                       <MapPin width={16} />
                       {place.location}
                     </p>
-                    <div className="text-sm">
-                      <div>{`Longitude: ${place.longitude}`}</div>
-                      <div>{`Latitude: ${place.latitude}`}</div>
-                    </div>
                   </div>
                   <div className="flex gap-4 justify-end">
+                    <Button
+                      label="View Details"
+                      className={`w-fit ${viewBtnColor}`}
+                      onClick={() => {
+                        setDisplayDetails(true);
+                        setSelectedPlace(place);
+                      }}
+                    />
                     <Button
                       label="Edit"
                       className={`w-fit ${editBtnColor}`}
@@ -153,6 +175,16 @@ const AdminPlacesPage = () => {
         }}
         selectedID={selectedPlace?.id}
       />
+
+      {displayDetails && (
+        <PlaceDetails
+          place={selectedPlace}
+          onClose={() => {
+            setDisplayDetails(false);
+            setSelectedPlace(null);
+          }}
+        />
+      )}
     </>
   );
 };

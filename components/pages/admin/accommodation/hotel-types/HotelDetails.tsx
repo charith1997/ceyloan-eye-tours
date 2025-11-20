@@ -26,11 +26,13 @@ function HotelDetails({ hotelURL, onClose }: HotelDetailsProps) {
     >
       <>
         <div className="block md:flex gap-4">
-          <img
-            src={checkImageUrl(hotelTypeData.image_url)}
-            alt={hotelTypeData.name}
-            className="object-cover rounded-lg w-full md:max-w-60 max-h-60"
-          />
+          {hotelTypeData.image_url && (
+            <img
+              src={checkImageUrl(hotelTypeData.image_url)}
+              alt={hotelTypeData.name}
+              className="object-cover rounded-lg w-full md:max-w-60 max-h-60"
+            />
+          )}
           <div className="bg-gray-50 rounded-lg p-4 w-full">
             <h4 className="text-lg text-gray-900 mb-4">
               Hotel Type Information

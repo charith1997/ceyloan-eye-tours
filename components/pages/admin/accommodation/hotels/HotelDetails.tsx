@@ -25,25 +25,27 @@ function HotelDetails({ hotel, onClose }: HotelDetailsProps) {
       <div className="flex flex-col gap-4">
         <div className="bg-gray-50 rounded-lg p-4 w-full">
           <h4 className="text-lg text-gray-900 mb-4">Hotel Information</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex gap-4">
-              <SingleInfo title="Name" value={hotel.name} />
-              {hotel.rating > 0 ? (
-                <div className="flex text-yellow-500">
-                  {Array.from({ length: hotel.rating }).map((_, i) => (
-                    <Star
-                      key={i}
-                      size={20}
-                      fill="currentColor"
-                      strokeWidth={0}
-                    />
-                  ))}
-                </div>
-              ) : null}
+          {hotel && hotelType && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex gap-4">
+                <SingleInfo title="Name" value={hotel.name} />
+                {hotel.rating > 0 ? (
+                  <div className="flex text-yellow-500">
+                    {Array.from({ length: hotel.rating }).map((_, i) => (
+                      <Star
+                        key={i}
+                        size={20}
+                        fill="currentColor"
+                        strokeWidth={0}
+                      />
+                    ))}
+                  </div>
+                ) : null}
+              </div>
+              <SingleInfo title="Hotel Type" value={hotelType.name} />
+              <SingleInfo title="Place" value={hotel.Place.name} />
             </div>
-            <SingleInfo title="Hotel Type" value={hotelType.name} />
-            <SingleInfo title="Place" value={hotel.Place.name} />
-          </div>
+          )}
         </div>
 
         <OtherDetails title="Description" value={hotel.description} />
