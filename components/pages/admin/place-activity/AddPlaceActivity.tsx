@@ -6,7 +6,6 @@ import Modal from "@/components/molecules/Modal";
 import { Form, Formik } from "formik";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
-import { useCreateCategoryMutation } from "@/services/categoryApi";
 import FormikDropdown from "@/components/atoms/FormikDropdown";
 import { useGetAllPlacesQuery } from "@/services/placesApi";
 import { useGetAllActivitiesQuery } from "@/services/activityApi";

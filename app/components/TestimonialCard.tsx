@@ -1,7 +1,6 @@
 import React from "react";
-import { Star } from "lucide-react";
 import Image from "next/image";
-import { checkImageUrl } from "@/utils/common";
+import { checkImageUrl, renderStars } from "@/utils/common";
 
 interface TestimonialCardProps {
   quote: string;
@@ -22,40 +21,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
   maxRating = 5,
   className = "",
 }) => {
-  // Generate star rating
-  const renderStars = (): React.ReactNode[] => {
-    const stars: React.ReactNode[] = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-
-    // Full stars
-    for (let i = 0; i < fullStars; i++) {
-      stars.push(
-        <Star key={i} className="w-4 h-4 fill-orange-400 text-orange-400" />
-      );
-    }
-
-    // Half star
-    if (hasHalfStar) {
-      stars.push(
-        <div key="half" className="relative">
-          <Star className="w-4 h-4 text-gray-300" />
-          <Star
-            className="w-4 h-4 fill-orange-400 text-orange-400 absolute top-0 left-0 overflow-hidden"
-            style={{ clipPath: "inset(0 50% 0 0)" }}
-          />
-        </div>
-      );
-    }
-
-    // Empty stars
-    const emptyStars = maxRating - Math.ceil(rating);
-    for (let i = 0; i < emptyStars; i++) {
-      stars.push(<Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />);
-    }
-
-    return stars;
-  };
+  // Stars rendered by shared util
 
   return (
     <div
@@ -103,7 +69,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </div>
 
         <div className="flex items-center gap-1">
-          <div className="flex items-center gap-0.5">{renderStars()}</div>
+          <div className="flex items-center gap-0.5">{renderStars(rating, maxRating)}</div>
           <span className="text-sm font-medium text-gray-700 ml-1">
             {rating}
           </span>

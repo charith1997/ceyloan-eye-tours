@@ -35,6 +35,9 @@ export const hotelApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Hotel"],
     }),
+    getHotelByUrlPrefix: builder.query<any, string>({
+      query: (slug) => `/hotels/get-by-urlPrifix/${slug}`,
+    }),
   }),
 });
 
@@ -43,4 +46,5 @@ export const {
   useCreateHotelMutation,
   useDeleteHotelMutation,
   useUpdateHotelMutation,
+  useGetHotelByUrlPrefixQuery,
 } = hotelApi;

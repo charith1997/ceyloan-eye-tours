@@ -1,6 +1,4 @@
-import Image from "next/image";
 import React from "react";
-import Button from "../atoms/Button";
 import PackageOverview from "../molecules/PackageOverview";
 import PackageHighlights from "../molecules/PackageHighlights";
 import Timeline from "./Timeline";

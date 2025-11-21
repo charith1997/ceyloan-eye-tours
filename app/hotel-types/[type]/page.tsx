@@ -10,7 +10,6 @@ export default function SingleHotelType() {
   const { data } = useGetHotelTypeByUrlPrefixQuery(lastSegment);
 
   const hotelTypeData = data?.data ?? {};
-  console.log("hotelTypeData", hotelTypeData);
 
   return (
     <HotelTypePage

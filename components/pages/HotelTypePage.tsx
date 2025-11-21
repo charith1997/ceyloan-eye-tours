@@ -4,8 +4,7 @@ import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import DetailCardGrid from "@/components/organisams/DetailCardGrid";
 import CTAButton from "../molecules/CTAButton";
-import { formatDuration } from "@/utils/package";
-import { Star } from "lucide-react";
+import { renderStars } from "@/utils/common";
 
 interface HotelTypePageProps {
   heroTitle: string;
@@ -45,9 +44,7 @@ const HotelTypePage = ({
                 </p>
               </div>
               <div className="flex items-center gap-1">
-                {Array.from({ length: item.rating }).map((_, i) => (
-                  <Star key={i} size={20} fill="currentColor" strokeWidth={0} />
-                ))}
+                {renderStars(item.rating, 5)}
               </div>
             </div>
           )}
