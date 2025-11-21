@@ -47,7 +47,7 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
                               <button
                                 type="button"
                                 onClick={() => remove(descIdx)}
-                                className="btn"
+                                className="rounded-lg bg-gray-200 px-3 text-sm hover:bg-gray-300 align-self-center"
                                 disabled={description.length === 1}
                               >
                                 -
@@ -55,7 +55,7 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
                               <button
                                 type="button"
                                 onClick={() => push("")}
-                                className="btn"
+                                className="rounded-lg bg-gray-200 px-3 text-sm hover:bg-gray-300 align-self-center"
                               >
                                 +
                               </button>

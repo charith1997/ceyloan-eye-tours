@@ -57,10 +57,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                     name={`${name}.${idx}.description`}
                     placeholder="Enter place description"
                   />
-                  <Field
-                    type="hidden"
-                    name={`${name}.${idx}.order`}
-                  />
+                  <Field type="hidden" name={`${name}.${idx}.order`} />
                   <FormikInput
                     label="Day No:"
                     name={`${name}.${idx}.day_no`}
@@ -87,7 +84,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                               <button
                                 type="button"
                                 onClick={() => remove(eventIdx)}
-                                className="btn"
+                                className="rounded-lg bg-gray-200 px-3 text-sm hover:bg-gray-300 align-self-center"
                                 disabled={events.length === 1}
                               >
                                 -
@@ -95,7 +92,7 @@ const FormikPlaceArray: React.FC<FormikPlaceArrayProps> = ({
                               <button
                                 type="button"
                                 onClick={() => push("")}
-                                className="btn"
+                                className="rounded-lg bg-gray-200 px-3 text-sm hover:bg-gray-300 align-self-center"
                               >
                                 +
                               </button>
