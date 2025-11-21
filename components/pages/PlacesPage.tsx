@@ -3,7 +3,6 @@ import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import CTAButton from "../molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
-import { CARD_DESCRIPTION, CARD_TITLE } from "@/styles/font";
 import { useGetAllPlacesWithHotelsQuery } from "@/services/placesApi";
 
 function PlacesPage() {
@@ -28,16 +27,18 @@ function PlacesPage() {
             count: place.hotelCount,
             ...place,
           }))}
-          isLinked={false}
         >
           {(cardTitle: string, cardDescription: string, count: number) => (
             <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
               <div>
-                <h3 className={CARD_TITLE}>{cardTitle}</h3>
-                <p className={CARD_DESCRIPTION}>{cardDescription}</p>
+                <h3 className="text-white text-3xl md:text-4xl uppercase font-bold tracking-wider">
+                  {cardTitle}
+                </h3>
+                <p className="text-white text-xl">{cardDescription}</p>
               </div>
-              <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2 uppercase">
-                {Number(count).toString().padStart(2, "0")} Hotels
+              <span className="self-start px-3 py-2 rounded-lg bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2 uppercase">
+                {Number(count).toString().padStart(2, "0")}{" "}
+                {count === 1 ? "Hotel" : "Hotels"}
               </span>
             </div>
           )}

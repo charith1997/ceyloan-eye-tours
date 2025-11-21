@@ -3,8 +3,8 @@
 import React from "react";
 import PlacesPage from "@/components/pages/PlacesPage";
 
-function Destinations() {
+function Places() {
   return <PlacesPage />;
 }
 
-export default Destinations;
+export default Places;

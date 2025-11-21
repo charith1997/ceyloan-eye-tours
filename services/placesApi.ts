@@ -40,6 +40,9 @@ export const placesApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Places"],
     }),
+    getPlaceByUrlPrefix: builder.query<any, string>({
+      query: (slug) => `/places/get-by-urlprefix/${slug}`,
+    }),
   }),
 });
 
@@ -50,4 +53,5 @@ export const {
   useCreatePlaceMutation,
   useUpdatePlaceMutation,
   useDeletePlaceMutation,
+  useGetPlaceByUrlPrefixQuery,
 } = placesApi;
