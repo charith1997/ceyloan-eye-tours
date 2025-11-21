@@ -197,6 +197,13 @@ function AddPackage({
           const tour_type = values.tourType === "Round Tours" ? 1 : 0;
           const formData = new FormData();
 
+          // Set order based on array index (starting from 1)
+          if (Array.isArray(values.placeIds)) {
+            values.placeIds.forEach((place: any, idx: number) => {
+              place.order = idx + 1;
+            });
+          }
+
           if (isEdit) {
             if (values.title !== initialValues?.title)
               formData.append("title", values.title);
