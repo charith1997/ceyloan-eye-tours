@@ -1,3 +1,5 @@
+"use client";
+
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import DetailCardGrid from "@/components/organisams/DetailCardGrid";
@@ -31,12 +33,7 @@ const HotelTypePage = ({
       />
       <PageDetails title={title} description={description} />
       <div>
-        <DetailCardGrid
-          data={hotels.map((hotel) => ({
-            ...hotel,
-            Images: hotel.images,
-          }))}
-        >
+        <DetailCardGrid data={hotels}>
           {(item: any) => (
             <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
@@ -44,16 +41,13 @@ const HotelTypePage = ({
                   {item.name}
                 </h3>
                 <p className="text-sm md:text-base font-medium">
-                  {formatDuration(item.duration)}
+                  {item.Place.name}
                 </p>
               </div>
               <div className="flex items-center gap-1">
-                <Star
-                  className={`w-5 h-5 ${
-                    item.rating === 0 ? "" : "text-yellow-400"
-                  } fill-current`}
-                />
-                <p className="text-sm md:text-xl font-normal">{item.rating}</p>
+                {Array.from({ length: item.rating }).map((_, i) => (
+                  <Star key={i} size={20} fill="currentColor" strokeWidth={0} />
+                ))}
               </div>
             </div>
           )}

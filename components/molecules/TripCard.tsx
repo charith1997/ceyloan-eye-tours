@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 interface TripCardProps {
   trip: any;
@@ -19,19 +20,23 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id }) => {
         }`}
       >
         <div className="relative">
-          <Image
-            src={place.image_url}
+          <img
+            src={checkImageUrl(place.image_url)}
             alt={place.name}
-            width={600}
-            height={400}
-            className="rounded-md object-cover"
+            className="rounded-xl object-cover w-md h-72"
           />
-          <div className="w-full absolute top-0 left-0 bg-gradient-to-r from-red to-orange text-white px-4 py-2 text-sm font-semibold rounded-tr-lg rounded-bl-lg text-left">
-            <span className="pr-8">{`Day ${packagePlace.day_no}`}</span> |{" "}
-            <span className="pl-8">{`${place.name.toUpperCase()} - ${place.location.toUpperCase()}`}</span>
+          <div
+            className={`w-full absolute top-0 left-0 bg-orange text-white px-4 py-2 text-sm font-semibold ${
+              id % 2 === 0
+                ? "rounded-tr-lg rounded-bl-lg rounded-br-lg"
+                : "rounded-tl-lg rounded-bl-lg rounded-br-lg"
+            } text-left`}
+          >
+            <span className="pr-2">{`Day ${packagePlace.day_no}`}</span> |{" "}
+            <span className="pl-2">{`${place.name} - ${place.location}`}</span>
           </div>
         </div>
-        <ul className="mt-2 text-gray-800 text-sm list-disc pl-4 justify-items-start">
+        <ul className="mt-2 text-gray-800 text-sm list-disc pl-4 justify-items-start md:hidden">
           {packagePlace.events.map((point: any, idx: number) => (
             <li key={idx}>{point}</li>
           ))}

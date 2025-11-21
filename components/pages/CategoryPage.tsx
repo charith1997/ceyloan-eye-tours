@@ -22,6 +22,14 @@ const CategoryPage = ({
   imageUrl,
   title,
 }: CategoryPageProps) => {
+  const packageData =
+    packages?.length > 0
+      ? packages.map((pkg: any) => ({
+          ...pkg,
+          images:
+            pkg && pkg.Images && pkg.Images.map((img: any) => img.image_url),
+        }))
+      : [];
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
@@ -31,24 +39,22 @@ const CategoryPage = ({
       />
       <PageDetails title={title} description={description} />
       <div>
-        <DetailCardGrid data={packages}>
+        <DetailCardGrid data={packageData}>
           {(item: any) => (
-            <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
+            <div className="absolute bottom-0 w-full h-24 bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
               <div>
-                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
+                <h3 className="md:text-lg font-semibold md:font-bold tracking-wide md:tracking-wider">
                   {item.title}
                 </h3>
-                <p className="text-sm md:text-base font-medium">
+                <p className="text-sm md:text-base">
                   {formatDuration(item.duration)}
                 </p>
               </div>
               <div className="text-end">
-                <h3 className="text-sm md:text-sm font-normal">
+                <h3 className="text-sm md:text-sm text-nowrap">
                   Starting from
                 </h3>
-                <p className="text-sm md:text-base font-normal">
-                  ${item.price}
-                </p>
+                <p className="text-sm md:text-base">$ {item.price}</p>
               </div>
             </div>
           )}

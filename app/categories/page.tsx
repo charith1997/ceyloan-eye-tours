@@ -5,11 +5,10 @@ import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import CategoriesPage from "@/components/pages/CategoriesPage";
 
 export default function Categories() {
-  const { data, error } = useGetAllCategoriesQuery({});
-
-  if (error) return <div>Error loading categories</div>;
+  const { data } = useGetAllCategoriesQuery({});
 
   const categories = Array.isArray(data?.data) ? data.data : [];
+
   return (
     <CategoriesPage
       heroTitle="Jwing Tours"

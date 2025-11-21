@@ -7,9 +7,7 @@ import PackagePage from "@/components/pages/PackagePage";
 export default function SinglePackagePage() {
   const lastParam = getLastParam();
 
-  const { data, error } = useGetPackageByUrlPrefixQuery(lastParam);
-
-  if (error) return <div>Error loading package details</div>;
+  const { data } = useGetPackageByUrlPrefixQuery(lastParam);
 
   const packageData = data?.data ?? {
     package: {

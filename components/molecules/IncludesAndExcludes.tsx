@@ -14,7 +14,7 @@ const IncludesAndExcludes: React.FC<IncludesAndExcludesProps> = ({
       <h2 className="text-3xl md:text-4xl text-red mb-4">
         Tour Price Includes
       </h2>
-      <ul className="list-disc list-inside space-y-2">
+      <ul className="list-disc space-y-2 ml-4">
         {includes?.map((point: string, i: number) => (
           <li key={i}>{point}</li>
         ))}
@@ -23,7 +23,7 @@ const IncludesAndExcludes: React.FC<IncludesAndExcludesProps> = ({
       <h2 className="text-3xl md:text-4xl text-red mb-4 mt-8">
         Tour Price Excludes
       </h2>
-      <ul className="list-disc list-inside space-y-2">
+      <ul className="list-disc space-y-2 ml-4">
         {excludes?.map((point: string, i: number) => (
           <li key={i}>{point}</li>
         ))}

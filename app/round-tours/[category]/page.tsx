@@ -7,11 +7,10 @@ import CategoryPage from "@/components/pages/CategoryPage";
 export default function CategoryByRoundToursPage() {
   const lastSegment = getLastParam();
 
-  const { data, error } = useGetCategoryByUrlPrefixQuery({
+  const { data } = useGetCategoryByUrlPrefixQuery({
     slug: lastSegment,
     tourType: "0",
   });
-  if (error) return <div>Error loading category</div>;
 
   const categoryData = data?.data ?? {};
   return (

@@ -38,7 +38,7 @@ function ReviewsPage() {
                 quote={review.review}
                 testimonial={review.description}
                 name={review.User.name}
-                location={review.User.email}
+                image={review.User.profile_image}
                 rating={review.rating}
                 className="hover:shadow-lg transition-shadow duration-300"
               />

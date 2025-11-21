@@ -1,11 +1,13 @@
 import React from "react";
 import { Star } from "lucide-react";
+import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 interface TestimonialCardProps {
   quote: string;
   testimonial?: string;
   name: string;
-  location?: string;
+  image?: string;
   rating?: number;
   maxRating?: number;
   className?: string;
@@ -15,7 +17,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
   quote,
   testimonial,
   name,
-  location,
+  image,
   rating = 5,
   maxRating = 5,
   className = "",
@@ -69,16 +71,35 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
       {testimonial && (
         <div className="mb-4">
-          <p className="text-[#7A7A7A] text-sm leading-relaxed text-center font-bold italic">
-            {testimonial}
-          </p>
+          <p className="text-sm text-center font-bold italic">{testimonial}</p>
         </div>
       )}
 
       <div className="flex items-center justify-between">
-        <div>
-          <p className="font-semibold text-gray-900 text-sm">{name}</p>
-          <p className="text-gray-500 text-xs tracking-wide">{location}</p>
+        <div className="flex items-center gap-2">
+          {image ? (
+            <Image
+              className={`w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
+              src={checkImageUrl(image)}
+              alt={name}
+              width={40}
+              height={40}
+            />
+          ) : (
+            <div
+              className={`relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-400 rounded-full text-white`}
+            >
+              {name && (
+                <span>
+                  {name
+                    .split(" ")
+                    .map((word: string) => word[0])
+                    .join("")}
+                </span>
+              )}
+            </div>
+          )}
+          <p className="text-gray-700 font-semibold text-sm">{name}</p>
         </div>
 
         <div className="flex items-center gap-1">

@@ -1,3 +1,5 @@
+"use client";
+
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageRouting from "@/components/molecules/PageRouting";
 import { Users } from "lucide-react";

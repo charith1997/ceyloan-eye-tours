@@ -8,29 +8,8 @@ import ScaleCarousel from "@/components/organisams/ScaleCarousel";
 
 const TravelActivity = () => {
   const { data } = useGetAllActivitiesQuery();
-  const [currentSlide, setCurrentSlide] = useState(0);
 
   const activities = Array.isArray(data?.data) ? data.data : [];
-
-  // Show 6 activities per slide
-  const itemsPerSlide = 6;
-  const totalSlides = Math.ceil(activities.length / itemsPerSlide);
-
-  const getCurrentSlideActivities = () => {
-    const startIndex = currentSlide * itemsPerSlide;
-    const endIndex = startIndex + itemsPerSlide;
-    return activities.slice(startIndex, endIndex);
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
-  };
-
-  const displayedActivities = getCurrentSlideActivities();
 
   return (
     <section className="max-w-[1200px] mx-auto px-4 py-8 text-center">
@@ -48,7 +27,7 @@ const TravelActivity = () => {
           data={activities}
           renderSlide={(activity: any) => (
             <div className="py-8">
-              <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-80 rounded-2xl overflow-hidden">
                 <Image
                   src={checkImageUrl(activity.image_url)}
                   alt={activity.name}
@@ -57,17 +36,12 @@ const TravelActivity = () => {
                   sizes="60vw"
                   quality={90}
                 />
-                {/* <img
-                  src={checkImageUrl(activity.image_url)}
-                  alt={activity.name}
-                  className="object-cover"
-                /> */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-black/40" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
                   <h2 className="text-3xl font-bold text-white mb-2">
                     {activity.name}
                   </h2>
-                  <p className="text-white/90 text-lg">
+                  <p className="text-white/90 text-lg line-clamp-3 w-full text-center">
                     {activity.description}
                   </p>
                 </div>

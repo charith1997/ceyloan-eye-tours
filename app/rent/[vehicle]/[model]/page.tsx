@@ -4,7 +4,7 @@ import React from "react";
 import { Users } from "lucide-react";
 import Image from "next/image";
 import Jumbotron from "@/components/molecules/Jumbotron";
-import { getLastParam } from "@/utils/common";
+import { checkImageUrl, getLastParam } from "@/utils/common";
 import { useGetVehicleByPrefixQuery } from "@/services/vehicleApi";
 import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/styles/font";
 
@@ -14,7 +14,7 @@ function MasonryImageGrid({ images }: { images: any }) {
       {images.map((src: any, idx: number) => (
         <Image
           key={idx}
-          src={src}
+          src={checkImageUrl(src)}
           alt={`Hotel Image ${idx + 1}`}
           className="w-full rounded-lg mb-4"
           width={300}
@@ -53,7 +53,7 @@ function VehicleModel() {
               <h3 className="text-[36px] tracking-[0] font-medium text-red">
                 Facilities
               </h3>
-              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+              <ul className="list-disc text-gray-500 text-sm space-y-2 pb-4 ml-4">
                 {vehicleDetails.facilities.map((point: any, i: number) => (
                   <li key={i}>{point}</li>
                 ))}
@@ -61,7 +61,7 @@ function VehicleModel() {
               <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
                 Excludes
               </h3>
-              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+              <ul className="list-disc text-gray-500 text-sm space-y-2 pb-4 ml-4">
                 {vehicleDetails.excludes.map((point: any, i: number) => (
                   <li key={i}>{point}</li>
                 ))}
@@ -69,7 +69,7 @@ function VehicleModel() {
               <h3 className="text-[36px] tracking-[0] font-medium text-red py-4">
                 Terms & Conditions
               </h3>
-              <ul className="list-disc list-inside text-gray-500 text-sm space-y-2 pb-4">
+              <ul className="list-disc text-gray-500 text-sm space-y-2 pb-4 ml-4">
                 {vehicleDetails.terms.map((term: any, i: number) => (
                   <li key={i}>{term}</li>
                 ))}

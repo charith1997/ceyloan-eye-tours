@@ -20,6 +20,8 @@ export const checkImageUrl = (url: string) => {
   if (url.includes("http") || url.includes("https")) {
     return url;
   }
-
-  return `https://service.techsolutions.site${url}`;
+  if (url.includes("uploads")) {
+    return `https://service.techsolutions.site${url}`;
+  }
+  return url;
 };

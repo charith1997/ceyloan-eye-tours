@@ -1,5 +1,6 @@
 "use client";
 
+import { checkImageUrl } from "@/utils/common";
 import { Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,18 +31,18 @@ const VehicleType = ({
 
   return (
     <div className="w-full">
-      <Link href={navigationLink} className="flex h-44">
-        <div className="w-2/5 bg-red rounded-l-md">
+      <Link href={navigationLink} className="flex h-52">
+        <div className="w-3/5 bg-red rounded-l-md">
           <Image
-            src={images?.[0]}
+            src={checkImageUrl(images?.[0])}
             alt="Rent Vehicle"
-            className="h-44 w-full object-cover rounded-l-md rounded-t-md"
+            className="h-52 w-full object-cover rounded-l-md rounded-t-md"
             width={100}
             height={100}
             style={{ position: "relative" }}
           />
         </div>
-        <div className="w-3/5 bg-red text-white p-3 rounded-r-md">
+        <div className="w-2/5 bg-red text-white p-3 rounded-r-md">
           <h3 className="text-md md:text-lg font-extrabold uppercase">
             {name}
           </h3>

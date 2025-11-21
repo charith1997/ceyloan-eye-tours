@@ -5,10 +5,9 @@ import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import CategoriesPage from "@/components/pages/CategoriesPage";
 
 export default function RoundTours() {
-  const { data, error } = useGetAllCategoriesQuery({
+  const { data } = useGetAllCategoriesQuery({
     tourType: "0",
   });
-  if (error) return <div>Error loading categories</div>;
 
   const categories = Array.isArray(data?.data) ? data.data : [];
 

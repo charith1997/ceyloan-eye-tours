@@ -3,7 +3,7 @@ import DetailCard from "../molecules/DetailCard";
 
 interface Data {
   title: string;
-  Images: string[];
+  images: any[];
   duration: string;
   price: string;
   url_prefix: string;
@@ -25,7 +25,7 @@ export default function DetailCardGrid({
         <DetailCard
           key={index}
           {...item}
-          imageUrl={item?.Images[0] || "/family tours/Wildlife.jpg"}
+          imageUrl={item.images.length > 0 ? item.images[0] : null}
           title={item.title}
           price={item.price}
           slug={item.url_prefix}

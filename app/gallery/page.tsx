@@ -5,6 +5,7 @@ import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
 import { useGetAllApprovedGalleryItemsQuery } from "@/services/galleryApi";
 import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 function GalleryPage() {
   const { data } = useGetAllApprovedGalleryItemsQuery();
@@ -47,8 +48,8 @@ function MasonryImageGrid({ images }: { images: any[] }) {
       {images?.map((image, idx) => (
         <Image
           key={idx}
-          src={image.image_url}
-          alt={`Hotel Image ${idx + 1}`}
+          src={checkImageUrl(image.image_url)}
+          alt={`Gallery image ${idx + 1}`}
           className="w-full rounded-lg mb-4"
           width={300}
           height={200}

@@ -29,7 +29,10 @@ const PackagesPage = () => {
             cardTitle: pkg.title,
             cardDescription: formatDuration(pkg.duration),
             count: pkg.price,
-            image_url: pkg?.Images[0] || "/tour packages/package_1.jpg",
+            image_url:
+              pkg.Images.length > 0
+                ? pkg.Images[0].image_url
+                : "/default-image.jpg",
             name: pkg.title,
             ...pkg,
           }))}
@@ -40,9 +43,9 @@ const PackagesPage = () => {
                 <h3 className={CARD_TITLE}>{cardTitle}</h3>
                 <p className="text-white text-lg">{cardDescription}</p>
               </div>
-              <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white font-medium mt-2">
+              {/* <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white font-medium mt-2">
                 $ {Number(count).toString().padStart(2, "0")}
-              </span>
+              </span> */}
             </div>
           )}
         </CardGrid>
