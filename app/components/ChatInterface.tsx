@@ -141,7 +141,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const handleSendMessage = () => {
     if (messageInput.trim()) {
       // Handle message sending logic here
-      console.log("Sending message:", messageInput);
       setMessageInput("");
     }
   };

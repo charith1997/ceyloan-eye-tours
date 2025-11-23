@@ -6,12 +6,14 @@ interface StarRatingInputProps {
   name: string;
   maxRating?: number;
   label?: string;
+  size?: number;
 }
 
 const StarRatingInput: React.FC<StarRatingInputProps> = ({
   name,
   maxRating = 5,
   label,
+  size = 6,
 }) => {
   const { setFieldValue } = useFormikContext<any>();
   const [field] = useField(name);
@@ -32,7 +34,7 @@ const StarRatingInput: React.FC<StarRatingInputProps> = ({
             className="focus:outline-none"
           >
             <Star
-              className={`w-6 h-6 ${
+              className={`w-${size} h-${size} ${
                 field.value > i
                   ? "fill-orange-400 text-orange-400"
                   : "text-gray-300"
@@ -40,7 +42,6 @@ const StarRatingInput: React.FC<StarRatingInputProps> = ({
             />
           </button>
         ))}
-        {/* <span className="ml-2 text-sm text-gray-700">{field.value || ""}</span> */}
       </div>
     </div>
   );

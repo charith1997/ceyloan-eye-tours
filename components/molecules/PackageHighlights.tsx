@@ -21,11 +21,7 @@ const PackageHighlights = ({
       <Button
         label="BOOK NOW"
         className="mt-6 w-full bg-red text-white py-3 rounded-md font-semibold"
-        onClick={() => {
-          console.log("clicked");
-
-          handleBooking();
-        }}
+        onClick={handleBooking}
       />
     </div>
   );

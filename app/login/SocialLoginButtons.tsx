@@ -2,13 +2,9 @@ import Button from "@/components/atoms/Button";
 import React from "react";
 
 const SocialLoginButtons = () => {
-  const handleGoogleSignIn = (): void => {
-    console.log("Google sign in clicked");
-  };
+  const handleGoogleSignIn = (): void => {};
 
-  const handleAppleSignIn = (): void => {
-    console.log("Apple sign in clicked");
-  };
+  const handleAppleSignIn = (): void => {};
 
   return (
     <div className="mt-6 space-y-3">

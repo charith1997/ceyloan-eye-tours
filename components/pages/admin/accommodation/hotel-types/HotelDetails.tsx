@@ -11,9 +11,7 @@ interface HotelDetailsProps {
 
 function HotelDetails({ hotelURL, onClose }: HotelDetailsProps) {
   const { data } = useGetHotelTypeByUrlPrefixQuery(hotelURL);
-  console.log("data", data);
   const hotelTypeData = data?.data ?? {};
-  console.log("hotelTypeData", hotelTypeData);
 
   return (
     <AdminDetailsContainer

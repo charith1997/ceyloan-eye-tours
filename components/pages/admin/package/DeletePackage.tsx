@@ -13,7 +13,6 @@ interface DeletePackageProps {
 
 function DeletePackage({ show, onClose, selectedID }: DeletePackageProps) {
   const [deletePackage] = useDeletePackageMutation();
-  console.log("selectedID", selectedID);
   return (
     <Modal
       isOpen={show}
@@ -33,8 +32,6 @@ function DeletePackage({ show, onClose, selectedID }: DeletePackageProps) {
           label="Delete"
           onClick={async () => {
             if (selectedID) {
-              console.log("selectedID", selectedID);
-
               try {
                 const response = await deletePackage(selectedID).unwrap();
                 toast.success(response.message);

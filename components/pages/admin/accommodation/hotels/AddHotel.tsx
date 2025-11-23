@@ -119,11 +119,8 @@ function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
             .required("* Image is required"),
         })}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
-          console.log("submit");
-
           const formData = new FormData();
           if (isEdit) {
-            console.log("isEdit submit");
             if (values.name !== initialValues?.name)
               formData.append("name", values.name);
             if (values.placeId !== initialValues?.placeId)

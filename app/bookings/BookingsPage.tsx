@@ -6,6 +6,8 @@ import { formatDuration } from "@/utils/package";
 import Button from "../../components/atoms/Button";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import PayHereCheckout from "./PayHereCheckout";
+import { addBtnColor, deleteBtnColor } from "@/styles/colors";
+import AddReview from "./AddReview";
 
 interface Booking {
   id: string;
@@ -32,6 +34,8 @@ const BookingsPage: React.FC = () => {
     null
   );
   const [showPayHereCheckout, setShowPayHereCheckout] = useState(false);
+  const [addReview, setAddReview] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<any>(null);
 
   // Only get user details on client
   useEffect(() => {
@@ -276,12 +280,25 @@ const BookingsPage: React.FC = () => {
                     </div>
 
                     <div className="ml-6 text-right">
-                      <p className="text-2xl font-bold text-gray-900">
+                      {/* <p className="text-2xl font-bold text-gray-900">
                         {formatPrice(
                           booking?.Payment?.amount
                             ? parseFloat(booking.Payment.amount)
                             : 0
                         )}
+                      </p> */}
+                      <p className="text-2xl font-bold text-gray-900">
+                        {booking.package_id
+                          ? formatPrice(
+                              booking?.Package?.price
+                                ? parseFloat(booking.Package.price)
+                                : 0
+                            )
+                          : formatPrice(
+                              booking?.CustomPackage?.price
+                                ? parseFloat(booking.CustomPackage.price)
+                                : 0
+                            )}
                       </p>
                       <p className="text-sm text-gray-500">Total Amount</p>
                     </div>
@@ -291,7 +308,7 @@ const BookingsPage: React.FC = () => {
                     {booking.status === "pending" && (
                       <>
                         <Button
-                          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none"
+                          className={`flex items-center gap-2 cursor-pointer ${addBtnColor}`}
                           label="Pay Now"
                           onClick={() => {
                             setShowPayHereCheckout(true);
@@ -299,7 +316,7 @@ const BookingsPage: React.FC = () => {
                           }}
                         />
                         <Button
-                          className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md hover:bg-red-700 focus:outline-none"
+                          className={`flex items-center gap-2 cursor-pointer ${deleteBtnColor}`}
                           label="Cancel"
                           onClick={() => {
                             setSelectedBookingId(booking.id);
@@ -308,17 +325,16 @@ const BookingsPage: React.FC = () => {
                         />
                       </>
                     )}
-
-                    {/* <Button
-                      className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                      label="Edit Booking"
-                    /> */}
-                    {/* {booking.status === "pending" && (
+                    {booking.status === "completed" && (
                       <Button
-                        className="px-4 py-2 text-sm font-medium text-white bg-green-600 border border-transparent rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                        label="Confirm"
+                        className={`flex items-center gap-2 cursor-pointer ${addBtnColor}`}
+                        label="Add Review"
+                        onClick={() => {
+                          setAddReview(true);
+                          setSelectedBooking(booking);
+                        }}
                       />
-                    )} */}
+                    )}
                   </div>
                 </div>
               </div>
@@ -343,6 +359,17 @@ const BookingsPage: React.FC = () => {
           setSelectedBookingId(null);
         }}
       />
+
+      {addReview && (
+        <AddReview
+          onClose={() => {
+            setAddReview(false);
+            setSelectedBooking(null);
+          }}
+          show={addReview}
+          details={selectedBooking}
+        />
+      )}
     </>
   );
 };

@@ -6,8 +6,6 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiY2hhbWlrYXByYXNhZCIsImEiOiJjbWY3dzVoZ2wwMGtqMmlxeWE0bDByMjgwIn0.gdzPuIG1TWsSTYBHC-fzPg";
 
 export default function MapWithLines({ places }: { places: any[] }) {
-  console.log("places in map", places);
-
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<mapboxgl.Map | null>(null);
 

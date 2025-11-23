@@ -1,17 +1,7 @@
-import {
-  Calendar,
-  CalendarIcon,
-  ChartGanttIcon,
-  Compass,
-  CreditCardIcon,
-  MailIcon,
-  MapPin,
-  StarIcon,
-  UserIcon,
-  UsersIcon,
-  XIcon,
-} from "lucide-react";
+import { XIcon } from "lucide-react";
 import React from "react";
+import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 interface Activity {
   id: string;
@@ -21,6 +11,7 @@ interface Activity {
 interface Place {
   id: string;
   name: string;
+  image_url: string;
 }
 
 interface ItineraryItem {
@@ -127,22 +118,41 @@ function BookingItinerary({ onClose, data }: BookingItineraryProps) {
                         ></div>
 
                         <div className="p-6 pl-8">
-                          <div className="flex flex-col">
-                            <div className="flex items-center mb-2 gap-4">
-                              <div
-                                className="inline-flex items-center justify-center w-8 h-8 rounded-full text-white text-sm font-bold"
-                                style={{ backgroundColor: "#ff803c" }}
-                              >
-                                {index + 1}
+                          <div className="flex flex-col sm:flex-row gap-4">
+                            {/* Place Image */}
+                            <div className="flex-shrink-0">
+                              <div className="relative w-full sm:w-32 h-32 rounded-xl overflow-hidden bg-gray-200">
+                                <Image
+                                  src={checkImageUrl(item.Place.image_url)}
+                                  alt={item.Place.name}
+                                  fill
+                                  className="object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.src =
+                                      "/placeholder-image.jpg";
+                                  }}
+                                />
                               </div>
-                              <h3 className="text-2xl font-bold text-gray-800">
-                                {item.Place.name}
-                              </h3>
                             </div>
 
-                            <p className="text-gray-600 text-sm leading-relaxed">
-                              {item.description}
-                            </p>
+                            {/* Place Details */}
+                            <div className="flex-1">
+                              <div className="flex items-center mb-2 gap-4">
+                                <div
+                                  className="inline-flex items-center justify-center w-8 h-8 rounded-full text-white text-sm font-bold"
+                                  style={{ backgroundColor: "#ff803c" }}
+                                >
+                                  {index + 1}
+                                </div>
+                                <h3 className="text-2xl font-bold text-gray-800">
+                                  {item.Place.name}
+                                </h3>
+                              </div>
+
+                              <p className="text-gray-600 text-sm leading-relaxed">
+                                {item.description}
+                              </p>
+                            </div>
                           </div>
 
                           {item.Activities.length > 0 && (
