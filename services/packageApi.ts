@@ -46,6 +46,7 @@ export const packageApi = baseApi.injectEndpoints({
     // Get package by URL prefix
     getPackageByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/packages/get-by-urlprefix/${slug}`,
+      providesTags: ["Package"],
     }),
     deletePackage: builder.mutation<any, string>({
       query: (id) => ({
@@ -65,5 +66,5 @@ export const {
   useGetPackagesByCategoryQuery,
   useGetPackagesByTourTypeQuery,
   useGetPackageByUrlPrefixQuery,
-  useDeletePackageMutation
+  useDeletePackageMutation,
 } = packageApi;

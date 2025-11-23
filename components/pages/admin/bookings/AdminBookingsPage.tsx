@@ -25,6 +25,7 @@ import {
   cancelBtnColor,
   viewBtnColor,
 } from "@/styles/colors";
+import ActionModal from "./ActionModal";
 
 interface Booking {
   id: string;
@@ -47,13 +48,15 @@ const AdminBookingsPage: React.FC = () => {
     "all" | "pending" | "confirmed" | "completed" | "cancelled"
   >("all");
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const [selectedBookingId, setSelectedBookingId] = useState<string | null>(
-    null
-  );
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [showReopenModal, setShowReopenModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<any>(null);
+  const [selectedBookingAction, setSelectedBookingAction] = useState<
+    "pending" | "confirmed" | "cancelled" | "completed"
+  >("pending");
 
   // Only get user details on client
   useEffect(() => {
@@ -103,7 +106,7 @@ const AdminBookingsPage: React.FC = () => {
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "LKR",
+      currency: "USD",
     }).format(price);
   };
 
@@ -328,13 +331,25 @@ const AdminBookingsPage: React.FC = () => {
                       />
 
                       <div className="flex space-x-3">
+                        {booking.status === "pending" && booking?.Payment && (
+                          <Button
+                            className={`w-fit md:text-sm md:uppercase ${approveBtnColor}`}
+                            label="Confirm"
+                            onClick={() => {
+                              setSelectedBooking(booking);
+                              setSelectedBookingAction("confirmed");
+                              setShowActionModal(true);
+                            }}
+                          />
+                        )}
                         {(booking.status === "pending" ||
                           booking.status === "confirmed") && (
                           <Button
                             className={`w-fit md:text-sm md:uppercase ${cancelBtnColor}`}
                             label="Cancel"
                             onClick={() => {
-                              setSelectedBookingId(booking.id);
+                              setSelectedBooking(booking);
+                              setSelectedBookingAction("cancelled");
                               setShowCancelModal(true);
                             }}
                           />
@@ -344,7 +359,8 @@ const AdminBookingsPage: React.FC = () => {
                             className={`w-fit md:text-sm md:uppercase ${approveBtnColor}`}
                             label="Complete"
                             onClick={() => {
-                              setSelectedBookingId(booking.id);
+                              setSelectedBooking(booking);
+                              setSelectedBookingAction("completed");
                               setShowCompleteModal(true);
                             }}
                           />
@@ -354,7 +370,8 @@ const AdminBookingsPage: React.FC = () => {
                             className={`w-fit md:text-sm md:uppercase ${addBtnColor}`}
                             label="Reopen"
                             onClick={() => {
-                              setSelectedBookingId(booking.id);
+                              setSelectedBooking(booking);
+                              setSelectedBookingAction("pending");
                               setShowReopenModal(true);
                             }}
                           />
@@ -372,25 +389,25 @@ const AdminBookingsPage: React.FC = () => {
         show={showCancelModal}
         onClose={() => {
           setShowCancelModal(false);
-          setSelectedBookingId(null);
+          setSelectedBooking(null);
         }}
-        selectedID={selectedBookingId}
+        selectedID={selectedBooking?.id}
       />
       <CompleteBooking
         show={showCompleteModal}
         onClose={() => {
           setShowCompleteModal(false);
-          setSelectedBookingId(null);
+          setSelectedBooking(null);
         }}
-        selectedID={selectedBookingId}
+        selectedID={selectedBooking?.id}
       />
       <ReopenBooking
         show={showReopenModal}
         onClose={() => {
           setShowReopenModal(false);
-          setSelectedBookingId(null);
+          setSelectedBooking(null);
         }}
-        selectedID={selectedBookingId}
+        selectedID={selectedBooking?.id}
       />
       {showDetailsModal && (
         <BookingDetails
@@ -400,6 +417,18 @@ const AdminBookingsPage: React.FC = () => {
           }}
           booking={bookingDetails}
           isOpen={showDetailsModal}
+        />
+      )}
+
+      {showActionModal && (
+        <ActionModal
+          onClose={() => {
+            setShowActionModal(false);
+            setSelectedBooking(null);
+          }}
+          show={showActionModal}
+          status={selectedBookingAction}
+          selectedID={selectedBooking?.id}
         />
       )}
     </>

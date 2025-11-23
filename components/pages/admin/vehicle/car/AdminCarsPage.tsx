@@ -56,7 +56,7 @@ function AdminCarsPage({
                 <Users width={14} /> {car.passenger_capacity} Passengers
               </span>
               <span className="bg-[#1976D2] text-white p-1 rounded">
-                LKR {car.price}
+                $ {car.price}
               </span>
             </div>
 
@@ -98,7 +98,7 @@ function AdminCarsPage({
                   <MapPin width={14} /> {car.location}
                 </span>
                 <span className="bg-[#1976D2] text-white p-1 rounded w-fit">
-                  LKR {car.price}
+                  $ {car.price}
                 </span>
               </div>
               <div className="flex gap-4 justify-end">

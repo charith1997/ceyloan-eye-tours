@@ -28,7 +28,7 @@ function VehicleDetails({ vehicle, onClose }: PackageDetailsProps) {
               title="Passenger Count"
               value={vehicle.passenger_capacity}
             />
-            <SingleInfo title="Price" value={`LKR ${vehicle.price}`} />
+            <SingleInfo title="Price" value={`$ ${vehicle.price}`} />
           </div>
         </div>
         <div className="bg-gray-50 rounded-lg p-4 w-full">

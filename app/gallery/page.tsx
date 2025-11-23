@@ -41,7 +41,7 @@ function GalleryPage() {
           </div>
           <p className={PAGE_DESCRIPTION}>
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
+            industry. Lorem Ipsum has been the industrys standard dummy text
             ever since the 1500s, when an unknown printer took a galley of type
             and scrambled it to make a type specimen book. It has survived not
             only five centuries, but also the leap into electronic typesetting,
@@ -73,7 +73,7 @@ function MasonryImageGrid({ images }: { images: any[] }) {
           key={idx}
           src={checkImageUrl(image.image_url)}
           alt={`Gallery image ${idx + 1}`}
-          className="w-full rounded-lg mb-4"
+          className="w-full h-32 md:h-64 rounded-lg mb-4 object-cover"
           width={300}
           height={200}
         />

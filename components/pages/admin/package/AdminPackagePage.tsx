@@ -23,6 +23,7 @@ const AdminPackagePage = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [packagePlaceData, setPackagePlaceData] = useState([]);
+  console.log("packagePlaceData", packagePlaceData);
 
   const { data } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
@@ -31,6 +32,7 @@ const AdminPackagePage = () => {
     isEdit ? selectedPackage?.url_prefix || "" : "",
     { skip: !isEdit }
   );
+  console.log("pkgPlaceData", pkgPlaceData);
 
   useEffect(() => {
     if (isEdit && pkgPlaceData) {
@@ -41,6 +43,7 @@ const AdminPackagePage = () => {
           order: item.packagePlace?.sort_order || "",
           day_no: item.packagePlace?.day_no || "",
           events: item.packagePlace?.events || [],
+          editedPackagePlaceID: item.packagePlace?.id || "",
         })) ?? []
       );
     }
@@ -75,7 +78,7 @@ const AdminPackagePage = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col items-center text-sm">
+                <div className="flex justify-center text-sm gap-1">
                   <h3>$</h3>
                   <h3>{item.price}</h3>
                 </div>

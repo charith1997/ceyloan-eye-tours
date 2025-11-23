@@ -79,7 +79,7 @@ function VehicleModel() {
               <div className="bg-red items-center justify-self-center rounded-md p-8 text-white flex flex-col gap-2 ">
                 <div className="text-4xl">Start from</div>
                 <div className="text-4xl font-bold">
-                  LKR {vehicleDetails.price}
+                  $ {vehicleDetails.price}
                 </div>
                 <div className="flex gap-2 items-center">
                   <Users width={20} />

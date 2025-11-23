@@ -17,7 +17,6 @@ import {
 } from "@/services/packageApi";
 import toast from "react-hot-toast";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
-import Image from "next/image";
 import { checkImageUrl } from "@/utils/common";
 import { getArrayDiff, getPlacesDiff, isDifferent } from "@/utils/package";
 
@@ -329,6 +328,7 @@ function AddPackage({
               setSubmitting(false);
               return;
             }
+            console.log("values", values);
 
             try {
               const response = await updatePackage({
@@ -443,6 +443,7 @@ function AddPackage({
                   label: place.name,
                 })
               )}
+              isEdit={isEdit}
             />
 
             <FormikInput

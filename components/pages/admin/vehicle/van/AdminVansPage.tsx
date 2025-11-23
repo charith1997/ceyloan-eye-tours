@@ -56,7 +56,7 @@ function AdminVansPage({
                 <Users width={14} /> {van.passenger_capacity} Passengers
               </span>
               <span className="bg-[#1976D2] text-white p-1 rounded">
-                LKR {van.price}
+                $ {van.price}
               </span>
             </div>
 
@@ -98,7 +98,7 @@ function AdminVansPage({
                   <MapPin width={14} /> {van.location}
                 </span>
                 <span className="bg-[#1976D2] text-white p-1 rounded w-fit">
-                  LKR {van.price}
+                  $ {van.price}
                 </span>
               </div>
               <div className="flex gap-4 justify-end">

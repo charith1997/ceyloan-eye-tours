@@ -41,37 +41,36 @@ export const getArrayDiff = (oldArray: any[], newArray: any[], key = "id") => {
 };
 
 export const getPlacesDiff = (oldPlaces = <any>[], newPlaces = <any>[]) => {
+  console.log("oldPlaces", oldPlaces);
+  console.log("newPlaces", newPlaces);
+
   const addedOrUpdated: any[] = [];
   const removedPlaceIds: string[] = [];
 
-  // 1️⃣ Detect removed places (present before but missing now)
   oldPlaces.forEach((oldItem: any) => {
     const stillExists = newPlaces.some(
       (newItem: any) => newItem.place_id === oldItem.place_id
     );
     if (!stillExists) {
-      removedPlaceIds.push(oldItem.place_id);
+      removedPlaceIds.push(oldItem.editedPackagePlaceID);
     }
   });
 
-  // 2️⃣ Detect new or updated places
   newPlaces.forEach((newItem: any) => {
     const oldItem = oldPlaces.find(
       (old: any) => old.place_id === newItem.place_id
     );
 
-    // New place (no ID or not in old list)
     if (!oldItem || !newItem.place_id) {
-      addedOrUpdated.push(newItem);
+      addedOrUpdated.push({ ...newItem, id: newItem.editedPackagePlaceID });
     } else {
-      // Check if something changed
       const isChanged = Object.keys(newItem).some(
         (key) =>
           key !== "place_id" &&
           JSON.stringify(newItem[key]) !== JSON.stringify(oldItem[key])
       );
       if (isChanged) {
-        addedOrUpdated.push(newItem);
+        addedOrUpdated.push({ ...newItem, id: newItem.editedPackagePlaceID });
       }
     }
   });

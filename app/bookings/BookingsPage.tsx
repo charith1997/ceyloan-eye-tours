@@ -6,8 +6,9 @@ import { formatDuration } from "@/utils/package";
 import Button from "../../components/atoms/Button";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import PayHereCheckout from "./PayHereCheckout";
-import { addBtnColor, deleteBtnColor } from "@/styles/colors";
+import { addBtnColor, deleteBtnColor, viewBtnColor } from "@/styles/colors";
 import AddReview from "./AddReview";
+import BookingDetails from "./BookingDetails";
 
 interface Booking {
   id: string;
@@ -36,6 +37,9 @@ const BookingsPage: React.FC = () => {
   const [showPayHereCheckout, setShowPayHereCheckout] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState<any | null>(null);
+  console.log("bookingDetails", bookingDetails);
 
   // Only get user details on client
   useEffect(() => {
@@ -63,6 +67,25 @@ const BookingsPage: React.FC = () => {
         return "bg-blue-100 text-blue-800 border-blue-200";
       default:
         return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
+
+  const generatePaymentStatusColor = (
+    status: "success" | "pending" | "canceled" | "failed" | "chargedback"
+  ) => {
+    switch (status) {
+      case "success":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "failed":
+        return "bg-red-100 text-red-800 border-red-200";
+      case "canceled":
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      case "chargedback":
+        return "bg-orange-100 text-orange-800 border-orange-200";
+      default:
+        return "bg-blue-100 text-blue-800 border-blue-200";
     }
   };
 
@@ -262,7 +285,13 @@ const BookingsPage: React.FC = () => {
 
                         <div className="flex items-center text-sm text-gray-600">
                           <ClockIcon className="w-4 h-4 mr-2 text-gray-400" />
-                          <span>{formatDuration(booking.duration)}</span>
+                          <span>
+                            {booking.package_id
+                              ? formatDuration(booking?.Package?.duration)
+                              : formatDuration(
+                                  booking?.CustomPackage?.duration
+                                )}
+                          </span>
                         </div>
 
                         <div className="flex items-center text-sm text-gray-600">
@@ -300,21 +329,39 @@ const BookingsPage: React.FC = () => {
                                 : 0
                             )}
                       </p>
-                      <p className="text-sm text-gray-500">Total Amount</p>
+                      {booking?.Payment && (
+                        <span
+                          className={`${generatePaymentStatusColor(
+                            booking.Payment.status
+                          )} px-2 rounded-full text-xs font-medium border mt-2 inline-block`}
+                        >
+                          payment {booking.Payment.status}
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <Button
+                      className={`w-fit md:text-sm md:uppercase ${viewBtnColor}`}
+                      label="View Details"
+                      onClick={() => {
+                        setBookingDetails(booking);
+                        setShowDetailsModal(true);
+                      }}
+                    />
                     {booking.status === "pending" && (
                       <>
-                        <Button
-                          className={`flex items-center gap-2 cursor-pointer ${addBtnColor}`}
-                          label="Pay Now"
-                          onClick={() => {
-                            setShowPayHereCheckout(true);
-                            setSelectedBookingId(booking.id);
-                          }}
-                        />
+                        {!booking.Payment && (
+                          <Button
+                            className={`flex items-center gap-2 cursor-pointer ${addBtnColor}`}
+                            label="Pay Now"
+                            onClick={() => {
+                              setShowPayHereCheckout(true);
+                              setSelectedBookingId(booking.id);
+                            }}
+                          />
+                        )}
                         <Button
                           className={`flex items-center gap-2 cursor-pointer ${deleteBtnColor}`}
                           label="Cancel"
@@ -328,7 +375,7 @@ const BookingsPage: React.FC = () => {
                     {booking.status === "completed" && (
                       <Button
                         className={`flex items-center gap-2 cursor-pointer ${addBtnColor}`}
-                        label="Add Review"
+                        label={booking?.Review ? "Edit Review" : "Add Review"}
                         onClick={() => {
                           setAddReview(true);
                           setSelectedBooking(booking);
@@ -368,6 +415,17 @@ const BookingsPage: React.FC = () => {
           }}
           show={addReview}
           details={selectedBooking}
+        />
+      )}
+
+      {showDetailsModal && (
+        <BookingDetails
+          onClose={() => {
+            setShowDetailsModal(false);
+            setBookingDetails(null);
+          }}
+          booking={bookingDetails}
+          isOpen={showDetailsModal}
         />
       )}
     </>

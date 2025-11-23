@@ -77,7 +77,7 @@ const PackageDetails: React.FC<PackageDetailsProps> = ({ pkg, onClose }) => {
           </div>
           <div className="flex gap-2 items-center">
             <p className="text-sm text-gray-500">Price:</p>
-            <p className="text-sm text-gray-900">LKR {pkg?.price}</p>
+            <p className="text-sm text-gray-900">$ {pkg?.price}</p>
           </div>
         </div>
         <div>
