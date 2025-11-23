@@ -1,3 +1,4 @@
+import { checkImageUrl } from "@/utils/common";
 import Image from "next/image";
 
 const ImageModal = ({
@@ -16,11 +17,11 @@ const ImageModal = ({
       onClick={(e) => e.stopPropagation()}
     >
       <Image
-        src={imageUrl}
+        src={checkImageUrl(imageUrl)}
         alt="Gallery Preview"
         width={500}
         height={400}
-        className="object-contain rounded-lg max-w-full max-h-[80vh]"
+        className="object-contain rounded-lg max-w-full max-h-[60vh]"
       />
     </div>
   </div>

@@ -28,7 +28,7 @@ function RequestedImages({
   }
 
   return (
-    <DetailContainer className="max-h-[calc(100vh-365px)] md:max-h-[calc(100vh-240px)]">
+    <DetailContainer className="max-h-[calc(100vh-369px)] md:max-h-[calc(100vh-252px)]">
       {requestedGalleryItems.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
@@ -41,7 +41,7 @@ function RequestedImages({
                 className="object-cover rounded-lg w-28 h-28"
               />
               <span className="flex text-sm gap-2 items-center">
-                <Camera width={16} /> {`Captured By : ${item.customer_id}`}
+                <Camera width={16} /> {`Captured By : ${item.User.name}`}
               </span>
             </div>
 
@@ -78,7 +78,7 @@ function RequestedImages({
             />
             <div className="grid gap-2">
               <span className="flex gap-1 items-center">
-                <Camera width={16} /> {item.customer_id}
+                <Camera width={16} /> {item.User.name}
               </span>
               <div className="flex gap-4 items-center">
                 <Eye

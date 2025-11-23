@@ -13,6 +13,7 @@ import toast from "react-hot-toast";
 import ImageModal from "./ImageModal";
 import DeleteModal from "./DeleteModal";
 import { approveBtnColor, declineBtnColor } from "@/styles/colors";
+import AddImage from "./AddImage";
 
 const AdminGalleryPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -21,6 +22,7 @@ const AdminGalleryPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
+  const [addImage, setAddImage] = useState(false);
   const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
 
@@ -31,8 +33,7 @@ const AdminGalleryPage = () => {
           searchPlaceholder="Search Gallery..."
           title="Gallery"
           buttonName="Add Image"
-          onClick={() => {}}
-          isDisplayActionButton={false}
+          onClick={() => setAddImage(true)}
         />
 
         <div className="w-full ">
@@ -130,7 +131,11 @@ const AdminGalleryPage = () => {
         buttonLabel={showApproveModal ? "Cancel" : "Cancel"}
         submitLabel={showApproveModal ? "Approve" : "Reject"}
         // submitLabelColor={showApproveModal ? "bg-[#4CAF50]" : "bg-red"}
-        submitLabelColor={showApproveModal ? `w-full ${approveBtnColor}` : `w-full ${declineBtnColor}`}
+        submitLabelColor={
+          showApproveModal
+            ? `w-full ${approveBtnColor}`
+            : `w-full ${declineBtnColor}`
+        }
       />
 
       <DeleteModal
@@ -155,6 +160,7 @@ const AdminGalleryPage = () => {
           }
         }}
       />
+      <AddImage onClose={() => setAddImage(false)} show={addImage} />
     </>
   );
 };

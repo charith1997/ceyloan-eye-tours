@@ -12,11 +12,7 @@ import * as Yup from "yup";
 import Button from "@/components/atoms/Button";
 import { useCreateCustomPackagePlaceMutation } from "@/services/customPackageApi";
 import toast from "react-hot-toast";
-
-interface ActivityOption {
-  id: string;
-  name: string;
-}
+import { ensureAuthOrRedirect } from "@/utils/auth";
 
 interface PlaceActivity {
   placeId: string;
@@ -25,7 +21,6 @@ interface PlaceActivity {
 
 interface FormValues {
   placeActivities: PlaceActivity[];
-  meals: boolean;
 }
 
 export default function PlanYourTrip() {
@@ -42,7 +37,6 @@ export default function PlanYourTrip() {
 
   const initialValues: FormValues = {
     placeActivities: [{ placeId: "", activityIds: [] }],
-    meals: false,
   };
 
   const getAvailableActivities = (placeId: string) => {
@@ -79,9 +73,9 @@ export default function PlanYourTrip() {
             placeActivities: Yup.array().of(
               Yup.object().shape({
                 placeId: Yup.string().required("* Place is Required"),
-                activityIds: Yup.array()
-                  .of(Yup.string().required("* Activity is Required"))
-                  .min(1, "* At least one activity is required"),
+                // activityIds: Yup.array()
+                //   .of(Yup.string().required("* Activity is Required"))
+                //   .min(1, "* At least one activity is required"),
               })
             ),
           })}
@@ -103,7 +97,7 @@ export default function PlanYourTrip() {
             }
           }}
         >
-          {({ values, setFieldValue }) => (
+          {({ values, setFieldValue, submitForm }) => (
             <Form>
               <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl">
                 <div className="mb-8">
@@ -254,7 +248,12 @@ export default function PlanYourTrip() {
                 </FieldArray>
 
                 <Button
-                  type="submit"
+                  type="button"
+                  onClick={() => {
+                    if (!ensureAuthOrRedirect()) return;
+
+                    submitForm();
+                  }}
                   className="w-full mt-4 py-4 rounded-xl font-bold text-white bg-orange shadow-lg hover:shadow-xl transition-all duration-300 text-base md:text-lg"
                   label="Submit"
                 />

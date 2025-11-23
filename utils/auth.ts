@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import toast from "react-hot-toast";
 
 export function getUserRole() {
   if (typeof window === "undefined") return null;
@@ -52,4 +53,29 @@ export function getUserDetails() {
   } catch {
     return DEFAULT_USER;
   }
+}
+
+export function redirectToLogin() {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem("authToken");
+  } catch {}
+  window.location.href = "/login";
+}
+
+export function isAuthenticated(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!localStorage.getItem("authToken");
+}
+
+export function ensureAuthOrRedirect(): boolean {
+  const auth = isAuthenticated();
+  if (!auth) {
+    toast.error("Please login to continue");
+    setTimeout(() => {
+      redirectToLogin();
+    }, 3000);
+    return false;
+  }
+  return true;
 }

@@ -29,6 +29,14 @@ export const galleryApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Gallery"],
     }),
+    addGalleryImage: builder.mutation<any, FormData>({
+      query: (data) => ({
+        url: `/gallery/add`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Gallery"],
+    }),
   }),
 });
 
@@ -37,4 +45,5 @@ export const {
   useGetAllApprovedGalleryItemsQuery,
   useUpdateGalleryStatusMutation,
   useDeleteGalleryImageMutation,
+  useAddGalleryImageMutation,
 } = galleryApi;
