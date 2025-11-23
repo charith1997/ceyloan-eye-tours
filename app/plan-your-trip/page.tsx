@@ -12,7 +12,9 @@ import * as Yup from "yup";
 import Button from "@/components/atoms/Button";
 import { useCreateCustomPackagePlaceMutation } from "@/services/customPackageApi";
 import toast from "react-hot-toast";
-import { ensureAuthOrRedirect } from "@/utils/auth";
+import { isAuthenticated } from "@/utils/auth";
+import AuthModal from "@/components/molecules/AuthModal";
+import { useAuthModal } from "@/hooks/useAuthModal";
 
 interface PlaceActivity {
   placeId: string;
@@ -34,6 +36,7 @@ export default function PlanYourTrip() {
     : [];
 
   const [createCustomPackagePlace] = useCreateCustomPackagePlaceMutation();
+  const { isOpen, message, openModal, closeModal } = useAuthModal();
 
   const initialValues: FormValues = {
     placeActivities: [{ placeId: "", activityIds: [] }],
@@ -250,7 +253,10 @@ export default function PlanYourTrip() {
                 <Button
                   type="button"
                   onClick={() => {
-                    if (!ensureAuthOrRedirect()) return;
+                    if (!isAuthenticated()) {
+                      openModal("Please log in to create a custom package");
+                      return;
+                    }
 
                     submitForm();
                   }}
@@ -262,6 +268,7 @@ export default function PlanYourTrip() {
           )}
         </Formik>
       </div>
+      <AuthModal isOpen={isOpen} message={message} onClose={closeModal} />
     </section>
   );
 }

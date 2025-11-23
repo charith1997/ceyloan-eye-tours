@@ -14,7 +14,7 @@ const Timeline = ({ places }: TimelineProps) => {
       <h2 className="text-[36px] tracking-[0] font-medium text-red text-center mb-8">
         Trip Breakdown
       </h2>
-      <div className="relative bg-gray-100 py-8">
+      <div className="relative bg-white rounded-xl p-6 md:p-8 shadow-lg mb-8">
         <div className="relative mx-auto w-full max-w-4xl">
           <div className="absolute left-1/2 h-full w-1 bg-gray-300 -translate-x-1/2 hidden lg:block"></div>
 
