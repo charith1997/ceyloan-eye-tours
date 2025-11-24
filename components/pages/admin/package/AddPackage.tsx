@@ -18,7 +18,7 @@ import {
 import toast from "react-hot-toast";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
-import { getArrayDiff, getPlacesDiff, isDifferent } from "@/utils/package";
+import { comparePlaces, getArrayDiff, isDifferent } from "@/utils/package";
 
 interface AddPackageProps {
   show: boolean;
@@ -248,13 +248,16 @@ function AddPackage({
               );
             }
 
-            const { addedOrUpdated, removedPlaceIds } = getPlacesDiff(
+            const { newlyCreated, updated, removedPlaceIds } = comparePlaces(
               defaultInitialValues.placeIds,
               values.placeIds
             );
 
-            if (addedOrUpdated.length > 0)
-              formData.append("updateplaceIds", JSON.stringify(addedOrUpdated));
+            if (newlyCreated.length > 0)
+              formData.append("placeIds", JSON.stringify(newlyCreated));
+
+            if (updated.length > 0)
+              formData.append("updateplaceIds", JSON.stringify(updated));
 
             if (removedPlaceIds.length > 0)
               formData.append(
@@ -328,7 +331,6 @@ function AddPackage({
               setSubmitting(false);
               return;
             }
-            console.log("values", values);
 
             try {
               const response = await updatePackage({

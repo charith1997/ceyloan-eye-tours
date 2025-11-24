@@ -40,45 +40,77 @@ export const getArrayDiff = (oldArray: any[], newArray: any[], key = "id") => {
   return { added, removed };
 };
 
-export const getPlacesDiff = (oldPlaces = <any>[], newPlaces = <any>[]) => {
-  console.log("oldPlaces", oldPlaces);
-  console.log("newPlaces", newPlaces);
-
-  const addedOrUpdated: any[] = [];
-  const removedPlaceIds: string[] = [];
-
-  oldPlaces.forEach((oldItem: any) => {
-    const stillExists = newPlaces.some(
-      (newItem: any) => newItem.place_id === oldItem.place_id
-    );
-    if (!stillExists) {
-      removedPlaceIds.push(oldItem.editedPackagePlaceID);
-    }
-  });
-
-  newPlaces.forEach((newItem: any) => {
-    const oldItem = oldPlaces.find(
-      (old: any) => old.place_id === newItem.place_id
-    );
-
-    if (!oldItem || !newItem.place_id) {
-      addedOrUpdated.push({ ...newItem, id: newItem.editedPackagePlaceID });
-    } else {
-      const isChanged = Object.keys(newItem).some(
-        (key) =>
-          key !== "place_id" &&
-          JSON.stringify(newItem[key]) !== JSON.stringify(oldItem[key])
-      );
-      if (isChanged) {
-        addedOrUpdated.push({ ...newItem, id: newItem.editedPackagePlaceID });
-      }
-    }
-  });
-
-  return { addedOrUpdated, removedPlaceIds };
-};
-
 export const isDifferent = (arr1: string[], arr2: string[]) => {
   if (arr1.length !== arr2.length) return true;
   return arr1.some((item, i) => item !== arr2[i]);
 };
+
+interface Place {
+  place_id: string;
+  description: string;
+  order: number;
+  day_no: number;
+  events: string[];
+  editedPackagePlaceID?: string;
+}
+
+interface PlaceChanges {
+  newlyCreated: any[];
+  updated: any[];
+  removedPlaceIds: string[];
+}
+
+export function comparePlaces(oldPlaces: any, newPlaces: any): PlaceChanges {
+  const newlyCreated: any[] = [];
+  const updated: any[] = [];
+  const removedPlaceIds: string[] = [];
+
+  // Track which old places are still present in new places
+  const newPlaceIds = new Set(
+    newPlaces
+      .filter((p: any) => p.editedPackagePlaceID)
+      .map((p: any) => p.editedPackagePlaceID)
+  );
+
+  // Check for newly created and updated places
+  newPlaces.forEach((newPlace: any) => {
+    if (!newPlace.editedPackagePlaceID) {
+      // No editedPackagePlaceID means it's newly created
+      newlyCreated.push(newPlace);
+    } else {
+      // Find matching old place by editedPackagePlaceID
+      const oldPlace = oldPlaces.find(
+        (op: any) => op.editedPackagePlaceID === newPlace.editedPackagePlaceID
+      );
+
+      if (oldPlace) {
+        // Compare if values are different
+        if (!isPlaceEqual(oldPlace, newPlace)) {
+          updated.push({ ...newPlace, id: newPlace.editedPackagePlaceID });
+        }
+      }
+    }
+  });
+
+  // Check for removed places
+  oldPlaces.forEach((oldPlace: any) => {
+    if (
+      oldPlace.editedPackagePlaceID &&
+      !newPlaceIds.has(oldPlace.editedPackagePlaceID)
+    ) {
+      removedPlaceIds.push(oldPlace.editedPackagePlaceID);
+    }
+  });
+
+  return { newlyCreated, updated, removedPlaceIds };
+}
+
+function isPlaceEqual(place1: Place, place2: Place): boolean {
+  return (
+    place1.place_id === place2.place_id &&
+    place1.description === place2.description &&
+    place1.order === place2.order &&
+    place1.day_no === place2.day_no &&
+    JSON.stringify(place1.events) === JSON.stringify(place2.events)
+  );
+}

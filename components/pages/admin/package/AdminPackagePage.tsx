@@ -23,7 +23,6 @@ const AdminPackagePage = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [packagePlaceData, setPackagePlaceData] = useState([]);
-  console.log("packagePlaceData", packagePlaceData);
 
   const { data } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
@@ -32,7 +31,6 @@ const AdminPackagePage = () => {
     isEdit ? selectedPackage?.url_prefix || "" : "",
     { skip: !isEdit }
   );
-  console.log("pkgPlaceData", pkgPlaceData);
 
   useEffect(() => {
     if (isEdit && pkgPlaceData) {
