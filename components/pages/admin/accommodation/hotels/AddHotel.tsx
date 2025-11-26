@@ -87,6 +87,9 @@ function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
             .of(
               Yup.object({
                 room_type: Yup.string().required("* Room type is required"),
+                size: Yup.string().required("* Room size is required"),
+                beds: Yup.string().required("* Bed count required"),
+                members: Yup.string().required("* Member count is required"),
                 description: Yup.array()
                   .of(Yup.string().required("* Room description is required"))
                   .min(1, "* At least one room description is required")
@@ -98,6 +101,43 @@ function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
                       arr.every((str) => str?.trim() !== "")
                   )
                   .required("* Room descriptions are required"),
+                attachment: Yup.object({
+                  id: Yup.string().required(),
+                  value: Yup.mixed()
+                    .nullable()
+                    .test("required", "* Image is required", function (value) {
+                      // Check if value is a File, array of Files, or array of strings (URLs)
+                      if (!value) return false;
+                      if (value instanceof File) return true;
+                      if (Array.isArray(value) && value.length > 0) {
+                        return value.every(
+                          (item) =>
+                            item instanceof File || typeof item === "string"
+                        );
+                      }
+                      if (typeof value === "string" && value.trim() !== "")
+                        return true;
+                      return false;
+                    })
+                    .test(
+                      "fileType",
+                      "* Only image files are allowed",
+                      function (value) {
+                        if (!value) return true; // Let required test handle this
+                        if (value instanceof File) {
+                          return value.type.startsWith("image/");
+                        }
+                        if (Array.isArray(value)) {
+                          return value.every((item) =>
+                            item instanceof File
+                              ? item.type.startsWith("image/")
+                              : true
+                          );
+                        }
+                        return true; // String URLs are fine
+                      }
+                    ),
+                }).required("* Image is required"),
               })
             )
             .min(1, "* Add at least one room")
@@ -192,12 +232,40 @@ function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
             formData.append("placeId", values.placeId);
             formData.append("description", JSON.stringify(values.description));
             formData.append("facilities", JSON.stringify(values.facilities));
-            formData.append(
-              "roomsDetails",
-              JSON.stringify(values.roomsDetails)
-            );
+            const rooms =
+              values.roomsDetails &&
+              values.roomsDetails.map((room: any) => ({
+                id: room.id,
+                room_type: room.room_type,
+                size: room.size,
+                beds: room.beds,
+                members: room.members,
+                description: room.description,
+              }));
+            formData.append("roomsDetails", JSON.stringify(rooms));
             formData.append("rating", values.rating.toString());
             formData.append("typeId", values.typeId);
+            if (values.roomsDetails.length > 0) {
+              values.roomsDetails.forEach((roomDetail) => {
+                if (roomDetail.attachment && roomDetail.attachment.value) {
+                  const attachment = roomDetail.attachment.value;
+                  if (attachment instanceof File) {
+                    formData.append(
+                      `image_${roomDetail.attachment.id}`,
+                      attachment
+                    );
+                  } else if (Array.isArray(attachment)) {
+                    attachment.forEach((file: File) => {
+                      formData.append(
+                        `image_${roomDetail.attachment.id}`,
+                        file
+                      );
+                    });
+                  }
+                }
+              });
+            }
+
             if (Array.isArray(values.images)) {
               values.images.forEach((image: File) => {
                 formData.append("images", image);

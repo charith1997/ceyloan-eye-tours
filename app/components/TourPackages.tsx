@@ -2,6 +2,7 @@ import AutoScrollCarousel from "@/components/organisams/AutoScrollCarousel";
 import { useGetAllPackagesQuery } from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
 import Image from "next/image";
+import Link from "next/link";
 
 const TourPackages = () => {
   const { data } = useGetAllPackagesQuery();
@@ -25,7 +26,7 @@ const TourPackages = () => {
 
       <div className="max-w-6xl mx-auto p-4">
         <AutoScrollCarousel
-          data={slides}
+          data={slides.slice(0, 6)}
           renderSlide={(slide: any) => (
             <div className="px-2">
               <div className="relative h-96 rounded-lg overflow-hidden">
@@ -51,6 +52,27 @@ const TourPackages = () => {
           stopOnInteraction={false}
           className="w-full"
         />
+      </div>
+      <div className="flex justify-center mt-4">
+        <Link
+          href="/packages"
+          className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-red to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+        >
+          <span>View All Packages</span>
+          <svg
+            className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
+          </svg>
+        </Link>
       </div>
     </section>
   );

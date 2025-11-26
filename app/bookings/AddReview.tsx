@@ -16,8 +16,6 @@ interface AddReviewProps {
 }
 
 function AddReview({ show, onClose, details }: AddReviewProps) {
-  console.log(details);
-
   const [addReview] = useAddReviewMutation();
 
   const validationSchema = Yup.object({

@@ -1,5 +1,6 @@
 import AdminDetailsContainer from "@/components/containers/AdminDetailsContainer";
 import Gallery from "@/components/organisams/Gallery";
+import RoomDetails from "@/components/organisams/RoomDetails";
 import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
 import { Star } from "lucide-react";
 import React from "react";
@@ -50,7 +51,9 @@ function HotelDetails({ hotel, onClose }: HotelDetailsProps) {
 
         <OtherDetails title="Description" value={hotel.description} />
         <OtherDetails title="Facilities" value={hotel.facilities} />
-        <OtherDetails title="Room Details" value={hotel.rooms_details} />
+        {hotel.rooms_details && hotel.rooms_details.length > 0 && (
+          <RoomDetails rooms={hotel.rooms_details} />
+        )}
 
         <Gallery
           images={hotel.images.map((image: any) => ({

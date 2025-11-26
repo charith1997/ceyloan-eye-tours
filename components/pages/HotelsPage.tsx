@@ -5,6 +5,7 @@ import CTAButton from "../molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
 import { useGetAllHotelsQuery } from "@/services/hotelApi";
 import { renderStars } from "@/utils/common";
+import DetailCardGrid from "../organisams/DetailCardGrid";
 
 function HotelsPage() {
   const { data } = useGetAllHotelsQuery();
@@ -22,30 +23,23 @@ function HotelsPage() {
         description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
       />
       <div>
-        <CardGrid
-          data={hotels.map((hotel: any) => ({
-            cardTitle: hotel.name,
-            cardDescription: hotel.Place.name,
-            count: hotel.rating,
-            image_url:
-              hotel.images.length > 0 ? hotel.images[0] : "/default-image.jpg",
-            ...hotel,
-          }))}
-        >
-          {(cardTitle: string, cardDescription: string, count: number) => (
-            <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-              <p className="text-white text-3xl md:text-4xl font-bold uppercase">
-                {cardTitle}
-              </p>
-              <div className="flex justify-between items-center">
-                <h3 className="text-white text-xl">{cardDescription}</h3>
-                <span className="flex self-start px-3 py-2 rounded-xl text-white text-sm font-medium mt-2 uppercase">
-                  {renderStars(count, 5)}
-                </span>
+        <DetailCardGrid data={hotels}>
+          {(item: any) => (
+            <div className="absolute bottom-0 w-full bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
+              <div>
+                <h3 className="text-md md:text-lg font-extrabold uppercase tracking-widest">
+                  {item.name}
+                </h3>
+                <p className="text-sm md:text-base font-medium">
+                  {item.Place.name}
+                </p>
+              </div>
+              <div className="flex items-center gap-1">
+                {renderStars(item.rating, 5)}
               </div>
             </div>
           )}
-        </CardGrid>
+        </DetailCardGrid>
         <CTAButton />
       </div>
     </section>

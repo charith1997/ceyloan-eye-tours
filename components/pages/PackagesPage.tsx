@@ -4,14 +4,14 @@ import React from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import CTAButton from "@/components/molecules/CTAButton";
-import CardGrid from "../organisams/CardGrid";
-import { CARD_TITLE } from "@/styles/font";
 import { useGetAllPackagesQuery } from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
+import DetailCardGrid from "../organisams/DetailCardGrid";
 
 const PackagesPage = () => {
   const { data } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
+
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
@@ -24,31 +24,32 @@ const PackagesPage = () => {
         description="Explore our exclusive packages"
       />
       <div>
-        <CardGrid
+        <DetailCardGrid
           data={packages.map((pkg: any) => ({
-            cardTitle: pkg.title,
-            cardDescription: formatDuration(pkg.duration),
-            count: pkg.price,
-            image_url:
-              pkg.Images.length > 0
-                ? pkg.Images[0].image_url
-                : "/default-image.jpg",
-            name: pkg.title,
             ...pkg,
+            images:
+              pkg && pkg.Images && pkg.Images.map((img: any) => img.image_url),
           }))}
         >
-          {(cardTitle: string, cardDescription: string, count: number) => (
-            <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-              <div className="flex flex-col gap-2">
-                <h3 className={CARD_TITLE}>{cardTitle}</h3>
-                <p className="text-white text-lg">{cardDescription}</p>
+          {(item: any) => (
+            <div className="absolute bottom-0 w-full h-24 bg-red text-white p-4 flex flex-row justify-between gap-1 items-center">
+              <div>
+                <h3 className="md:text-lg font-semibold md:font-bold tracking-wide md:tracking-wider">
+                  {item.title}
+                </h3>
+                <p className="text-sm md:text-base">
+                  {formatDuration(item.duration)}
+                </p>
               </div>
-              {/* <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white font-medium mt-2">
-                $ {Number(count).toString().padStart(2, "0")}
-              </span> */}
+              <div className="text-end">
+                <h3 className="text-sm md:text-sm text-nowrap">
+                  Starting from
+                </h3>
+                <p className="text-sm md:text-base">$ {item.price}</p>
+              </div>
             </div>
           )}
-        </CardGrid>
+        </DetailCardGrid>
         <CTAButton />
       </div>
     </section>

@@ -14,7 +14,7 @@ const TravelActivity = () => {
   return (
     <section className="max-w-[1200px] mx-auto px-4 py-8 text-center">
       <div className="mb-8">
-        <h2 className="font-[Carattere] text-[48px] text-[#CD1A40] leading-none m-0">
+        <h2 className="font-[Carattere] text-[48px] text-red leading-none m-0">
           Travel by
         </h2>
         <h1 className="font-[Work Sans] text-[64px] font-extralight uppercase text-[#222] my-2 leading-none">
@@ -24,7 +24,7 @@ const TravelActivity = () => {
 
       <div className="relative">
         <ScaleCarousel
-          data={activities}
+          data={activities.slice(0, 6)}
           renderSlide={(activity: any) => (
             <div className="py-8">
               <div className="relative h-80 rounded-2xl overflow-hidden">
@@ -56,7 +56,7 @@ const TravelActivity = () => {
       <div className="flex justify-center">
         <Link
           href="/activities"
-          className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-[#CD1A40] to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
+          className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-red to-orange-500 text-white font-semibold rounded-full hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group"
         >
           <span>View All Activities</span>
           <svg
@@ -74,11 +74,6 @@ const TravelActivity = () => {
           </svg>
         </Link>
       </div>
-
-      {/* Activity Count */}
-      <p className="text-gray-600 mt-4 text-sm">
-        {activities.length} total activities available
-      </p>
     </section>
   );
 };

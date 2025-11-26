@@ -29,7 +29,7 @@ export default function DetailCard({
           alt={title}
           className="absolute inset-0 w-full h-60 md:h-80 object-cover bg-center bg-cover"
         />
-        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition" />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition" />
         {children}
       </div>
     </Link>

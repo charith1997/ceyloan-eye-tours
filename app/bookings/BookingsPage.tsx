@@ -39,7 +39,6 @@ const BookingsPage: React.FC = () => {
   const [selectedBooking, setSelectedBooking] = useState<any>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<any | null>(null);
-  console.log("bookingDetails", bookingDetails);
 
   // Only get user details on client
   useEffect(() => {

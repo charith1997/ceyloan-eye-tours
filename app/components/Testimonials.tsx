@@ -6,7 +6,7 @@ export default function Testimonials() {
   const { data } = useGetAllReviewsQuery();
   const reviews = Array.isArray(data?.data) ? [...data.data].slice(0, 3) : [];
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="py-16">
       <div className="max-w-6xl mx-auto px-4 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-12">
           What Our Travelers Say
@@ -18,7 +18,7 @@ export default function Testimonials() {
               key={idx}
               className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-left"
             >
-              <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-2 mb-4">
                 {review && review?.User.profile_image ? (
                   <Image
                     className={`w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}

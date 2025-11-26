@@ -2,6 +2,7 @@ import React from "react";
 import { FieldArray, Field, ErrorMessage, useFormikContext } from "formik";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import Button from "@/components/atoms/Button";
+import FileUploader from "@/components/atoms/FileUploader";
 
 interface AddRoomDetailsProps {
   name: string;
@@ -9,7 +10,22 @@ interface AddRoomDetailsProps {
 }
 
 const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
-  const { errors, touched } = useFormikContext<any>();
+  const { errors, touched, values } = useFormikContext<any>();
+
+  // Function to get next room index
+  const getNextRoomIndex = () => {
+    const currentRooms = values[name] || [];
+    if (currentRooms.length === 0) return 1;
+
+    // Find the highest existing room number
+    const existingNumbers = currentRooms.map((room: any) => {
+      const match = room.id?.match(/image_room(\d+)/);
+      return match ? parseInt(match[1]) : 0;
+    });
+
+    return Math.max(...existingNumbers, 0) + 1;
+  };
+
   return (
     <div className="mb-4">
       {label && <label className="block text-sm font-medium">{label}</label>}
@@ -19,13 +35,34 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
             {form.values[name]?.map((item: any, idx: number) => (
               <div
                 key={idx}
-                className="border border-gray-400 rounded p-3 mb-2"
+                className="border border-gray-400 rounded p-3 mb-2 flex flex-col gap-4"
               >
-                <FormikInput
-                  label="Room Type:"
-                  name={`${name}.${idx}.room_type`}
-                  placeholder="Enter room type (Double room/Triple Room/Family Room/etc.)"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-4">
+                  <FormikInput
+                    label="Room Type:"
+                    name={`${name}.${idx}.room_type`}
+                    placeholder="Enter room type (Double room/Triple Room/etc)"
+                  />
+                  <FormikInput
+                    label="Beds:"
+                    name={`${name}.${idx}.beds`}
+                    placeholder="Enter no of beds"
+                    type="number"
+                    min={0}
+                  />
+                  <FormikInput
+                    label="Members:"
+                    name={`${name}.${idx}.members`}
+                    placeholder="Enter no of members"
+                    type="number"
+                    min={0}
+                  />
+                  <FormikInput
+                    label="Room Size:"
+                    name={`${name}.${idx}.size`}
+                    placeholder="1200ft*4000ft"
+                  />
+                </div>
 
                 <FieldArray name={`${name}.${idx}.description`}>
                   {({ push, remove, form }) => {
@@ -71,6 +108,11 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
                     );
                   }}
                 </FieldArray>
+
+                <FileUploader
+                  name={`${name}.${idx}.attachment.value`}
+                  label="Upload Attachment"
+                />
                 <div className="flex gap-2 mt-4">
                   <Button
                     type="button"
@@ -78,33 +120,31 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
                     onClick={() => remove(idx)}
                     className=" bg-red text-white text-sm px-2 py-1 rounded"
                   />
-                  <Button
-                    type="button"
-                    label="Add Room"
-                    onClick={() =>
-                      push({
-                        room_type: "",
-                        description: [""],
-                      })
-                    }
-                    className="bg-green-500 text-white text-sm px-2 py-1 rounded"
-                  />
                 </div>
               </div>
             ))}
-            {(!form.values[name] || form.values[name].length === 0) && (
-              <Button
-                type="button"
-                label="Add Room"
-                onClick={() =>
-                  push({
-                    room_type: "",
-                    description: [""],
-                  })
-                }
-                className="bg-green-500 text-white text-sm px-2 py-1 rounded mt-2"
-              />
-            )}
+            <Button
+              type="button"
+              label="Add Room"
+              onClick={() => {
+                const nextIndex = getNextRoomIndex();
+                const roomId = `room${nextIndex}`;
+
+                push({
+                  room_type: "",
+                  beds: "",
+                  members: "",
+                  size: "",
+                  description: [""],
+                  attachment: {
+                    id: roomId,
+                    value: null,
+                  },
+                  id: roomId,
+                });
+              }}
+              className="bg-green-500 text-white text-sm px-2 py-1 rounded"
+            />
           </div>
         )}
       </FieldArray>

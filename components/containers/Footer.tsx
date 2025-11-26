@@ -10,9 +10,9 @@ const Footer = () => {
           </h2>
           <p className="text-sm leading-relaxed text-gray-300 mb-4">
             Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book.
+            industry. Lorem Ipsum has been the industry&apos;s standard dummy
+            text ever since the 1500s, when an unknown printer took a galley of
+            type and scrambled it to make a type specimen book.
           </p>
           <div className="flex space-x-4 mt-4 text-white">
             <a href="#" aria-label="Facebook">
@@ -69,14 +69,10 @@ const Footer = () => {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
           <ul className="space-y-2 text-gray-300 text-sm">
-            <li>
-              No 5, Galle Road, Dehiwala
-              <br />
-              Sri Lanka
-            </li>
-            <li>+94 11 22 345 67</li>
+            <li>No 5/5 Negombo Road, Dankotuwa</li>
+            <li>+94 76 393 9000</li>
             <li>ceyloneyetours@gmail.com</li>
-            <li>www.ceyloneyetours.com</li>
+            <li>www.jwingtours.com</li>
           </ul>
         </div>
       </div>
