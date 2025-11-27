@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BookText, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import { useGetAllCategoriesQuery } from "@/services/categoryApi";
 import DetailContainer from "@/components/containers/DetailContainer";
-import Image from "next/image";
 import AddCategory from "./AddCategory";
 import DeleteCategory from "./DeleteCategory";
 import CategoryDetails from "./CategoryDetails";
@@ -18,8 +17,13 @@ const AdminCategoryPage = () => {
   const [displayDetails, setDisplayDetails] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
+  const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
   const { data } = useGetAllCategoriesQuery({});
   const categories = Array.isArray(data?.data) ? data.data : [];
+
+  useEffect(() => {
+    setFilteredCategories(categories);
+  }, [categories]);
 
   return (
     <>
@@ -29,9 +33,12 @@ const AdminCategoryPage = () => {
           title="Categories"
           buttonName="Add Category"
           onClick={() => setShowModal(true)}
+          data={categories}
+          searchKeys={["name"]}
+          onSearchChange={setFilteredCategories}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {categories.map((category: any, index: number) => (
+          {filteredCategories.map((category: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

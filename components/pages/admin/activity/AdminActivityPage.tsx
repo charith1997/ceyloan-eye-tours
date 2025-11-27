@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookText, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -18,9 +18,14 @@ const AdminActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [displayDetails, setDisplayDetails] = useState(false);
+  const [filteredActivities, setFilteredActivities] = useState<any[]>([]);
 
   const { data } = useGetAllActivitiesQuery();
   const activities = Array.isArray(data?.data) ? data.data : [];
+
+  useEffect(() => {
+    setFilteredActivities(activities);
+  }, [activities]);
 
   return (
     <>
@@ -30,10 +35,13 @@ const AdminActivityPage = () => {
           title="Activities"
           buttonName="Add Activity"
           onClick={() => setShowModal(true)}
+          data={activities}
+          searchKeys={["name"]}
+          onSearchChange={setFilteredActivities}
         />
 
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {activities.map((activity: any, index: number) => (
+          {filteredActivities.map((activity: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

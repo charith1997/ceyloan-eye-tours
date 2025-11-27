@@ -17,8 +17,13 @@ const AdminPlacesPage = () => {
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedPlace, setSelectedPlace] = React.useState<any | null>(null);
   const [displayDetails, setDisplayDetails] = React.useState(false);
+  const [filteredPlaces, setFilteredPlaces] = React.useState<any[]>([]);
   const { data } = useGetAllPlacesQuery();
   const places = Array.isArray(data?.data) ? data.data : [];
+
+  React.useEffect(() => {
+    setFilteredPlaces(places);
+  }, [places]);
 
   return (
     <>
@@ -28,9 +33,12 @@ const AdminPlacesPage = () => {
           title="Places"
           buttonName="Add Place"
           onClick={() => setShowModal(true)}
+          data={places}
+          searchKeys={["name"]}
+          onSearchChange={setFilteredPlaces}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {places.map((place: any, index: number) => (
+          {filteredPlaces.map((place: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

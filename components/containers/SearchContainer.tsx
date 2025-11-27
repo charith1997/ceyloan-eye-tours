@@ -2,7 +2,7 @@ import Button from "@/components/atoms/Button";
 import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useState, useMemo } from "react";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -10,6 +10,9 @@ interface SearchContainerProps {
   buttonName: string;
   onClick?: () => void;
   isDisplayActionButton?: boolean;
+  data?: any[];
+  searchKeys?: string[];
+  onSearchChange?: (filteredData: any[]) => void;
 }
 
 const SearchContainer = ({
@@ -18,8 +21,45 @@ const SearchContainer = ({
   buttonName,
   onClick,
   isDisplayActionButton = true,
+  data = [],
+  searchKeys = [],
+  onSearchChange,
 }: SearchContainerProps) => {
   const userDetails = getUserDetails();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  // Helper function to get nested object value
+  const getNestedValue = (obj: any, key: string): any => {
+    return key.split(".").reduce((current, prop) => {
+      return current?.[prop];
+    }, obj);
+  };
+
+  // Filter data based on search query
+  const filteredData = useMemo(() => {
+    if (!searchQuery.trim() || data.length === 0 || searchKeys.length === 0) {
+      return data;
+    }
+
+    return data.filter((item) =>
+      searchKeys.some((key) => {
+        const value = getNestedValue(item, key);
+        if (value === null || value === undefined) return false;
+        return String(value)
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
+      })
+    );
+  }, [searchQuery, data, searchKeys]);
+
+  // Notify parent of filtered data
+  React.useEffect(() => {
+    onSearchChange?.(filteredData);
+  }, [searchQuery, onSearchChange]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -31,7 +71,7 @@ const SearchContainer = ({
           </div>
         </div>
         <div className="flex items-center gap-6 justify-between">
-          <form className="max-w-full md:max-w-md w-full">
+          <form className="max-w-full md:max-w-md w-full" onSubmit={(e) => e.preventDefault()}>
             <label
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -61,7 +101,8 @@ const SearchContainer = ({
                 id="default-search"
                 className="w-full p-3 ps-10 text-sm border border-gray-300 rounded-lg focus:outline-none"
                 placeholder={searchPlaceholder}
-                required
+                value={searchQuery}
+                onChange={handleSearchChange}
               />
             </div>
           </form>

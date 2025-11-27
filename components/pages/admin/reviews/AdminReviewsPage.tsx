@@ -1,6 +1,5 @@
-import React from "react";
-import { BookText, Component, Star } from "lucide-react";
-import Button from "@/components/atoms/Button";
+import React, { useCallback, useState } from "react";
+import { BookText, Star } from "lucide-react";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import DetailContainer from "@/components/containers/DetailContainer";
@@ -8,8 +7,13 @@ import Image from "next/image";
 import { useGetAllReviewsQuery } from "@/services/reviewApi";
 
 const AdminReviewsPage = () => {
+  const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
   const { data } = useGetAllReviewsQuery();
   const reviews = Array.isArray(data?.data) ? data.data : [];
+
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredReviews(filtered);
+  }, []);
 
   return (
     <>
@@ -19,9 +23,12 @@ const AdminReviewsPage = () => {
           title="Reviews"
           buttonName="Add Review"
           isDisplayActionButton={false}
+          data={reviews}
+          searchKeys={["review", "User.name"]}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {reviews.map((review: any, index: number) => (
+          {filteredReviews.map((review: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center py-4 px-8 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8 w-3/4">

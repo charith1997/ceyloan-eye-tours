@@ -23,6 +23,7 @@ const AdminPackagePage = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [packagePlaceData, setPackagePlaceData] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
 
   const { data } = useGetAllPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
@@ -47,6 +48,10 @@ const AdminPackagePage = () => {
     }
   }, [isEdit, pkgPlaceData]);
 
+  useEffect(() => {
+    setFilteredProjects(packages);
+  }, [packages]);
+
   return (
     <>
       <NavigationContainer>
@@ -55,9 +60,12 @@ const AdminPackagePage = () => {
           title="Packages"
           buttonName="Add Package"
           onClick={() => setShowModal(true)}
+          data={packages}
+          searchKeys={["title"]}
+          onSearchChange={setFilteredProjects}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {packages.map((item: any, index: number) => (
+          {filteredProjects.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

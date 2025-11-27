@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { MapPin, User } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -9,16 +9,32 @@ import PlaceOrder from "./PlaceOrders";
 import { checkIfSortedOrder } from "@/utils/package";
 import ApprovePackage from "./ApprovePackage";
 import PackageDetails from "./PackageDetails";
-import { approveBtnColor, editBtnColor, updateBtnColor, viewBtnColor } from "@/styles/colors";
+import {
+  approveBtnColor,
+  editBtnColor,
+  updateBtnColor,
+  viewBtnColor,
+} from "@/styles/colors";
 
 const AdminCustomPackagesPage = () => {
   const [showPlaceOrdersModal, setShowPlaceOrdersModal] = useState(false);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showPackageDetailsModal, setShowPackageDetailsModal] = useState(false);
   const [packageDetails, setPackageDetails] = useState<any | null>(null);
+  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
 
   const { data } = useGetAllCustomPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
+
+  // Initialize filtered projects when packages data loads
+  useEffect(() => {
+    setFilteredProjects(packages);
+  }, [packages]);
+
+  // Memoize the search change handler to prevent infinite loops
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredProjects(filtered);
+  }, []);
 
   return (
     <>
@@ -29,9 +45,12 @@ const AdminCustomPackagesPage = () => {
           buttonName="Add Custom Package"
           onClick={() => {}}
           isDisplayActionButton={false}
+          data={packages}
+          searchKeys={["User.name"]}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
-          {packages.map((item: any, index: number) => (
+          {filteredProjects.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
