@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -17,6 +17,17 @@ const AdminAccommodationPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [selectedHotelType, setSelectedHotelType] = useState<any | null>(null);
   const [selectedHotel, setSelectedHotel] = useState<any | null>(null);
+  const [searchData, setSearchData] = useState<any[]>([]);
+  const [searchKeys, setSearchKeys] = useState<string[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
+
+  // const handleSearchChange = useCallback((filtered: any[]) => {
+  //   setFilteredData(filtered);
+  // }, []);
+
+  useEffect(() => {
+    setFilteredData(searchData);
+  }, [searchData]);
 
   return (
     <>
@@ -34,6 +45,9 @@ const AdminAccommodationPage = () => {
               setShowHotelTypeModal(true);
             }
           }}
+          data={searchData}
+          searchKeys={searchKeys}
+          onSearchChange={setFilteredData}
         />
         <div className="w-full">
           <div className="md:max-w-xs flex">
@@ -61,6 +75,9 @@ const AdminAccommodationPage = () => {
                 setIsEdit={() => {
                   setShowHotelModal(true);
                 }}
+                setSearchData={setSearchData}
+                setSearchKeys={setSearchKeys}
+                filteredData={filteredData}
               />
             )}
             {activeTab === "tab2" && (
@@ -68,6 +85,9 @@ const AdminAccommodationPage = () => {
                 setDeleteHotelType={setDeleteHotelType}
                 setSelectedHotelType={setSelectedHotelType}
                 setShowHotelTypeModal={setShowHotelTypeModal}
+                setSearchData={setSearchData}
+                setSearchKeys={setSearchKeys}
+                filteredData={filteredData}
               />
             )}
           </div>

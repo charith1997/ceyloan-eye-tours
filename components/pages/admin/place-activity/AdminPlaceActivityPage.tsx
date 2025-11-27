@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { Component, MapPin } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -37,9 +37,13 @@ const AdminPlaceActivityPage = () => {
     setShowEditModal(true);
   };
 
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredPlaceActivities(filtered);
+  }, []);
+
   useEffect(() => {
     setFilteredPlaceActivities(placeActivities);
-  }, [placeActivities]);
+  }, [placeActivities.length]);
 
   return (
     <>
@@ -51,7 +55,7 @@ const AdminPlaceActivityPage = () => {
           onClick={() => setShowAddActivityModal(true)}
           data={placeActivities}
           searchKeys={["placeDetails.name"]}
-          onSearchChange={setFilteredPlaceActivities}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {filteredPlaceActivities.map(

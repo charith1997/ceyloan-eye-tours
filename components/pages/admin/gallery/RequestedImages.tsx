@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
@@ -11,12 +11,18 @@ interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
   setViewImageUrl: (url: string | null) => void;
   displayDeleteModal: (id: string) => void;
+  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
+  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
+  filteredData: any[];
 }
 
 function RequestedImages({
   displayApproveModal,
   setViewImageUrl,
   displayDeleteModal,
+  setSearchData,
+  setSearchKeys,
+  filteredData,
 }: RequestedImagesProps) {
   const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
@@ -27,9 +33,15 @@ function RequestedImages({
     );
   }
 
+  // Update parent with requested items and search keys
+  useEffect(() => {
+    setSearchData(requestedGalleryItems);
+    setSearchKeys(["User.name"]);
+  }, [requestedGalleryItems.length, setSearchData, setSearchKeys]);
+
   return (
     <DetailContainer className="max-h-[calc(100vh-369px)] md:max-h-[calc(100vh-252px)]">
-      {requestedGalleryItems.map((item: any, index: number) => (
+      {filteredData.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">

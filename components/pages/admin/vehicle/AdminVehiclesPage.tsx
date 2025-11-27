@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -16,6 +16,7 @@ const AdminVehiclesPage = () => {
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [filteredVehicles, setFilteredVehicles] = useState<any[]>([]);
   const { data } = useGetAllVehiclesQuery();
   const vehicles = Array.isArray(data?.data) ? data.data : [];
 
@@ -34,6 +35,14 @@ const AdminVehiclesPage = () => {
     setDetails(details);
   };
 
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredVehicles(filtered);
+  }, []);
+
+  useEffect(() => {
+    setFilteredVehicles(vehicles);
+  }, [vehicles.length]);
+
   return (
     <>
       <NavigationContainer>
@@ -48,6 +57,9 @@ const AdminVehiclesPage = () => {
           title="Vehicles"
           buttonName="Add Vehicle"
           onClick={() => setShowAddVehicle(true)}
+          data={vehicles}
+          searchKeys={["name"]}
+          onSearchChange={handleSearchChange}
         />
         <div className="w-full">
           <div className="md:max-w-xs flex">
@@ -77,7 +89,7 @@ const AdminVehiclesPage = () => {
           <div className="pt-8">
             {activeTab === "tab1" && (
               <AdminCarsPage
-                cars={vehicles}
+                cars={filteredVehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}
@@ -85,7 +97,7 @@ const AdminVehiclesPage = () => {
             )}
             {activeTab === "tab2" && (
               <AdminVansPage
-                vans={vehicles}
+                vans={filteredVehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}
@@ -93,7 +105,7 @@ const AdminVehiclesPage = () => {
             )}
             {activeTab === "tab3" && (
               <AdminBusPage
-                busses={vehicles}
+                busses={filteredVehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}

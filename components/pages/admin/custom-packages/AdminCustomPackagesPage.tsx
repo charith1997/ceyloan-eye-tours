@@ -26,15 +26,15 @@ const AdminCustomPackagesPage = () => {
   const { data } = useGetAllCustomPackagesQuery();
   const packages = Array.isArray(data?.data) ? data.data : [];
 
-  // Initialize filtered projects when packages data loads
-  useEffect(() => {
-    setFilteredProjects(packages);
-  }, [packages]);
-
   // Memoize the search change handler to prevent infinite loops
   const handleSearchChange = useCallback((filtered: any[]) => {
     setFilteredProjects(filtered);
   }, []);
+
+  // Initialize filtered projects when packages data loads
+  useEffect(() => {
+    setFilteredProjects(packages);
+  }, [packages.length]);
 
   return (
     <>

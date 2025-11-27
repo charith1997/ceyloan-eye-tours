@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
 import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
@@ -11,12 +11,18 @@ interface ApprovedImagesProps {
   setViewImageUrl: (url: string | null) => void;
   displayCancelModal: (id: string) => void;
   displayDeleteModal: (id: string) => void;
+  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
+  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
+  filteredData: any[];
 }
 
 function ApprovedImages({
   setViewImageUrl,
   displayCancelModal,
   displayDeleteModal,
+  setSearchData,
+  setSearchKeys,
+  filteredData,
 }: ApprovedImagesProps) {
   const { data, error } = useGetAllGalleryItemsQuery();
   const list = Array.isArray(data?.data) ? data.data : [];
@@ -26,9 +32,15 @@ function ApprovedImages({
       (item: any) => item.is_approved === true
     );
   }
+
+  // Update parent with approved items and search keys
+  useEffect(() => {
+    setSearchData(approvedGalleryItems);
+    setSearchKeys(["User.name"]);
+  }, [approvedGalleryItems.length, setSearchData, setSearchKeys]);
   return (
     <DetailContainer className="max-h-[calc(100vh-369px)] md:max-h-[calc(100vh-252px)]">
-      {approvedGalleryItems.map((item: any, index: number) => (
+      {filteredData.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">

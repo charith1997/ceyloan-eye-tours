@@ -2,7 +2,7 @@ import Button from "@/components/atoms/Button";
 import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
 import { Plus } from "lucide-react";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -52,10 +52,18 @@ const SearchContainer = ({
     );
   }, [searchQuery, data, searchKeys]);
 
-  // Notify parent of filtered data
+  const prevFilteredRef = useRef<string | null>(null);
+
+  // Notify parent of filtered data only when it actually changes
   React.useEffect(() => {
-    onSearchChange?.(filteredData);
-  }, [searchQuery, onSearchChange]);
+    if (!onSearchChange) return;
+
+    const current = JSON.stringify(filteredData || []);
+    if (prevFilteredRef.current !== current) {
+      onSearchChange(filteredData);
+      prevFilteredRef.current = current;
+    }
+  }, [filteredData, onSearchChange]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);

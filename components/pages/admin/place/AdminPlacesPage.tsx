@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { BookText, MapPin } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -21,9 +21,13 @@ const AdminPlacesPage = () => {
   const { data } = useGetAllPlacesQuery();
   const places = Array.isArray(data?.data) ? data.data : [];
 
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredPlaces(filtered);
+  }, []);
+
   React.useEffect(() => {
     setFilteredPlaces(places);
-  }, [places]);
+  }, [places.length]);
 
   return (
     <>
@@ -35,7 +39,7 @@ const AdminPlacesPage = () => {
           onClick={() => setShowModal(true)}
           data={places}
           searchKeys={["name"]}
-          onSearchChange={setFilteredPlaces}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {filteredPlaces.map((place: any, index: number) => (

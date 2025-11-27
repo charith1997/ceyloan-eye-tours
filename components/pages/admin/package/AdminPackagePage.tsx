@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { CalendarDays, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -48,9 +48,15 @@ const AdminPackagePage = () => {
     }
   }, [isEdit, pkgPlaceData]);
 
+  // Memoized callback to handle search changes
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredProjects(filtered);
+  }, []);
+
+  // Initialize filtered projects on first load
   useEffect(() => {
     setFilteredProjects(packages);
-  }, [packages]);
+  }, [packages.length]);
 
   return (
     <>
@@ -62,7 +68,7 @@ const AdminPackagePage = () => {
           onClick={() => setShowModal(true)}
           data={packages}
           searchKeys={["title"]}
-          onSearchChange={setFilteredProjects}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
           {filteredProjects.map((item: any, index: number) => (

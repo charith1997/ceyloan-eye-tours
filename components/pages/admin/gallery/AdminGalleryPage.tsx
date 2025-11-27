@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -23,8 +23,15 @@ const AdminGalleryPage = () => {
   const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
   const [addImage, setAddImage] = useState(false);
+  const [searchData, setSearchData] = useState<any[]>([]);
+  const [searchKeys, setSearchKeys] = useState<string[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
+
+  const handleSearchChange = useCallback((filtered: any[]) => {
+    setFilteredData(filtered);
+  }, []);
 
   return (
     <>
@@ -34,6 +41,9 @@ const AdminGalleryPage = () => {
           title="Gallery"
           buttonName="Add Image"
           onClick={() => setAddImage(true)}
+          data={searchData}
+          searchKeys={searchKeys}
+          onSearchChange={handleSearchChange}
         />
 
         <div className="w-full ">
@@ -66,6 +76,9 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
+                setSearchData={setSearchData}
+                setSearchKeys={setSearchKeys}
+                filteredData={filteredData}
               />
             )}
             {activeTab === "tab2" && (
@@ -79,6 +92,9 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
+                setSearchData={setSearchData}
+                setSearchKeys={setSearchKeys}
+                filteredData={filteredData}
               />
             )}
           </div>
