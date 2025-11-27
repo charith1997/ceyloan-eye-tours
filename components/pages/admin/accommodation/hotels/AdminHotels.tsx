@@ -32,7 +32,11 @@ function AdminHotels({
             <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
               <div className="flex items-center gap-8">
                 <Image
-                  src={checkImageUrl(item?.images[0])}
+                  src={
+                    item.images.length > 0
+                      ? checkImageUrl(item?.images[0])
+                      : "/default-image.jpg"
+                  }
                   alt={`Tour ${item.id}`}
                   width={120}
                   height={100}

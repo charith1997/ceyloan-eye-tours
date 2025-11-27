@@ -17,13 +17,21 @@ const AddRoomDetails: React.FC<AddRoomDetailsProps> = ({ name, label }) => {
     const currentRooms = values[name] || [];
     if (currentRooms.length === 0) return 1;
 
-    // Find the highest existing room number
-    const existingNumbers = currentRooms.map((room: any) => {
-      const match = room.id?.match(/image_room(\d+)/);
-      return match ? parseInt(match[1]) : 0;
+    const nums: number[] = [];
+    currentRooms.forEach((room: any) => {
+      const candidates = [room.attachment?.id, room.id].filter(Boolean);
+      candidates.forEach((c: any) => {
+        const str = String(c);
+        const m = str.match(/(\d+)\s*$/);
+        if (m) nums.push(parseInt(m[1], 10));
+      });
     });
 
-    return Math.max(...existingNumbers, 0) + 1;
+    if (nums.length > 0) {
+      return Math.max(...nums) + 1;
+    }
+
+    return currentRooms.length + 1;
   };
 
   return (

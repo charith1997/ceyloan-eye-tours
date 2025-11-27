@@ -87,6 +87,18 @@ const AdminAccommodationPage = () => {
                   ...selectedHotel,
                   placeId: selectedHotel.place_id,
                   typeId: selectedHotel.type_id,
+                  roomsDetails: selectedHotel.rooms_details.map(
+                    (room: any) => ({
+                      beds: room.beds,
+                      members: room.members,
+                      room_type: room.room_type,
+                      size: room.size,
+                      description: room.description,
+                      attachment: { id: room.id, value: room.image },
+                      id: room.id,
+                      image: room.image,
+                    })
+                  ),
                 }
               : null
           }
@@ -94,14 +106,16 @@ const AdminAccommodationPage = () => {
         />
       )}
 
-      <DeleteHotel
-        show={deleteHotel}
-        onClose={() => {
-          setDeleteHotel(false);
-          setSelectedHotel(null);
-        }}
-        selectedID={selectedHotel ? selectedHotel.id : null}
-      />
+      {deleteHotel && (
+        <DeleteHotel
+          show={deleteHotel}
+          onClose={() => {
+            setDeleteHotel(false);
+            setSelectedHotel(null);
+          }}
+          selectedID={selectedHotel ? selectedHotel.id : null}
+        />
+      )}
 
       <AddHotelType
         show={showHotelTypeModal}

@@ -18,6 +18,7 @@ import StarRatingInput from "@/components/atoms/StarRatingInput";
 import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
 import { cancelBtnColor, saveBtnColor } from "@/styles/colors";
 import { isDifferent } from "@/utils/package";
+import { compareRoomDetails } from "@/utils/roomDiff";
 
 interface AddHotelProps {
   show: boolean;
@@ -206,6 +207,137 @@ function AddHotel({ show, onClose, initialValues, isEdit }: AddHotelProps) {
 
             if (removedImages.length > 0)
               formData.append("removeImages", JSON.stringify(removedImages));
+
+            // Handle room details changes
+            const hasRoomChanges = compareRoomDetails(
+              initialValues?.roomsDetails || [],
+              values.roomsDetails || []
+            );
+
+            if (hasRoomChanges) {
+              const removeRoomImages: string[] = [];
+              let hasNewRooms = false;
+              let hasAnyChanges = false;
+
+              // First pass: Check what type of changes exist
+              values.roomsDetails.forEach((currentRoom: any) => {
+                const initialRoom = initialValues?.roomsDetails?.find(
+                  (r: any) => r.id === currentRoom.id
+                );
+
+                if (!initialRoom) {
+                  hasNewRooms = true;
+                } else {
+                  const roomModified =
+                    initialRoom.room_type !== currentRoom.room_type ||
+                    initialRoom.size !== currentRoom.size ||
+                    String(initialRoom.beds) !== String(currentRoom.beds) ||
+                    String(initialRoom.members) !==
+                      String(currentRoom.members) ||
+                    JSON.stringify(initialRoom.description) !==
+                      JSON.stringify(currentRoom.description);
+
+                  const imageChanged =
+                    currentRoom.attachment?.value instanceof File &&
+                    typeof initialRoom.attachment?.value === "string";
+
+                  if (roomModified || imageChanged) {
+                    hasAnyChanges = true;
+                  }
+                }
+              });
+
+              // Check for removed rooms
+              initialValues?.roomsDetails?.forEach((initialRoom: any) => {
+                const stillExists = values.roomsDetails.find(
+                  (r: any) => r.id === initialRoom.id
+                );
+                if (!stillExists) {
+                  hasAnyChanges = true;
+                  // Room was removed - add its image to removal list
+                  if (initialRoom.attachment?.value) {
+                    removeRoomImages.push(initialRoom.attachment.value);
+                  }
+                }
+              });
+
+              // If there are any changes (new rooms, modifications, or image changes), send ALL rooms
+              if (hasNewRooms || hasAnyChanges) {
+                const allRooms = values.roomsDetails.map((room: any) => {
+                  const initialRoom = initialValues?.roomsDetails?.find(
+                    (r: any) => r.id === room.id
+                  );
+
+                  if (initialRoom) {
+                    // Existing room - check if image changed
+                    const imageChanged =
+                      room.attachment?.value instanceof File &&
+                      typeof initialRoom.attachment?.value === "string";
+
+                    if (imageChanged) {
+                      // Add old image to removal list
+                      removeRoomImages.push(initialRoom.attachment.value);
+
+                      // Append new image file
+                      if (room.attachment.value instanceof File) {
+                        formData.append(
+                          `image_${room.id}`,
+                          room.attachment.value
+                        );
+                      }
+
+                      // Return room details WITHOUT image field
+                      return {
+                        id: room.id,
+                        room_type: room.room_type,
+                        size: room.size,
+                        beds: room.beds,
+                        members: room.members,
+                        description: room.description,
+                      };
+                    } else {
+                      // Return room details WITH image field (unchanged)
+                      return {
+                        id: room.id,
+                        room_type: room.room_type,
+                        size: room.size,
+                        beds: room.beds,
+                        members: room.members,
+                        description: room.description,
+                        image: room.attachment?.value,
+                      };
+                    }
+                  } else {
+                    // New room - append image file
+                    if (room.attachment?.value instanceof File) {
+                      formData.append(
+                        `image_${room.id}`,
+                        room.attachment.value
+                      );
+                    }
+
+                    // Return room details WITHOUT image field
+                    return {
+                      id: room.id,
+                      room_type: room.room_type,
+                      size: room.size,
+                      beds: room.beds,
+                      members: room.members,
+                      description: room.description,
+                    };
+                  }
+                });
+
+                formData.append("roomsDetails", JSON.stringify(allRooms));
+              }
+
+              if (removeRoomImages.length > 0) {
+                formData.append(
+                  "removeRoomImages",
+                  JSON.stringify(removeRoomImages)
+                );
+              }
+            }
 
             if ([...formData.keys()].length === 0) {
               toast("No changes detected");
