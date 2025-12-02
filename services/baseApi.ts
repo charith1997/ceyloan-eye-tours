@@ -24,6 +24,7 @@ export const baseApi = createApi({
     "PlaceActivities",
     "Places",
     "Vehicles",
+    "User",
   ],
   endpoints: () => ({}),
 });

@@ -177,7 +177,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     <ChevronDown size={16} className="ml-1" />
                   </button>
 
-                  {/* Dropdown menu */}
                   <div
                     className={`absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 transition-all duration-200 ${
                       activeDropdown === item.label
@@ -239,10 +238,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
                   {userDetails?.userName}
                 </div>
               </div>
-              <div className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer">
+              <Link
+                href="/profile"
+                onClick={() => setShowModal(false)}
+                className="flex text-black gap-2 items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+              >
                 <CircleUser width={20} height={20} />
                 <h6>My Profile</h6>
-              </div>
+              </Link>
               <Link
                 href="/custom-packages"
                 onClick={() => setShowModal(false)}

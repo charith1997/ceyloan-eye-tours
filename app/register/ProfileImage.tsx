@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { use, useEffect, useState } from "react";
 import { User, Upload } from "lucide-react";
 import Image from "next/image";
+import { checkImageUrl } from "@/utils/common";
 
 interface ProfileImageProps {
   updateProfileImage: (file: File) => void;
+  disabled?: boolean;
+  initialImageUrl?: string;
 }
 
-function ProfileImage({ updateProfileImage }: ProfileImageProps) {
-  const [imagePreview, setImagePreview] = useState(null);
+function ProfileImage({
+  updateProfileImage,
+  disabled,
+  initialImageUrl,
+}: ProfileImageProps) {
+  const [imagePreview, setImagePreview] = useState<any | null>(null);
 
   const handleImageChange = (event: any) => {
     const file = event.target.files[0];
@@ -21,14 +30,25 @@ function ProfileImage({ updateProfileImage }: ProfileImageProps) {
       reader.readAsDataURL(file);
     }
   };
+
+  useEffect(() => {
+    if (initialImageUrl) {
+      setImagePreview(initialImageUrl);
+    }
+  }, [initialImageUrl]);
+
   return (
     <div>
       <div className="flex justify-center">
         <div className="relative">
-          <div className="w-24 h-24 rounded-full border-1 border-dashed border-gray-400 flex items-center justify-center overflow-hidden bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer">
+          <div
+            className={`w-24 h-24 rounded-full border-1 border-dashed border-gray-400 flex items-center justify-center overflow-hidden bg-gray-50 hover:bg-gray-100 transition-colors duration-200 ${
+              disabled ? "cursor-not-allowed" : "cursor-pointer"
+            }`}
+          >
             {imagePreview ? (
               <Image
-                src={imagePreview}
+                src={checkImageUrl(imagePreview)}
                 alt="Avatar preview"
                 className="w-full h-full object-cover rounded-full"
                 width={96}
@@ -42,7 +62,10 @@ function ProfileImage({ updateProfileImage }: ProfileImageProps) {
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              className={`absolute inset-0 w-full h-full opacity-0 ${
+                disabled ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
+              disabled={disabled}
             />
           </div>
 
