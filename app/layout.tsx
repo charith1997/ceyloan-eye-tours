@@ -46,7 +46,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  if (pathName === "/register" || pathName === "/login") {
+  if (
+    pathName === "/register" ||
+    pathName === "/login" ||
+    pathName === "/forgot-password" ||
+    pathName === "/reset-password"
+  ) {
     return <main>{children}</main>;
   }
 

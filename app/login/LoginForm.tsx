@@ -59,8 +59,8 @@ const LoginForm = () => {
           placeholder="Enter password"
           className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
         />
-        <div className="flex justify-between text-sm text-gray-600">
-          <div className="flex items-center">
+        <div className="flex justify-end text-sm text-gray-600">
+          {/* <div className="flex items-center">
             <input
               type="checkbox"
               id="rememberMe"
@@ -73,10 +73,10 @@ const LoginForm = () => {
             >
               Remember for 30 days
             </label>
-          </div>
+          </div> */}
           <div>
             <Link
-              href="#"
+              href="/forgot-password"
               className="text-red-500 hover:text-red-600 underline"
             >
               Forgot password?

@@ -131,12 +131,18 @@ function Header({ bgClass, pathname }: HeaderProps) {
         <div
           className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
         >
-          <span>
-            {loggedUserDetails?.name
-              .split(" ")
-              .map((word: string) => word[0])
-              .join("")}
-          </span>
+          <>
+            {loggedUserDetails?.name ? (
+              <span>
+                {loggedUserDetails?.name
+                  .split(" ")
+                  .map((word: string) => word[0])
+                  .join("")}
+              </span>
+            ) : (
+              <span className="font-medium text-gray-600 dark:text-gray-300"></span>
+            )}
+          </>
         </div>
       )}
     </div>
@@ -218,7 +224,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             </Link>
           </div>
         )}
-        {isLogged && userImage(10, 10)}
+        {isLogged && loggedUserDetails && userImage(10, 10)}
 
         {showModal && (
           <div
