@@ -13,11 +13,12 @@ import {
   Package,
 } from "lucide-react";
 import Button from "@/components/atoms/Button";
-import { getUserDetails } from "@/utils/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/authSlice";
 import { RootState } from "@/store";
 import Image from "next/image";
+import { useGetUserDetailQuery } from "@/services/userApi";
+import { checkImageUrl } from "@/utils/common";
 
 export default function HeaderWrapper() {
   const pathname = usePathname();
@@ -61,8 +62,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [userDetails, setUserDetails] = useState<any>(null);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const { data } = useGetUserDetailQuery();
+  const loggedUserDetails = data?.data ?? {};
 
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -84,15 +87,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
     setShowModal(false);
     router.push("/");
   };
-
-  useEffect(() => {
-    const userDetails = getUserDetails();
-    if (userDetails) {
-      setUserDetails(userDetails);
-    } else {
-      setUserDetails(null);
-    }
-  }, [isLogged]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -125,10 +119,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
       onClick={toggleModal}
       className="cursor-pointer user-profile-icon hidden md:flex"
     >
-      {userDetails && userDetails?.profileImage ? (
+      {loggedUserDetails?.profile_image ? (
         <Image
-          className={`w-${width} h-${height} p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
-          src={userDetails?.profileImage}
+          className={`w-${width} h-${height} rounded-full `}
+          src={checkImageUrl(loggedUserDetails?.profile_image)}
           alt="Bordered avatar"
           width={40}
           height={40}
@@ -138,7 +132,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
           className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
         >
           <span>
-            {userDetails?.userName
+            {loggedUserDetails?.name
               .split(" ")
               .map((word: string) => word[0])
               .join("")}
@@ -233,9 +227,9 @@ function Header({ bgClass, pathname }: HeaderProps) {
           >
             <div className="flex flex-col w-full gap-1">
               <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
-                {userImage(8, 8)}
+                {userImage(10, 10)}
                 <div className="font-semibold text-lg text-black">
-                  {userDetails?.userName}
+                  {loggedUserDetails?.name}
                 </div>
               </div>
               <Link

@@ -35,14 +35,25 @@ const validationSchema = Yup.object().shape({
     .min(5, "Passport number must be at least 5 characters")
     .required("Passport number is required"),
   profileImage: Yup.mixed().nullable(),
-  // password: Yup.string().min(6, "Password must be at least 6 characters"),
-  // confirmPassword: Yup.string().when("password", (password) => {
-  //   return password
-  //     ? Yup.string()
-  //         .oneOf([Yup.ref("password")], "Passwords must match")
-  //         .required("Confirm password is required")
-  //     : Yup.string();
-  // }),
+  password: Yup.string()
+    .transform((value) => (value === "" ? undefined : value))
+    .test(
+      "password-length",
+      "Password must be at least 6 characters",
+      (value) => {
+        if (!value) return true;
+        return typeof value === "string" && value.length >= 6;
+      }
+    ),
+
+  confirmPassword: Yup.string().when("password", {
+    is: (password: any) => !!password,
+    then: (schema) =>
+      schema
+        .required("Confirm password is required")
+        .oneOf([Yup.ref("password")], "Passwords must match"),
+    otherwise: (schema) => schema.notRequired(),
+  }),
 });
 
 const ProfileForm = ({ initialValues }: { initialValues: any }) => {
@@ -216,7 +227,7 @@ const ProfileForm = ({ initialValues }: { initialValues: any }) => {
                       New Password
                     </label>
                     <FormikInput
-                      label="New Password"
+                      label=""
                       name="password"
                       type="password"
                       placeholder="Enter new password"
@@ -229,7 +240,7 @@ const ProfileForm = ({ initialValues }: { initialValues: any }) => {
                       Confirm Password
                     </label>
                     <FormikInput
-                      label="Confirm Password"
+                      label=""
                       name="confirmPassword"
                       type="password"
                       placeholder="Confirm new password"
