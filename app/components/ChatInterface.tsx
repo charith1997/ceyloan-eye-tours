@@ -1,132 +1,35 @@
 import React, { useState } from "react";
 import { Search, Send, ChevronDown, ArrowLeft, Menu } from "lucide-react";
-
-interface Message {
-  id: string;
-  text: string;
-  timestamp: string;
-  isOwn: boolean;
-}
+import { useGetSingleChatQuery } from "@/services/chatApi";
 
 interface Contact {
   id: string;
-  name: string;
-  avatar: string;
-  lastMessage: string;
-  timestamp: string;
+  message: string;
+  sender_id: string;
+  receiver_id: string;
+  created_at: string;
+  user: {
+    id: string;
+    name: string;
+  };
   isOnline?: boolean;
-  unreadCount?: number;
 }
 
 interface ChatInterfaceProps {
   className?: string;
+  contacts: Contact[];
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
+const ChatInterface: React.FC<ChatInterfaceProps> = ({
+  className = "",
+  contacts,
+}) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [messageInput, setMessageInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSidebar, setShowSidebar] = useState(false);
   const [showMessages, setShowMessages] = useState(true);
-
-  // Sample data
-  const contacts: Contact[] = [
-    {
-      id: "1",
-      name: "Elmer Laverty",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "Haha oh man 🔥",
-      timestamp: "12m",
-      unreadCount: 1,
-    },
-    {
-      id: "2",
-      name: "Florencio Dorrance",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "woohoooo",
-      timestamp: "24m",
-      isOnline: true,
-    },
-    {
-      id: "3",
-      name: "Lavern Laboy",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "Haha that's terrifying 😅",
-      timestamp: "1h",
-    },
-    {
-      id: "4",
-      name: "Titus Kitamura",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "omg, this is amazing",
-      timestamp: "5h",
-    },
-    {
-      id: "5",
-      name: "Geoffrey Mott",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "aww 😊",
-      timestamp: "2d",
-    },
-    {
-      id: "6",
-      name: "Alfonzo Schuessler",
-      avatar: "/api/placeholder/40/40",
-      lastMessage: "perfect!",
-      timestamp: "1m",
-    },
-  ];
-
-  const messages: Message[] = [
-    {
-      id: "1",
-      text: "omg, this is amazing",
-      timestamp: "2:30 PM",
-      isOwn: false,
-    },
-    { id: "2", text: "perfect! ✅", timestamp: "2:31 PM", isOwn: false },
-    {
-      id: "3",
-      text: "Wow, this is really epic",
-      timestamp: "2:32 PM",
-      isOwn: false,
-    },
-    {
-      id: "4",
-      text: "just ideas for next time",
-      timestamp: "2:35 PM",
-      isOwn: false,
-    },
-    {
-      id: "5",
-      text: "I'll be there in 2 mins ⏰",
-      timestamp: "2:36 PM",
-      isOwn: false,
-    },
-    { id: "6", text: "How are you?", timestamp: "2:40 PM", isOwn: true },
-    { id: "7", text: "woohoooo", timestamp: "2:41 PM", isOwn: true },
-    { id: "8", text: "Haha oh man", timestamp: "2:42 PM", isOwn: true },
-    { id: "9", text: "Haha that's", timestamp: "2:43 PM", isOwn: true },
-    { id: "10", text: "aww", timestamp: "2:45 PM", isOwn: false },
-    {
-      id: "11",
-      text: "omg, this is amazing",
-      timestamp: "2:46 PM",
-      isOwn: false,
-    },
-    { id: "12", text: "woohoooo 🔥", timestamp: "2:47 PM", isOwn: false },
-  ];
-
-  const navigationItems = [
-    { name: "Home", active: false },
-    { name: "Tours", active: false },
-    { name: "Hotels", active: false },
-    { name: "Vehicales", active: false },
-    { name: "Orders", active: false },
-    { name: "Chats", active: true },
-    { name: "Gallery", active: false },
-    { name: "Places", active: false },
-  ];
+  const { data } = useGetSingleChatQuery(selectedContact?.sender_id || null);
+  const chats = Array.isArray(data?.data) ? data.data : [];
 
   const handleSelectContact = (contact: Contact) => {
     setSelectedContact(contact);
@@ -151,12 +54,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
     }
   };
 
+  const currentUser = (senderId: string, userId: string) => {
+    if (senderId === userId) return false;
+    return true;
+  };
+
   return (
     <div className={`flex h-screen bg-gray-100 ${className}`}>
       <div
         className={`${
           showMessages ? "flex" : "hidden"
-        } lg:flex w-full lg:w-80 bg-white border-r border-gray-200 flex-col`}
+        } lg:flex w-full md:w-80 bg-white border-r border-gray-200 flex-col`}
       >
         <div className="p-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
@@ -178,50 +86,47 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto">
-          {contacts.map((contact) => (
-            <div
-              key={contact.id}
-              onClick={() => handleSelectContact(contact)}
-              className={`flex items-center p-4 cursor-pointer hover:bg-gray-50 ${
-                selectedContact?.id === contact.id ? "bg-gray-50" : ""
-              }`}
-            >
-              <div className="relative">
-                <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-medium text-gray-600">
-                    {contact.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}
-                  </span>
+        <div className="flex-1 w-auto">
+          {contacts.length > 0 &&
+            contacts.map((contact) => (
+              <div
+                key={contact.id}
+                onClick={() => handleSelectContact(contact)}
+                className={`flex items-center p-4 cursor-pointer hover:bg-gray-50 w-full ${
+                  selectedContact?.id === contact.id ? "bg-gray-50" : ""
+                }`}
+              >
+                <div className="relative">
+                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                    <span className="text-sm font-medium text-gray-600">
+                      {contact.user.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")}
+                    </span>
+                  </div>
+                  {contact.isOnline && (
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                  )}
                 </div>
-                {contact.isOnline && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
-                )}
-              </div>
 
-              <div className="ml-3 flex-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-medium text-gray-900">{contact.name}</h3>
-                  <span className="text-sm text-gray-500">
-                    {contact.timestamp}
-                  </span>
+                <div className="ml-3 flex-1 w-1">
+                  <div className="flex items-center justify-between w-auto">
+                    <h3 className="font-medium text-gray-900 truncate">
+                      {contact.user.name}
+                    </h3>
+                    <span className="text-sm text-gray-500">24m</span>
+                  </div>
+                  <p className="text-sm text-gray-500 truncate">
+                    {contact.message}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-500 truncate">
-                  {contact.lastMessage}
-                </p>
-              </div>
 
-              {contact.unreadCount && (
                 <div className="ml-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-white">
-                    {contact.unreadCount}
-                  </span>
+                  <span className="text-xs text-white">1</span>
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ))}
         </div>
       </div>
 
@@ -243,7 +148,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                 <div className="relative">
                   <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
                     <span className="text-sm font-medium text-gray-600">
-                      {selectedContact.name
+                      {selectedContact.user.name
                         .split(" ")
                         .map((n) => n[0])
                         .join("")}
@@ -255,7 +160,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                 </div>
                 <div className="ml-3">
                   <h3 className="font-medium text-gray-900">
-                    {selectedContact.name}
+                    {selectedContact.user.name}
                   </h3>
                   <p className="text-sm text-green-500">Online</p>
                 </div>
@@ -264,17 +169,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {messages.map((message) => (
+              {chats.map((chat: any) => (
                 <div
-                  key={message.id}
+                  key={chat.id}
                   className={`flex ${
-                    message.isOwn ? "justify-end" : "justify-start"
+                    currentUser(chat.sender_id, chat.user_id)
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
-                  {!message.isOwn && (
+                  {!currentUser(chat.sender_id, chat.user_id) && (
                     <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
                       <span className="text-xs font-medium text-gray-600">
-                        {selectedContact.name
+                        {selectedContact.user.name
                           .split(" ")
                           .map((n) => n[0])
                           .join("")}
@@ -283,14 +190,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                   )}
                   <div
                     className={`max-w-xs sm:max-w-md px-4 py-2 rounded-lg ${
-                      message.isOwn
+                      currentUser(chat.sender_id, chat.user_id)
                         ? "bg-orange-500 text-white rounded-br-none"
                         : "bg-gray-200 text-gray-900 rounded-bl-none"
                     }`}
                   >
-                    <p className="text-sm sm:text-base">{message.text}</p>
+                    <p className="text-sm sm:text-base">{chat.message}</p>
                   </div>
-                  {message.isOwn && (
+                  {currentUser(chat.sender_id, chat.user_id) && (
                     <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center ml-3 flex-shrink-0">
                       <span className="text-xs font-medium text-gray-600">
                         You
