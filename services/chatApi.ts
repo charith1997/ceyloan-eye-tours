@@ -17,4 +17,4 @@ const chatApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetAdminChatsQuery, useGetSingleChatQuery } = chatApi;
+export const { useGetAdminChatsQuery, useGetSingleChatQuery, useLazyGetSingleChatQuery, useLazyGetAdminChatsQuery } = chatApi;

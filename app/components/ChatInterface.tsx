@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Send, ChevronDown, ArrowLeft, Menu } from "lucide-react";
-import { useGetSingleChatQuery } from "@/services/chatApi";
+import {
+  useGetAdminChatsQuery,
+  useLazyGetAdminChatsQuery,
+  useLazyGetSingleChatQuery,
+} from "@/services/chatApi";
+import io from "socket.io-client";
+import { getUserDetails } from "@/utils/auth";
 
 interface Contact {
   id: string;
@@ -15,25 +21,50 @@ interface Contact {
   isOnline?: boolean;
 }
 
-interface ChatInterfaceProps {
-  className?: string;
-  contacts: Contact[];
+interface Chat {
+  id: string;
+  message: string;
+  sender_id: string;
+  receiver_id: string;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
 }
 
-const ChatInterface: React.FC<ChatInterfaceProps> = ({
-  className = "",
-  contacts,
-}) => {
+interface ChatInterfaceProps {
+  className?: string;
+}
+const backendUrl = "http://localhost:3000";
+
+const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
   const [messageInput, setMessageInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showMessages, setShowMessages] = useState(true);
-  const { data } = useGetSingleChatQuery(selectedContact?.sender_id || null);
-  const chats = Array.isArray(data?.data) ? data.data : [];
+  const [socket, setSocket] = useState<any | null>(null);
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
-  const handleSelectContact = (contact: Contact) => {
+  const [getUserMessages] = useLazyGetSingleChatQuery();
+  const [getAllChats] = useLazyGetAdminChatsQuery();
+  const { userId } = getUserDetails();
+  const { data } = useGetAdminChatsQuery();
+  const allContacts = Array.isArray(data?.data) ? data.data : [];
+
+  const handleSelectContact = async (contact: Contact) => {
+    const { data } = await getUserMessages(contact.user.id);
+    if (data.success) setChats(data.data);
+
     setSelectedContact(contact);
-    setShowMessages(false); // Hide messages list on mobile when chat is selected
+    setShowMessages(false);
+  };
+
+  const getChat = async (id: string) => {
+    const { data } = await getUserMessages(id);
+    if (data.success) setChats(data.data);
+
+    const { data: chatList } = await getAllChats();
+    if (chatList.success) setContacts(chatList.data);
   };
 
   const handleBackToMessages = () => {
@@ -42,8 +73,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   const handleSendMessage = () => {
+    const data = {
+      senderId: userId,
+      receiverId: selectedContact?.user.id,
+      userId: selectedContact?.user.id,
+      message: messageInput,
+    };
+
+    socket.emit("sendMessage", data);
+
     if (messageInput.trim()) {
-      // Handle message sending logic here
       setMessageInput("");
     }
   };
@@ -58,6 +97,26 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (senderId === userId) return false;
     return true;
   };
+
+  useEffect((): any => {
+    const s = io(backendUrl);
+    setSocket(s);
+
+    s.emit("join", { id: userId });
+
+    s.on("messageReceived", (data) => {
+      if (data) {
+        getChat(data.to);
+      }
+    });
+    return () => s.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (allContacts) {
+      setContacts(allContacts);
+    }
+  }, [allContacts]);
 
   return (
     <div className={`flex h-screen bg-gray-100 ${className}`}>
@@ -88,7 +147,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
         <div className="flex-1 w-auto">
           {contacts.length > 0 &&
-            contacts.map((contact) => (
+            contacts.map((contact: Contact) => (
               <div
                 key={contact.id}
                 onClick={() => handleSelectContact(contact)}
@@ -169,7 +228,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {chats.map((chat: any) => (
+              {chats.map((chat: Chat) => (
                 <div
                   key={chat.id}
                   className={`flex ${
