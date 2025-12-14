@@ -17,7 +17,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/authSlice";
 import { RootState } from "@/store";
 import Image from "next/image";
-import { useGetUserDetailQuery } from "@/services/userApi";
+import {
+  useGetUserDetailQuery,
+  useLazyGetUserDetailQuery,
+} from "@/services/userApi";
 import { checkImageUrl } from "@/utils/common";
 
 export default function HeaderWrapper() {
@@ -58,20 +61,32 @@ type HeaderProps = {
   pathname: string;
 };
 
+type UserDetails = {
+  profile_image: string;
+  name: string;
+};
+
 function Header({ bgClass, pathname }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-
-  const { data } = useGetUserDetailQuery();
-  const loggedUserDetails = data?.data ?? {};
+  const [userDetails, setUserDetails] = useState<UserDetails>({
+    profile_image: "",
+    name: "",
+  });
 
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [getDetails] = useLazyGetUserDetailQuery();
 
   const dispatch = useDispatch();
   const isLogged = useSelector((state: RootState) => state.auth.isLogged);
+
+  const getLoggedUserDetails = async () => {
+    const { data } = await getDetails();
+    if (data.success) setUserDetails(data.data);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,6 +102,12 @@ function Header({ bgClass, pathname }: HeaderProps) {
     setShowModal(false);
     router.push("/");
   };
+
+  useEffect(() => {
+    if (isLogged) {
+      getLoggedUserDetails();
+    }
+  }, [isLogged]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -119,10 +140,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
       onClick={toggleModal}
       className="cursor-pointer user-profile-icon hidden md:flex"
     >
-      {loggedUserDetails?.profile_image ? (
+      {userDetails?.profile_image ? (
         <Image
           className={`w-${width} h-${height} rounded-full `}
-          src={checkImageUrl(loggedUserDetails?.profile_image)}
+          src={checkImageUrl(userDetails?.profile_image)}
           alt="Bordered avatar"
           width={40}
           height={40}
@@ -132,9 +153,9 @@ function Header({ bgClass, pathname }: HeaderProps) {
           className={`relative inline-flex items-center justify-center w-${width} h-${height} overflow-hidden bg-gray-100 rounded-full dark:bg-gray-500`}
         >
           <>
-            {loggedUserDetails?.name ? (
+            {userDetails?.name ? (
               <span>
-                {loggedUserDetails?.name
+                {userDetails?.name
                   .split(" ")
                   .map((word: string) => word[0])
                   .join("")}
@@ -224,7 +245,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             </Link>
           </div>
         )}
-        {isLogged && loggedUserDetails && userImage(10, 10)}
+        {isLogged && userDetails && userImage(10, 10)}
 
         {showModal && (
           <div
@@ -235,7 +256,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
               <div className="flex items-center gap-2 border-b-2 pb-2 border-gray-200">
                 {userImage(10, 10)}
                 <div className="font-semibold text-lg text-black">
-                  {loggedUserDetails?.name}
+                  {userDetails?.name}
                 </div>
               </div>
               <Link

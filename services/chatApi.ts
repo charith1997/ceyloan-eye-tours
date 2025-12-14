@@ -14,7 +14,20 @@ const chatApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getUserChats: builder.query<any, void>({
+      query: () => ({
+        url: "/chats",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useGetAdminChatsQuery, useGetSingleChatQuery, useLazyGetSingleChatQuery, useLazyGetAdminChatsQuery } = chatApi;
+export const {
+  useGetAdminChatsQuery,
+  useGetSingleChatQuery,
+  useLazyGetSingleChatQuery,
+  useLazyGetAdminChatsQuery,
+  useGetUserChatsQuery,
+  useLazyGetUserChatsQuery,
+} = chatApi;

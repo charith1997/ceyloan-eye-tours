@@ -10,7 +10,6 @@ import { useRegisterMutation } from "@/services/authApi";
 import toast from "react-hot-toast";
 import ProfileImage from "./ProfileImage";
 
-
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("* Name is required"),
   email: Yup.string().email("* Invalid email").required("* Email is required"),
@@ -44,7 +43,7 @@ const SignUpForm = () => {
         phoneNo: "",
         password: "",
         repeatPassword: "",
-        profileImage: null
+        profileImage: null,
       }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {

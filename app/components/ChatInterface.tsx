@@ -34,7 +34,7 @@ interface Chat {
 interface ChatInterfaceProps {
   className?: string;
 }
-const backendUrl = "http://localhost:3000";
+const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);

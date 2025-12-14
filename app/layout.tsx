@@ -13,6 +13,7 @@ import GlobalLoader from "@/components/organisams/GlobalLoader";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { login, logout } from "@/features/authSlice";
+import ChatWidget from "./components/ChatWidget";
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -52,7 +53,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     pathName === "/forgot-password" ||
     pathName === "/reset-password"
   ) {
-    return <main>{children}</main>;
+    return (
+      <main>
+        {children}
+        <ChatWidget />
+      </main>
+    );
   }
 
   if (userRole === "admin") {
@@ -64,6 +70,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <Header />
       {children}
       <Footer />
+      <ChatWidget />
     </main>
   );
 }
