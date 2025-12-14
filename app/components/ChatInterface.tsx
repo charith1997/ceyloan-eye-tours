@@ -73,6 +73,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
     }
   }, [selectedContact]);
 
+  const filteredContacts = contacts.filter((contact) => {
+    const searchLower = searchQuery.toLowerCase().trim();
+    if (!searchLower) return true;
+
+    const nameMatch = contact.user.name.toLowerCase().includes(searchLower);
+
+    return nameMatch;
+  });
+
   const handleSelectContact = async (contact: Contact) => {
     const { data } = await getUserMessages(contact.user.id);
     if (data.success) setChats(data.data);
@@ -151,7 +160,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold flex items-center">
               Messages
-              <ChevronDown className="ml-2 h-4 w-4" />
             </h2>
           </div>
 
@@ -168,8 +176,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
         </div>
 
         <div className="flex-1 w-auto">
-          {contacts.length > 0 &&
-            contacts.map((contact: Contact) => (
+          {filteredContacts.length > 0 ? (
+            filteredContacts.map((contact: Contact) => (
               <div
                 key={contact.id}
                 onClick={() => handleSelectContact(contact)}
@@ -204,7 +212,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                   <span className="text-xs text-white">1</span>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center p-8 text-center">
+              <Search className="h-12 w-12 text-gray-300 mb-3" />
+              <p className="text-gray-500 text-sm">No contacts found</p>
+              {searchQuery && (
+                <p className="text-gray-400 text-xs mt-1">
+                  Try searching with a different keyword
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -289,7 +308,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
               </>
             </div>
 
-            {/* Message Input */}
             <div className="bg-white border-t border-gray-200 p-4">
               <div className="flex items-center space-x-2">
                 <button className="text-gray-500 hover:text-gray-700 hidden sm:block">
