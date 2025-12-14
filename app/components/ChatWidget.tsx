@@ -14,20 +14,36 @@ const ChatWidget = () => {
   const [socket, setSocket] = useState<any | null>(null);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const [getUserChats] = useLazyGetUserChatsQuery();
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+
   const isLogged = useSelector(
     (state: RootState) => state.auth.isLogged || false
   );
+
+  const [getUserChats] = useLazyGetUserChatsQuery();
   const { userId } = getUserDetails();
   const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const scrollToBottom = (): void => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      // Small delay to ensure DOM is rendered
+      setTimeout(() => {
+        scrollToBottom();
+      }, 100);
+    }
+  }, [isOpen]);
 
   const handleClose = (): void => {
     setIsOpen(false);
@@ -91,6 +107,23 @@ const ChatWidget = () => {
     return () => s.disconnect();
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Element;
+      if (chatBoxRef.current && !chatBoxRef.current.contains(target)) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
       {!isOpen && (
@@ -105,8 +138,11 @@ const ChatWidget = () => {
       )}
 
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col z-50 border border-gray-200">
-          <div className="bg-gradient-to-r from-red to-orange text-white p-4 rounded-t-lg flex justify-between items-center">
+        <div
+          ref={chatBoxRef}
+          className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col z-50 border border-gray-200"
+        >
+          <div className="bg-red-500 text-white p-4 rounded-t-lg flex justify-between items-center">
             <div>
               <h3 className="font-semibold text-lg">Jwing Tours Support</h3>
               <p className="text-xs">We&apos;re here to help!</p>
@@ -122,7 +158,11 @@ const ChatWidget = () => {
           </div>
 
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+          <div
+            ref={messagesContainerRef}
+            className="flex-1 overflow-y-auto p-4 bg-gray-50"
+            style={{ scrollBehavior: "smooth" }}
+          >
             {!isLogged ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
@@ -166,7 +206,7 @@ const ChatWidget = () => {
                     <div
                       className={`max-w-[75%] rounded-lg p-3 ${
                         currentUser(message.receiver_id, message.user_id)
-                          ? "bg-blue-600 text-white"
+                          ? "bg-orange-500 text-white"
                           : "bg-white text-gray-800 border border-gray-200"
                       }`}
                     >
@@ -194,7 +234,7 @@ const ChatWidget = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg px-4 py-2 transition-colors"
+                  className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-4 py-2 transition-colors"
                   aria-label="Send message"
                 >
                   <Send size={20} />
