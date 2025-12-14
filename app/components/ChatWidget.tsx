@@ -109,7 +109,7 @@ const ChatWidget = () => {
           <div className="bg-gradient-to-r from-red to-orange text-white p-4 rounded-t-lg flex justify-between items-center">
             <div>
               <h3 className="font-semibold text-lg">Jwing Tours Support</h3>
-              <p className="text-xs">We're here to help!</p>
+              <p className="text-xs">We&apos;re here to help!</p>
             </div>
             <button
               onClick={handleClose}
