@@ -7,8 +7,10 @@ import Link from "next/link";
 import { useLoginMutation } from "@/services/authApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { login as setLogin } from "@/features/authSlice";
+import { clearRedirectPath, login as setLogin } from "@/features/authSlice";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { getUserRole } from "@/utils/auth";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("* Invalid email").required("* Email is required"),
@@ -21,6 +23,8 @@ const LoginForm = () => {
   const [login] = useLoginMutation();
   const router = useRouter();
   const dispatch = useDispatch();
+  const redirectPath = useAppSelector((state) => state.auth.redirectPath);
+
   return (
     <Formik
       initialValues={{
@@ -32,12 +36,20 @@ const LoginForm = () => {
         try {
           const response: any = await login(values).unwrap();
           toast.success(response?.message);
-          resetForm();
           if (response.data) {
             localStorage.setItem("authToken", response.data);
             dispatch(setLogin());
+            const destination = redirectPath || "/";
+            dispatch(clearRedirectPath());
+            const role = getUserRole();
+
+            if (role === "admin") {
+              router.push("/");
+            } else {
+              router.push(destination);
+            }
+            resetForm();
           }
-          router.push("/");
         } catch (error: any) {
           toast.error(error?.data?.message);
         } finally {

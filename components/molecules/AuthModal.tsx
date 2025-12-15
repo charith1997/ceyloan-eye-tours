@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
 import Button from "@/components/atoms/Button";
 import Modal from "./Modal";
+import { usePathname, useRouter } from "next/navigation";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { setRedirectPath } from "@/features/authSlice";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -15,10 +17,14 @@ export default function AuthModal({
   message = "Please log in to continue",
   onClose,
 }: AuthModalProps) {
+  const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   if (!isOpen) return null;
 
   const handleLogin = () => {
-    window.location.href = "/login";
+    dispatch(setRedirectPath(pathname));
+    router.push("/login");
   };
 
   return (

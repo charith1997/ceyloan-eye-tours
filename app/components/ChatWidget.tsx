@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { getUserDetails } from "@/utils/auth";
 import io from "socket.io-client";
+import Link from "next/link";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -176,15 +177,12 @@ const ChatWidget = () => {
                   <p className="text-gray-600 text-sm mb-4">
                     You need to be logged in to use the chat feature.
                   </p>
-                  <button
-                    onClick={() => {
-                      window.location.href = "/login";
-                    }}
+                  <Link
+                    href="/login"
                     className="bg-gradient-to-r from-red to-orange text-white px-6 py-2 rounded-lg"
-                    type="button"
                   >
                     Log In
-                  </button>
+                  </Link>
                 </div>
               </div>
             ) : (
