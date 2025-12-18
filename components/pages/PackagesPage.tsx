@@ -1,16 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import CTAButton from "@/components/molecules/CTAButton";
-import { useGetAllPackagesQuery } from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
 import DetailCardGrid from "../organisams/DetailCardGrid";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useLazyGetAllPackagesPaginatedQuery } from "@/services/packageApi";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const PackagesPage = () => {
-  const { data } = useGetAllPackagesQuery();
-  const packages = Array.isArray(data?.data) ? data.data : [];
+  const [packages, setPackages] = useState<any[]>([]);
+  const [getAllPackagesPaginated] = useLazyGetAllPackagesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPackages = async () => {
+    const { data } = await getAllPackagesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPackages(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPackages();
+    }
+  }, [currentPage]);
 
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">

@@ -1,15 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
-import CTAButton from "../molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
-import { useGetAllPlacesWithHotelsQuery } from "@/services/placesApi";
+import { useLazyGetAllPlacesWithHotelPaginatedQuery } from "@/services/placesApi";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
+import PageContainer from "../containers/PageContainer";
 
 function PlacesPage() {
-  const { data } = useGetAllPlacesWithHotelsQuery();
-  const places = Array.isArray(data?.data) ? data.data : [];
+  const [places, setPlaces] = useState<any[]>([]);
+  const [getAllPlacesWithHotelPaginated] =
+    useLazyGetAllPlacesWithHotelPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPlaces = async () => {
+    const { data } = await getAllPlacesWithHotelPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPlaces(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPlaces();
+    }
+  }, [currentPage]);
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title="Places Page"
         description="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
@@ -43,9 +67,8 @@ function PlacesPage() {
             </div>
           )}
         </CardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

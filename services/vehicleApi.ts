@@ -32,6 +32,14 @@ export const vehicleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Vehicles"],
     }),
+    getAllVehiclesPaginated: builder.query<any, { page: number; size: number }>(
+      {
+        query: ({ page, size }) => {
+          let url = `/vehicles/get-all-paginated?page=${page}&size=${size}`;
+          return url;
+        },
+      }
+    ),
   }),
 });
 
@@ -41,4 +49,6 @@ export const {
   useCreateVehicleMutation,
   useUpdateVehicleMutation,
   useDeleteVehicleMutation,
+  useGetAllVehiclesPaginatedQuery,
+  useLazyGetAllVehiclesPaginatedQuery,
 } = vehicleApi;

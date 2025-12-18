@@ -45,7 +45,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         <div className="flex items-center gap-2">
           {image ? (
             <Image
-              className={`w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500`}
+              className={`w-10 h-10 p-1 rounded-full ring-gray-300 dark:ring-gray-500`}
               src={checkImageUrl(image)}
               alt={name}
               width={40}
@@ -69,7 +69,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </div>
 
         <div className="flex items-center gap-1">
-          <div className="flex items-center gap-0.5">{renderStars(rating, maxRating)}</div>
+          <div className="flex items-center gap-0.5">
+            {renderStars(rating, maxRating)}
+          </div>
           <span className="text-sm font-medium text-gray-700 ml-1">
             {rating}
           </span>

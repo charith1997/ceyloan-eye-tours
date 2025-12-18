@@ -43,6 +43,24 @@ export const placesApi = baseApi.injectEndpoints({
     getPlaceByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/places/get-by-urlprefix/${slug}`,
     }),
+    getAllPlacesWithHotelPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/places/get-all-with-hotels-paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
+    getPlaceByUrlPrefixPaginated: builder.query<
+      any,
+      { slug: string; page: number; size: number }
+    >({
+      query: ({ slug, page, size }) => {
+        let url = `/places/get-by-urlprefix/${slug}/paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -54,4 +72,8 @@ export const {
   useUpdatePlaceMutation,
   useDeletePlaceMutation,
   useGetPlaceByUrlPrefixQuery,
+  useGetAllPlacesWithHotelPaginatedQuery,
+  useLazyGetAllPlacesWithHotelPaginatedQuery,
+  useGetPlaceByUrlPrefixPaginatedQuery,
+  useLazyGetPlaceByUrlPrefixPaginatedQuery,
 } = placesApi;

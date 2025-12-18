@@ -1,15 +1,39 @@
 "use client";
 
 import HotelTypePage from "@/components/pages/HotelTypePage";
-import { useGetHotelTypeByUrlPrefixQuery } from "@/services/hotelTypeApi";
+import { setTotalPages } from "@/features/paginatorSlice";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useLazyGetHotelTypeByUrlPrefixPaginatedQuery } from "@/services/hotelTypeApi";
 import { getLastParam } from "@/utils/common";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 export default function SingleHotelType() {
+  const [hotelTypeData, setHotelTypeData] = useState<any>({});
+  const [getHotelTypeByUrlPrefixPaginated] =
+    useLazyGetHotelTypeByUrlPrefixPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
   const lastSegment = getLastParam();
+  const dispatch = useDispatch();
 
-  const { data } = useGetHotelTypeByUrlPrefixQuery(lastSegment);
+  const getHotelTypeData = async () => {
+    const { data } = await getHotelTypeByUrlPrefixPaginated({
+      slug: lastSegment,
+      page: currentPage,
+      size: 9,
+    });
+    if (data.success) {
+      setHotelTypeData(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
 
-  const hotelTypeData = data?.data ?? {};
+  useEffect(() => {
+    if (currentPage) {
+      getHotelTypeData();
+    }
+  }, [currentPage]);
 
   return (
     <HotelTypePage

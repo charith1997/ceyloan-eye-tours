@@ -1,18 +1,51 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import VehicleType from "./VehicleType";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
-import { useGetAllVehiclesQuery } from "@/services/vehicleApi";
+import { useLazyGetAllVehiclesPaginatedQuery } from "@/services/vehicleApi";
 import { usePathname } from "next/navigation";
+import Paginator from "@/components/organisams/Paginator";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
+
+interface VehicleTypeProps {
+  name: string;
+  price: number;
+  passenger_capacity: number;
+  owner: string;
+  owner_contact: string;
+  images: string[];
+  url_prefix: string;
+}
 
 function RentVehicle() {
-  const { data } = useGetAllVehiclesQuery();
-  const vehicles = Array.isArray(data?.data) ? data.data : [];
-  const pathname = usePathname();
+  const [vehicles, setVehicles] = useState<VehicleTypeProps[]>([]);
+  const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
 
+  const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
+  const dispatch = useDispatch();
+
+  const getAllVehicles = async () => {
+    const { data } = await getAllVehiclesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setVehicles(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllVehicles();
+    }
+  }, [currentPage]);
 
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
@@ -35,12 +68,15 @@ function RentVehicle() {
           more recently with desktop publishing software like Aldus PageMaker
           including versions of Lorem Ipsum."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-4">
         {vehicles.length > 0
           ? vehicles.map((vehicle: any) => (
               <VehicleType key={vehicle.id} {...vehicle} />
             ))
           : null}
+      </div>
+      <div className="mt-12 flex justify-center">
+        <Paginator />
       </div>
     </section>
   );

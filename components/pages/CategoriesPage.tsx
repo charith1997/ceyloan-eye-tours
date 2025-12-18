@@ -1,9 +1,9 @@
 import React from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
-import CTAButton from "@/components/molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
 import { CARD_DESCRIPTION, CARD_TITLE } from "@/styles/font";
+import PageContainer from "../containers/PageContainer";
 
 interface CategoriesPageProps {
   heroTitle: string;
@@ -23,7 +23,7 @@ const CategoriesPage = ({
   imageUrl,
 }: CategoriesPageProps) => {
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title={heroTitle}
         description={heroDescription}
@@ -51,9 +51,8 @@ const CategoriesPage = ({
             </div>
           )}
         </CardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 };
 

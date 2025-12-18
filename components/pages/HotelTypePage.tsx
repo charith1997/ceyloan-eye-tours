@@ -3,8 +3,8 @@
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import DetailCardGrid from "@/components/organisams/DetailCardGrid";
-import CTAButton from "../molecules/CTAButton";
 import { renderStars } from "@/utils/common";
+import PageContainer from "../containers/PageContainer";
 
 interface HotelTypePageProps {
   heroTitle: string;
@@ -24,7 +24,7 @@ const HotelTypePage = ({
   title,
 }: HotelTypePageProps) => {
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title={heroTitle}
         description={heroDescription}
@@ -49,9 +49,8 @@ const HotelTypePage = ({
             </div>
           )}
         </DetailCardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 };
 

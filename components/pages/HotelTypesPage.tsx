@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
-import CTAButton from "../molecules/CTAButton";
 import CardGrid from "../organisams/CardGrid";
 import { CARD_DESCRIPTION, CARD_TITLE } from "@/styles/font";
-import { useGetAllHotelTypesWithHotelsQuery } from "@/services/hotelTypeApi";
+import { useLazyGetAllHotelTypesWithHotelsPaginatedQuery } from "@/services/hotelTypeApi";
+import PageContainer from "../containers/PageContainer";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 function HotelTypesPage() {
-  const { data } = useGetAllHotelTypesWithHotelsQuery();
+  const [hotelTypes, setHotelTypes] = useState<any[]>([]);
+  const [getAllHotelTypesWithHotelsPaginated] =
+    useLazyGetAllHotelTypesWithHotelsPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
 
-  const hotelTypes = Array.isArray(data?.data) ? data.data : [];
+  const dispatch = useDispatch();
+
+  const getAllHotelTypes = async () => {
+    const { data } = await getAllHotelTypesWithHotelsPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setHotelTypes(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllHotelTypes();
+    }
+  }, [currentPage]);
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title="Accommodation"
         description="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
@@ -42,9 +65,8 @@ function HotelTypesPage() {
             </div>
           )}
         </CardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

@@ -1,15 +1,37 @@
 "use client";
 
-import React from "react";
-import { useGetAllCategoriesQuery } from "@/services/categoryApi";
+import React, { useEffect, useState } from "react";
+import { useLazyGetAllCategoriesPaginatedQuery } from "@/services/categoryApi";
 import CategoriesPage from "@/components/pages/CategoriesPage";
+import { CategoriesPageProps } from "@/types/all.types";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 export default function RoundTours() {
-  const { data } = useGetAllCategoriesQuery({
-    tourType: "0",
-  });
+  const [categories, setCategories] = useState<CategoriesPageProps[]>([]);
+  const [getAllCategoriesPaginated] = useLazyGetAllCategoriesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
 
-  const categories = Array.isArray(data?.data) ? data.data : [];
+  const dispatch = useDispatch();
+
+  const getAllCategories = async () => {
+    const { data } = await getAllCategoriesPaginated({
+      page: currentPage,
+      size: 10,
+      tourType: "0",
+    });
+    if (data.success) {
+      setCategories(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllCategories();
+    }
+  }, [currentPage]);
 
   return (
     <CategoriesPage

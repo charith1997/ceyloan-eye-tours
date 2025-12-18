@@ -37,6 +37,24 @@ export const hotelTypeApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["HotelType"],
     }),
+    getAllHotelTypesWithHotelsPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/hotel-types/get-all-with-hotels-paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
+    getHotelTypeByUrlPrefixPaginated: builder.query<
+      any,
+      { slug: string; page: number; size: number }
+    >({
+      query: ({ slug, page, size }) => {
+        let url = `hotel-types/get-by-urlprefix-paginated/${slug}?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -47,4 +65,8 @@ export const {
   useUpdateHotelTypeMutation,
   useGetHotelTypeByUrlPrefixQuery,
   useDeleteHotelTypeMutation,
+  useGetAllHotelTypesWithHotelsPaginatedQuery,
+  useLazyGetAllHotelTypesWithHotelsPaginatedQuery,
+  useGetHotelTypeByUrlPrefixPaginatedQuery,
+  useLazyGetHotelTypeByUrlPrefixPaginatedQuery,
 } = hotelTypeApi;

@@ -52,6 +52,26 @@ export const categoryApi = baseApi.injectEndpoints({
         return url;
       },
     }),
+    getAllCategoriesPaginated: builder.query<
+      any,
+      { page: number; size: number; tourType?: string }
+    >({
+      query: ({ page, size, tourType }) => {
+        let url = `/categories/get-all-with-pagination?page=${page}&size=${size}`;
+        if (tourType) url += `&tourType=${tourType}`;
+        return url;
+      },
+    }),
+    getCategoryByUrlPrefixPaginated: builder.query<
+      any,
+      { slug: string; page: number; size: number; tourType?: string }
+    >({
+      query: ({ slug, page, size, tourType }) => {
+        let url = `/categories/get-by-urlprefix-paginated/${slug}?page=${page}&size=${size}`;
+        if (tourType) url += `&tourType=${tourType}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -62,4 +82,8 @@ export const {
   useDeleteCategoryMutation,
   useGetAllCategoriesWithPackagesQuery,
   useGetCategoryByUrlPrefixQuery,
+  useGetAllCategoriesPaginatedQuery,
+  useLazyGetAllCategoriesPaginatedQuery,
+  useGetCategoryByUrlPrefixPaginatedQuery,
+  useLazyGetCategoryByUrlPrefixPaginatedQuery,
 } = categoryApi;
