@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "@/features/authSlice";
+import { logout, setRedirectPath } from "@/features/authSlice";
 import { RootState } from "@/store";
 import Image from "next/image";
 import {
@@ -234,6 +234,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             <Link
               href="/login"
               className="underline font-semibold text-[14px] leading-[100%] tracking-[0] whitespace-nowrap"
+              onClick={() => dispatch(setRedirectPath(pathname))}
             >
               Sign In
             </Link>
@@ -360,7 +361,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
               <Link
                 href="/login"
                 className="block py-2 text-gray-700 hover:text-blue-600 font-semibold"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  dispatch(setRedirectPath(pathname));
+                }}
               >
                 Sign In
               </Link>
