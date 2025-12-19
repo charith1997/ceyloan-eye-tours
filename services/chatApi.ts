@@ -20,6 +20,37 @@ const chatApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    addChat: builder.mutation<
+      any,
+      { receiverId: string | null | undefined; message: string }
+    >({
+      query: (body) => ({
+        url: "/chats/add",
+        method: "POST",
+        body,
+      }),
+    }),
+    markAsReadAdminChats: builder.mutation<any, { userId: string }>({
+      query: (body) => ({
+        url: "/chats/mark-admin-message-as-read",
+        method: "PATCH",
+        body,
+      }),
+    }),
+    markAsRead: builder.mutation<any, void>({
+      query: () => ({
+        url: "/chats/mark-as-read",
+        method: "PATCH",
+      }),
+      invalidatesTags: ["UserMessageCount"],
+    }),
+    getUserUnreadCount: builder.query<any, void>({
+      query: () => ({
+        url: "/chats/unread-count",
+        method: "GET",
+      }),
+      providesTags: ["UserMessageCount"],
+    }),
   }),
 });
 
@@ -30,4 +61,8 @@ export const {
   useLazyGetAdminChatsQuery,
   useGetUserChatsQuery,
   useLazyGetUserChatsQuery,
+  useAddChatMutation,
+  useMarkAsReadAdminChatsMutation,
+  useMarkAsReadMutation,
+  useGetUserUnreadCountQuery,
 } = chatApi;

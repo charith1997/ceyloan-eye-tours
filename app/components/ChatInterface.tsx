@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Search, Send, ChevronDown, ArrowLeft, Menu } from "lucide-react";
+import { Search, Send, ArrowLeft } from "lucide-react";
 import {
-  useGetAdminChatsQuery,
+  useAddChatMutation,
   useLazyGetAdminChatsQuery,
   useLazyGetSingleChatQuery,
+  useMarkAsReadAdminChatsMutation,
 } from "@/services/chatApi";
 import io from "socket.io-client";
 import { getUserDetails } from "@/utils/auth";
+import { randomUUID } from "crypto";
 
 interface Contact {
   id: string;
@@ -18,6 +20,7 @@ interface Contact {
     id: string;
     name: string;
   };
+  unreadCount: number;
 }
 
 interface Chat {
@@ -49,9 +52,9 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
   const [getUserMessages] = useLazyGetSingleChatQuery();
   const [getAllChats] = useLazyGetAdminChatsQuery();
+  const [addChat] = useAddChatMutation();
+  const [markAsRead] = useMarkAsReadAdminChatsMutation();
   const { userId } = getUserDetails();
-  const { data } = useGetAdminChatsQuery();
-  const allContacts = Array.isArray(data?.data) ? data.data : [];
 
   const scrollToBottom = (): void => {
     if (messagesContainerRef.current) {
@@ -83,11 +86,23 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   });
 
   const handleSelectContact = async (contact: Contact) => {
-    const { data } = await getUserMessages(contact.user.id);
-    if (data.success) setChats(data.data);
+    try {
+      handleReadMessage(contact.user.id);
+      getAllAdminChats();
+      const { data } = await getUserMessages(contact.user.id);
+      if (data.success) {
+        setChats(data.data);
+      }
 
-    setSelectedContact(contact);
-    setShowMessages(false);
+      setSelectedContact(contact);
+      setShowMessages(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleReadMessage = async (userId: string) => {
+    await markAsRead({ userId });
   };
 
   const getChat = async (id: string) => {
@@ -98,12 +113,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
     if (chatList.success) setContacts(chatList.data);
   };
 
+  const getAllAdminChats = async () => {
+    const { data: chatList } = await getAllChats();
+    if (chatList.success) setContacts(chatList.data);
+  };
+
   const handleBackToMessages = () => {
     setShowMessages(true);
     setSelectedContact(null);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
+    if (!messageInput.trim()) return;
+
     const data = {
       senderId: userId,
       receiverId: selectedContact?.user.id,
@@ -111,10 +133,30 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
       message: messageInput,
     };
 
-    socket.emit("sendMessage", data);
+    try {
+      await addChat({ receiverId: data.receiverId!, message: data.message });
+      socket.emit("sendNewMessage", {
+        senderId: data.senderId,
+        receiverId: data.receiverId,
+      });
+      const newMessage = {
+        id: crypto.randomUUID(),
+        message: data.message,
+        sender_id: data.senderId,
+        receiver_id: data.receiverId!,
+        user_id: data.userId!,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      setChats([...chats, newMessage]);
 
-    if (messageInput.trim()) {
-      setMessageInput("");
+      getChat(data.receiverId!);
+
+      if (messageInput.trim()) {
+        setMessageInput("");
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -130,24 +172,28 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   };
 
   useEffect((): any => {
+    getAllAdminChats();
     const s = io(backendUrl);
     setSocket(s);
-
     s.emit("join", { id: userId });
 
     s.on("messageReceived", (data) => {
       if (data) {
-        getChat(data.to);
+        getChat(data.from);
+
+        // Use functional update to access latest state
+        setSelectedContact((current) => {
+          if (current && current.user.id === data.from) {
+            handleReadMessage(current.user.id);
+            getAllAdminChats();
+          }
+          return current; // Don't change the state
+        });
       }
     });
+
     return () => s.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (allContacts) {
-      setContacts(allContacts);
-    }
-  }, [allContacts]);
 
   return (
     <div className={`flex h-screen bg-gray-100 ${className}`}>
@@ -208,9 +254,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                   </p>
                 </div>
 
-                <div className="ml-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-white">1</span>
-                </div>
+                {contact.unreadCount !== 0 && (
+                  <div className="ml-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-xs text-white">
+                      {contact.unreadCount}
+                    </span>
+                  </div>
+                )}
               </div>
             ))
           ) : (

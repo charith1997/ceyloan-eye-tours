@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef, FormEvent } from "react";
 import { X, MessageCircle, Send } from "lucide-react";
 import { Message } from "../../types/chat.types";
-import { useLazyGetUserChatsQuery } from "@/services/chatApi";
+import {
+  useAddChatMutation,
+  useGetUserUnreadCountQuery,
+  useLazyGetUserChatsQuery,
+  useMarkAsReadMutation,
+} from "@/services/chatApi";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { getUserDetails } from "@/utils/auth";
@@ -13,6 +18,7 @@ const ChatWidget = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState<string>("");
   const [socket, setSocket] = useState<any | null>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -23,6 +29,9 @@ const ChatWidget = () => {
   );
 
   const [getUserChats] = useLazyGetUserChatsQuery();
+  const [addChat] = useAddChatMutation();
+  const [markAsRead] = useMarkAsReadMutation();
+  const { data } = useGetUserUnreadCountQuery();
   const { userId } = getUserDetails();
   const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -50,7 +59,13 @@ const ChatWidget = () => {
     setIsOpen(false);
   };
 
-  const handleOpen = (): void => {
+  const handleRead = async () => {
+    await markAsRead();
+  };
+
+  const handleOpen = () => {
+    handleRead();
+    getUserMessages();
     setIsOpen(true);
   };
 
@@ -64,7 +79,9 @@ const ChatWidget = () => {
     if (data.success) setMessages(data.data);
   };
 
-  const handleSendMessage = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSendMessage = async (
+    e: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
     if (!inputMessage.trim()) return;
@@ -76,23 +93,39 @@ const ChatWidget = () => {
       message: inputMessage,
     };
 
-    socket.emit("sendMessage", data);
+    // socket.emit("sendMessage", data);
 
-    if (inputMessage.trim()) {
-      setInputMessage("");
+    try {
+      await addChat({ receiverId: null, message: data.message });
+      socket.emit("sendNewMessage", {
+        senderId: data.senderId,
+        receiverId: null,
+      });
+      const newMessage = {
+        id: crypto.randomUUID(),
+        message: data.message,
+        sender_id: data.senderId,
+        receiver_id: data.receiverId!,
+        user_id: data.userId!,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+      setMessages([...messages, newMessage]);
+      getUserMessages();
+
+      if (inputMessage.trim()) {
+        setInputMessage("");
+      }
+    } catch (err) {
+      console.error(err);
     }
-  };
-
-  const getChat = async () => {
-    const { data } = await getUserChats();
-    if (data.success) setIsOpen(data.data);
   };
 
   useEffect(() => {
-    if (isLogged) {
-      getUserMessages();
+    if (data && data.success) {
+      setUnreadCount(data.data.unreadCount);
     }
-  }, [isLogged]);
+  }, [data]);
 
   useEffect((): any => {
     const s = io(backendUrl);
@@ -102,7 +135,10 @@ const ChatWidget = () => {
 
     s.on("messageReceived", (data) => {
       if (data) {
-        getChat();
+        getUserMessages();
+        if (isOpen) {
+          handleRead();
+        }
       }
     });
     return () => s.disconnect();
@@ -135,6 +171,11 @@ const ChatWidget = () => {
           type="button"
         >
           <MessageCircle size={24} />
+          {unreadCount > 0 ? (
+            <div className="ml-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center absolute">
+              <span className="text-xs text-white">{unreadCount}</span>
+            </div>
+          ) : null}
         </button>
       )}
 
