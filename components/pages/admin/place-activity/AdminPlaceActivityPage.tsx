@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Component, MapPin } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -24,23 +24,27 @@ const AdminPlaceActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [activities, setActivities] = useState<any[]>([]);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
-  const [filteredPlaceActivities, setFilteredPlaceActivities] = useState<any[]>(
-    []
-  );
-
   const [placeActivities, setPlaceActivities] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getAllPlaceActivitiesPaginated] =
     useLazyGetAllPlaceActivitiesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllPlaceActivities = async () => {
-    const { data } = await getAllPlaceActivitiesPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllPlaceActivitiesPaginated(params);
+
+    if (data?.success) {
       setPlaceActivities(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -50,7 +54,14 @@ const AdminPlaceActivityPage = () => {
     if (currentPage) {
       getAllPlaceActivities();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   const displayDeleteModal = (data: any) => {
     setSelectedActivity(data);
@@ -62,14 +73,6 @@ const AdminPlaceActivityPage = () => {
     setShowEditModal(true);
   };
 
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredPlaceActivities(filtered);
-  }, []);
-
-  useEffect(() => {
-    setFilteredPlaceActivities(placeActivities);
-  }, [placeActivities.length]);
-
   return (
     <>
       <NavigationContainer>
@@ -78,12 +81,10 @@ const AdminPlaceActivityPage = () => {
           title="Place Activities"
           buttonName="Add Place Activity"
           onClick={() => setShowAddActivityModal(true)}
-          data={placeActivities}
-          searchKeys={["placeDetails.name"]}
           onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-390px)] md:max-h-[calc(100vh-260px)]">
-          {filteredPlaceActivities.map(
+          {placeActivities.map(
             ({ placeDetails, activities }: any, index: number) => (
               <div key={index}>
                 <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -19,30 +19,46 @@ const AdminVehiclesPage = () => {
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [filteredVehicles, setFilteredVehicles] = useState<any[]>([]);
-
   const [vehicles, setVehicles] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllVehicles = async () => {
-    const { data } = await getAllVehiclesPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    // Add search parameter if exists
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllVehiclesPaginated(params);
+
+    if (data?.success) {
       setVehicles(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
   };
 
+  // Fetch vehicles when page or search changes
   useEffect(() => {
     if (currentPage) {
       getAllVehicles();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    // Reset to first page when searching
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   const handleShowDetails = (details: any) => {
     setShow(true);
@@ -59,14 +75,6 @@ const AdminVehiclesPage = () => {
     setDetails(details);
   };
 
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredVehicles(filtered);
-  }, []);
-
-  useEffect(() => {
-    setFilteredVehicles(vehicles);
-  }, [vehicles.length]);
-
   return (
     <>
       <NavigationContainer>
@@ -81,8 +89,6 @@ const AdminVehiclesPage = () => {
           title="Vehicles"
           buttonName="Add Vehicle"
           onClick={() => setShowAddVehicle(true)}
-          data={vehicles}
-          searchKeys={["name"]}
           onSearchChange={handleSearchChange}
         />
         <div className="w-full">
@@ -113,7 +119,7 @@ const AdminVehiclesPage = () => {
           <div className="pt-8">
             {activeTab === "tab1" && (
               <AdminCarsPage
-                cars={filteredVehicles}
+                cars={vehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}
@@ -121,7 +127,7 @@ const AdminVehiclesPage = () => {
             )}
             {activeTab === "tab2" && (
               <AdminVansPage
-                vans={filteredVehicles}
+                vans={vehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}
@@ -129,7 +135,7 @@ const AdminVehiclesPage = () => {
             )}
             {activeTab === "tab3" && (
               <AdminBusPage
-                busses={filteredVehicles}
+                busses={vehicles}
                 handleView={handleShowDetails}
                 handleDelete={handleDeleteVehicle}
                 handleEdit={handleEditVehicle}

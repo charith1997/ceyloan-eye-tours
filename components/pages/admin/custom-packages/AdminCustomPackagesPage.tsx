@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { MapPin, User } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
@@ -24,27 +24,26 @@ const AdminCustomPackagesPage = () => {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showPackageDetailsModal, setShowPackageDetailsModal] = useState(false);
   const [packageDetails, setPackageDetails] = useState<any | null>(null);
-  const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
-
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredProjects(filtered);
-  }, []);
-
   const [packages, setPackages] = useState<any[]>([]);
-  useEffect(() => {
-    setFilteredProjects(packages);
-  }, [packages.length]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getAllPaginatedPackages] = useLazyGetAllPaginatedPackagesQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllPackages = async () => {
-    const { data } = await getAllPaginatedPackages({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllPaginatedPackages(params);
+
+    if (data?.success) {
       setPackages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -54,7 +53,14 @@ const AdminCustomPackagesPage = () => {
     if (currentPage) {
       getAllPackages();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
+
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   return (
     <>
@@ -65,12 +71,10 @@ const AdminCustomPackagesPage = () => {
           buttonName="Add Custom Package"
           onClick={() => {}}
           isDisplayActionButton={false}
-          data={packages}
-          searchKeys={["User.name"]}
           onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-254px)]">
-          {filteredProjects.map((item: any, index: number) => (
+          {packages.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

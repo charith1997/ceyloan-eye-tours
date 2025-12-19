@@ -15,34 +15,36 @@ interface AdminHotelTypesProps {
   setDeleteHotelType: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedHotelType: React.Dispatch<React.SetStateAction<any | null>>;
   setShowHotelTypeModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
-  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
-  filteredData: any[];
+  searchQuery: string;
 }
 
 function AdminHotelTypes({
   setDeleteHotelType,
   setSelectedHotelType,
   setShowHotelTypeModal,
-  setSearchData,
-  setSearchKeys,
-  filteredData,
+  searchQuery,
 }: AdminHotelTypesProps) {
   const [show, setShow] = useState(false);
   const [hotelTypeURL, setHotelTypeURL] = useState<string | null>(null);
-
   const [hotelTypes, setHotelTypes] = useState<any[]>([]);
+
   const [getAllHotelTypesPaginated] = useLazyGetAllHotelTypesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllHotelTypes = async () => {
-    const { data } = await getAllHotelTypesPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllHotelTypesPaginated(params);
+
+    if (data?.success) {
       setHotelTypes(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -52,16 +54,12 @@ function AdminHotelTypes({
     if (currentPage) {
       getAllHotelTypes();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  useEffect(() => {
-    setSearchData(hotelTypes);
-    setSearchKeys(["name"]);
-  }, [hotelTypes.length]);
   return (
     <>
       <DetailContainer className="max-h-[calc(100vh-445px)] md:max-h-[calc(100vh-325px)]">
-        {filteredData.map((item: any, index: number) => (
+        {hotelTypes.map((item: any, index: number) => (
           <div key={index}>
             {item && (
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

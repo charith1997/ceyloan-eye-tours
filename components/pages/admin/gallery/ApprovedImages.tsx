@@ -14,61 +14,49 @@ interface ApprovedImagesProps {
   setViewImageUrl: (url: string | null) => void;
   displayCancelModal: (id: string) => void;
   displayDeleteModal: (id: string) => void;
-  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
-  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
-  filteredData: any[];
+  searchQuery: string;
 }
 
 function ApprovedImages({
   setViewImageUrl,
   displayCancelModal,
   displayDeleteModal,
-  setSearchData,
-  setSearchKeys,
-  filteredData,
+  searchQuery,
 }: ApprovedImagesProps) {
-  const [list, setList] = useState<any[]>([]);
   const [approvedImages, setApprovedImages] = useState<any[]>([]);
   const [getAllGalleryItemsPaginated] =
     useLazyGetAllGalleryItemsPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
-  const getAllCategories = async () => {
-    const { data } = await getAllGalleryItemsPaginated({
+  const getAllGalleryItems = async () => {
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
-      setList(data.data);
+      isApproved: true,
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllGalleryItemsPaginated(params);
+
+    if (data?.success) {
+      setApprovedImages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
   };
 
   useEffect(() => {
     if (currentPage) {
-      getAllCategories();
+      getAllGalleryItems();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  useEffect(() => {
-    if (list) {
-      const approvedGalleryItems = list.filter(
-        (item: any) => item.is_approved === true
-      );
-      setApprovedImages([...approvedGalleryItems]);
-    }
-  }, [list]);
-
-  // Update parent with approved items and search keys
-  useEffect(() => {
-    setSearchData(approvedImages);
-    setSearchKeys(["User.name"]);
-  }, [approvedImages.length, setSearchData, setSearchKeys]);
   return (
     <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">
-      {filteredData.map((item: any, index: number) => (
+      {approvedImages.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">

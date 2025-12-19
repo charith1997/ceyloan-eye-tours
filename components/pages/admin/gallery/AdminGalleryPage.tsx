@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -23,15 +23,14 @@ const AdminGalleryPage = () => {
   const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
   const [addImage, setAddImage] = useState(false);
-  const [searchData, setSearchData] = useState<any[]>([]);
-  const [searchKeys, setSearchKeys] = useState<string[]>([]);
-  const [filteredData, setFilteredData] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
 
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredData(filtered);
-  }, []);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+  };
 
   return (
     <>
@@ -41,8 +40,6 @@ const AdminGalleryPage = () => {
           title="Gallery"
           buttonName="Add Image"
           onClick={() => setAddImage(true)}
-          data={searchData}
-          searchKeys={searchKeys}
           onSearchChange={handleSearchChange}
         />
 
@@ -76,9 +73,7 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
-                setSearchData={setSearchData}
-                setSearchKeys={setSearchKeys}
-                filteredData={filteredData}
+                searchQuery={searchQuery}
               />
             )}
             {activeTab === "tab2" && (
@@ -92,9 +87,7 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
-                setSearchData={setSearchData}
-                setSearchKeys={setSearchKeys}
-                filteredData={filteredData}
+                searchQuery={searchQuery}
               />
             )}
           </div>
@@ -146,7 +139,6 @@ const AdminGalleryPage = () => {
         }}
         buttonLabel={showApproveModal ? "Cancel" : "Cancel"}
         submitLabel={showApproveModal ? "Approve" : "Reject"}
-        // submitLabelColor={showApproveModal ? "bg-[#4CAF50]" : "bg-red"}
         submitLabelColor={
           showApproveModal
             ? `w-full ${approveBtnColor}`

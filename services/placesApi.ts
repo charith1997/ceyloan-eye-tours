@@ -43,9 +43,13 @@ export const placesApi = baseApi.injectEndpoints({
     getPlaceByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/places/get-by-urlprefix/${slug}`,
     }),
-    getAllPlacesPaginated: builder.query<any, { page: number; size: number }>({
-      query: ({ page, size }) => {
+    getAllPlacesPaginated: builder.query<
+      any,
+      { page: number; size: number; search?: string }
+    >({
+      query: ({ page, size, search }) => {
         let url = `/places/get-all-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

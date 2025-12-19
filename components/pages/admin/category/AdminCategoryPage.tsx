@@ -20,20 +20,26 @@ const AdminCategoryPage = () => {
   const [displayDetails, setDisplayDetails] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
-  const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
-
+  const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<any[]>([]);
+
   const [getAllCategoriesPaginated] = useLazyGetAllCategoriesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllCategories = async () => {
-    const { data } = await getAllCategoriesPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllCategoriesPaginated(params);
+
+    if (data?.success) {
       setCategories(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -43,11 +49,14 @@ const AdminCategoryPage = () => {
     if (currentPage) {
       getAllCategories();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  useEffect(() => {
-    setFilteredCategories(categories);
-  }, [categories]);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   return (
     <>
@@ -57,12 +66,10 @@ const AdminCategoryPage = () => {
           title="Categories"
           buttonName="Add Category"
           onClick={() => setShowModal(true)}
-          data={categories}
-          searchKeys={["name"]}
-          onSearchChange={setFilteredCategories}
+          onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-383px)] md:max-h-[calc(100vh-260px)]">
-          {filteredCategories.map((category: any, index: number) => (
+          {categories.map((category: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">

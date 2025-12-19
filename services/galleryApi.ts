@@ -39,10 +39,16 @@ export const galleryApi = baseApi.injectEndpoints({
     }),
     getAllGalleryItemsPaginated: builder.query<
       any,
-      { page: number; size: number }
+      { page: number; size: number; isApproved: boolean; search?: string }
     >({
-      query: ({ page, size }) => {
+      query: ({ page, size, isApproved, search }) => {
         let url = `/gallery/get-all-paginated?page=${page}&size=${size}`;
+        if (isApproved) {
+          url += `&isApproved=true`;
+        } else {
+          url += `&isApproved=false`;
+        }
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

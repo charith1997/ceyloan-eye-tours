@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookText, MapPin } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import { useLazyGetAllPlacesPaginatedQuery } from "@/services/placesApi";
 import DetailContainer from "@/components/containers/DetailContainer";
-import Image from "next/image";
 import DeletePlace from "./DeletePlace";
 import AddPlace from "./AddPlace";
 import { checkImageUrl } from "@/utils/common";
@@ -20,20 +19,26 @@ const AdminPlacesPage = () => {
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedPlace, setSelectedPlace] = React.useState<any | null>(null);
   const [displayDetails, setDisplayDetails] = React.useState(false);
-  const [filteredPlaces, setFilteredPlaces] = React.useState<any[]>([]);
-
   const [places, setPlaces] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getAllPlacesPaginated] = useLazyGetAllPlacesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllPlaces = async () => {
-    const { data } = await getAllPlacesPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllPlacesPaginated(params);
+
+    if (data?.success) {
       setPlaces(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -43,15 +48,14 @@ const AdminPlacesPage = () => {
     if (currentPage) {
       getAllPlaces();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredPlaces(filtered);
-  }, []);
-
-  React.useEffect(() => {
-    setFilteredPlaces(places);
-  }, [places.length]);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   return (
     <>
@@ -61,12 +65,10 @@ const AdminPlacesPage = () => {
           title="Places"
           buttonName="Add Place"
           onClick={() => setShowModal(true)}
-          data={places}
-          searchKeys={["name"]}
           onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-260px)]">
-          {filteredPlaces.map((place: any, index: number) => (
+          {places.map((place: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
@@ -94,11 +96,6 @@ const AdminPlacesPage = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* <div className="block justify-items-center text-sm gap-2">
-                  <div>{`longitude: ${place.longitude}`}</div>
-                  <div>{`latitude: ${place.latitude}`}</div>
-                </div> */}
 
                 <div className="flex gap-4">
                   <Button
@@ -129,13 +126,6 @@ const AdminPlacesPage = () => {
               </div>
 
               <div className="flex md:hidden w-full items-center py-2 px-4 gap-6 rounded-lg shadow-sm border border-gray-200">
-                {/* <Image
-                  src={checkImageUrl(place.image_url)}
-                  alt={`Place ${place.id}`}
-                  width={160}
-                  height={160}
-                  className="object-cover rounded-lg min-w-36 h-36"
-                /> */}
                 <div className="grid gap-4 w-full">
                   <div className="flex flex-col gap-2 text-sm">
                     <h3 className="font-bold uppercase">{place.name}</h3>

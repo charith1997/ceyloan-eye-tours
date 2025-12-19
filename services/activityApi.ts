@@ -34,10 +34,11 @@ export const activityApi = baseApi.injectEndpoints({
     }),
     getAllActivitiesPaginated: builder.query<
       any,
-      { page: number; size: number }
+      { page: number; size: number; search?: string }
     >({
-      query: ({ page, size }) => {
+      query: ({ page, size, search }) => {
         let url = `/activities/paginate-activities?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

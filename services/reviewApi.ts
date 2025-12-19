@@ -13,9 +13,13 @@ export const reviewApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Booking"],
     }),
-    getPaginatedReviews: builder.query<any, { page: number; size: number }>({
-      query: ({ page, size }) => {
+    getPaginatedReviews: builder.query<
+      any,
+      { page: number; size: number; search?: string }
+    >({
+      query: ({ page, size, search }) => {
         let url = `/reviews/get-all-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

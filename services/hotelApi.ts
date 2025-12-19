@@ -38,9 +38,13 @@ export const hotelApi = baseApi.injectEndpoints({
     getHotelByUrlPrefix: builder.query<any, string>({
       query: (slug) => `/hotels/get-by-urlPrifix/${slug}`,
     }),
-    getAllHotelsPaginated: builder.query<any, { page: number; size: number }>({
-      query: ({ page, size }) => {
+    getAllHotelsPaginated: builder.query<
+      any,
+      { page: number; size: number; search?: string }
+    >({
+      query: ({ page, size, search }) => {
         let url = `/hotels/get-all-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

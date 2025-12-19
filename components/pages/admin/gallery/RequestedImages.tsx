@@ -14,64 +14,49 @@ interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
   setViewImageUrl: (url: string | null) => void;
   displayDeleteModal: (id: string) => void;
-  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
-  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
-  filteredData: any[];
+  searchQuery: string;
 }
 
 function RequestedImages({
   displayApproveModal,
   setViewImageUrl,
   displayDeleteModal,
-  setSearchData,
-  setSearchKeys,
-  filteredData,
+  searchQuery,
 }: RequestedImagesProps) {
-  const [list, setList] = useState<any[]>([]);
   const [requestedImages, setRequestedImages] = useState<any[]>([]);
   const [getAllGalleryItemsPaginated] =
     useLazyGetAllGalleryItemsPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
-  const getAllCategories = async () => {
-    const { data } = await getAllGalleryItemsPaginated({
+  const getAllGalleryItems = async () => {
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
-      setList(data.data);
+      isApproved: false,
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllGalleryItemsPaginated(params);
+
+    if (data?.success) {
+      setRequestedImages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
   };
 
   useEffect(() => {
     if (currentPage) {
-      getAllCategories();
+      getAllGalleryItems();
     }
-  }, [currentPage]);
-
-  useEffect(() => {
-    if (list) {
-      const requestedGalleryItems = list.filter(
-        (item: any) => item.is_approved === false
-      );
-      setRequestedImages([...requestedGalleryItems]);
-    }
-  }, [list]);
-
-  // Update parent with requested items and search keys
-  useEffect(() => {
-    setSearchData(requestedImages);
-    setSearchKeys(["User.name"]);
-  }, [requestedImages.length, setSearchData, setSearchKeys]);
-
-  console.log("filteredData", filteredData);
+  }, [currentPage, searchQuery]);
 
   return (
     <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">
-      {filteredData.map((item: any, index: number) => (
+      {requestedImages.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
             <div className="flex items-center gap-8">

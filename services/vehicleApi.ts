@@ -32,14 +32,16 @@ export const vehicleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Vehicles"],
     }),
-    getAllVehiclesPaginated: builder.query<any, { page: number; size: number }>(
-      {
-        query: ({ page, size }) => {
-          let url = `/vehicles/get-all-paginated?page=${page}&size=${size}`;
-          return url;
-        },
-      }
-    ),
+    getAllVehiclesPaginated: builder.query<
+      any,
+      { page: number; size: number; search?: string }
+    >({
+      query: ({ page, size, search }) => {
+        let url = `/vehicles/get-all-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
+        return url;
+      },
+    }),
   }),
 });
 

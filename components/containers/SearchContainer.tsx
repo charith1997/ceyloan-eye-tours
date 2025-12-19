@@ -2,7 +2,7 @@ import Button from "@/components/atoms/Button";
 import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
 import { Plus } from "lucide-react";
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -10,9 +10,7 @@ interface SearchContainerProps {
   buttonName: string;
   onClick?: () => void;
   isDisplayActionButton?: boolean;
-  data?: any[];
-  searchKeys?: string[];
-  onSearchChange?: (filteredData: any[]) => void;
+  onSearchChange?: (searchQuery: string) => void;
 }
 
 const SearchContainer = ({
@@ -21,49 +19,33 @@ const SearchContainer = ({
   buttonName,
   onClick,
   isDisplayActionButton = true,
-  data = [],
-  searchKeys = [],
   onSearchChange,
 }: SearchContainerProps) => {
   const userDetails = getUserDetails();
   const [searchQuery, setSearchQuery] = useState("");
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Helper function to get nested object value
-  const getNestedValue = (obj: any, key: string): any => {
-    return key.split(".").reduce((current, prop) => {
-      return current?.[prop];
-    }, obj);
-  };
+  // Debounce search to avoid too many API calls
+  useEffect(() => {
+    if (onSearchChange) {
+      // Clear existing timer
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
 
-  // Filter data based on search query
-  const filteredData = useMemo(() => {
-    if (!searchQuery.trim() || data.length === 0 || searchKeys.length === 0) {
-      return data;
+      // Set new timer
+      debounceTimerRef.current = setTimeout(() => {
+        onSearchChange(searchQuery);
+      }, 500); // 500ms debounce delay
+
+      // Cleanup
+      return () => {
+        if (debounceTimerRef.current) {
+          clearTimeout(debounceTimerRef.current);
+        }
+      };
     }
-
-    return data.filter((item) =>
-      searchKeys.some((key) => {
-        const value = getNestedValue(item, key);
-        if (value === null || value === undefined) return false;
-        return String(value)
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase());
-      })
-    );
-  }, [searchQuery, data, searchKeys]);
-
-  const prevFilteredRef = useRef<string | null>(null);
-
-  // Notify parent of filtered data only when it actually changes
-  React.useEffect(() => {
-    if (!onSearchChange) return;
-
-    const current = JSON.stringify(filteredData || []);
-    if (prevFilteredRef.current !== current) {
-      onSearchChange(filteredData);
-      prevFilteredRef.current = current;
-    }
-  }, [filteredData, onSearchChange]);
+  }, [searchQuery, onSearchChange]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -79,7 +61,10 @@ const SearchContainer = ({
           </div>
         </div>
         <div className="flex items-center gap-6 justify-between">
-          <form className="max-w-full md:max-w-md w-full" onSubmit={(e) => e.preventDefault()}>
+          <form
+            className="max-w-full md:max-w-md w-full"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <label
               htmlFor="default-search"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"

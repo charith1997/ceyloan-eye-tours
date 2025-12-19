@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BookText, Component } from "lucide-react";
+import { BookText } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -21,20 +21,26 @@ const AdminActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [displayDetails, setDisplayDetails] = useState(false);
-  const [filteredActivities, setFilteredActivities] = useState<any[]>([]);
-
   const [activities, setActivities] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getAllActivitiesPaginated] = useLazyGetAllActivitiesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
-  const getAllCategories = async () => {
-    const { data } = await getAllActivitiesPaginated({
+  const getAllActivities = async () => {
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllActivitiesPaginated(params);
+
+    if (data?.success) {
       setActivities(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -42,13 +48,16 @@ const AdminActivityPage = () => {
 
   useEffect(() => {
     if (currentPage) {
-      getAllCategories();
+      getAllActivities();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  useEffect(() => {
-    setFilteredActivities(activities);
-  }, [activities]);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   return (
     <>
@@ -58,13 +67,11 @@ const AdminActivityPage = () => {
           title="Activities"
           buttonName="Add Activity"
           onClick={() => setShowModal(true)}
-          data={activities}
-          searchKeys={["name"]}
-          onSearchChange={setFilteredActivities}
+          onSearchChange={handleSearchChange}
         />
 
         <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-260px)]">
-          {filteredActivities.map((activity: any, index: number) => (
+          {activities.map((activity: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8">
@@ -121,13 +128,6 @@ const AdminActivityPage = () => {
               </div>
 
               <div className="flex md:hidden w-full items-center py-2 px-4 gap-6 rounded-lg shadow-sm border border-gray-200">
-                {/* <Image
-                  src={checkImageUrl(activity.image_url)}
-                  alt={`Tour ${activity.id}`}
-                  width={160}
-                  height={160}
-                  className="object-cover rounded-lg w-36 h-36"
-                /> */}
                 <div className="grid gap-2">
                   <div className="flex flex-col gap-1 text-sm">
                     <h3 className="font-bold uppercase">{activity.name}</h3>

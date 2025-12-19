@@ -15,34 +15,36 @@ interface AdminHotelProps {
   setDeleteHotel: React.Dispatch<React.SetStateAction<boolean>>;
   setSelectedHotel: React.Dispatch<React.SetStateAction<string | null>>;
   setIsEdit: () => void;
-  setSearchData: React.Dispatch<React.SetStateAction<any[]>>;
-  setSearchKeys: React.Dispatch<React.SetStateAction<string[]>>;
-  filteredData: any[];
+  searchQuery: string;
 }
 
 function AdminHotels({
   setDeleteHotel,
   setSelectedHotel,
   setIsEdit,
-  setSearchData,
-  setSearchKeys,
-  filteredData,
+  searchQuery,
 }: AdminHotelProps) {
   const [showDetails, setShowDetails] = useState(false);
   const [hotelDetails, setHotelDetails] = useState<any | null>(null);
-
   const [hotels, setHotels] = useState<any[]>([]);
+
   const [getAllHotelsPaginated] = useLazyGetAllHotelsPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllHotels = async () => {
-    const { data } = await getAllHotelsPaginated({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getAllHotelsPaginated(params);
+
+    if (data?.success) {
       setHotels(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -52,18 +54,13 @@ function AdminHotels({
     if (currentPage) {
       getAllHotels();
     }
-  }, [currentPage]);
-
-  useEffect(() => {
-    setSearchData(hotels);
-    setSearchKeys(["name"]);
-  }, [hotels.length]);
+  }, [currentPage, searchQuery]);
 
   return (
     <>
       <DetailContainer className="max-h-[calc(100vh-445px)] md:max-h-[calc(100vh-325px)]">
-        {filteredData.length > 0 &&
-          filteredData.map((item: any, index: number) => (
+        {hotels.length > 0 &&
+          hotels.map((item: any, index: number) => (
             <div key={index}>
               {item && (
                 <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
@@ -171,6 +168,10 @@ function AdminHotels({
                       <Button
                         label="Edit"
                         className={`w-fit ${editBtnColor}`}
+                        onClick={() => {
+                          setIsEdit();
+                          setSelectedHotel(item);
+                        }}
                       />
                       <Button
                         label="Delete"

@@ -34,10 +34,11 @@ export const placeActivity = baseApi.injectEndpoints({
     }),
     getAllPlaceActivitiesPaginated: builder.query<
       any,
-      { page: number; size: number }
+      { page: number; size: number; search?: string }
     >({
-      query: ({ page, size }) => {
+      query: ({ page, size, search }) => {
         let url = `/place-activities/grouped-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

@@ -55,14 +55,16 @@ export const packageApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Package"],
     }),
-    getAllPackagesPaginated: builder.query<any, { page: number; size: number }>(
-      {
-        query: ({ page, size }) => {
-          let url = `/packages/get-all-paginated?page=${page}&size=${size}`;
-          return url;
-        },
-      }
-    ),
+    getAllPackagesPaginated: builder.query<
+      any,
+      { page: number; size: number; search?: string }
+    >({
+      query: ({ page, size, search }) => {
+        let url = `/packages/get-all-paginated?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -76,5 +78,5 @@ export const {
   useGetPackageByUrlPrefixQuery,
   useDeletePackageMutation,
   useGetAllPackagesPaginatedQuery,
-  useLazyGetAllPackagesPaginatedQuery
+  useLazyGetAllPackagesPaginatedQuery,
 } = packageApi;

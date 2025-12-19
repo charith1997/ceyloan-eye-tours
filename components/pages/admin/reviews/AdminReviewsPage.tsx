@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BookText, Star } from "lucide-react";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
@@ -10,19 +10,26 @@ import { useDispatch } from "react-redux";
 import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminReviewsPage = () => {
-  const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
   const [reviews, setReviews] = useState<any[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   const [getPaginatedReviews] = useLazyGetPaginatedReviewsQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllReviews = async () => {
-    const { data } = await getPaginatedReviews({
+    const params: any = {
       page: currentPage,
       size: 10,
-    });
-    if (data.success) {
+    };
+
+    if (searchQuery.trim()) {
+      params.search = searchQuery.trim();
+    }
+
+    const { data } = await getPaginatedReviews(params);
+
+    if (data?.success) {
       setReviews(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
@@ -32,11 +39,14 @@ const AdminReviewsPage = () => {
     if (currentPage) {
       getAllReviews();
     }
-  }, [currentPage]);
+  }, [currentPage, searchQuery]);
 
-  const handleSearchChange = useCallback((filtered: any[]) => {
-    setFilteredReviews(filtered);
-  }, []);
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    if (currentPage !== 1) {
+      dispatch(setTotalPages(1));
+    }
+  };
 
   return (
     <>
@@ -46,12 +56,10 @@ const AdminReviewsPage = () => {
           title="Reviews"
           buttonName="Add Review"
           isDisplayActionButton={false}
-          data={reviews}
-          searchKeys={["review", "User.name"]}
           onSearchChange={handleSearchChange}
         />
         <DetailContainer className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-245px)]">
-          {filteredReviews.map((review: any, index: number) => (
+          {reviews.map((review: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center py-4 px-8 bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="flex items-center gap-8 w-3/4">
