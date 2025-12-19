@@ -320,7 +320,7 @@ const AdminBookingsPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="flex justify-between space-x-3 pt-4 border-t border-gray-200">
+                    <div className="flex justify-between items-center whitespace-nowrap space-x-3 pt-4 border-t border-gray-200">
                       <Button
                         className={`w-fit md:text-sm md:uppercase ${viewBtnColor}`}
                         label="View Details"

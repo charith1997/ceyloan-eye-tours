@@ -61,7 +61,7 @@ function AdminHotels({
 
   return (
     <>
-      <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
+      <DetailContainer className="max-h-[calc(100vh-445px)] md:max-h-[calc(100vh-325px)]">
         {filteredData.length > 0 &&
           filteredData.map((item: any, index: number) => (
             <div key={index}>

@@ -20,7 +20,7 @@ function AdminBusPage({
   handleEdit,
 }: AdminBusPageProps) {
   return (
-    <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-252px)]">
+    <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">
       {busses.map((bus: any, index: number) => (
         <div key={index}>
           <div className="hidden md:grid grid-cols-3 w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

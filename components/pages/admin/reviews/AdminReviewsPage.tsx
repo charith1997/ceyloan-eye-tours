@@ -50,7 +50,7 @@ const AdminReviewsPage = () => {
           searchKeys={["review", "User.name"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-245px)]">
           {filteredReviews.map((review: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center py-4 px-8 bg-white rounded-lg shadow-sm border border-gray-200">

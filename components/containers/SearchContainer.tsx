@@ -126,7 +126,7 @@ const SearchContainer = ({
                 {buttonName}
               </>
             }
-            className={`flex items-center gap-2 uppercase cursor-pointer ${addBtnColor}`}
+            className={`flex items-center gap-2 uppercase cursor-pointer whitespace-nowrap ${addBtnColor}`}
             onClick={onClick}
           />
         )}

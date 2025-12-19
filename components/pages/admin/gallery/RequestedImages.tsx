@@ -70,7 +70,7 @@ function RequestedImages({
   console.log("filteredData", filteredData);
 
   return (
-    <DetailContainer className="max-h-[calc(100vh-369px)] md:max-h-[calc(100vh-252px)]">
+    <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">
       {filteredData.map((item: any, index: number) => (
         <div key={index}>
           <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">
@@ -122,12 +122,12 @@ function RequestedImages({
               <span className="flex gap-1 items-center">
                 <Camera width={16} /> {item.User.name}
               </span>
-              <div className="flex gap-4 items-center">
-                <Eye
-                  color="orange"
-                  className="cursor-pointer"
-                  onClick={() => setViewImageUrl(item.image_url)}
-                />
+              <Eye
+                color="orange"
+                className="cursor-pointer"
+                onClick={() => setViewImageUrl(item.image_url)}
+              />
+              <div className="flex gap-2 items-center">
                 <Button
                   label="Approve"
                   className={`w-fit ${approveBtnColor}`}

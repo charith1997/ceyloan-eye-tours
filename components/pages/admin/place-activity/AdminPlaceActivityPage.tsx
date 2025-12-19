@@ -82,7 +82,7 @@ const AdminPlaceActivityPage = () => {
           searchKeys={["placeDetails.name"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-390px)] md:max-h-[calc(100vh-260px)]">
           {filteredPlaceActivities.map(
             ({ placeDetails, activities }: any, index: number) => (
               <div key={index}>

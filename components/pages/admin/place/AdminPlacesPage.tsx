@@ -65,7 +65,7 @@ const AdminPlacesPage = () => {
           searchKeys={["name"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-377px)] md:max-h-[calc(100vh-260px)]">
           {filteredPlaces.map((place: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 rounded-lg shadow-sm border border-gray-200">

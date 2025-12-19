@@ -69,7 +69,7 @@ const AdminCustomPackagesPage = () => {
           searchKeys={["User.name"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-254px)]">
+        <DetailContainer className="max-h-[calc(100vh-360px)] md:max-h-[calc(100vh-254px)]">
           {filteredProjects.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">

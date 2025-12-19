@@ -196,7 +196,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   }, []);
 
   return (
-    <div className={`flex h-screen bg-gray-100 ${className}`}>
+    <div className={`flex md:h-screen bg-gray-100 ${className}`}>
       <div
         className={`${
           showMessages ? "flex" : "hidden"
