@@ -1,5 +1,6 @@
 "use client";
 
+import { useLazyGetCalendarBookingsQuery } from "@/services/bookingApi";
 import { useEffect, useState, MouseEvent, JSX } from "react";
 // import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
@@ -48,6 +49,8 @@ function Home() {
     y: 0,
   });
 
+  const [getCalendarBookings] = useLazyGetCalendarBookingsQuery();
+
   const monthNames: string[] = [
     "January",
     "February",
@@ -62,6 +65,10 @@ function Home() {
     "November",
     "December",
   ];
+
+  const getBookingDetails = async (year: number, month: number) => {
+    return await getCalendarBookings({ year, month });
+  };
 
   const dayNames: string[] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
@@ -86,10 +93,10 @@ function Home() {
   const fetchBookings = async (): Promise<void> => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/bookings/calendar?year=${selectedYear}&month=${selectedMonth}`
-      );
-      const data: ApiResponse = await response.json();
+      const data = await getCalendarBookings({
+        year: selectedYear,
+        month: selectedMonth,
+      }).unwrap();
       if (data.success) {
         setBookings(data.data);
       }
@@ -358,10 +365,12 @@ function Home() {
         {/* Calendar Grid */}
         {loading ? (
           <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+            {/* <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div> */}
           </div>
         ) : (
-          <div className="grid grid-cols-7 gap-0 max-h-[calc(100vh-385px)] md:max-h-[calc(100vh-226px)] overflow-y-auto">{renderCalendarDays()}</div>
+          <div className="grid grid-cols-7 gap-0 max-h-[calc(100vh-385px)] md:min-h-[calc(100vh-226px)] overflow-y-auto">
+            {renderCalendarDays()}
+          </div>
         )}
 
         {/* Modal */}

@@ -29,6 +29,12 @@ export const bookingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Booking"],
     }),
+    getCalendarBookings: builder.query<any, { month: number; year: number }>({
+      query: ({ month, year }) => ({
+        url: `/bookings/calendar?year=${year}&month=${month}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -37,4 +43,6 @@ export const {
   useAddBookingMutation,
   useGetBookingByIdQuery,
   useUpdateStatusMutation,
+  useGetCalendarBookingsQuery,
+  useLazyGetCalendarBookingsQuery,
 } = bookingApi;
