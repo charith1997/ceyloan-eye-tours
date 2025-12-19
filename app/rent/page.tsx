@@ -11,9 +11,9 @@ export default function RentVehicle() {
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Rent a Vehicle"
-        description="Find the perfect vehicle for your journey."
-        imageUrl="/rent/Rent Vehicle.jpg"
+        title="Rent Your Perfect Vehicle"
+        description="Choose from cars, vans, and buses with experienced drivers for comfortable island exploration."
+        imageUrl="/hero images/rent.jpeg"
       />
       <div className="py-12">
         <PageRouting />

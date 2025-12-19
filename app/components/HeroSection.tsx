@@ -75,9 +75,9 @@ export default function HeroSection() {
   const slides = [
     {
       title: "Explore Sri Lanka",
-      subtitle: "Let’s Go Now",
+      subtitle: "Your Sri Lanka Adventure Starts",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+        "Plan extraordinary journeys through paradise with expert guides, curated tours, and authentic experiences.",
       image: "/hero_1.png",
       content: (
         <div className="backdrop-blur-lg p-4 rounded-3xl flex flex-col md:flex-row items-center gap-4 w-full max-w-lg mt-8">
@@ -96,9 +96,7 @@ export default function HeroSection() {
           <div className="flex items-center gap-4 w-full md:w-auto">
             <CalendarDays size={20} />
             <div>
-              <p className="text-base leading-[24px] tracking-normal">
-                Date
-              </p>
+              <p className="text-base leading-[24px] tracking-normal">Date</p>
               <p className="font-bold text-[20px] leading-[24px] tracking-normal">
                 13 September, 2025
               </p>

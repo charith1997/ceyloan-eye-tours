@@ -38,9 +38,9 @@ const PackagesPage = () => {
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Packages Page"
-        description="Explore our exclusive packages"
-        imageUrl="/tour packages/package_1.jpg"
+        title="Complete Travel Packages"
+        description="Curated tour packages combining accommodation, transport, and guided experiences for unforgettable journeys."
+        imageUrl="/hero images/packages.jpeg"
       />
       <PageDetails
         title="Packages"

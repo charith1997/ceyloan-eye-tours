@@ -35,9 +35,9 @@ function PlacesPage() {
   return (
     <PageContainer>
       <Jumbotron
-        title="Places Page"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-        imageUrl="/round tours/round-tours_main.png"
+        title="Amazing Places To Visit"
+        description="Uncover Sri Lanka's hidden gems, from ancient temples to pristine beaches and mountains."
+        imageUrl="/hero images/places.jpeg"
       />
       <PageDetails
         title="Tour Places"

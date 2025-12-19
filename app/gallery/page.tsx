@@ -22,9 +22,9 @@ function GalleryPage() {
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Gallery"
-        description="See our beautiful gallery of images."
-        imageUrl="/round tours/round-tours_main.png"
+        title="Travelers' Photo Memories"
+        description="Browse stunning photographs captured by fellow travelers exploring Sri Lanka's beauty and culture."
+        imageUrl="/hero images/gallery.jpeg"
       />
       <div className="py-12">
         <PageRouting />

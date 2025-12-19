@@ -35,9 +35,9 @@ function HotelsPage() {
   return (
     <PageContainer>
       <Jumbotron
-        title="Hotels"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-        imageUrl="/round tours/round-tours_main.png"
+        title="Comfortable Accommodation Options"
+        description="Find perfect stays from luxury resorts to cozy guesthouses across Sri Lanka's destinations."
+        imageUrl="/hero images/hotels.jpeg"
       />
       <PageDetails
         title="Tour Hotels and Accommodations"

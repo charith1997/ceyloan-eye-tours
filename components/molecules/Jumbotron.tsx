@@ -16,7 +16,7 @@ const Jumbotron: React.FC<JumbotronProps> = ({
     <div className="rounded-xl shadow-md bg-cover bg-center h-[300px] inset-0 z-0 relative">
       <img
         src={imageUrl ? checkImageUrl(imageUrl) : "/default-image.jpg"}
-        alt={`Jumbotron image`}
+        alt="Hero Image"
         className="absolute w-full h-full object-cover rounded-xl"
       />
 
@@ -25,9 +25,7 @@ const Jumbotron: React.FC<JumbotronProps> = ({
         <p className="text-4xl md:text-6xl font-bold md:whitespace-nowrap text-center">
           {title}
         </p>
-        <p className="text-lg w-full sm:w-3/5 text-center">
-          {description}
-        </p>
+        <p className="text-lg w-full sm:w-3/5 text-center">{description}</p>
       </div>
     </div>
   );

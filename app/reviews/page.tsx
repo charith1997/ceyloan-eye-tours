@@ -14,9 +14,9 @@ function ReviewsPage() {
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title="Customer Reviews"
-        description="See what our customers have to say about their experiences."
-        imageUrl="/round tours/round-tours_main.png"
+        title="What Travelers Say"
+        description="Read authentic experiences from travelers who explored Sri Lanka with our expertly crafted tours."
+        imageUrl="/hero images/reviews.jpeg"
       />
       <PageDetails
         title="Reviews"

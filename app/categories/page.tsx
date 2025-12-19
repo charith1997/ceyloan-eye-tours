@@ -34,9 +34,9 @@ export default function Categories() {
 
   return (
     <CategoriesPage
-      heroTitle="Jwing Tours"
-      heroDescription="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
-      imageUrl="/round tours/round-tours_main.png"
+      heroTitle="Explore Sri Lanka Tours"
+      heroDescription="Discover diverse tour experiences across Sri Lanka's breathtaking landscapes and rich cultural heritage."
+      imageUrl="/hero images/categories.jpeg"
       description="Lorem Ipsum is simply dummy text of the printing and typesetting industry..."
       categories={categories}
       title="Tour Categories"
