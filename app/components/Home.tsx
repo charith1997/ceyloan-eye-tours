@@ -87,7 +87,7 @@ function Home() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:4000/api/bookings/calendar?year=${selectedYear}&month=${selectedMonth}`
+        `http://localhost:5000/api/bookings/calendar?year=${selectedYear}&month=${selectedMonth}`
       );
       const data: ApiResponse = await response.json();
       if (data.success) {
@@ -269,7 +269,7 @@ function Home() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <div className="container mx-auto p-4">
       <div className="bg-white rounded-lg shadow-lg p-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
@@ -361,7 +361,7 @@ function Home() {
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
           </div>
         ) : (
-          <div className="grid grid-cols-7 gap-0">{renderCalendarDays()}</div>
+          <div className="grid grid-cols-7 gap-0 max-h-[calc(100vh-385px)] md:max-h-[calc(100vh-226px)] overflow-y-auto">{renderCalendarDays()}</div>
         )}
 
         {/* Modal */}

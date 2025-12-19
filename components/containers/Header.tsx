@@ -85,7 +85,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
 
   const getLoggedUserDetails = async () => {
     const { data } = await getDetails();
-    if (data.success) setUserDetails(data.data);
+    if (data?.success) setUserDetails(data.data);
   };
 
   useEffect(() => {
