@@ -5,10 +5,13 @@ import SearchContainer from "@/components/containers/SearchContainer";
 import AdminCarsPage from "./car/AdminCarsPage";
 import AdminVansPage from "./van/AdminVansPage";
 import AdminBusPage from "./bus/AdminBusPage";
-import { useGetAllVehiclesQuery } from "@/services/vehicleApi";
+import { useLazyGetAllVehiclesPaginatedQuery } from "@/services/vehicleApi";
 import VehicleDetails from "./VehicleDetails";
 import AddVehicle from "./AddVehicle";
 import DeleteVehicle from "./DeleteVehicle";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminVehiclesPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -17,8 +20,29 @@ const AdminVehiclesPage = () => {
   const [details, setDetails] = useState<any | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
   const [filteredVehicles, setFilteredVehicles] = useState<any[]>([]);
-  const { data } = useGetAllVehiclesQuery();
-  const vehicles = Array.isArray(data?.data) ? data.data : [];
+
+  const [vehicles, setVehicles] = useState<any[]>([]);
+  const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllVehicles = async () => {
+    const { data } = await getAllVehiclesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setVehicles(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllVehicles();
+    }
+  }, [currentPage]);
 
   const handleShowDetails = (details: any) => {
     setShow(true);

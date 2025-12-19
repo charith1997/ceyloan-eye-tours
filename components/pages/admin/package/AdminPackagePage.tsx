@@ -4,8 +4,8 @@ import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import {
-  useGetAllPackagesQuery,
   useGetPackageByUrlPrefixQuery,
+  useLazyGetAllPackagesPaginatedQuery,
 } from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
 import { displayTourType } from "@/utils/common";
@@ -14,6 +14,9 @@ import DetailContainer from "@/components/containers/DetailContainer";
 import DeletePackage from "./DeletePackage";
 import PackageDetails from "./PackageDetails";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminPackagePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,9 +27,7 @@ const AdminPackagePage = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [packagePlaceData, setPackagePlaceData] = useState([]);
   const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
-
-  const { data } = useGetAllPackagesQuery();
-  const packages = Array.isArray(data?.data) ? data.data : [];
+  const [packages, setPackages] = useState<any[]>([]);
 
   const { data: pkgPlaceData } = useGetPackageByUrlPrefixQuery(
     isEdit ? selectedPackage?.url_prefix || "" : "",
@@ -48,15 +49,35 @@ const AdminPackagePage = () => {
     }
   }, [isEdit, pkgPlaceData]);
 
-  // Memoized callback to handle search changes
   const handleSearchChange = useCallback((filtered: any[]) => {
     setFilteredProjects(filtered);
   }, []);
 
-  // Initialize filtered projects on first load
+  const [getAllPackagesPaginated] = useLazyGetAllPackagesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPackages = async () => {
+    const { data } = await getAllPackagesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPackages(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
   useEffect(() => {
     setFilteredProjects(packages);
   }, [packages.length]);
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPackages();
+    }
+  }, [currentPage]);
 
   return (
     <>
@@ -70,7 +91,7 @@ const AdminPackagePage = () => {
           searchKeys={["title"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-383px)] md:max-h-[calc(100vh-266px)]">
           {filteredProjects.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">

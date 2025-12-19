@@ -54,11 +54,12 @@ export const categoryApi = baseApi.injectEndpoints({
     }),
     getAllCategoriesPaginated: builder.query<
       any,
-      { page: number; size: number; tourType?: string }
+      { page: number; size: number; tourType?: string; search?: string }
     >({
-      query: ({ page, size, tourType }) => {
+      query: ({ page, size, tourType, search }) => {
         let url = `/categories/get-all-with-pagination?page=${page}&size=${size}`;
         if (tourType) url += `&tourType=${tourType}`;
+        if (search) url += `&search=${search}`;
         return url;
       },
     }),

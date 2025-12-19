@@ -25,6 +25,7 @@ export const baseApi = createApi({
     "Places",
     "Vehicles",
     "User",
+    "UserMessageCount",
   ],
   endpoints: () => ({}),
 });

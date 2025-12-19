@@ -37,6 +37,15 @@ export const galleryApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Gallery"],
     }),
+    getAllGalleryItemsPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/gallery/get-all-paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -46,4 +55,6 @@ export const {
   useUpdateGalleryStatusMutation,
   useDeleteGalleryImageMutation,
   useAddGalleryImageMutation,
+  useGetAllGalleryItemsPaginatedQuery,
+  useLazyGetAllGalleryItemsPaginatedQuery,
 } = galleryApi;

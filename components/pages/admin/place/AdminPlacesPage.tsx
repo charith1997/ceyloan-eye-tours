@@ -1,9 +1,9 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BookText, MapPin } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
-import { useGetAllPlacesQuery } from "@/services/placesApi";
+import { useLazyGetAllPlacesPaginatedQuery } from "@/services/placesApi";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import DeletePlace from "./DeletePlace";
@@ -11,6 +11,9 @@ import AddPlace from "./AddPlace";
 import { checkImageUrl } from "@/utils/common";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import PlaceDetails from "./PlaceDetails";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminPlacesPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -18,8 +21,29 @@ const AdminPlacesPage = () => {
   const [selectedPlace, setSelectedPlace] = React.useState<any | null>(null);
   const [displayDetails, setDisplayDetails] = React.useState(false);
   const [filteredPlaces, setFilteredPlaces] = React.useState<any[]>([]);
-  const { data } = useGetAllPlacesQuery();
-  const places = Array.isArray(data?.data) ? data.data : [];
+
+  const [places, setPlaces] = useState<any[]>([]);
+  const [getAllPlacesPaginated] = useLazyGetAllPlacesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPlaces = async () => {
+    const { data } = await getAllPlacesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPlaces(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPlaces();
+    }
+  }, [currentPage]);
 
   const handleSearchChange = useCallback((filtered: any[]) => {
     setFilteredPlaces(filtered);

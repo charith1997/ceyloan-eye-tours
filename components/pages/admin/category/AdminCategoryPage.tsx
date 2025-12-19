@@ -3,13 +3,16 @@ import { BookText, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
-import { useGetAllCategoriesQuery } from "@/services/categoryApi";
+import { useLazyGetAllCategoriesPaginatedQuery } from "@/services/categoryApi";
 import DetailContainer from "@/components/containers/DetailContainer";
 import AddCategory from "./AddCategory";
 import DeleteCategory from "./DeleteCategory";
 import CategoryDetails from "./CategoryDetails";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,8 +21,29 @@ const AdminCategoryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [filteredCategories, setFilteredCategories] = useState<any[]>([]);
-  const { data } = useGetAllCategoriesQuery({});
-  const categories = Array.isArray(data?.data) ? data.data : [];
+
+  const [categories, setCategories] = useState<any[]>([]);
+  const [getAllCategoriesPaginated] = useLazyGetAllCategoriesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllCategories = async () => {
+    const { data } = await getAllCategoriesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setCategories(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllCategories();
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     setFilteredCategories(categories);
@@ -37,7 +61,7 @@ const AdminCategoryPage = () => {
           searchKeys={["name"]}
           onSearchChange={setFilteredCategories}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-383px)] md:max-h-[calc(100vh-260px)]">
           {filteredCategories.map((category: any, index: number) => (
             <div key={index}>
               <div className="hidden md:flex w-full items-center justify-between p-2 bg-white rounded-lg shadow-sm border border-gray-200">

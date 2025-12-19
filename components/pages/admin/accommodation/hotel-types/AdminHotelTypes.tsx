@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
-import { useGetAllHotelTypesQuery } from "@/services/hotelTypeApi";
+import { useLazyGetAllHotelTypesPaginatedQuery } from "@/services/hotelTypeApi";
 import { BookText, Component } from "lucide-react";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
 import HotelDetails from "./HotelDetails";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 interface AdminHotelTypesProps {
   setDeleteHotelType: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,10 +30,30 @@ function AdminHotelTypes({
 }: AdminHotelTypesProps) {
   const [show, setShow] = useState(false);
   const [hotelTypeURL, setHotelTypeURL] = useState<string | null>(null);
-  const { data } = useGetAllHotelTypesQuery();
-  const hotelTypes = Array.isArray(data?.data) ? data.data : [];
 
-  // Update parent with hotel types data and search keys only when data length changes
+  const [hotelTypes, setHotelTypes] = useState<any[]>([]);
+  const [getAllHotelTypesPaginated] = useLazyGetAllHotelTypesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllHotelTypes = async () => {
+    const { data } = await getAllHotelTypesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setHotelTypes(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllHotelTypes();
+    }
+  }, [currentPage]);
+
   useEffect(() => {
     setSearchData(hotelTypes);
     setSearchKeys(["name"]);

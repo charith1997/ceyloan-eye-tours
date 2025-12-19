@@ -77,6 +77,14 @@ export const customPackageApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Custom Package"],
     }),
+    getAllPaginatedPackages: builder.query<any, { page: number; size: number }>(
+      {
+        query: ({ page, size }) => {
+          let url = `/custom-packages/get-all-with-pagination?page=${page}&size=${size}`;
+          return url;
+        },
+      }
+    ),
   }),
 });
 
@@ -89,4 +97,6 @@ export const {
   useUpdatePriceMutation,
   useUpdateCustomPackagePlaceMutation,
   useCreateCustomPackagePlaceMutation,
+  useGetAllPaginatedPackagesQuery,
+  useLazyGetAllPaginatedPackagesQuery,
 } = customPackageApi;

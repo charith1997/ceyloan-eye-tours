@@ -4,7 +4,7 @@ import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import DetailContainer from "@/components/containers/DetailContainer";
-import { useGetAllCustomPackagesQuery } from "@/services/customPackageApi";
+import { useLazyGetAllPaginatedPackagesQuery } from "@/services/customPackageApi";
 import PlaceOrder from "./PlaceOrders";
 import { checkIfSortedOrder } from "@/utils/package";
 import ApprovePackage from "./ApprovePackage";
@@ -15,6 +15,9 @@ import {
   updateBtnColor,
   viewBtnColor,
 } from "@/styles/colors";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminCustomPackagesPage = () => {
   const [showPlaceOrdersModal, setShowPlaceOrdersModal] = useState(false);
@@ -23,18 +26,35 @@ const AdminCustomPackagesPage = () => {
   const [packageDetails, setPackageDetails] = useState<any | null>(null);
   const [filteredProjects, setFilteredProjects] = useState<any[]>([]);
 
-  const { data } = useGetAllCustomPackagesQuery();
-  const packages = Array.isArray(data?.data) ? data.data : [];
-
-  // Memoize the search change handler to prevent infinite loops
   const handleSearchChange = useCallback((filtered: any[]) => {
     setFilteredProjects(filtered);
   }, []);
 
-  // Initialize filtered projects when packages data loads
+  const [packages, setPackages] = useState<any[]>([]);
   useEffect(() => {
     setFilteredProjects(packages);
   }, [packages.length]);
+  const [getAllPaginatedPackages] = useLazyGetAllPaginatedPackagesQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPackages = async () => {
+    const { data } = await getAllPaginatedPackages({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPackages(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPackages();
+    }
+  }, [currentPage]);
 
   return (
     <>
@@ -49,7 +69,7 @@ const AdminCustomPackagesPage = () => {
           searchKeys={["User.name"]}
           onSearchChange={handleSearchChange}
         />
-        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-182px)]">
+        <DetailContainer className="max-h-[calc(100vh-307px)] md:max-h-[calc(100vh-254px)]">
           {filteredProjects.map((item: any, index: number) => (
             <div key={index}>
               <div className="hidden md:grid grid-cols-3 w-full items-center p-2 bg-white rounded-lg shadow-sm border border-gray-200">

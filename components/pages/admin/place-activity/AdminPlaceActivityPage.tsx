@@ -6,12 +6,15 @@ import SearchContainer from "@/components/containers/SearchContainer";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
 import DeletePlaceActivity from "./DeletePlaceActivity";
-import { useGetAllPlaceActivitiesQuery } from "@/services/placeActivity";
+import { useLazyGetAllPlaceActivitiesPaginatedQuery } from "@/services/placeActivity";
 import PlaceActivities from "./PlaceActivities";
 import AddPlaceActivity from "./AddPlaceActivity";
 import { disableBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
 import EditActivity from "./EditActivity";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminPlaceActivityPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,8 +27,30 @@ const AdminPlaceActivityPage = () => {
   const [filteredPlaceActivities, setFilteredPlaceActivities] = useState<any[]>(
     []
   );
-  const { data } = useGetAllPlaceActivitiesQuery();
-  const placeActivities = Array.isArray(data?.data) ? data.data : [];
+
+  const [placeActivities, setPlaceActivities] = useState<any[]>([]);
+  const [getAllPlaceActivitiesPaginated] =
+    useLazyGetAllPlaceActivitiesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPlaceActivities = async () => {
+    const { data } = await getAllPlaceActivitiesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setPlaceActivities(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPlaceActivities();
+    }
+  }, [currentPage]);
 
   const displayDeleteModal = (data: any) => {
     setSelectedActivity(data);

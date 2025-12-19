@@ -37,6 +37,15 @@ export const hotelTypeApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["HotelType"],
     }),
+    getAllHotelTypesPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/hotel-types/get-all-paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
     getAllHotelTypesWithHotelsPaginated: builder.query<
       any,
       { page: number; size: number }
@@ -65,6 +74,8 @@ export const {
   useUpdateHotelTypeMutation,
   useGetHotelTypeByUrlPrefixQuery,
   useDeleteHotelTypeMutation,
+  useGetAllHotelTypesPaginatedQuery,
+  useLazyGetAllHotelTypesPaginatedQuery,
   useGetAllHotelTypesWithHotelsPaginatedQuery,
   useLazyGetAllHotelTypesWithHotelsPaginatedQuery,
   useGetHotelTypeByUrlPrefixPaginatedQuery,

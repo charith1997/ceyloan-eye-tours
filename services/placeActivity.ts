@@ -32,6 +32,15 @@ export const placeActivity = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["PlaceActivities"],
     }),
+    getAllPlaceActivitiesPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/place-activities/grouped-paginated?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -40,4 +49,6 @@ export const {
   useCreatePlaceActivityMutation,
   useUpdatePlaceActivityMutation,
   useDeletePlaceActivityMutation,
+  useGetAllPlaceActivitiesPaginatedQuery,
+  useLazyGetAllPlaceActivitiesPaginatedQuery,
 } = placeActivity;

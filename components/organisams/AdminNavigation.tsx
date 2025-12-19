@@ -23,6 +23,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { logout } from "@/features/authSlice";
 import { useRouter } from "next/navigation";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 interface AdminNavigationProps {
   showSidebar: boolean;
@@ -140,6 +141,8 @@ const AdminNavigation = ({
                 onClick={() => {
                   clickNavItem(item.name);
                   setShowSidebar(false);
+                  dispatch(setTotalPages(0));
+                  dispatch(setCurrentPage(1));
                 }}
                 style={{ animationDelay: `${index * 50}ms` }}
               >

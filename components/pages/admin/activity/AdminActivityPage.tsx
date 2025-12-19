@@ -3,7 +3,7 @@ import { BookText, Component } from "lucide-react";
 import Button from "@/components/atoms/Button";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
-import { useGetAllActivitiesQuery } from "@/services/activityApi";
+import { useLazyGetAllActivitiesPaginatedQuery } from "@/services/activityApi";
 import AddActivity from "./AddActivity";
 import DeleteActivity from "./DeleteActivity";
 import DetailContainer from "@/components/containers/DetailContainer";
@@ -11,6 +11,9 @@ import Image from "next/image";
 import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
 import ActivityDetails from "./ActivityDetails";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminActivityPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -20,8 +23,28 @@ const AdminActivityPage = () => {
   const [displayDetails, setDisplayDetails] = useState(false);
   const [filteredActivities, setFilteredActivities] = useState<any[]>([]);
 
-  const { data } = useGetAllActivitiesQuery();
-  const activities = Array.isArray(data?.data) ? data.data : [];
+  const [activities, setActivities] = useState<any[]>([]);
+  const [getAllActivitiesPaginated] = useLazyGetAllActivitiesPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllCategories = async () => {
+    const { data } = await getAllActivitiesPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setActivities(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllCategories();
+    }
+  }, [currentPage]);
 
   useEffect(() => {
     setFilteredActivities(activities);

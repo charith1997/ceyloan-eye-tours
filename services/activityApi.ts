@@ -32,6 +32,15 @@ export const activityApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Activity"],
     }),
+    getAllActivitiesPaginated: builder.query<
+      any,
+      { page: number; size: number }
+    >({
+      query: ({ page, size }) => {
+        let url = `/activities/paginate-activities?page=${page}&size=${size}`;
+        return url;
+      },
+    }),
   }),
 });
 
@@ -40,4 +49,6 @@ export const {
   useAddActivityMutation,
   useDeleteActivityMutation,
   useUpdateActivityMutation,
+  useGetAllActivitiesPaginatedQuery,
+  useLazyGetAllActivitiesPaginatedQuery,
 } = activityApi;

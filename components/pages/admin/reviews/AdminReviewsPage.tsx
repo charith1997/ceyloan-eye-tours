@@ -1,15 +1,38 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BookText, Star } from "lucide-react";
 import NavigationContainer from "@/components/containers/NavigationContainer";
 import SearchContainer from "@/components/containers/SearchContainer";
 import DetailContainer from "@/components/containers/DetailContainer";
 import Image from "next/image";
-import { useGetAllReviewsQuery } from "@/services/reviewApi";
+import { useLazyGetPaginatedReviewsQuery } from "@/services/reviewApi";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 const AdminReviewsPage = () => {
   const [filteredReviews, setFilteredReviews] = useState<any[]>([]);
-  const { data } = useGetAllReviewsQuery();
-  const reviews = Array.isArray(data?.data) ? data.data : [];
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [getPaginatedReviews] = useLazyGetPaginatedReviewsQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllReviews = async () => {
+    const { data } = await getPaginatedReviews({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setReviews(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllReviews();
+    }
+  }, [currentPage]);
 
   const handleSearchChange = useCallback((filtered: any[]) => {
     setFilteredReviews(filtered);

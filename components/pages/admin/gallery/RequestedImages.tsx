@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Button from "@/components/atoms/Button";
 import DetailContainer from "@/components/containers/DetailContainer";
-import { useGetAllGalleryItemsQuery } from "@/services/galleryApi";
+import { useLazyGetAllGalleryItemsPaginatedQuery } from "@/services/galleryApi";
 import { Camera, Eye } from "lucide-react";
 import Image from "next/image";
 import { approveBtnColor, deleteBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
@@ -24,20 +27,47 @@ function RequestedImages({
   setSearchKeys,
   filteredData,
 }: RequestedImagesProps) {
-  const { data, error } = useGetAllGalleryItemsQuery();
-  const list = Array.isArray(data?.data) ? data.data : [];
-  let requestedGalleryItems = [];
-  if (list) {
-    requestedGalleryItems = list.filter(
-      (item: any) => item.is_approved === false
-    );
-  }
+  const [list, setList] = useState<any[]>([]);
+  const [requestedImages, setRequestedImages] = useState<any[]>([]);
+  const [getAllGalleryItemsPaginated] =
+    useLazyGetAllGalleryItemsPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllCategories = async () => {
+    const { data } = await getAllGalleryItemsPaginated({
+      page: currentPage,
+      size: 10,
+    });
+    if (data.success) {
+      setList(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllCategories();
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (list) {
+      const requestedGalleryItems = list.filter(
+        (item: any) => item.is_approved === false
+      );
+      setRequestedImages([...requestedGalleryItems]);
+    }
+  }, [list]);
 
   // Update parent with requested items and search keys
   useEffect(() => {
-    setSearchData(requestedGalleryItems);
+    setSearchData(requestedImages);
     setSearchKeys(["User.name"]);
-  }, [requestedGalleryItems.length, setSearchData, setSearchKeys]);
+  }, [requestedImages.length, setSearchData, setSearchKeys]);
+
+  console.log("filteredData", filteredData);
 
   return (
     <DetailContainer className="max-h-[calc(100vh-369px)] md:max-h-[calc(100vh-252px)]">
