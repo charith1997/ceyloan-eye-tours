@@ -187,7 +187,7 @@ const ChatWidget = () => {
       {!isOpen && (
         <button
           onClick={handleOpen}
-          className="group fixed bottom-6 right-6 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 z-50 ring-2 ring-orange-200 hover:ring-orange-300"
+          className="group fixed bottom-6 right-6 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 z-50 ring-2 ring-orange-200 hover:ring-orange-300 cursor-pointer"
           aria-label="Open chat"
           type="button"
         >

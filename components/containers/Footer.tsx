@@ -9,10 +9,10 @@ const Footer = () => {
             Jwing Tours
           </h2>
           <p className="text-sm leading-relaxed text-gray-300 mb-4">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry&apos;s standard dummy
-            text ever since the 1500s, when an unknown printer took a galley of
-            type and scrambled it to make a type specimen book.
+            Your gateway to extraordinary adventures and unforgettable journeys.
+            We specialize in curating travel experiences that ignite passion,
+            explore the unseen, and create stories worth telling—every step of
+            the way.
           </p>
           <div className="flex space-x-4 mt-4 text-white">
             <a href="#" aria-label="Facebook">
@@ -71,7 +71,7 @@ const Footer = () => {
           <ul className="space-y-2 text-gray-300 text-sm">
             <li>No 5/5 Negombo Road, Dankotuwa</li>
             <li>+94 76 393 9000</li>
-            <li>ceyloneyetours@gmail.com</li>
+            <li>jwingtours@gmail.com</li>
             <li>www.jwingtours.com</li>
           </ul>
         </div>

@@ -18,9 +18,9 @@ const TourPackages = () => {
           tour packages
         </h1>
         <p className="text-[16px] leading-[26px]">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry&apos;s standard dummy text
-          ever since the 1500s,
+          Discover unforgettable journeys with [Company Name]. We craft
+          exceptional tours to the world&apos;s most stunning destinations,
+          offering adventure, culture, and perfect relaxation
         </p>
       </div>
 

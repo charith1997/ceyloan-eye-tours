@@ -37,7 +37,7 @@ export default function Categories() {
       heroTitle="Explore Sri Lanka Tours"
       heroDescription="Discover diverse tour experiences across Sri Lanka's breathtaking landscapes and rich cultural heritage."
       imageUrl="/hero images/categories.jpeg"
-      description="Lorem Ipsum is simply dummy text of the printing and typesetting industry..."
+      description="Discover handpicked tours tailored to different interests, destinations, and travel styles. Your ideal vacation is just a category away..."
       categories={categories}
       title="Tour Categories"
     />
