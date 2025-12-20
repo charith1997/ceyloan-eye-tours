@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Search, Send, ArrowLeft } from "lucide-react";
 import {
   useAddChatMutation,
@@ -10,6 +10,7 @@ import {
 import io from "socket.io-client";
 import { getUserDetails } from "@/utils/auth";
 import { randomUUID } from "crypto";
+import { ChatLoading } from "@/components/atoms/ChatLoading";
 
 interface Contact {
   id: string;
@@ -26,7 +27,7 @@ interface Contact {
 
 interface Chat {
   id: string;
-  message: string;
+  message: string | ReactNode;
   sender_id: string;
   receiver_id: string;
   user_id: string;
@@ -47,6 +48,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const [socket, setSocket] = useState<any | null>(null);
   const [chats, setChats] = useState<Chat[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const [isReceivingMessage, setIsReceivingMessage] = useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -67,7 +69,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [chats]);
+  }, [chats, isReceivingMessage]);
 
   useEffect(() => {
     if (selectedContact) {
@@ -89,8 +91,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
   const handleSelectContact = async (contact: Contact) => {
     try {
-      handleReadMessage(contact.user.id);
-      getAllAdminChats();
+      await handleReadMessage(contact.user.id);
+      await getAllAdminChats();
       const { data } = await getSingleChat(contact.user.id);
       if (data.success) {
         setChats(data.data);
@@ -115,6 +117,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
           setChats(() => {
             return data.data;
           });
+          setIsReceivingMessage(false);
         }
         return current; // Don't change the state
       });
@@ -126,7 +129,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
   const getAllAdminChats = async () => {
     const { data: chatList } = await getAdminChats();
-    if (chatList.success) setContacts(chatList.data);
+    if (chatList.success) setContacts((prev) => chatList.data);
   };
 
   const getAllInitialAdminChats = async () => {
@@ -188,7 +191,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   };
 
   useEffect((): any => {
-    // getAllAdminChats();
     getAllInitialAdminChats();
     const s = io(backendUrl);
     setSocket(s);
@@ -196,15 +198,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
     s.on("messageReceived", (data) => {
       if (data) {
-        getChat(data.from);
-
         setSelectedContact((current) => {
           if (current && current.user.id === data.from) {
+            setIsReceivingMessage(true);
             handleReadMessage(current.user.id);
             getAllAdminChats();
           }
-          return current; // Don't change the state
+          return current;
         });
+        getChat(data.from);
       }
     });
 
@@ -370,6 +372,19 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
                     )}
                   </div>
                 ))}
+                {isReceivingMessage ? (
+                  <div className="flex justify-start">
+                    <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                      <span className="text-xs font-medium text-gray-600">
+                        {selectedContact.user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </span>
+                    </div>
+                    <ChatLoading />
+                  </div>
+                ) : null}
                 <div ref={messagesEndRef} />
               </>
             </div>

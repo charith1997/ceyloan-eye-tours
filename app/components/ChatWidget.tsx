@@ -141,22 +141,15 @@ const ChatWidget = () => {
     s.emit("join", { id: userId });
 
     s.on("messageReceived", (data) => {
-      console.log("messageReceived");
-
       if (data) {
-        console.log("if data", data);
-
         getUserMessages();
         if (isOpen) {
           handleRead();
         }
         setIsOpen((current) => {
           if (!current) {
-            console.log("not current");
-
             handleUnreadMessageCount();
           } else {
-            console.log("current");
             handleRead();
           }
           return current;
