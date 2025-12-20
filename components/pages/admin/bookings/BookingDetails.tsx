@@ -273,12 +273,18 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                   </h4>
                   <div className="bg-white border border-gray-200 rounded-lg p-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm text-gray-500">Payment ID</p>
-                        <p className="mt-1 text-sm text-gray-900 font-mono">
-                          {booking.Payment.payment_id}
-                        </p>
-                      </div>
+                      {booking.Payment.payment_id ? (
+                        <div>
+                          <p className="text-sm text-gray-500">Payment ID</p>
+                          <p className="mt-1 text-sm text-gray-900 font-mono">
+                            {booking.Payment.payment_id}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-s"></p>
+                        </div>
+                      )}
 
                       <div>
                         <p className="text-sm text-gray-500">Amount</p>

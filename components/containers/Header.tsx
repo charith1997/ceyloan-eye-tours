@@ -17,10 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout, setRedirectPath } from "@/features/authSlice";
 import { RootState } from "@/store";
 import Image from "next/image";
-import {
-  useGetUserDetailQuery,
-  useLazyGetUserDetailQuery,
-} from "@/services/userApi";
+import { useLazyGetUserDetailQuery } from "@/services/userApi";
 import { checkImageUrl } from "@/utils/common";
 
 export default function HeaderWrapper() {
@@ -76,6 +73,8 @@ function Header({ bgClass, pathname }: HeaderProps) {
     name: "",
   });
 
+  const authToken = localStorage.getItem("authToken");
+
   const modalRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [getDetails] = useLazyGetUserDetailQuery();
@@ -87,6 +86,10 @@ function Header({ bgClass, pathname }: HeaderProps) {
     const { data } = await getDetails();
     if (data?.success) setUserDetails(data.data);
   };
+
+  useEffect(() => {
+    getLoggedUserDetails();
+  }, [authToken]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -187,7 +190,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
           {navItems.map((item) => (
             <div key={item.label} className="relative">
               {item.group ? (
-                // Dropdown group
                 <div
                   className="relative group"
                   onMouseEnter={() => setActiveDropdown(item.label)}
@@ -217,7 +219,6 @@ function Header({ bgClass, pathname }: HeaderProps) {
                   </div>
                 </div>
               ) : (
-                // Regular link
                 <Link
                   href={item.href}
                   className="text-[14px] leading-[100%] tracking-[0] whitespace-nowrap hover:text-gray-200 transition-colors"

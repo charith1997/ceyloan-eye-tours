@@ -82,9 +82,11 @@ const ProfileForm = ({ initialValues }: { initialValues: any }) => {
       const response = await updateUserProfile({
         data: formData as any,
       }).unwrap();
-
-      toast.success(response.message);
-      setIsEditing(false);
+      if (response.success) {
+        toast.success(response.message);
+        setIsEditing(false);
+        localStorage.setItem("authToken", response.data);
+      }
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to update profile");
     } finally {
