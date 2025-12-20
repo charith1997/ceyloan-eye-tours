@@ -3,8 +3,8 @@ import { X, MessageCircle, Send } from "lucide-react";
 import { Message } from "../../types/chat.types";
 import {
   useAddChatMutation,
-  useGetUserUnreadCountQuery,
   useLazyGetUserChatsQuery,
+  useLazyGetUserUnreadCountQuery,
   useMarkAsReadMutation,
 } from "@/services/chatApi";
 import { useSelector } from "react-redux";
@@ -31,7 +31,7 @@ const ChatWidget = () => {
   const [getUserChats] = useLazyGetUserChatsQuery();
   const [addChat] = useAddChatMutation();
   const [markAsRead] = useMarkAsReadMutation();
-  const { data } = useGetUserUnreadCountQuery();
+  const [getUserUnreadCount] = useLazyGetUserUnreadCountQuery();
   const { userId } = getUserDetails();
   const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -121,11 +121,18 @@ const ChatWidget = () => {
     }
   };
 
-  useEffect(() => {
-    if (data && data.success) {
+  const handleUnreadMessageCount = async () => {
+    const { data } = await getUserUnreadCount();
+    if (data.success) {
       setUnreadCount(data.data.unreadCount);
     }
-  }, [data]);
+  };
+
+  useEffect(() => {
+    if (isLogged) {
+      handleUnreadMessageCount();
+    }
+  }, [isLogged]);
 
   useEffect((): any => {
     const s = io(backendUrl);
@@ -134,11 +141,26 @@ const ChatWidget = () => {
     s.emit("join", { id: userId });
 
     s.on("messageReceived", (data) => {
+      console.log("messageReceived");
+
       if (data) {
+        console.log("if data", data);
+
         getUserMessages();
         if (isOpen) {
           handleRead();
         }
+        setIsOpen((current) => {
+          if (!current) {
+            console.log("not current");
+
+            handleUnreadMessageCount();
+          } else {
+            console.log("current");
+            handleRead();
+          }
+          return current;
+        });
       }
     });
     return () => s.disconnect();
@@ -166,32 +188,53 @@ const ChatWidget = () => {
       {!isOpen && (
         <button
           onClick={handleOpen}
-          className="fixed bottom-6 right-6 bg-orange-600 hover:bg-orange-700 text-white rounded-full p-4 shadow-lg transition-all duration-300 hover:scale-110 z-50"
+          className="group fixed bottom-6 right-6 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-full p-4 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 z-50 ring-2 ring-orange-200 hover:ring-orange-300"
           aria-label="Open chat"
           type="button"
         >
-          <MessageCircle size={24} />
-          {unreadCount > 0 ? (
-            <div className="ml-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center absolute">
-              <span className="text-xs text-white">{unreadCount}</span>
+          <MessageCircle
+            size={24}
+            className="transition-transform duration-300 group-hover:rotate-12"
+          />
+          {unreadCount > 0 && (
+            <div className="absolute -right-1 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-600 shadow-lg ring-2 ring-white animate-pulse">
+              <span className="text-xs font-bold text-white">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
             </div>
-          ) : null}
+          )}
+
+          <span className="absolute inset-0 rounded-full bg-orange-400 opacity-0 group-hover:opacity-20 group-hover:animate-ping"></span>
         </button>
       )}
 
       {isOpen && (
         <div
           ref={chatBoxRef}
-          className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl flex flex-col z-50 border border-gray-200"
+          className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-2xl shadow-2xl flex flex-col z-50 border border-gray-100 overflow-hidden backdrop-blur-sm"
         >
-          <div className="bg-red-500 text-white p-4 rounded-t-lg flex justify-between items-center">
-            <div>
-              <h3 className="font-semibold text-lg">Jwing Tours Support</h3>
-              <p className="text-xs">We&apos;re here to help!</p>
+          {/* Header */}
+          <div className="bg-gradient-to-br from-red-500 via-red-600 to-orange-500 text-white p-4 flex justify-between items-center relative overflow-hidden">
+            {/* Animated background pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
             </div>
+
+            <div className="relative z-10">
+              <h3 className="font-bold text-lg flex items-center gap-2">
+                <MessageCircle size={20} className="animate-bounce" />
+                Jwing Tours Support
+              </h3>
+              <p className="text-xs text-red-100 flex items-center gap-1">
+                <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                We&apos;re here to help!
+              </p>
+            </div>
+
             <button
               onClick={handleClose}
-              className="hover:bg-red-700 rounded-full p-1 transition-colors"
+              className="relative z-10 hover:bg-white/20 rounded-full p-2 transition-all duration-200 hover:rotate-90 active:scale-95"
               aria-label="Close chat"
               type="button"
             >
@@ -202,35 +245,45 @@ const ChatWidget = () => {
           {/* Messages Area */}
           <div
             ref={messagesContainerRef}
-            className="flex-1 overflow-y-auto p-4 bg-gray-50"
+            className="flex-1 overflow-y-auto p-4 bg-gradient-to-b from-gray-50 to-white"
             style={{ scrollBehavior: "smooth" }}
           >
             {!isLogged ? (
               <div className="flex items-center justify-center h-full">
-                <div className="text-center p-6 bg-white rounded-lg shadow-sm border border-gray-200">
-                  <MessageCircle
-                    className="mx-auto mb-3 text-gray-400"
-                    size={48}
-                  />
-                  <h4 className="font-semibold text-gray-800 mb-2">
+                <div className="text-center p-8 bg-white rounded-2xl shadow-lg border border-gray-100 transform transition-all hover:scale-105">
+                  <div className="bg-gradient-to-br from-orange-100 to-red-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MessageCircle className="text-orange-500" size={40} />
+                  </div>
+                  <h4 className="font-bold text-gray-800 mb-2 text-lg">
                     Please Log In
                   </h4>
-                  <p className="text-gray-600 text-sm mb-4">
-                    You need to be logged in to use the chat feature.
+                  <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                    You need to be logged in to use the chat feature and connect
+                    with our support team.
                   </p>
                   <Link
                     href="/login"
-                    className="bg-gradient-to-r from-red to-orange text-white px-6 py-2 rounded-lg"
+                    className="inline-block bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white px-8 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95"
                   >
-                    Log In
+                    Log In Now
                   </Link>
                 </div>
               </div>
             ) : (
               <>
                 {messages.length === 0 && (
-                  <div className="text-center text-gray-500 mt-8">
-                    <p className="text-sm">Start a conversation with us!</p>
+                  <div className="text-center mt-12 animate-fade-in">
+                    <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8 inline-block">
+                      <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md">
+                        <MessageCircle className="text-orange-500" size={32} />
+                      </div>
+                      <p className="text-gray-600 font-medium">
+                        Start a conversation with us!
+                      </p>
+                      <p className="text-gray-400 text-sm mt-2">
+                        We typically reply within minutes
+                      </p>
+                    </div>
                   </div>
                 )}
                 {messages.map((message) => (
@@ -240,16 +293,22 @@ const ChatWidget = () => {
                       currentUser(message.receiver_id, message.user_id)
                         ? "justify-end"
                         : "justify-start"
-                    }`}
+                    } animate-slide-up`}
                   >
                     <div
-                      className={`max-w-[75%] rounded-lg p-3 ${
+                      className={`max-w-[75%] rounded-2xl p-3 shadow-sm ${
                         currentUser(message.receiver_id, message.user_id)
-                          ? "bg-orange-500 text-white"
-                          : "bg-white text-gray-800 border border-gray-200"
+                          ? "bg-gradient-to-br from-orange-500 to-orange-600 text-white rounded-br-sm"
+                          : "bg-white text-gray-800 border border-gray-200 rounded-bl-sm"
                       }`}
                     >
-                      <p className="text-sm">{message.message}</p>
+                      <p className="text-sm leading-relaxed">
+                        {message.message}
+                      </p>
+                      {/* Optional: Add timestamp */}
+                      {/* <span className="text-xs opacity-70 mt-1 block">
+                {new Date(message.timestamp).toLocaleTimeString()}
+              </span> */}
                     </div>
                   </div>
                 ))}
@@ -258,10 +317,11 @@ const ChatWidget = () => {
             )}
           </div>
 
+          {/* Input Area */}
           {isLogged && (
             <form
               onSubmit={handleSendMessage}
-              className="p-4 border-t border-gray-200 bg-white rounded-b-lg"
+              className="p-4 border-t border-gray-100 bg-white"
             >
               <div className="flex gap-2">
                 <input
@@ -269,11 +329,12 @@ const ChatWidget = () => {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Type your message..."
-                  className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="flex-1 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                 />
                 <button
                   type="submit"
-                  className="bg-orange-500 hover:bg-orange-600 text-white rounded-lg px-4 py-2 transition-colors"
+                  disabled={!inputMessage.trim()}
+                  className="bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-xl px-5 py-3 transition-all duration-200 hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:active:scale-100"
                   aria-label="Send message"
                 >
                   <Send size={20} />

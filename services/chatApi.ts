@@ -8,6 +8,12 @@ const chatApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    getAdminInitalChats: builder.query<any, void>({
+      query: () => ({
+        url: "/chats/grouped",
+        method: "GET",
+      }),
+    }),
     getSingleChat: builder.query<any, string | null>({
       query: (id) => ({
         url: `/chats/get-by-id/${id}`,
@@ -65,4 +71,6 @@ export const {
   useMarkAsReadAdminChatsMutation,
   useMarkAsReadMutation,
   useGetUserUnreadCountQuery,
+  useLazyGetUserUnreadCountQuery,
+  useLazyGetAdminInitalChatsQuery,
 } = chatApi;

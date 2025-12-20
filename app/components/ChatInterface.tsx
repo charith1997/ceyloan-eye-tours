@@ -3,6 +3,7 @@ import { Search, Send, ArrowLeft } from "lucide-react";
 import {
   useAddChatMutation,
   useLazyGetAdminChatsQuery,
+  useLazyGetAdminInitalChatsQuery,
   useLazyGetSingleChatQuery,
   useMarkAsReadAdminChatsMutation,
 } from "@/services/chatApi";
@@ -50,10 +51,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  const [getUserMessages] = useLazyGetSingleChatQuery();
-  const [getAllChats] = useLazyGetAdminChatsQuery();
+  const [getSingleChat] = useLazyGetSingleChatQuery();
+  const [getAdminChats] = useLazyGetAdminChatsQuery();
+  const [getAdminInitalChats] = useLazyGetAdminInitalChatsQuery();
   const [addChat] = useAddChatMutation();
-  const [markAsRead] = useMarkAsReadAdminChatsMutation();
+  const [markAsReadAdminChats] = useMarkAsReadAdminChatsMutation();
   const { userId } = getUserDetails();
 
   const scrollToBottom = (): void => {
@@ -89,7 +91,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
     try {
       handleReadMessage(contact.user.id);
       getAllAdminChats();
-      const { data } = await getUserMessages(contact.user.id);
+      const { data } = await getSingleChat(contact.user.id);
       if (data.success) {
         setChats(data.data);
       }
@@ -102,19 +104,33 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   };
 
   const handleReadMessage = async (userId: string) => {
-    await markAsRead({ userId });
+    await markAsReadAdminChats({ userId });
   };
 
   const getChat = async (id: string) => {
-    const { data } = await getUserMessages(id);
-    if (data.success) setChats(data.data);
+    const { data } = await getSingleChat(id);
+    if (data.success) {
+      setSelectedContact((current) => {
+        if (current && current.user.id === id) {
+          setChats(() => {
+            return data.data;
+          });
+        }
+        return current; // Don't change the state
+      });
+    }
 
-    const { data: chatList } = await getAllChats();
+    const { data: chatList } = await getAdminChats();
     if (chatList.success) setContacts(chatList.data);
   };
 
   const getAllAdminChats = async () => {
-    const { data: chatList } = await getAllChats();
+    const { data: chatList } = await getAdminChats();
+    if (chatList.success) setContacts(chatList.data);
+  };
+
+  const getAllInitialAdminChats = async () => {
+    const { data: chatList } = await getAdminInitalChats();
     if (chatList.success) setContacts(chatList.data);
   };
 
@@ -172,7 +188,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   };
 
   useEffect((): any => {
-    getAllAdminChats();
+    // getAllAdminChats();
+    getAllInitialAdminChats();
     const s = io(backendUrl);
     setSocket(s);
     s.emit("join", { id: userId });
@@ -181,7 +198,6 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
       if (data) {
         getChat(data.from);
 
-        // Use functional update to access latest state
         setSelectedContact((current) => {
           if (current && current.user.id === data.from) {
             handleReadMessage(current.user.id);
