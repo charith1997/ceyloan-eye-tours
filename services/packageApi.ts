@@ -64,6 +64,7 @@ export const packageApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Package"],
     }),
   }),
 });

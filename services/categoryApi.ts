@@ -62,6 +62,7 @@ export const categoryApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Category"],
     }),
     getCategoryByUrlPrefixPaginated: builder.query<
       any,

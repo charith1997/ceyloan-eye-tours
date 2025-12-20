@@ -46,6 +46,7 @@ export const hotelTypeApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["HotelType"],
     }),
     getAllHotelTypesWithHotelsPaginated: builder.query<
       any,

@@ -86,6 +86,7 @@ export const customPackageApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Custom Package"],
     }),
   }),
 });

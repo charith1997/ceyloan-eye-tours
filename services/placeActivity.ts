@@ -41,6 +41,7 @@ export const placeActivity = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["PlaceActivities"],
     }),
   }),
 });

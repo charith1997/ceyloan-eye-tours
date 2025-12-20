@@ -52,6 +52,7 @@ export const placesApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Places"],
     }),
     getAllPlacesWithHotelPaginated: builder.query<
       any,

@@ -47,6 +47,7 @@ export const hotelApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Hotel"],
     }),
   }),
 });

@@ -41,6 +41,7 @@ export const vehicleApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Vehicles"],
     }),
   }),
 });

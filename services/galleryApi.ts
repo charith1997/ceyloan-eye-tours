@@ -51,6 +51,7 @@ export const galleryApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Gallery"],
     }),
     getAllApprovedGalleryItemsPaginated: builder.query<
       any,
@@ -60,6 +61,7 @@ export const galleryApi = baseApi.injectEndpoints({
         let url = `/gallery/get-all-approved-paginated?page=${page}&size=${size}`;
         return url;
       },
+      providesTags: ["Gallery"],
     }),
   }),
 });

@@ -41,6 +41,7 @@ export const activityApi = baseApi.injectEndpoints({
         if (search) url += `&search=${search}`;
         return url;
       },
+      providesTags: ["Activity"],
     }),
   }),
 });
