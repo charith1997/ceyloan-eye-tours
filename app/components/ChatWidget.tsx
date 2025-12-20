@@ -12,6 +12,7 @@ import { RootState } from "@/store";
 import { getUserDetails } from "@/utils/auth";
 import io from "socket.io-client";
 import Link from "next/link";
+import { ChatLoading } from "@/components/atoms/ChatLoading";
 
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -19,6 +20,7 @@ const ChatWidget = () => {
   const [inputMessage, setInputMessage] = useState<string>("");
   const [socket, setSocket] = useState<any | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isReceivingMessage, setIsReceivingMessage] = useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +46,7 @@ const ChatWidget = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages,isReceivingMessage]);
 
   useEffect(() => {
     if (isOpen) {
@@ -76,7 +78,10 @@ const ChatWidget = () => {
 
   const getUserMessages = async () => {
     const { data } = await getUserChats();
-    if (data.success) setMessages(data.data);
+    if (data.success) {
+      setMessages(data.data);
+      setIsReceivingMessage(false);
+    }
   };
 
   const handleSendMessage = async (
@@ -142,6 +147,7 @@ const ChatWidget = () => {
 
     s.on("messageReceived", (data) => {
       if (data) {
+        setIsReceivingMessage(true);
         getUserMessages();
         if (isOpen) {
           handleRead();
@@ -305,6 +311,16 @@ const ChatWidget = () => {
                     </div>
                   </div>
                 ))}
+
+                {isReceivingMessage ? (
+                  <div className={`mb-4 flex animate-slide-up`}>
+                    <div
+                      className={`max-w-[75%] rounded-2xl p-3 shadow-sm bg-white text-gray-800 border border-gray-200 rounded-bl-sm`}
+                    >
+                      <ChatLoading isUser={true} />
+                    </div>
+                  </div>
+                ) : null}
                 <div ref={messagesEndRef} />
               </>
             )}

@@ -1,12 +1,16 @@
 import React from "react";
 
-export function ChatLoading() {
+interface ChatLoadingProps {
+  isUser?: boolean;
+}
+
+export function ChatLoading({ isUser = false }: ChatLoadingProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 200 200"
-      width="40"
-      height="40"
+      width={isUser ? "20" : "40"}
+      height={isUser ? "20" : "40"}
       style={{ display: "inline-block" }}
     >
       <circle
