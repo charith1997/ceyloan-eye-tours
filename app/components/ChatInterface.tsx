@@ -11,6 +11,7 @@ import io from "socket.io-client";
 import { getUserDetails } from "@/utils/auth";
 import { randomUUID } from "crypto";
 import { ChatLoading } from "@/components/atoms/ChatLoading";
+import Spinner from "@/components/atoms/Spinner";
 
 interface Contact {
   id: string;
@@ -53,7 +54,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  const [getSingleChat] = useLazyGetSingleChatQuery();
+  const [
+    getSingleChat,
+    { isLoading: isUserChatLoading, isFetching: isUserChatFetching },
+  ] = useLazyGetSingleChatQuery();
   const [getAdminChats] = useLazyGetAdminChatsQuery();
   const [getAdminInitalChats] = useLazyGetAdminInitalChatsQuery();
   const [addChat] = useAddChatMutation();
@@ -212,6 +216,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
 
     return () => s.disconnect();
   }, []);
+
 
   return (
     <div className={`flex md:h-screen bg-gray-100 ${className}`}>
@@ -411,6 +416,12 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ className = "" }) => {
               </div>
             </div>
           </>
+        ) : isUserChatLoading || isUserChatFetching ? (
+          <div className="flex-1 flex items-center justify-center p-4">
+            <div className="text-center">
+              <Spinner />
+            </div>
+          </div>
         ) : (
           <div className="flex-1 flex items-center justify-center p-4">
             <div className="text-center">
