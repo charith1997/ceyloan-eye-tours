@@ -50,7 +50,7 @@ const Paginator = () => {
 
             return isInRange ? (
               <div
-                className={`pagination-item ${
+                className={`pagination-item cursor-pointer ${
                   pageNumber === currentPage ? "pagination-item-active" : ""
                 }`}
                 key={i}

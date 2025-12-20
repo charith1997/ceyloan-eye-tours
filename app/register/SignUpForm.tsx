@@ -15,6 +15,7 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email("* Invalid email").required("* Email is required"),
   country: Yup.string().required("* Country is required"),
   phoneNo: Yup.string().required("* Phone number is required"),
+  passport: Yup.string().required("* Passport number is required"),
   password: Yup.string()
     .min(6, "* Password must be at least 6 characters")
     .required("* Password is required"),
@@ -26,7 +27,7 @@ const validationSchema = Yup.object().shape({
 const SignUpForm = () => {
   const [register] = useRegisterMutation();
   const router = useRouter();
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
 
   const handleImageChange = (file: any) => {
     if (file) {
@@ -41,6 +42,7 @@ const SignUpForm = () => {
         email: "",
         country: "",
         phoneNo: "",
+        passport: "",
         password: "",
         repeatPassword: "",
         profileImage: null,
@@ -52,6 +54,7 @@ const SignUpForm = () => {
         formData.append("email", values.email);
         formData.append("country", values.country);
         formData.append("phoneNo", values.phoneNo);
+        formData.append("passport", values.passport);
         formData.append("password", values.password);
 
         if (profileImage) {
@@ -97,6 +100,16 @@ const SignUpForm = () => {
             placeholder="Enter phone number"
             className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormikInput
+            label="Passport No:"
+            name="passport"
+            placeholder="Enter passport number"
+            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormikInput
             label="Password:"
             name="password"
