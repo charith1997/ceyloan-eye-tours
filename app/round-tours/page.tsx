@@ -18,7 +18,7 @@ export default function RoundTours() {
   const getAllCategories = async () => {
     const { data } = await getAllCategoriesPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
       tourType: "0",
     });
     if (data.success) {

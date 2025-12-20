@@ -33,7 +33,7 @@ function RentVehicle() {
   const getAllVehicles = async () => {
     const { data } = await getAllVehiclesPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
     });
     if (data.success) {
       setVehicles(data.data);

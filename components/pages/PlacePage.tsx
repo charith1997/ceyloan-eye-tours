@@ -10,6 +10,7 @@ import PageRouting from "../molecules/PageRouting";
 import PageContent from "../molecules/PageContent";
 import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/styles/font";
 import { useGetAllPlacesWithHotelsQuery } from "@/services/placesApi";
+import PageContainer from "../containers/PageContainer";
 
 interface PlacePageProps {
   heroTitle: string;
@@ -34,7 +35,7 @@ const PlacePage = ({
   const places = Array.isArray(data?.data) ? data.data : [];
 
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title={heroTitle}
         description={heroDescription}
@@ -71,9 +72,8 @@ const PlacePage = ({
             </div>
           )}
         </DetailCardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 };
 

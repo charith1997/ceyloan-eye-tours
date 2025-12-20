@@ -1,15 +1,30 @@
 "use client";
 
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function PageRouting() {
   const pathname = usePathname();
+  const dispatch = useDispatch();
   const segments = pathname.split("/").filter(Boolean);
 
   const formatSegment = (segment: string) => {
     return segment.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   };
+
+  const resetPages = () => {
+    dispatch(setTotalPages(0));
+    dispatch(setCurrentPage(1));
+  };
+
+  useEffect(() => {
+    if (pathname) {
+      resetPages();
+    }
+  }, [pathname]);
 
   return (
     <nav className="text-sm text-gray-600 mb-4">

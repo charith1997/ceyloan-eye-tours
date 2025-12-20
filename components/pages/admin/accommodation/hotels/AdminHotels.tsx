@@ -9,7 +9,7 @@ import HotelDetails from "./HotelDetails";
 import { checkImageUrl } from "@/utils/common";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 interface AdminHotelProps {
   setDeleteHotel: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,7 +29,9 @@ function AdminHotels({
   const [hotels, setHotels] = useState<any[]>([]);
 
   const [getAllHotelsPaginated] = useLazyGetAllHotelsPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllHotels = async () => {
@@ -55,6 +57,14 @@ function AdminHotels({
       getAllHotels();
     }
   }, [currentPage, searchQuery]);
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

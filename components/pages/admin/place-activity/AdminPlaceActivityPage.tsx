@@ -14,7 +14,7 @@ import { checkImageUrl } from "@/utils/common";
 import EditActivity from "./EditActivity";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminPlaceActivityPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -29,7 +29,9 @@ const AdminPlaceActivityPage = () => {
 
   const [getAllPlaceActivitiesPaginated] =
     useLazyGetAllPlaceActivitiesPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllPlaceActivities = async () => {
@@ -58,10 +60,15 @@ const AdminPlaceActivityPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   const displayDeleteModal = (data: any) => {
     setSelectedActivity(data);
@@ -128,6 +135,7 @@ const AdminPlaceActivityPage = () => {
                       label="No Activities"
                       className={`w-fit text-sm uppercase ${disableBtnColor}`}
                       onClick={() => {}}
+                      cursorPointer="cursor-not-allowed"
                     />
                   )}
                 </div>

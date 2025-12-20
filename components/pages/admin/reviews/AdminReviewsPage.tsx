@@ -7,14 +7,16 @@ import Image from "next/image";
 import { useLazyGetPaginatedReviewsQuery } from "@/services/reviewApi";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminReviewsPage = () => {
   const [reviews, setReviews] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [getPaginatedReviews] = useLazyGetPaginatedReviewsQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllReviews = async () => {
@@ -43,10 +45,15 @@ const AdminReviewsPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

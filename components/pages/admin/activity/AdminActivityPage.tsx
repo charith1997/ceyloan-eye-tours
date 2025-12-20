@@ -13,7 +13,7 @@ import { checkImageUrl } from "@/utils/common";
 import ActivityDetails from "./ActivityDetails";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminActivityPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -25,7 +25,9 @@ const AdminActivityPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [getAllActivitiesPaginated] = useLazyGetAllActivitiesPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllActivities = async () => {
@@ -54,10 +56,15 @@ const AdminActivityPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

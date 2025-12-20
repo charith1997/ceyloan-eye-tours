@@ -18,7 +18,7 @@ export default function Categories() {
   const getAllCategories = async () => {
     const { data } = await getAllCategoriesPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
     });
     if (data.success) {
       setCategories(data.data);

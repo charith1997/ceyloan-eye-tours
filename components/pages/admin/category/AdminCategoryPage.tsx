@@ -12,7 +12,7 @@ import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import { checkImageUrl } from "@/utils/common";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminCategoryPage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,7 +24,9 @@ const AdminCategoryPage = () => {
   const [categories, setCategories] = useState<any[]>([]);
 
   const [getAllCategoriesPaginated] = useLazyGetAllCategoriesPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllCategories = async () => {
@@ -53,10 +55,15 @@ const AdminCategoryPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

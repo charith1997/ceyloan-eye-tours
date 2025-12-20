@@ -10,6 +10,7 @@ import { useAppSelector } from "@/hooks/reduxHooks";
 import { useLazyGetAllPackagesPaginatedQuery } from "@/services/packageApi";
 import { useDispatch } from "react-redux";
 import { setTotalPages } from "@/features/paginatorSlice";
+import PageContainer from "../containers/PageContainer";
 
 const PackagesPage = () => {
   const [packages, setPackages] = useState<any[]>([]);
@@ -21,7 +22,7 @@ const PackagesPage = () => {
   const getAllPackages = async () => {
     const { data } = await getAllPackagesPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
     });
     if (data.success) {
       setPackages(data.data);
@@ -36,7 +37,7 @@ const PackagesPage = () => {
   }, [currentPage]);
 
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer>
       <Jumbotron
         title="Complete Travel Packages"
         description="Curated tour packages combining accommodation, transport, and guided experiences for unforgettable journeys."
@@ -73,9 +74,8 @@ const PackagesPage = () => {
             </div>
           )}
         </DetailCardGrid>
-        <CTAButton />
       </div>
-    </section>
+    </PageContainer>
   );
 };
 

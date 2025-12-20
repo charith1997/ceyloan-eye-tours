@@ -12,7 +12,7 @@ import { deleteBtnColor, editBtnColor, viewBtnColor } from "@/styles/colors";
 import PlaceDetails from "./PlaceDetails";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminPlacesPage = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -23,7 +23,9 @@ const AdminPlacesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [getAllPlacesPaginated] = useLazyGetAllPlacesPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllPlaces = async () => {
@@ -52,10 +54,15 @@ const AdminPlacesPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

@@ -1,18 +1,41 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TestimonialCard from "../components/TestimonialCard";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
-import { useGetAllReviewsQuery } from "@/services/reviewApi";
+import { useLazyGetPaginatedReviewsQuery } from "@/services/reviewApi";
+import PageContainer from "@/components/containers/PageContainer";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 function ReviewsPage() {
-  const { data } = useGetAllReviewsQuery();
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [getPaginatedReviews] = useLazyGetPaginatedReviewsQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
 
-  const reviews = Array.isArray(data?.data) ? data.data : [];
+  const dispatch = useDispatch();
+
+  const getAllReviews = async () => {
+    const { data } = await getPaginatedReviews({
+      page: currentPage,
+      size: 9,
+    });
+    if (data.success) {
+      setReviews(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllReviews();
+    }
+  }, [currentPage]);
 
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer isDisplayPlan={false}>
       <Jumbotron
         title="What Travelers Say"
         description="Read authentic experiences from travelers who explored Sri Lanka with our expertly crafted tours."
@@ -46,7 +69,7 @@ function ReviewsPage() {
           ))}
         </div>
       </div>
-    </section>
+    </PageContainer>
   );
 }
 

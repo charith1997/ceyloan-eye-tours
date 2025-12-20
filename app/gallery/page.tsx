@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Jumbotron from "@/components/molecules/Jumbotron";
-import { useGetAllApprovedGalleryItemsQuery } from "@/services/galleryApi";
+import { useLazyGetAllApprovedGalleryItemsPaginatedQuery } from "@/services/galleryApi";
 import Image from "next/image";
 import { checkImageUrl } from "@/utils/common";
 import PageRouting from "@/components/molecules/PageRouting";
@@ -11,16 +11,40 @@ import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/styles/font";
 import { addBtnColor } from "@/styles/colors";
 import AddImage from "./AddImage";
 import { isAuthenticated } from "@/utils/auth";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
+import PageContainer from "@/components/containers/PageContainer";
 
 function GalleryPage() {
-  const [addImage, setAddImage] = React.useState(false);
-  const { data } = useGetAllApprovedGalleryItemsQuery();
-
-  const galleryItems = Array.isArray(data?.data) ? data.data : [];
+  const [addImage, setAddImage] = useState(false);
   const isAuth = isAuthenticated();
 
+  const [galleryItems, setGalleryItems] = useState<any[]>([]);
+  const [getAlImages] = useLazyGetAllApprovedGalleryItemsPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllReviews = async () => {
+    const { data } = await getAlImages({
+      page: currentPage,
+      size: 9,
+    });
+    if (data.success) {
+      setGalleryItems(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllReviews();
+    }
+  }, [currentPage]);
+
   return (
-    <section className="pt-24 pb-16 px-4 md:px-16">
+    <PageContainer isDisplayPlan={false}>
       <Jumbotron
         title="Travelers' Photo Memories"
         description="Browse stunning photographs captured by fellow travelers exploring Sri Lanka's beauty and culture."
@@ -59,7 +83,7 @@ function GalleryPage() {
       )}
 
       <AddImage onClose={() => setAddImage(false)} show={addImage} />
-    </section>
+    </PageContainer>
   );
 }
 

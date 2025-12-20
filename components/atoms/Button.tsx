@@ -6,6 +6,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit" | "reset";
   form?: string;
+  cursorPointer?: string;
 }
 
 const Button = ({
@@ -14,12 +15,13 @@ const Button = ({
   className,
   type = "button",
   form,
+  cursorPointer = "cursor-pointer",
 }: ButtonProps) => {
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`cursor-pointer ${className}`}
+      className={`${className} ${cursorPointer}`}
       form={form}
     >
       {label}

@@ -11,7 +11,7 @@ import AddVehicle from "./AddVehicle";
 import DeleteVehicle from "./DeleteVehicle";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminVehiclesPage = () => {
   const [activeTab, setActiveTab] = useState("tab1");
@@ -23,7 +23,9 @@ const AdminVehiclesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllVehicles = async () => {
@@ -32,7 +34,6 @@ const AdminVehiclesPage = () => {
       size: 10,
     };
 
-    // Add search parameter if exists
     if (searchQuery.trim()) {
       params.search = searchQuery.trim();
     }
@@ -45,7 +46,6 @@ const AdminVehiclesPage = () => {
     }
   };
 
-  // Fetch vehicles when page or search changes
   useEffect(() => {
     if (currentPage) {
       getAllVehicles();
@@ -54,11 +54,15 @@ const AdminVehiclesPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    // Reset to first page when searching
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   const handleShowDetails = (details: any) => {
     setShow(true);

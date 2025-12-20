@@ -18,7 +18,7 @@ const DayTours = () => {
   const getAllCategories = async () => {
     const { data } = await getAllCategoriesPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
       tourType: "1",
     });
     if (data.success) {

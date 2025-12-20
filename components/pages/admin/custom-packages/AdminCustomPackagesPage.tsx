@@ -17,7 +17,7 @@ import {
 } from "@/styles/colors";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
-import { setTotalPages } from "@/features/paginatorSlice";
+import { setCurrentPage, setTotalPages } from "@/features/paginatorSlice";
 
 const AdminCustomPackagesPage = () => {
   const [showPlaceOrdersModal, setShowPlaceOrdersModal] = useState(false);
@@ -28,7 +28,9 @@ const AdminCustomPackagesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const [getAllPaginatedPackages] = useLazyGetAllPaginatedPackagesQuery();
-  const { currentPage } = useAppSelector((state) => state.paginator);
+  const { currentPage, totalPages } = useAppSelector(
+    (state) => state.paginator
+  );
   const dispatch = useDispatch();
 
   const getAllPackages = async () => {
@@ -57,10 +59,15 @@ const AdminCustomPackagesPage = () => {
 
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
-    if (currentPage !== 1) {
-      dispatch(setTotalPages(1));
-    }
   };
+
+  useEffect(() => {
+    if (totalPages) {
+      if (currentPage > totalPages) {
+        dispatch(setCurrentPage(1));
+      }
+    }
+  }, [totalPages]);
 
   return (
     <>

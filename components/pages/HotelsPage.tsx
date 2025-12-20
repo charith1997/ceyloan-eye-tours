@@ -19,7 +19,7 @@ function HotelsPage() {
   const getAllHotels = async () => {
     const { data } = await getAllHotelsPaginated({
       page: currentPage,
-      size: 10,
+      size: 9,
     });
     if (data.success) {
       setHotels(data.data);
