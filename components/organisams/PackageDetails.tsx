@@ -26,7 +26,7 @@ const PackageDetails = ({
 }: PackageDetailsProps) => {
   return (
     <>
-      <div className="py-5 max-w-[1400px]">
+      <div className="py-5">
         <div className="flex flex-col lg:flex-row gap-10">
           <PackageOverview description={description} images={images} />
 

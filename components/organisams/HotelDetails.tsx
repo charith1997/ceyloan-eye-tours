@@ -9,7 +9,7 @@ interface HotelDetailsProps {
 
 const HotelDetails = ({ hotelData }: HotelDetailsProps) => {
   return (
-    <div className="py-8 max-w-[1400px]">
+    <div className="py-8">
       <div className="flex flex-col lg:flex-row gap-10">
         <div className="flex-1">
           <div className="pb-4">

@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import { FormikInput } from "@/components/atoms/FormikInput";
 import Button from "@/components/atoms/Button";
 import { useAddBookingMutation } from "@/services/bookingApi";
+import { useRouter } from "next/navigation";
 
 interface AddActivityProps {
   show: boolean;
@@ -21,6 +22,7 @@ function BookPackage({
   customPackageId,
 }: AddActivityProps) {
   const [createBooking] = useAddBookingMutation();
+  const router = useRouter();
   return (
     <Modal isOpen={show} onClose={onClose} title="Book Now" className="md:w-lg">
       <Formik
@@ -55,6 +57,7 @@ function BookPackage({
             toast.success(response.message || "Booking created successfully");
             onClose();
             resetForm();
+            router.push("/bookings");
           } catch (err: any) {
             toast.error(err?.data?.message);
           } finally {
@@ -70,6 +73,7 @@ function BookPackage({
               placeholder="Enter number of adults"
               type="number"
               min={0}
+              infoMessage="Above 11 Years"
             />
             <FormikInput
               label="Children:"
@@ -77,6 +81,7 @@ function BookPackage({
               placeholder="Enter number of children"
               type="number"
               min={0}
+              infoMessage="Aged 03-11 Years"
             />
             <FormikInput
               label="Start Date:"

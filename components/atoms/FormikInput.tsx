@@ -6,6 +6,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   as?: string;
   rows?: number;
+  infoMessage?: string;
 }
 
 export const FormikInput = ({
@@ -13,6 +14,7 @@ export const FormikInput = ({
   name,
   as,
   rows,
+  infoMessage,
   ...props
 }: InputProps) => {
   return (
@@ -28,6 +30,11 @@ export const FormikInput = ({
         rows={rows}
         {...props}
       />
+      {infoMessage && (
+        <label htmlFor={name} className="block text-sm text-orange-500">
+          {infoMessage}
+        </label>
+      )}
       <ErrorMessage
         name={name}
         component="div"
