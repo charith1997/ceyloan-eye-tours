@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, UsersIcon } from "lucide-react";
 import { useGetBookingByIdQuery } from "@/services/bookingApi";
 import { getUserDetails } from "@/utils/auth";
-import { formatDuration } from "@/utils/package";
+import { formatDuration, formatDurationForDayCount } from "@/utils/package";
 import Button from "../../components/atoms/Button";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import PayHereCheckout from "./PayHereCheckout";
@@ -287,8 +287,10 @@ const BookingsPage: React.FC = () => {
                           <span>
                             {booking.package_id
                               ? formatDuration(booking?.Package?.duration)
-                              : formatDuration(
-                                  booking?.CustomPackage?.duration
+                              : formatDurationForDayCount(
+                                  Number(
+                                    booking?.CustomPackage?.required_day_count
+                                  )
                                 )}
                           </span>
                         </div>

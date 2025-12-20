@@ -58,6 +58,7 @@ interface Booking {
   User: User;
   Review?: Review | null;
   Payment?: Payment | null;
+  booking_no: string;
 }
 
 interface BookingDetailsProps {
@@ -194,9 +195,9 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                     <p className="text-sm text-gray-500">Booking ID</p>
                     <p
                       className="mt-1 text-sm text-gray-900 font-mono"
-                      title={`Full ID: ${booking.id}`}
+                      title={`Booking ID: ${booking.booking_no}`}
                     >
-                      {booking.id.split("-")[0]}...
+                      {booking.booking_no}
                     </p>
                   </div>
                 </div>

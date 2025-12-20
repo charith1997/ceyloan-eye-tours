@@ -10,6 +10,16 @@ export function formatDuration(duration: string) {
   return "0 Days | 0 Nights";
 }
 
+export function formatDurationForDayCount(count: number) {
+  if (count && count >= 1) {
+    const days = count;
+    const nights = count - 1;
+    return `${days} Days | ${nights} Nights`;
+  }
+
+  return "0 Days | 0 Nights";
+}
+
 export function checkIfSortedOrder(data: any[]) {
   let filteredData = [];
   filteredData = data.filter(

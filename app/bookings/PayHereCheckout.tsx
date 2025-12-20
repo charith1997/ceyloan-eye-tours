@@ -25,7 +25,7 @@ export default function PayHereCheckout({
     address: "",
     city: "",
     country: "",
-    currency: "LKR",
+    currency: "USD",
   };
   const validationSchema = Yup.object({
     first_name: Yup.string().required("* First Name is Required"),

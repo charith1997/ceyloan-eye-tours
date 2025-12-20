@@ -6,12 +6,9 @@ import {
   UserIcon,
   UsersIcon,
 } from "lucide-react";
-import {
-  useGetAllBookingsQuery,
-  useGetBookingByIdQuery,
-} from "@/services/bookingApi";
+import { useGetAllBookingsQuery } from "@/services/bookingApi";
 import { getUserDetails } from "@/utils/auth";
-import { formatDuration } from "@/utils/package";
+import { formatDuration, formatDurationForDayCount } from "@/utils/package";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import Button from "@/components/atoms/Button";
 
@@ -26,6 +23,7 @@ import {
   viewBtnColor,
 } from "@/styles/colors";
 import ActionModal from "./ActionModal";
+import RefundBooking from "./RefundBooking";
 
 interface Booking {
   id: string;
@@ -53,6 +51,7 @@ const AdminBookingsPage: React.FC = () => {
   const [showCompleteModal, setShowCompleteModal] = useState(false);
   const [showReopenModal, setShowReopenModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [showRefundModal, setShowRefundModal] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<any>(null);
   const [selectedBookingAction, setSelectedBookingAction] = useState<
     "pending" | "confirmed" | "cancelled" | "completed"
@@ -279,6 +278,13 @@ const AdminBookingsPage: React.FC = () => {
                           >
                             {booking.status}
                           </span>
+                          {booking?.Payment?.status === "chargedback" ? (
+                            <span
+                              className={`ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-gray-200 text-gray-800 border-gray-200`}
+                            >
+                              {booking.Payment.status}
+                            </span>
+                          ) : null}
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
@@ -294,7 +300,15 @@ const AdminBookingsPage: React.FC = () => {
 
                           <div className="flex items-center text-sm text-gray-600">
                             <ClockIcon className="w-4 h-4 mr-2 text-gray-400" />
-                            <span>{formatDuration(booking.duration)}</span>
+                            <span>
+                              {booking.package_id
+                                ? formatDuration(booking?.Package?.duration)
+                                : formatDurationForDayCount(
+                                    Number(
+                                      booking?.CustomPackage?.required_day_count
+                                    )
+                                  )}
+                            </span>
                           </div>
                         </div>
 
@@ -316,7 +330,11 @@ const AdminBookingsPage: React.FC = () => {
                               : 0
                           )}
                         </p>
-                        <p className="text-sm text-gray-500">Total Amount</p>
+                        <p className="text-sm text-gray-500">
+                          {booking.Payment
+                            ? "Total Amount"
+                            : "Awaiting Payment"}
+                        </p>
                       </div>
                     </div>
 
@@ -366,16 +384,29 @@ const AdminBookingsPage: React.FC = () => {
                           />
                         )}
                         {booking.status === "cancelled" && (
+                          <>
+                            <Button
+                              className={`w-fit md:text-sm md:uppercase ${addBtnColor}`}
+                              label="Reopen"
+                              onClick={() => {
+                                setSelectedBooking(booking);
+                                setSelectedBookingAction("pending");
+                                setShowReopenModal(true);
+                              }}
+                            />
+                          </>
+                        )}
+                        {booking.status === "cancelled" &&
+                        booking.Payment?.status === "success" ? (
                           <Button
                             className={`w-fit md:text-sm md:uppercase ${addBtnColor}`}
-                            label="Reopen"
+                            label="Refund"
                             onClick={() => {
                               setSelectedBooking(booking);
-                              setSelectedBookingAction("pending");
-                              setShowReopenModal(true);
+                              setShowRefundModal(true);
                             }}
                           />
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -393,6 +424,18 @@ const AdminBookingsPage: React.FC = () => {
         }}
         selectedID={selectedBooking?.id}
       />
+      {showRefundModal && (
+        <RefundBooking
+          show={showRefundModal}
+          onClose={() => {
+            setSelectedBooking(null);
+            setShowRefundModal(false);
+          }}
+          payment_id={selectedBooking?.Payment.payment_id}
+          description="Cancel the order"
+          pyament_record_id={selectedBooking?.Payment.id}
+        />
+      )}
       <CompleteBooking
         show={showCompleteModal}
         onClose={() => {

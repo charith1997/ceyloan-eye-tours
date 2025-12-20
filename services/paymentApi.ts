@@ -11,13 +11,14 @@ export const paymentApi = baseApi.injectEndpoints({
     }),
     refundPayment: builder.mutation<
       any,
-      { bookingId: string; description: string; pyament_record_id: string }
+      { payment_id: string; description: string; pyament_record_id: string }
     >({
       query: (body) => ({
         url: "/payments/refund",
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Booking"],
     }),
   }),
 });
