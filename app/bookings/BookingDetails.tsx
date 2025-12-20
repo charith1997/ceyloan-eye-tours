@@ -136,7 +136,7 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
     }
   };
 
-  const { userName, email } = getUserDetails();
+  const { userName } = getUserDetails();
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
@@ -231,9 +231,11 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                     <div>
                       <p className="text-sm text-gray-500">Total Amount</p>
                       <p className="text-xs text-gray-900">
-                        {formatPrice(
-                          parseFloat(booking.Payment?.amount || "0")
-                        )}
+                        {booking.Payment
+                          ? formatPrice(
+                              parseFloat(booking.Payment?.amount || "0")
+                            )
+                          : "Awaiting Payment"}
                       </p>
                     </div>
                   </div>
@@ -258,7 +260,9 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                       <MailIcon className="w-5 h-5 text-gray-400 mr-3" />
                       <div>
                         <p className="text-sm text-gray-500">Email Address</p>
-                        <p className="text-sm text-gray-900">{email}</p>
+                        <p className="text-sm text-gray-900">
+                          {booking.User.email}
+                        </p>
                       </div>
                     </div>
                   </div>
