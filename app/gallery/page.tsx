@@ -64,15 +64,16 @@ function GalleryPage() {
             )}
           </div>
           <p className={PAGE_DESCRIPTION}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
+            Step into a visual journey through the eyes of travelers who have
+            explored the wonders of Sri Lanka. Our gallery is a curated
+            collection of breathtaking photographs that capture the island’s
+            diverse landscapes, vibrant culture, and unforgettable moments. From
+            golden sunsets on southern beaches and misty mornings in tea country
+            to lively local festivals and ancient architectural marvels, each
+            image tells a story of adventure and discovery. This gallery is
+            designed to inspire your next trip and give you a genuine glimpse
+            into the experiences that await. Browse, imagine, and start planning
+            your own picture-perfect memories in Sri Lanka.
           </p>
         </div>
       </div>

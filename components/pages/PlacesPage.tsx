@@ -41,7 +41,7 @@ function PlacesPage() {
       />
       <PageDetails
         title="Tour Places"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        description="Explore the most captivating destinations in Sri Lanka with our guide to essential tour places. Each location has been selected for its unique charm, cultural significance, and natural beauty, offering a diverse range of experiences for every traveler. From sun-soaked coastal towns and lush hill country retreats to historic cities rich in heritage, these places form the heart of unforgettable itineraries. Our detailed overviews help you discover what makes each spot special—whether it’s adventure, relaxation, history, or local cuisine—so you can plan a journey that perfectly matches your interests. Dive into Sri Lanka’s vibrant landscapes and stories through the destinations we love and recommend."
       />
       <div>
         <CardGrid

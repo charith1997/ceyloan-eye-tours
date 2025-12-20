@@ -43,15 +43,7 @@ function ReviewsPage() {
       />
       <PageDetails
         title="Reviews"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum."
+        description="Hear directly from our travelers about their unforgettable experiences exploring Sri Lanka. Our reviews reflect the genuine stories, cherished moments, and honest feedback from those who have journeyed with us across the island. From the awe-inspiring sunrise at Sigiriya and the tranquil beauty of Ella's hills to the vibrant wildlife encounters in Yala and the warm hospitality in coastal towns, these shared experiences highlight the quality and care we put into every tour. We believe in transparency and trust, and there is no better testament to our service than the voices of our guests. Read on to discover why so many travelers choose us to create their Sri Lankan adventures."
       />
       <div className="max-w-full">
         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">

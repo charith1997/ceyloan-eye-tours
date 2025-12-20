@@ -45,7 +45,7 @@ const PackagesPage = () => {
       />
       <PageDetails
         title="Packages"
-        description="Explore our exclusive packages"
+        description="Handcrafted journeys for every kind of traveler with unforgettable experiences. So Find your perfect getaway, tailored just for you."
       />
       <div>
         <DetailCardGrid

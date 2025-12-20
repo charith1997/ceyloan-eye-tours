@@ -42,7 +42,7 @@ function HotelTypesPage() {
       />
       <PageDetails
         title="Tour Hotels and Accommodations"
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+        description="Discover a selection of carefully curated hotels and accommodations designed to enhance your travel experience in Sri Lanka. From luxury resorts overlooking the Indian Ocean to cozy boutique stays nestled in the hill country and eco-friendly lodges near national parks, we partner with properties that offer comfort, authenticity, and convenience. Our team personally inspects each location to ensure high standards of hospitality, cleanliness, and service, so you can relax and immerse yourself fully in your journey. Whether you seek a romantic getaway, a family-friendly retreat, or an adventurous base camp, our accommodation options cater to all preferences and budgets, making every night of your tour as memorable as the days. Book with confidence and enjoy stays that reflect the spirit and beauty of Sri Lanka."
       />
       <div>
         <CardGrid
