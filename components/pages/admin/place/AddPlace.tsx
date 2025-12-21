@@ -57,6 +57,8 @@ function AddPlace({ show, onClose, initialValues, isEdit }: AddPlaceProps) {
             .min(1, "* Name cannot be empty"),
           description: Yup.string().required("* Description is Required"),
           location: Yup.string().required("* Location is Required"),
+          longitude: Yup.string().required("* Longitude is Required"),
+          latitude: Yup.string().required("* Latitude is Required"),
           image: Yup.mixed()
             .required("* Image is required")
             .test("fileType", "Only image files are allowed", (value: any) => {
@@ -155,11 +157,25 @@ function AddPlace({ show, onClose, initialValues, isEdit }: AddPlaceProps) {
                 location={values.location}
                 setFieldValue={setFieldValue}
               />
-              {touched.location && errors.location && (
-                <div className="flex justify-end text-xs font-medium text-red mt-1">
-                  {errors.location}
-                </div>
-              )}
+            </div>
+
+            <FormikInput
+              label="Location:"
+              name="location"
+              placeholder="Enter location"
+            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormikInput
+                label="Longitude:"
+                name="longitude"
+                placeholder="Enter longitude"
+              />
+
+              <FormikInput
+                label="Latitude:"
+                name="latitude"
+                placeholder="Enter latitude"
+              />
             </div>
 
             <FileUploader name="image" label="Upload Image" />
