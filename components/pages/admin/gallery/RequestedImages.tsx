@@ -14,14 +14,12 @@ interface RequestedImagesProps {
   displayApproveModal: (id: string) => void;
   setViewImageUrl: (url: string | null) => void;
   displayDeleteModal: (id: string) => void;
-  searchQuery: string;
 }
 
 function RequestedImages({
   displayApproveModal,
   setViewImageUrl,
   displayDeleteModal,
-  searchQuery,
 }: RequestedImagesProps) {
   const [requestedImages, setRequestedImages] = useState<any[]>([]);
   const [getAllGalleryItemsPaginated] =
@@ -38,10 +36,6 @@ function RequestedImages({
       isApproved: false,
     };
 
-    if (searchQuery.trim()) {
-      params.search = searchQuery.trim();
-    }
-
     const { data } = await getAllGalleryItemsPaginated(params);
 
     if (data?.success) {
@@ -54,7 +48,7 @@ function RequestedImages({
     if (currentPage) {
       getAllGalleryItems();
     }
-  }, [currentPage, searchQuery]);
+  }, [currentPage]);
 
   useEffect(() => {
     if (totalPages) {

@@ -23,14 +23,9 @@ const AdminGalleryPage = () => {
   const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
   const [viewImageUrl, setViewImageUrl] = useState<string | null>(null);
   const [addImage, setAddImage] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const [updateGalleryStatus] = useUpdateGalleryStatusMutation();
   const [deleteGalleryImage] = useDeleteGalleryImageMutation();
-
-  const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
-  };
 
   return (
     <>
@@ -40,7 +35,7 @@ const AdminGalleryPage = () => {
           title="Gallery"
           buttonName="Add Image"
           onClick={() => setAddImage(true)}
-          onSearchChange={handleSearchChange}
+          displaySearch={false}
         />
 
         <div className="w-full ">
@@ -73,7 +68,6 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
-                searchQuery={searchQuery}
               />
             )}
             {activeTab === "tab2" && (
@@ -87,7 +81,6 @@ const AdminGalleryPage = () => {
                   setShowDeleteModal(true);
                   setSelectedImageId(id);
                 }}
-                searchQuery={searchQuery}
               />
             )}
           </div>
