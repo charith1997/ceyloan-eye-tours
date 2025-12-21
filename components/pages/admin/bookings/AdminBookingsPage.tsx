@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  CalendarIcon,
-  ClockIcon,
-  MailIcon,
-  UserIcon,
-  UsersIcon,
-} from "lucide-react";
-import { useGetAllBookingsQuery } from "@/services/bookingApi";
+import { CalendarIcon, ClockIcon, UserIcon } from "lucide-react";
+import { useLazyGetAllBookingsPaginatedQuery } from "@/services/bookingApi";
 import { getUserDetails } from "@/utils/auth";
 import { formatDuration, formatDurationForDayCount } from "@/utils/package";
 import CancelBooking from "@/app/bookings/CancelBooking";
 import Button from "@/components/atoms/Button";
-
-import data from "../../../../data.json";
 import CompleteBooking from "./CompleteBooking";
 import ReopenBooking from "./ReopenBooking";
 import BookingDetails from "./BookingDetails";
@@ -24,6 +16,16 @@ import {
 } from "@/styles/colors";
 import ActionModal from "./ActionModal";
 import RefundBooking from "./RefundBooking";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import {
+  formatDate,
+  formatPrice,
+  getStatusColor,
+  sendStatus,
+} from "@/utils/booking";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
+import Paginator from "@/components/organisams/Paginator";
 
 interface Booking {
   id: string;
@@ -41,7 +43,6 @@ interface Booking {
 }
 
 const AdminBookingsPage: React.FC = () => {
-  const [userDetails, setUserDetails] = useState<any>(null);
   const [filter, setFilter] = useState<
     "all" | "pending" | "confirmed" | "completed" | "cancelled"
   >("all");
@@ -57,31 +58,35 @@ const AdminBookingsPage: React.FC = () => {
     "pending" | "confirmed" | "cancelled" | "completed"
   >("pending");
 
-  // Only get user details on client
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUserDetails(getUserDetails());
-    }
-  }, []);
+  const { userId } = getUserDetails();
 
-  const { data } = useGetAllBookingsQuery();
-  const bookings = Array.isArray(data?.data) ? data.data : [];
-  const [filteredBookings, setFilteredBookings] = useState(bookings);
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [getAllBookingsPaginated] = useLazyGetAllBookingsPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
 
-  const getStatusColor = (status: Booking["status"]) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-200 text-green-800 border-green-200";
-      case "pending":
-        return "bg-yellow-200 text-yellow-800 border-yellow-200";
-      case "cancelled":
-        return "bg-red-200 text-red-800 border-red-200";
-      case "confirmed":
-        return "bg-blue-200 text-blue-800 border-blue-200";
-      default:
-        return "bg-gray-200 text-gray-800 border-gray-200";
+  const dispatch = useDispatch();
+
+  const getAllBookings = async () => {
+    const { data } = await getAllBookingsPaginated({
+      userId: userId,
+      page: currentPage,
+      size: 10,
+      status: sendStatus(filter),
+    });
+    if (data.success) {
+      setBookings(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
     }
   };
+
+  useEffect(() => {
+    if (currentPage && filter && userId) {
+      getAllBookings();
+    }
+  }, [currentPage, filter, userId]);
+
+  const [filteredBookings, setFilteredBookings] = useState(bookings);
+
   useEffect(() => {
     setFilteredBookings(bookings);
   }, [bookings]);
@@ -93,26 +98,6 @@ const AdminBookingsPage: React.FC = () => {
         : bookings.filter((booking: any) => booking.status === filter);
     setFilteredBookings(filtered);
   }, [filter, bookings]);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
-
-  // Prevent rendering on server or before userDetails is loaded
-  if (typeof window === "undefined" || !userDetails) {
-    return null;
-  }
 
   return (
     <>
@@ -413,6 +398,9 @@ const AdminBookingsPage: React.FC = () => {
                 </div>
               ))
             )}
+            <div className="flex justify-center">
+              <Paginator />
+            </div>
           </div>
         </div>
       </div>

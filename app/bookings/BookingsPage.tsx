@@ -13,6 +13,13 @@ import Paginator from "@/components/organisams/Paginator";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
 import { setTotalPages } from "@/features/paginatorSlice";
+import {
+  formatDate,
+  formatPrice,
+  generatePaymentStatusColor,
+  getStatusColor,
+  sendStatus,
+} from "@/utils/booking";
 
 interface Booking {
   id: string;
@@ -28,23 +35,6 @@ interface Booking {
   duration: string;
   notes?: string;
 }
-
-const sendStatus = (status: string) => {
-  switch (status) {
-    case "all":
-      return 0;
-    case "pending":
-      return 1;
-    case "confirmed":
-      return 2;
-    case "cancelled":
-      return 3;
-    case "completed":
-      return 4;
-    default:
-      return 0;
-  }
-};
 
 const BookingsPage: React.FC = () => {
   const [filter, setFilter] = useState<
@@ -89,40 +79,6 @@ const BookingsPage: React.FC = () => {
 
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>(bookings);
 
-  const getStatusColor = (status: Booking["status"]) => {
-    switch (status) {
-      case "completed":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "cancelled":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "confirmed":
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-    }
-  };
-
-  const generatePaymentStatusColor = (
-    status: "success" | "pending" | "canceled" | "failed" | "chargedback"
-  ) => {
-    switch (status) {
-      case "success":
-        return "bg-green-100 text-green-800 border-green-200";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-      case "failed":
-        return "bg-red-100 text-red-800 border-red-200";
-      case "canceled":
-        return "bg-gray-100 text-gray-800 border-gray-200";
-      case "chargedback":
-        return "bg-orange-100 text-orange-800 border-orange-200";
-      default:
-        return "bg-blue-100 text-blue-800 border-blue-200";
-    }
-  };
-
   useEffect(() => {
     if (bookings.length > 0) {
       const filtered =
@@ -132,21 +88,6 @@ const BookingsPage: React.FC = () => {
       setFilteredBookings(filtered);
     }
   }, [filter, bookings]);
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
 
   return (
     <>

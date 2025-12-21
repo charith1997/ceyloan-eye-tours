@@ -45,6 +45,16 @@ export const bookingApi = baseApi.injectEndpoints({
       },
       providesTags: ["Booking"],
     }),
+    getAllBookingsPaginated: builder.query<
+      any,
+      { userId: string; page: number; size: number; status: number }
+    >({
+      query: ({ userId, page, size, status }) => {
+        let url = `/bookings/paginate-bookings?page=${page}&size=${size}&status=${status}`;
+        return url;
+      },
+      providesTags: ["Booking"],
+    }),
   }),
 });
 
@@ -56,4 +66,5 @@ export const {
   useGetCalendarBookingsQuery,
   useLazyGetCalendarBookingsQuery,
   useLazyGetBookingByIdPaginatedQuery,
+  useLazyGetAllBookingsPaginatedQuery,
 } = bookingApi;
