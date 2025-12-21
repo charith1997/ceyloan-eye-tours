@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, UsersIcon } from "lucide-react";
-import { useGetBookingByIdQuery } from "@/services/bookingApi";
+import { useLazyGetBookingByIdPaginatedQuery } from "@/services/bookingApi";
 import { getUserDetails } from "@/utils/auth";
 import { formatDuration, formatDurationForDayCount } from "@/utils/package";
 import Button from "../../components/atoms/Button";
@@ -9,6 +9,10 @@ import PayHereCheckout from "./PayHereCheckout";
 import { addBtnColor, deleteBtnColor, viewBtnColor } from "@/styles/colors";
 import AddReview from "./AddReview";
 import BookingDetails from "./BookingDetails";
+import Paginator from "@/components/organisams/Paginator";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 interface Booking {
   id: string;
@@ -25,8 +29,24 @@ interface Booking {
   notes?: string;
 }
 
+const sendStatus = (status: string) => {
+  switch (status) {
+    case "all":
+      return 0;
+    case "pending":
+      return 1;
+    case "confirmed":
+      return 2;
+    case "cancelled":
+      return 3;
+    case "completed":
+      return 4;
+    default:
+      return 0;
+  }
+};
+
 const BookingsPage: React.FC = () => {
-  const [userDetails, setUserDetails] = useState<any>(null);
   const [filter, setFilter] = useState<
     "all" | "pending" | "confirmed" | "completed" | "cancelled"
   >("all");
@@ -40,18 +60,33 @@ const BookingsPage: React.FC = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [bookingDetails, setBookingDetails] = useState<any | null>(null);
 
-  // Only get user details on client
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setUserDetails(getUserDetails());
-    }
-  }, []);
+  const { userId } = getUserDetails();
 
-  // Only fetch bookings if userDetails is available
-  const { data } = useGetBookingByIdQuery(userDetails?.userId || "", {
-    skip: !userDetails?.userId,
-  });
-  const bookings = Array.isArray(data?.data) ? data.data : [];
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [getBookingByIdPaginated] = useLazyGetBookingByIdPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllBookings = async () => {
+    const { data } = await getBookingByIdPaginated({
+      userId: userId,
+      page: currentPage,
+      size: 10,
+      status: sendStatus(filter),
+    });
+    if (data.success) {
+      setBookings(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage && filter) {
+      getAllBookings();
+    }
+  }, [currentPage, filter]);
+
   const [filteredBookings, setFilteredBookings] = useState<Booking[]>(bookings);
 
   const getStatusColor = (status: Booking["status"]) => {
@@ -112,11 +147,6 @@ const BookingsPage: React.FC = () => {
       currency: "USD",
     }).format(price);
   };
-
-  // Prevent rendering on server or before userDetails is loaded
-  if (typeof window === "undefined" || !userDetails) {
-    return null;
-  }
 
   return (
     <>
@@ -261,14 +291,14 @@ const BookingsPage: React.FC = () => {
                 <div className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900 mr-3">
+                      <div className="flex flex-col md:flex-row md:items-center mb-4">
+                        <h3 className="text-lg font-semibold text-gray-900 md:mr-3 truncate max-w-36 md:max-w-max">
                           {booking.package_id
                             ? booking.Package?.title
                             : "Custom Package"}
                         </h3>
                         <span
-                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getStatusColor(
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full max-w-fit text-xs font-medium border ${getStatusColor(
                             booking.status
                           )}`}
                         >
@@ -334,7 +364,7 @@ const BookingsPage: React.FC = () => {
                         <span
                           className={`${generatePaymentStatusColor(
                             booking.Payment.status
-                          )} px-2 rounded-full text-xs font-medium border mt-2 inline-block`}
+                          )} px-2 rounded-full text-xs font-medium border mt-2 inline-block whitespace-nowrap`}
                         >
                           payment {booking.Payment.status}
                         </span>
@@ -388,6 +418,9 @@ const BookingsPage: React.FC = () => {
               </div>
             ))
           )}
+          <div className="flex justify-center">
+            <Paginator />
+          </div>
         </div>
       </div>
       <CancelBooking

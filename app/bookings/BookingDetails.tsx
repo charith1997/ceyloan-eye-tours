@@ -262,7 +262,7 @@ const BookingDetails: React.FC<BookingDetailsProps> = ({
                       <div>
                         <p className="text-sm text-gray-500">Email Address</p>
                         <p className="text-sm text-gray-900">
-                          {booking.User.email}
+                          {booking?.User?.email}
                         </p>
                       </div>
                     </div>

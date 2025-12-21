@@ -36,7 +36,7 @@ function CustomPackages() {
     const { data } = await getCustomPackagesByUserIdPaginated({
       userId: userId,
       page: currentPage,
-      size: 9,
+      size: 10,
     });
     if (data.success) {
       setPackages(data.data);
