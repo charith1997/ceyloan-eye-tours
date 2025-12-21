@@ -88,7 +88,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
   };
 
   useEffect(() => {
-    getLoggedUserDetails();
+    if (authToken) getLoggedUserDetails();
   }, [authToken]);
 
   useEffect(() => {

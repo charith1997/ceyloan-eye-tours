@@ -88,6 +88,17 @@ export const customPackageApi = baseApi.injectEndpoints({
       },
       providesTags: ["Custom Package"],
     }),
+    getCustomPackagesByUserIdPaginated: builder.query<
+      any,
+      { userId: string; page: number; size: number; search?: string }
+    >({
+      query: ({ userId, page, size, search }) => {
+        let url = `/custom-packages/get-all-with-pagination/${userId}?page=${page}&size=${size}`;
+        if (search) url += `&search=${search}`;
+        return url;
+      },
+      providesTags: ["Custom Package"],
+    }),
   }),
 });
 
@@ -102,4 +113,5 @@ export const {
   useCreateCustomPackagePlaceMutation,
   useGetAllPaginatedPackagesQuery,
   useLazyGetAllPaginatedPackagesQuery,
+  useLazyGetCustomPackagesByUserIdPaginatedQuery,
 } = customPackageApi;

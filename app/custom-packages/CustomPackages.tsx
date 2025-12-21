@@ -1,11 +1,21 @@
 import Button from "@/components/atoms/Button";
-import { useGetCustomPackagesByUserIDQuery } from "@/services/customPackageApi";
+import { useLazyGetCustomPackagesByUserIdPaginatedQuery } from "@/services/customPackageApi";
 import { getUserDetails } from "@/utils/auth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BookingItinerary from "./BookingItinerary";
 import BookPackage from "@/components/organisams/BookPackage";
-import { viewBtnColor } from "@/styles/colors";
+import {
+  bookNowBtnColor,
+  viewBtnColor,
+  viewItineraryBtnColor,
+} from "@/styles/colors";
 import PackageDetails from "./PackageDetails";
+import { ClockIcon, Info } from "lucide-react";
+import { formatDurationForDayCount } from "@/utils/package";
+import Paginator from "@/components/organisams/Paginator";
+import { useAppSelector } from "@/hooks/reduxHooks";
+import { useDispatch } from "react-redux";
+import { setTotalPages } from "@/features/paginatorSlice";
 
 function CustomPackages() {
   const [showBooking, setShowBooking] = useState(false);
@@ -15,25 +25,50 @@ function CustomPackages() {
   const [showDetails, setShowDetails] = useState(false);
   const { userId } = getUserDetails();
 
-  const { data } = useGetCustomPackagesByUserIDQuery(userId);
-  const packages = Array.isArray(data?.data) ? [...data.data].reverse() : [];
+  const [packages, setPackages] = useState<any[]>([]);
+  const [getCustomPackagesByUserIdPaginated] =
+    useLazyGetCustomPackagesByUserIdPaginatedQuery();
+  const { currentPage } = useAppSelector((state) => state.paginator);
+
+  const dispatch = useDispatch();
+
+  const getAllPackages = async () => {
+    const { data } = await getCustomPackagesByUserIdPaginated({
+      userId: userId,
+      page: currentPage,
+      size: 9,
+    });
+    if (data.success) {
+      setPackages(data.data);
+      dispatch(setTotalPages(data.pagination.totalPages));
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage) {
+      getAllPackages();
+    }
+  }, [currentPage]);
 
   return (
-    <div>
-      <div className="max-w-full">
+    <>
+      <div className="max-w-full pt-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Packages</h1>
+        </div>
         {packages.length === 0 && (
           <div className="flex items-center justify-center p-6 border border-dashed rounded-lg text-gray-500 mt-12">
             No customize packages to display
           </div>
         )}
         {packages.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 space-y-6">
+          <div className="grid grid-cols-1 space-y-6">
             {packages.map((pkg: any, index: number) => (
               <div
                 key={pkg.id}
-                className="bg-white rounded-lg shadow-md p-6 border border-gray-100 h-fit"
+                className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden p-6 flex flex-col gap-2"
               >
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-2">
                   <div className="font-bold">Custom Package {index + 1}</div>
                   <span
                     className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs  ${
@@ -46,45 +81,63 @@ function CustomPackages() {
                   </span>
                 </div>
                 {pkg.is_approved && (
-                  <p className="text-gray-600 text-sm">{`${
-                    pkg.required_day_count
-                  } days / ${Number(pkg.required_day_count) - 1} nights`}</p>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <ClockIcon className="w-4 h-4 mr-2 text-gray-400" />
+                    <span>
+                      {formatDurationForDayCount(
+                        Number(pkg?.required_day_count)
+                      )}
+                    </span>
+                  </div>
                 )}
-                <p className="text-gray-600 text-sm">{pkg.message}</p>
-                <div className="flex justify-end mt-4 gap-2">
-                  <Button
-                    label="View Details"
-                    className={`w-fit text-sm ${viewBtnColor}`}
-                    onClick={() => {
-                      setShowDetails(true);
-                      setSelectedPackage(pkg);
-                    }}
-                  />
+                {pkg.message && (
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Info className="w-4 h-4 mr-2 text-gray-400" />
+                    <span>{pkg.message}</span>
+                  </div>
+                )}
+                <div className="flex flex-col gap-2 md:gap-0 md:flex-row mt-4">
                   {pkg.is_approved && (
-                    <>
-                      <Button
-                        label="View Itinerary"
-                        className="w-auto text-white p-2 rounded-lg bg-gray-500 text-sm font-semibold"
-                        onClick={() => {
-                          setShowItinerary(true);
-                          setSelectedPackage(pkg.CustomizePackagePlaces);
-                        }}
-                      />
-                      <Button
-                        label="Book Now"
-                        onClick={() => {
-                          setShowBooking(true);
-                          setPackageId(pkg.id);
-                        }}
-                        className="w-auto text-white p-2 rounded-lg bg-red text-sm font-semibold"
-                      />
-                    </>
+                    <Button
+                      label="View Itinerary"
+                      className={`w-fit text-sm whitespace-nowrap ${viewItineraryBtnColor}`}
+                      onClick={() => {
+                        setShowItinerary(true);
+                        setSelectedPackage(pkg.CustomizePackagePlaces);
+                      }}
+                    />
                   )}
+                  <div className="flex md:justify-end gap-2 w-[100%]">
+                    <Button
+                      label="View Details"
+                      className={`w-fit text-sm ${viewBtnColor}`}
+                      onClick={() => {
+                        setShowDetails(true);
+                        setSelectedPackage(pkg);
+                      }}
+                    />
+                    {pkg.is_approved && (
+                      <>
+                        <Button
+                          label="Book Now"
+                          onClick={() => {
+                            setShowBooking(true);
+                            setPackageId(pkg.id);
+                          }}
+                          className={`w-fit text-sm ${bookNowBtnColor}`}
+                        />
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         )}
+
+        <div className="flex justify-center mt-12">
+          <Paginator />
+        </div>
       </div>
 
       {showItinerary && (
@@ -109,7 +162,7 @@ function CustomPackages() {
           pkg={selectedPackage}
         />
       )}
-    </div>
+    </>
   );
 }
 
