@@ -183,7 +183,11 @@ function Header({ bgClass, pathname }: HeaderProps) {
           href="/"
           className="font-carattere font-normal text-3xl leading-[100%] tracking-[0]"
         >
-          Jwing Tours
+          <img
+            src="/logo.png"
+            alt="Logo"
+            className="object-contain w-auto h-10 md:h-12"
+          />
         </Link>
 
         <nav className="hidden md:flex space-x-8 text-sm items-center">
