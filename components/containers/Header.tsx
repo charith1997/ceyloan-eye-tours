@@ -191,7 +191,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
           pathname === "/" && !isScrolled
             ? "bg-transparent opacity-100"
-            : `${bgClass} shadow-lg ${isScrolled ? "opacity-100" : "opacity-0"}`
+            : `${bgClass} shadow-lg`
         }`}
       >
         <div className="mx-auto px-4 md:pl-16 py-4 flex justify-between items-center text-white">

@@ -368,7 +368,7 @@ const AdminBookingsPage: React.FC = () => {
                             }}
                           />
                         )}
-                        {booking.status === "cancelled" && (
+                        {/* {booking.status === "cancelled" && (
                           <>
                             <Button
                               className={`w-fit md:text-sm md:uppercase ${addBtnColor}`}
@@ -380,7 +380,7 @@ const AdminBookingsPage: React.FC = () => {
                               }}
                             />
                           </>
-                        )}
+                        )} */}
                         {booking.status === "cancelled" &&
                         booking.Payment?.status === "success" ? (
                           <Button
