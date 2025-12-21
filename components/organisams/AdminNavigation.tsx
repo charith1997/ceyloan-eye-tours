@@ -121,7 +121,12 @@ const AdminNavigation = ({
             <X size={20} className="text-white" />
           </button>
 
-          <div className="relative z-10">
+          <div className="relative z-10 flex items-center">
+            <img
+              src="/logo.png"
+              alt="Logo"
+              className="object-contain w-auto h-10 md:h-12 drop-shadow-lg"
+            />
             <h1 className="font-carattere text-3xl md:text-4xl text-white tracking-wide px-4">
               Jwing Tours
             </h1>
