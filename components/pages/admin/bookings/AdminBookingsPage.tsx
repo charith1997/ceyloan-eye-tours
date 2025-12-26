@@ -60,30 +60,34 @@ const AdminBookingsPage: React.FC = () => {
 
   const { userId } = getUserDetails();
 
-  const [bookings, setBookings] = useState<any[]>([]);
-  const [getAllBookingsPaginated] = useLazyGetAllBookingsPaginatedQuery();
+  const [getAllBookingsPaginated, { data }] =
+    useLazyGetAllBookingsPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
 
   const dispatch = useDispatch();
 
   const getAllBookings = async () => {
-    const { data } = await getAllBookingsPaginated({
+    await getAllBookingsPaginated({
       userId: userId,
       page: currentPage,
       size: 10,
       status: sendStatus(filter),
     });
-    if (data.success) {
-      setBookings(data.data);
+  };
+
+  useEffect(() => {
+    if (data?.success) {
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage && filter && userId) {
       getAllBookings();
     }
   }, [currentPage, filter, userId]);
+
+  const bookings = data?.data || [];
 
   const [filteredBookings, setFilteredBookings] = useState(bookings);
 
