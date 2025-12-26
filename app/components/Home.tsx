@@ -2,7 +2,7 @@
 
 import { useLazyGetCalendarBookingsQuery } from "@/services/bookingApi";
 import { useEffect, useState, MouseEvent, JSX } from "react";
-// import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface User {
   name: string;
@@ -74,16 +74,16 @@ function Home() {
 
   const statusColors: StatusColors = {
     pending: "bg-yellow-100 border-l-4 border-yellow-500",
-    confirmed: "bg-green-100 border-l-4 border-green-500",
+    completed: "bg-green-100 border-l-4 border-green-500",
     cancelled: "bg-red-100 border-l-4 border-red-500",
-    completed: "bg-blue-100 border-l-4 border-blue-500",
+    confirmed: "bg-blue-100 border-l-4 border-blue-500",
   };
 
   const statusBadgeColors: StatusColors = {
     pending: "bg-yellow-500",
-    confirmed: "bg-green-500",
+    completed: "bg-green-500",
     cancelled: "bg-red-500",
-    completed: "bg-blue-500",
+    confirmed: "bg-blue-500",
   };
 
   useEffect(() => {
@@ -285,8 +285,7 @@ function Home() {
               onClick={handlePrevMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              {/* <ChevronLeft size={24} /> */}
-              left
+              <ChevronLeft size={24} />
             </button>
             <h2 className="text-2xl font-bold">
               {monthNames[selectedMonth - 1]} {selectedYear}
@@ -295,8 +294,7 @@ function Home() {
               onClick={handleNextMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             >
-              {/* <ChevronRight size={24} /> */}
-              right
+              <ChevronRight size={24} />
             </button>
           </div>
 
@@ -304,7 +302,7 @@ function Home() {
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               {monthNames.map((month, idx) => (
                 <option key={idx} value={idx + 1}>
@@ -316,7 +314,7 @@ function Home() {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               {Array.from(
                 { length: 10 },
@@ -337,7 +335,7 @@ function Home() {
             <span>Pending</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-green-100 border-l-4 border-green-500"></div>
+            <div className="w-4 h-4 bg-blue-100 border-l-4 border-blue-500"></div>
             <span>Confirmed</span>
           </div>
           <div className="flex items-center gap-2">
@@ -345,7 +343,7 @@ function Home() {
             <span>Cancelled</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-blue-100 border-l-4 border-blue-500"></div>
+            <div className="w-4 h-4 bg-green-100 border-l-4 border-green-500"></div>
             <span>Completed</span>
           </div>
         </div>
