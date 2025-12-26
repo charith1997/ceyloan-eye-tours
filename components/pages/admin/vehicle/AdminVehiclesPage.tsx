@@ -19,10 +19,10 @@ const AdminVehiclesPage = () => {
   const [showAddVehicle, setShowAddVehicle] = useState(false);
   const [details, setDetails] = useState<any | null>(null);
   const [deleteModal, setDeleteModal] = useState(false);
-  const [vehicles, setVehicles] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
+  const [getAllVehiclesPaginated, { data }] =
+    useLazyGetAllVehiclesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -38,13 +38,14 @@ const AdminVehiclesPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllVehiclesPaginated(params);
+    await getAllVehiclesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setVehicles(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -79,16 +80,18 @@ const AdminVehiclesPage = () => {
     setDetails(details);
   };
 
+  const vehicles = data?.data || [];
+
   return (
     <>
       <NavigationContainer>
         <SearchContainer
           searchPlaceholder={
             activeTab === "tab1"
-              ? "Search Cars..."
+              ? "Search Car..."
               : activeTab === "tab2"
-              ? "Search Vans..."
-              : "Search Busses..."
+              ? "Search Van..."
+              : "Search Bus..."
           }
           title="Vehicles"
           buttonName="Add Vehicle"
@@ -98,21 +101,21 @@ const AdminVehiclesPage = () => {
         <div className="w-full">
           <div className="md:max-w-xs flex">
             <Button
-              label="Cars"
+              label="Car"
               className={`flex-1 p-2 text-center text-sm cursor-pointer ${
                 activeTab === "tab1" ? "border-b-2 text-red" : "text-gray-500"
               }`}
               onClick={() => setActiveTab("tab1")}
             />
             <Button
-              label="Vans"
+              label="Van"
               className={`flex-1 p-2 text-center text-sm cursor-pointer ${
                 activeTab === "tab2" ? "border-b-2 text-red" : "text-gray-500"
               }`}
               onClick={() => setActiveTab("tab2")}
             />
             <Button
-              label="Busses"
+              label="Bus"
               className={`flex-1 p-2 text-center text-sm cursor-pointer ${
                 activeTab === "tab3" ? "border-b-2 text-red" : "text-gray-500"
               }`}
