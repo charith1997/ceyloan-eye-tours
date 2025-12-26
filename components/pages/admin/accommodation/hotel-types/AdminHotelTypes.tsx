@@ -26,9 +26,9 @@ function AdminHotelTypes({
 }: AdminHotelTypesProps) {
   const [show, setShow] = useState(false);
   const [hotelTypeURL, setHotelTypeURL] = useState<string | null>(null);
-  const [hotelTypes, setHotelTypes] = useState<any[]>([]);
 
-  const [getAllHotelTypesPaginated] = useLazyGetAllHotelTypesPaginatedQuery();
+  const [getAllHotelTypesPaginated, { data }] =
+    useLazyGetAllHotelTypesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -44,13 +44,14 @@ function AdminHotelTypes({
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllHotelTypesPaginated(params);
+    await getAllHotelTypesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setHotelTypes(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -65,6 +66,8 @@ function AdminHotelTypes({
       }
     }
   }, [totalPages]);
+
+  const hotelTypes = data?.data || [];
 
   return (
     <>

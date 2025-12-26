@@ -24,10 +24,10 @@ const AdminCustomPackagesPage = () => {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showPackageDetailsModal, setShowPackageDetailsModal] = useState(false);
   const [packageDetails, setPackageDetails] = useState<any | null>(null);
-  const [packages, setPackages] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [getAllPaginatedPackages] = useLazyGetAllPaginatedPackagesQuery();
+  const [getAllPaginatedPackages, { data }] =
+    useLazyGetAllPaginatedPackagesQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -43,13 +43,14 @@ const AdminCustomPackagesPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllPaginatedPackages(params);
+    await getAllPaginatedPackages(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setPackages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -68,6 +69,8 @@ const AdminCustomPackagesPage = () => {
       }
     }
   }, [totalPages]);
+
+  const packages = data?.data || [];
 
   return (
     <>
