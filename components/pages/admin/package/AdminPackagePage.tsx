@@ -25,7 +25,6 @@ const AdminPackagePage = () => {
   const [selectedPackage, setSelectedPackage] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [packagePlaceData, setPackagePlaceData] = useState([]);
-  const [packages, setPackages] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: pkgPlaceData } = useGetPackageByUrlPrefixQuery(
@@ -48,7 +47,8 @@ const AdminPackagePage = () => {
     }
   }, [isEdit, pkgPlaceData]);
 
-  const [getAllPackagesPaginated] = useLazyGetAllPackagesPaginatedQuery();
+  const [getAllPackagesPaginated, { data }] =
+    useLazyGetAllPackagesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -64,13 +64,14 @@ const AdminPackagePage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllPackagesPaginated(params);
+    await getAllPackagesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setPackages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -89,6 +90,8 @@ const AdminPackagePage = () => {
       }
     }
   }, [totalPages]);
+
+  const packages = data?.data || [];
 
   return (
     <>

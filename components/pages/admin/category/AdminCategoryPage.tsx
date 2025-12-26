@@ -21,9 +21,9 @@ const AdminCategoryPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState<any[]>([]);
 
-  const [getAllCategoriesPaginated] = useLazyGetAllCategoriesPaginatedQuery();
+  const [getAllCategoriesPaginated, { data }] =
+    useLazyGetAllCategoriesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -39,13 +39,14 @@ const AdminCategoryPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllCategoriesPaginated(params);
+    await getAllCategoriesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setCategories(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -64,6 +65,8 @@ const AdminCategoryPage = () => {
       }
     }
   }, [totalPages]);
+
+  const categories = data?.data || [];
 
   return (
     <>
