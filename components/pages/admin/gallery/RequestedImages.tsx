@@ -21,8 +21,7 @@ function RequestedImages({
   setViewImageUrl,
   displayDeleteModal,
 }: RequestedImagesProps) {
-  const [requestedImages, setRequestedImages] = useState<any[]>([]);
-  const [getAllGalleryItemsPaginated] =
+  const [getAllGalleryItemsPaginated, { data }] =
     useLazyGetAllGalleryItemsPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
@@ -36,13 +35,14 @@ function RequestedImages({
       isApproved: false,
     };
 
-    const { data } = await getAllGalleryItemsPaginated(params);
+    await getAllGalleryItemsPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setRequestedImages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -57,6 +57,8 @@ function RequestedImages({
       }
     }
   }, [totalPages]);
+
+  const requestedImages = data?.data || [];
 
   return (
     <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">

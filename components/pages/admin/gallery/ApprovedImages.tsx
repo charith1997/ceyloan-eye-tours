@@ -21,8 +21,7 @@ function ApprovedImages({
   displayCancelModal,
   displayDeleteModal,
 }: ApprovedImagesProps) {
-  const [approvedImages, setApprovedImages] = useState<any[]>([]);
-  const [getAllGalleryItemsPaginated] =
+  const [getAllGalleryItemsPaginated, { data }] =
     useLazyGetAllGalleryItemsPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
@@ -36,13 +35,14 @@ function ApprovedImages({
       isApproved: true,
     };
 
-    const { data } = await getAllGalleryItemsPaginated(params);
+    await getAllGalleryItemsPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setApprovedImages(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -57,6 +57,8 @@ function ApprovedImages({
       }
     }
   }, [totalPages]);
+
+  const approvedImages = data?.data || [];
 
   return (
     <DetailContainer className="max-h-[calc(100vh-440px)] md:max-h-[calc(100vh-325px)]">
