@@ -197,13 +197,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
         <div className="mx-auto px-4 md:pl-16 py-4 flex justify-between items-center text-white">
           <Link
             href="/"
-            className="font-carattere font-normal text-3xl leading-[100%] tracking-[0] transition-transform hover:scale-105 duration-300"
+            className="flex items-center gap-4 transition-transform hover:scale-105 duration-300"
           >
             <img
               src="/logo.png"
               alt="Logo"
               className="object-contain w-auto h-10 md:h-12 drop-shadow-lg"
             />
+            <span className="text-4xl font-carattere">Jwing Tours</span>
           </Link>
 
           <nav className="hidden md:flex space-x-1 lg:space-x-4 text-sm items-center">

@@ -1,3 +1,4 @@
+import { logout } from "@/features/authSlice";
 import { RootState } from "@/store";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
@@ -19,10 +20,14 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   const result = await baseQuery(args, api, extraOptions);
   // Check for 401 Unauthorized
   if (result.error && result.error.status === 401) {
+    localStorage.removeItem("authToken");
+    api.dispatch(logout());
     window.location.href = "/login";
   }
   // Check for 403 Forbidden
   if (result.error && result.error.status === 403) {
+    localStorage.removeItem("authToken");
+    api.dispatch(logout());
     window.location.href = "/login";
   }
   return result;

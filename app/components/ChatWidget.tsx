@@ -134,7 +134,7 @@ const ChatWidget = () => {
   };
 
   useEffect(() => {
-    if (isLogged) {
+    if (isLogged === true) {
       handleUnreadMessageCount();
     }
   }, [isLogged]);
