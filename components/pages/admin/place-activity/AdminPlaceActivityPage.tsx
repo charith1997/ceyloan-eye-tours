@@ -24,10 +24,9 @@ const AdminPlaceActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [activities, setActivities] = useState<any[]>([]);
   const [showAddActivityModal, setShowAddActivityModal] = useState(false);
-  const [placeActivities, setPlaceActivities] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [getAllPlaceActivitiesPaginated] =
+  const [getAllPlaceActivitiesPaginated, { data }] =
     useLazyGetAllPlaceActivitiesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
@@ -44,13 +43,14 @@ const AdminPlaceActivityPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllPlaceActivitiesPaginated(params);
+    await getAllPlaceActivitiesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setPlaceActivities(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -79,6 +79,8 @@ const AdminPlaceActivityPage = () => {
     setSelectedActivity(data);
     setShowEditModal(true);
   };
+
+  const placeActivities = data?.data || [];
 
   return (
     <>

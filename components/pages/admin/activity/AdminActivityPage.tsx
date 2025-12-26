@@ -21,10 +21,10 @@ const AdminActivityPage = () => {
   const [selectedActivity, setSelectedActivity] = useState<any | null>(null);
   const [isEdit, setIsEdit] = useState(false);
   const [displayDetails, setDisplayDetails] = useState(false);
-  const [activities, setActivities] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [getAllActivitiesPaginated] = useLazyGetAllActivitiesPaginatedQuery();
+  const [getAllActivitiesPaginated, { data }] =
+    useLazyGetAllActivitiesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -40,13 +40,14 @@ const AdminActivityPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllActivitiesPaginated(params);
+    await getAllActivitiesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setActivities(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -65,6 +66,8 @@ const AdminActivityPage = () => {
       }
     }
   }, [totalPages]);
+
+  const activities = data?.data || [];
 
   return (
     <>

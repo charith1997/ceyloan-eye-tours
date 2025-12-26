@@ -19,10 +19,9 @@ const AdminPlacesPage = () => {
   const [deleteModal, setDeleteModal] = React.useState(false);
   const [selectedPlace, setSelectedPlace] = React.useState<any | null>(null);
   const [displayDetails, setDisplayDetails] = React.useState(false);
-  const [places, setPlaces] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [getAllPlacesPaginated] = useLazyGetAllPlacesPaginatedQuery();
+  const [getAllPlacesPaginated, { data }] = useLazyGetAllPlacesPaginatedQuery();
   const { currentPage, totalPages } = useAppSelector(
     (state) => state.paginator
   );
@@ -38,13 +37,14 @@ const AdminPlacesPage = () => {
       params.search = searchQuery.trim();
     }
 
-    const { data } = await getAllPlacesPaginated(params);
+    await getAllPlacesPaginated(params);
+  };
 
+  useEffect(() => {
     if (data?.success) {
-      setPlaces(data.data);
       dispatch(setTotalPages(data.pagination.totalPages));
     }
-  };
+  }, [data, dispatch]);
 
   useEffect(() => {
     if (currentPage) {
@@ -63,6 +63,8 @@ const AdminPlacesPage = () => {
       }
     }
   }, [totalPages]);
+
+  const places = data?.data || [];
 
   return (
     <>
