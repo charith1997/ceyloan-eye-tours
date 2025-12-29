@@ -202,13 +202,16 @@ export default function PlanYourTrip() {
                                           (activity: any) => (
                                             <div
                                               key={activity.id}
-                                              className="bg-gray-50 hover:bg-gray-100 rounded-xl p-3 transition-colors"
+                                              className="bg-gray-50 hover:bg-gray-100 rounded-xl p-3 transition-colors flex items-center justify-between"
                                             >
                                               <FormikCheckbox
                                                 label={activity.name}
                                                 name={`placeActivities.${index}.activityIds`}
                                                 value={activity.id}
                                               />
+                                              <span className="text-sm">
+                                                $ {activity.price}
+                                              </span>
                                             </div>
                                           )
                                         )}
