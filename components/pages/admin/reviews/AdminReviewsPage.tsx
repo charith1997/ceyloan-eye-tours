@@ -53,7 +53,10 @@ const AdminReviewsPage = () => {
         dispatch(setCurrentPage(1));
       }
     }
-  }, [totalPages]);
+    if (searchQuery) {
+      dispatch(setCurrentPage(1));
+    }
+  }, [totalPages, searchQuery]);
 
   return (
     <>

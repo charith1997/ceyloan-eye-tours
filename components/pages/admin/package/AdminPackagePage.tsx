@@ -89,7 +89,10 @@ const AdminPackagePage = () => {
         dispatch(setCurrentPage(1));
       }
     }
-  }, [totalPages]);
+    if (searchQuery) {
+      dispatch(setCurrentPage(1));
+    }
+  }, [totalPages, searchQuery]);
 
   const packages = data?.data || [];
 

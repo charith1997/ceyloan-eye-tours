@@ -64,7 +64,10 @@ const AdminCategoryPage = () => {
         dispatch(setCurrentPage(1));
       }
     }
-  }, [totalPages]);
+    if (searchQuery) {
+      dispatch(setCurrentPage(1));
+    }
+  }, [totalPages, searchQuery]);
 
   const categories = data?.data || [];
 
