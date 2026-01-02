@@ -1,8 +1,10 @@
 import Button from "@/components/atoms/Button";
+import { setCurrentPage } from "@/features/paginatorSlice";
 import { addBtnColor } from "@/styles/colors";
 import { getUserDetails } from "@/utils/auth";
 import { Plus } from "lucide-react";
 import React, { useState, useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 interface SearchContainerProps {
   searchPlaceholder: string;
@@ -26,6 +28,7 @@ const SearchContainer = ({
   const userDetails = getUserDetails();
   const [searchQuery, setSearchQuery] = useState("");
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const dispatch = useDispatch();
 
   // Debounce search to avoid too many API calls
   useEffect(() => {
@@ -50,6 +53,9 @@ const SearchContainer = ({
   }, [searchQuery, onSearchChange]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value === "") {
+      dispatch(setCurrentPage(1));
+    }
     setSearchQuery(e.target.value);
   };
 
