@@ -74,7 +74,7 @@ function Content() {
         <p className="text-lg text-gray-600 leading-relaxed">
           Experience the enchantment of Sri Lanka with Jwing Tours, a trusted,
           locally owned company that has been organizing unforgettable journeys
-          for over 10 years. Whether you're a solo traveler, a couple, a group
+          for over 10 years. Whether you&apos;re a solo traveler, a couple, a group
           of friends, or a convention delegate, we cater to all.
         </p>
       </div>
@@ -152,7 +152,7 @@ function Content() {
                 </h3>
                 <p className="text-gray-700 leading-relaxed">
                   Discover lush landscapes, ancient ruins, and colonial
-                  treasures that tell the story of Sri Lanka's rich heritage.
+                  treasures that tell the story of Sri Lanka&apos;s rich heritage.
                 </p>
               </div>
             </div>
