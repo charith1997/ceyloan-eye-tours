@@ -63,7 +63,7 @@ function Content() {
   ];
 
   return (
-    <section className="mx-auto pt-12">
+    <section className="md:max-w-6xl mx-auto md:px-6 lg:px-8 pt-8 md:pt-16">
       <div className="text-center max-w-4xl mx-auto mb-20">
         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full mb-6">
           <Heart className="text-white" size={32} />

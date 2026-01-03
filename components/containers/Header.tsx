@@ -52,6 +52,7 @@ const navItems = [
   { label: "Reviews", href: "/reviews" },
   { label: "Gallery", href: "/gallery" },
   { label: "About Us", href: "/about-us" },
+  { label: "Privacy & Policy", href: "/privacy" },
 ];
 
 type HeaderProps = {
