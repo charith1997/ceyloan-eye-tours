@@ -36,7 +36,7 @@ const SocialSignUpButtons = () => {
         className="w-full m-0 flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
       />
 
-      <Button
+      {/* <Button
         label={
           <>
             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@ const SocialSignUpButtons = () => {
         }
         onClick={handleAppleSignIn}
         className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-      />
+      /> */}
     </div>
   );
 };

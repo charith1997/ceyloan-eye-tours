@@ -1,8 +1,58 @@
-import Button from "@/components/atoms/Button";
 import React from "react";
+import Button from "@/components/atoms/Button";
+import { useGoogleLogin } from "@react-oauth/google";
+import toast from "react-hot-toast";
+import { useGoogleLoginMutation } from "@/services/authApi";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
+import { clearRedirectPath, login as setLogin } from "@/features/authSlice";
+import { getUserRole } from "@/utils/auth";
+import { useAppSelector } from "@/hooks/reduxHooks";
 
 const SocialLoginButtons = () => {
-  const handleGoogleSignIn = (): void => {};
+  const [googleLogin] = useGoogleLoginMutation();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const redirectPath = useAppSelector((state) => state.auth.redirectPath);
+
+  const handleGoogleSuccess = async (code: string) => {
+    try {
+      const response = await googleLogin({ code }).unwrap();
+      console.log("response", response);
+
+      console.log("Google login success:", response);
+
+      if (response.data) {
+        localStorage.setItem("authToken", response.data);
+        dispatch(setLogin());
+        const destination = redirectPath || "/";
+        dispatch(clearRedirectPath());
+        const role = getUserRole();
+
+        if (role === "admin") {
+          router.push("/");
+        } else {
+          router.push(destination);
+        }
+      }
+    } catch (error: any) {
+      console.error("Google login error:", error);
+      toast.error(error?.data?.message || "Failed to sign in with Google");
+    }
+  };
+
+  const googleSignIn = useGoogleLogin({
+    onSuccess: (tokenResponse) => handleGoogleSuccess(tokenResponse.code),
+    flow: "auth-code",
+    onError: (errorResponse) => {
+      console.error("Google login error:", errorResponse);
+      toast.error("Failed to sign in with Google");
+    },
+  });
+
+  const handleGoogleSignIn = (): void => {
+    googleSignIn();
+  };
 
   const handleAppleSignIn = (): void => {};
 
@@ -36,7 +86,7 @@ const SocialLoginButtons = () => {
         className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
       />
 
-      <Button
+      {/* <Button
         label={
           <>
             <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
@@ -50,7 +100,7 @@ const SocialLoginButtons = () => {
         }
         onClick={handleAppleSignIn}
         className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-      />
+      /> */}
     </div>
   );
 };

@@ -80,25 +80,21 @@ const SignUpForm = () => {
             label="Name:"
             name="name"
             placeholder="Enter name"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
           <FormikInput
             label="Email:"
             name="email"
             placeholder="Enter email"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
           <FormikInput
             label="Country:"
             name="country"
             placeholder="Enter country"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
           <FormikInput
             label="Phone No:"
             name="phoneNo"
             placeholder="Enter phone number"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -106,7 +102,6 @@ const SignUpForm = () => {
             label="Passport No:"
             name="passport"
             placeholder="Enter passport number"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -115,14 +110,12 @@ const SignUpForm = () => {
             name="password"
             type="password"
             placeholder="Enter password"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
           <FormikInput
             label="Repeat Password:"
             name="repeatPassword"
             type="password"
             placeholder="Repeat password"
-            className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
           />
         </div>
 

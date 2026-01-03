@@ -62,14 +62,12 @@ const LoginForm = () => {
           label="Email:"
           name="email"
           placeholder="Enter email"
-          className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
         />
         <FormikInput
           label="Password:"
           name="password"
           type="password"
           placeholder="Enter password"
-          className="w-full text-sm border border-gray-400 rounded px-4 py-2 focus:outline-none"
         />
         <div className="flex justify-end text-sm text-gray-600">
           {/* <div className="flex items-center">

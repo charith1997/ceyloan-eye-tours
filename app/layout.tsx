@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { login, logout } from "@/features/authSlice";
 import ChatWidget from "./components/ChatWidget";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const carattere = Carattere({
   subsets: ["latin"],
@@ -86,11 +87,15 @@ export default function RootLayout({
         <title>Jwing Tours</title>
       </head>
       <body>
-        <ReduxProvider>
-          <LayoutContent>{children}</LayoutContent>
-          <Toaster position="top-right" />
-          <GlobalLoader />
-        </ReduxProvider>
+        <GoogleOAuthProvider
+          clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID!}
+        >
+          <ReduxProvider>
+            <LayoutContent>{children}</LayoutContent>
+            <Toaster position="top-right" />
+            <GlobalLoader />
+          </ReduxProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );

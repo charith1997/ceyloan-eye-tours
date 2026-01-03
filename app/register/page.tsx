@@ -10,14 +10,14 @@ export default function RegisterPage(): JSX.Element {
   return (
     <div className="min-h-screen block lg:flex">
       <div className="lg:w-1/2 flex items-center justify-center">
-        <div className="max-w-xl w-full p-4 md:p-0">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">
+        <div className="max-w-xl w-full py-8 px-6 md:py-12">
+          <h1 className="flex justify-center text-4xl font-bold text-gray-900 mb-8">
             Get Started Now
           </h1>
 
           <SignUpForm />
 
-          <SocialSignUpButtons />
+          {/* <SocialSignUpButtons /> */}
 
           <p className="mt-8 text-center text-gray-600">
             Have an account?{" "}
