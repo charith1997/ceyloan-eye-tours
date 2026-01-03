@@ -209,7 +209,7 @@ function Content() {
       {/* Contact Section */}
       <div className="mt-12 text-center bg-gradient-to-r from-orange-500 to-red-600 rounded-3xl p-8 text-white">
         <h3 className="text-2xl font-bold mb-4">Have Questions?</h3>
-        <p className="text-orange-50 mb-6">
+        <p className="text-orange-50">
           If you need clarification on our policies, please do not hesitate to
           contact us.
         </p>
