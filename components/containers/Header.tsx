@@ -51,7 +51,7 @@ const navItems = [
   { label: "Rent a vehicle", href: "/rent" },
   { label: "Reviews", href: "/reviews" },
   { label: "Gallery", href: "/gallery" },
-  { label: "About Us", href: "/" },
+  { label: "About Us", href: "/about-us" },
 ];
 
 type HeaderProps = {
