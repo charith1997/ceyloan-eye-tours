@@ -7,6 +7,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   as?: string;
   rows?: number;
   infoMessage?: string;
+  isDifferent?: boolean;
+  differentLabel?: string;
 }
 
 export const FormikInput = ({
@@ -15,23 +17,31 @@ export const FormikInput = ({
   as,
   rows,
   infoMessage,
+  isDifferent = false,
+  differentLabel,
   ...props
 }: InputProps) => {
   return (
     <div className="block">
-      <label htmlFor={name} className="block text-sm font-medium">
+      <label
+        htmlFor={isDifferent ? differentLabel : name}
+        className="block text-sm font-medium"
+      >
         {label}
       </label>
       <Field
         name={name}
-        id={name}
+        id={isDifferent ? differentLabel : name}
         className="w-full text-sm border border-gray-400 rounded px-3 py-2 focus:outline-none"
         as={as}
         rows={rows}
         {...props}
       />
       {infoMessage && (
-        <label htmlFor={name} className="block text-sm text-orange-500">
+        <label
+          htmlFor={isDifferent ? differentLabel : name}
+          className="block text-sm text-orange-500"
+        >
           {infoMessage}
         </label>
       )}
