@@ -29,10 +29,11 @@ export default function HeaderWrapper() {
   return <Header bgClass={bgClass} pathname={pathname} />;
 }
 
-const navItems = [
+const primaryNavItems = [
   { label: "Home", href: "/" },
   { label: "Categories", href: "/categories" },
   { label: "Packages", href: "/packages" },
+  { label: "Activities", href: "/activities" },
   {
     label: "Tours",
     group: [
@@ -49,11 +50,16 @@ const navItems = [
     ],
   },
   { label: "Rent a vehicle", href: "/rent" },
+];
+
+const secondaryNavItems = [
   { label: "Reviews", href: "/reviews" },
   { label: "Gallery", href: "/gallery" },
   { label: "About Us", href: "/about-us" },
   { label: "Privacy & Policy", href: "/privacy" },
 ];
+
+const allNavItems = [...primaryNavItems, ...secondaryNavItems];
 
 type HeaderProps = {
   bgClass: string;
@@ -209,7 +215,8 @@ function Header({ bgClass, pathname }: HeaderProps) {
           </Link>
 
           <nav className="hidden md:flex space-x-1 lg:space-x-4 text-sm items-center">
-            {navItems.map((item) => (
+            {/* Primary Navigation Items */}
+            {primaryNavItems.map((item) => (
               <div key={item.label} className="relative">
                 {item.group ? (
                   <div
@@ -261,6 +268,47 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 )}
               </div>
             ))}
+
+            {/* More Dropdown */}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown("More")}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button className="flex items-center text-[14px] leading-[100%] tracking-[0] whitespace-nowrap px-3 py-2 rounded-lg hover:bg-white/10 transition-all duration-200 font-medium">
+                More
+                <ChevronDown
+                  size={16}
+                  className={`ml-1 transition-transform duration-200 ${
+                    activeDropdown === "More" ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              <div
+                className={`absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl overflow-hidden transition-all duration-300 ${
+                  activeDropdown === "More"
+                    ? "opacity-100 visible translate-y-0"
+                    : "opacity-0 invisible -translate-y-2"
+                }`}
+              >
+                <div className="py-2">
+                  {secondaryNavItems.map((subItem, index) => (
+                    <Link
+                      key={subItem.label}
+                      href={subItem.href}
+                      className={`block px-5 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-[#CD1A40]/10 hover:to-[#FF803C]/10 hover:text-[#CD1A40] transition-all duration-200 text-[14px] font-medium ${
+                        index !== secondaryNavItems.length - 1
+                          ? "border-b border-gray-100"
+                          : ""
+                      }`}
+                    >
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </nav>
 
           {!isLogged && (
@@ -393,17 +441,14 @@ function Header({ bgClass, pathname }: HeaderProps) {
                         <div className="font-bold text-gray-800 text-base truncate">
                           {userDetails?.name}
                         </div>
-                        {/* <div className="text-xs text-gray-500 mt-0.5">
-                          View Profile
-                        </div> */}
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* Navigation Items - Same order as desktop */}
+                {/* Navigation Items - All items shown in mobile */}
                 <nav className="space-y-2">
-                  {navItems.map((item) => (
+                  {allNavItems.map((item: any) => (
                     <div key={item.label}>
                       {item.group ? (
                         <div>
@@ -435,7 +480,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                             }`}
                           >
                             <div className="ml-4 mt-1 mb-2 space-y-1">
-                              {item.group.map((subItem) => (
+                              {item.group.map((subItem: any) => (
                                 <Link
                                   key={subItem.label}
                                   href={subItem.href}
