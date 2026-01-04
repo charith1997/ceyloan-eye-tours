@@ -1,9 +1,9 @@
-import { useGetAllReviewsQuery } from "@/services/reviewApi";
+import { useGetPaginatedReviewsQuery } from "@/services/reviewApi";
 import { Star } from "lucide-react";
 import Image from "next/image";
 
 export default function Testimonials() {
-  const { data } = useGetAllReviewsQuery();
+  const { data } = useGetPaginatedReviewsQuery({ page: 1, size: 3 });
   const reviews = Array.isArray(data?.data) ? [...data.data].slice(0, 3) : [];
   return (
     <section className="py-16">

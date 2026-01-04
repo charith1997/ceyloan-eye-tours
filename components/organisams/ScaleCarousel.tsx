@@ -5,7 +5,7 @@ import useEmblaCarousel from "embla-carousel-react";
 
 interface ScaleOpacityCarouselProps<T> {
   data: T[];
-  renderSlide: (item: T, index: number) => React.ReactNode;
+  renderSlide: (item: T, index: number, isCentered: boolean) => React.ReactNode;
   className?: string;
   slideClassName?: string;
 }
@@ -97,12 +97,20 @@ export default function ScaleOpacityCarousel<T>({
     );
   }
 
+  // Find the index with the highest tween value (the centered slide)
+  const centeredIndex = tweenValues.reduce(
+    (maxIndex, value, index, array) =>
+      value > array[maxIndex] ? index : maxIndex,
+    0
+  );
+
   return (
     <div className={`relative ${className}`}>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex touch-pan-y touch-pinch-zoom -ml-4">
           {data.map((item, index) => {
             const tweenValue = tweenValues[index] || 0;
+            const isCentered = index === centeredIndex && tweenValue > 0.9;
 
             return (
               <div
@@ -115,7 +123,7 @@ export default function ScaleOpacityCarousel<T>({
                     opacity: tweenValue,
                   }}
                 >
-                  {renderSlide(item, index)}
+                  {renderSlide(item, index, isCentered)}
                 </div>
               </div>
             );
