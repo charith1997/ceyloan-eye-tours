@@ -1,10 +1,11 @@
 import { Facebook, Instagram, Mail, Phone } from "lucide-react";
+import Link from "next/link";
 
 const Footer = () => {
   return (
     <footer className="bg-[#1E1E1E]/80 text-white py-12 px-6 md:px-16">
-      <div className="max-w-[1200px] mx-auto grid gap-10 md:grid-cols-4 grid-cols-1">
-        <div>
+      <div className="max-w-[1200px] mx-auto  gap-10 flex flex-col md:flex-row md:justify-between">
+        <div className="flex flex-col max-w-sm">
           <h2 className="font-[Carattere] text-3xl text-white mb-4">
             Jwing Tours
           </h2>
@@ -34,34 +35,16 @@ const Footer = () => {
           <h3 className="text-lg font-semibold mb-4">About</h3>
           <ul className="space-y-2 text-gray-300 text-sm">
             <li>
-              <a href="#">Menu</a>
+              <Link href="/about-us">About Us</Link>
             </li>
             <li>
-              <a href="#">Features</a>
+              <Link href="/reviews">Reviews</Link>
             </li>
             <li>
-              <a href="#">News & Blogs</a>
+              <Link href="/gallery">Gallery</Link>
             </li>
             <li>
-              <a href="#">Help & Supports</a>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Company</h3>
-          <ul className="space-y-2 text-gray-300 text-sm">
-            <li>
-              <a href="#">How we work</a>
-            </li>
-            <li>
-              <a href="#">Terms of service</a>
-            </li>
-            <li>
-              <a href="#">Pricing</a>
-            </li>
-            <li>
-              <a href="#">FAQ</a>
+              <Link href="/privacy">Privacy & Policy</Link>
             </li>
           </ul>
         </div>
