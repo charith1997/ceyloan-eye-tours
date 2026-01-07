@@ -5,7 +5,7 @@ import { Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 interface VehicleTypeProps {
   name: string;
@@ -28,21 +28,36 @@ const VehicleType = ({
 }: VehicleTypeProps) => {
   const pathname = usePathname();
   const navigationLink = `${pathname}/${url_prefix}`;
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div className="w-full">
-      <Link href={navigationLink} className="flex h-52">
-        <div className="w-3/5 bg-red rounded-l-md">
+      <Link href={navigationLink} className="flex h-52 group">
+        <div className="w-3/5 bg-red rounded-l-md relative overflow-hidden">
+          {/* Loading skeleton */}
+          {!imageLoaded && (
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-200 animate-pulse rounded-l-md">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer" />
+            </div>
+          )}
+
           <Image
             src={checkImageUrl(images?.[0])}
             alt="Rent Vehicle"
-            className="h-52 w-full object-cover rounded-l-md rounded-t-md"
+            className={`h-52 w-full object-cover rounded-l-md rounded-t-md group-hover:scale-110 transition-all duration-700 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
             width={100}
             height={100}
             style={{ position: "relative" }}
+            onLoad={() => setImageLoaded(true)}
           />
         </div>
-        <div className="w-2/5 bg-red text-white p-3 rounded-r-md">
+        <div
+          className={`w-2/5 bg-red text-white p-3 rounded-r-md transition-all duration-500 group-hover:bg-red/90 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+        >
           <h3 className="text-md md:text-lg font-extrabold uppercase">
             {name}
           </h3>

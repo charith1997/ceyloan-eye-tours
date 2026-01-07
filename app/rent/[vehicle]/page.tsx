@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import VehicleType from "./VehicleType";
 import Jumbotron from "@/components/molecules/Jumbotron";
 import PageDetails from "@/components/organisams/PageDetails";
@@ -25,6 +25,8 @@ function RentVehicle() {
   const [vehicles, setVehicles] = useState<VehicleTypeProps[]>([]);
   const [getAllVehiclesPaginated] = useLazyGetAllVehiclesPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
+  const [visibleCards, setVisibleCards] = useState<Set<number>>(new Set());
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
@@ -33,7 +35,7 @@ function RentVehicle() {
   const getAllVehicles = async () => {
     const { data } = await getAllVehiclesPaginated({
       page: currentPage,
-      size: 9,
+      size: 10,
     });
     if (data.success) {
       setVehicles(data.data);
@@ -46,6 +48,56 @@ function RentVehicle() {
       getAllVehicles();
     }
   }, [currentPage]);
+
+  useEffect(() => {
+    const observers = cardRefs.current.map((cardRef, index) => {
+      if (!cardRef) return null;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setVisibleCards((prev) => new Set(prev).add(index));
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.1,
+          rootMargin: "50px",
+        }
+      );
+
+      observer.observe(cardRef);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, [vehicles]);
+
+  // Different animation patterns for variety
+  const getAnimationClass = (index: number, isVisible: boolean) => {
+    const patterns = [
+      // Pattern 0: Slide from left
+      isVisible
+        ? "opacity-100 translate-x-0 scale-100"
+        : "opacity-0 -translate-x-16 scale-95",
+      // Pattern 1: Slide from right
+      isVisible
+        ? "opacity-100 translate-x-0 scale-100"
+        : "opacity-0 translate-x-16 scale-95",
+      // Pattern 2: Slide from bottom
+      isVisible
+        ? "opacity-100 translate-y-0 scale-100"
+        : "opacity-0 translate-y-16 scale-95",
+      // Pattern 3: Zoom in
+      isVisible ? "opacity-100 scale-100" : "opacity-0 scale-85",
+    ];
+
+    return patterns[index % patterns.length];
+  };
 
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
@@ -70,8 +122,20 @@ function RentVehicle() {
       />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-4">
         {vehicles.length > 0
-          ? vehicles.map((vehicle: any) => (
-              <VehicleType key={vehicle.id} {...vehicle} />
+          ? vehicles.map((vehicle: any, index: number) => (
+              <div
+                key={vehicle.id}
+                ref={(el: any) => (cardRefs.current[index] = el)}
+                className={`transition-all duration-700 ease-out ${getAnimationClass(
+                  index,
+                  visibleCards.has(index)
+                )}`}
+                style={{
+                  transitionDelay: `${(index % 2) * 120}ms`,
+                }}
+              >
+                <VehicleType {...vehicle} />
+              </div>
             ))
           : null}
       </div>
