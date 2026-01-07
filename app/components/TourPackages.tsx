@@ -1,32 +1,90 @@
+"use client";
+
 import AutoScrollCarousel from "@/components/organisams/AutoScrollCarousel";
 import { useGetAllPackagesPaginatedQuery } from "@/services/packageApi";
 import { formatDuration } from "@/utils/package";
 import { ArrowRight, Calendar, MapPin, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
 
 const TourPackages = () => {
   const { data } = useGetAllPackagesPaginatedQuery({ page: 1, size: 10 });
   const slides = Array.isArray(data?.data) ? data.data : [];
 
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section className="max-w-[1200px] mx-auto mt-16 mb-4 px-4 text-center">
-      <div className="mb-8">
+    <section
+      ref={sectionRef}
+      className="max-w-[1200px] mx-auto mt-16 mb-4 px-4 text-center"
+    >
+      {/* Header with fade and zoom effect */}
+      <div
+        className={`mb-8 transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 scale-100" : "opacity-0 scale-90"
+        }`}
+      >
         <h2 className="font-[Carattere] text-5xl text-red leading-none">
           Popular
         </h2>
         <h1 className="text-6xl font-extralight uppercase text-[#1e1e1e] my-2 leading-none">
           tour packages
         </h1>
-        <div className="mt-4 mb-8 mx-auto w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full" />
-        <p className="text-[16px] leading-[26px]">
+        <div
+          className={`mt-4 mb-8 mx-auto h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full transition-all duration-1000 ease-out delay-200 ${
+            isVisible
+              ? "w-24 opacity-100 scale-x-100"
+              : "w-0 opacity-0 scale-x-0"
+          }`}
+        />
+        <p
+          className={`text-[16px] leading-[26px] transition-all duration-1000 ease-out delay-400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+        >
           Discover unforgettable journeys with Jwing Tours. We craft exceptional
           tours to the world&apos;s most stunning destinations, offering
           adventure, culture, and perfect relaxation.
         </p>
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      {/* Carousel with split animation - slides in from both sides */}
+      <div
+        className={`max-w-6xl mx-auto transition-all duration-1000 ease-out delay-600 ${
+          isVisible
+            ? "opacity-100 scale-100 blur-0"
+            : "opacity-0 scale-95 blur-sm"
+        }`}
+      >
         <AutoScrollCarousel
           data={slides}
           renderSlide={(slide: any) => (
@@ -74,7 +132,13 @@ const TourPackages = () => {
           className="w-full"
         />
       </div>
-      <div className="flex justify-center mt-12">
+
+      {/* Button with bounce effect */}
+      <div
+        className={`flex justify-center mt-12 transition-all duration-1000 ease-out delay-800 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
         <Link
           href="/packages"
           className="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"

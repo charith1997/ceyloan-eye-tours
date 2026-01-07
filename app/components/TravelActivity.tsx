@@ -1,9 +1,12 @@
+"use client";
+
 import { useGetAllActivitiesPaginatedQuery } from "@/services/activityApi";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { checkImageUrl } from "@/utils/common";
 import ScaleCarousel from "@/components/organisams/ScaleCarousel";
+import { useState, useEffect, useRef } from "react";
 
 const TravelActivity = () => {
   const { data } = useGetAllActivitiesPaginatedQuery({
@@ -11,21 +14,70 @@ const TravelActivity = () => {
     size: 10,
   });
 
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const activities = Array.isArray(data?.data) ? data.data : [];
 
   return (
-    <section className="max-w-[1200px] mx-auto px-4 py-8 text-center">
-      <div className="mb-12">
+    <section
+      ref={sectionRef}
+      className="max-w-[1200px] mx-auto px-4 py-8 text-center"
+    >
+      {/* Header with slide-in from left */}
+      <div
+        className={`mb-12 transition-all duration-1000 ease-out ${
+          isVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"
+        }`}
+      >
         <h2 className="font-[Carattere] text-[48px] text-red leading-none m-0">
           Travel by
         </h2>
         <h1 className="font-[Work Sans] text-[64px] font-extralight uppercase text-[#222] my-2 leading-none">
           activity
         </h1>
-        <div className="mt-4 mx-auto w-24 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full" />
+        <div
+          className={`mt-4 mx-auto h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full transition-all duration-1000 ease-out delay-300 ${
+            isVisible ? "w-24 opacity-100" : "w-0 opacity-0"
+          }`}
+        />
       </div>
 
-      <div className="relative mb-4">
+      {/* Carousel with fade and scale-up effect */}
+      <div
+        className={`relative mb-4 transition-all duration-1000 ease-out delay-500 ${
+          isVisible
+            ? "opacity-100 scale-100 translate-y-0"
+            : "opacity-0 scale-95 translate-y-8"
+        }`}
+      >
         <ScaleCarousel
           data={activities.slice(0, 6)}
           renderSlide={(activity: any, index: number, isCentered: boolean) => (
@@ -69,7 +121,12 @@ const TravelActivity = () => {
         />
       </div>
 
-      <div className="flex justify-center">
+      {/* Button with slide-in from right */}
+      <div
+        className={`flex justify-center transition-all duration-1000 ease-out delay-700 ${
+          isVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-12"
+        }`}
+      >
         <Link
           href="/activities"
           className="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
