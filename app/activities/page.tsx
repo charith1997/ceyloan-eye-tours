@@ -43,7 +43,7 @@ export default function ActivitiesPage() {
       <Jumbotron
         title="Discover Your Perfect Adventure"
         description="Browse curated activities for thrill-seekers, nature lovers, and culture enthusiasts. Find your perfect Sri Lankan experience today."
-        imageUrl="/hero images/categories.jpeg"
+        imageUrl="/hero images/activities.jpeg"
       />
       <PageDetails
         title="Explore Sri Lanka Activities"
