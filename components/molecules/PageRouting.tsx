@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { ChevronRight, Home } from "lucide-react";
 
 export default function PageRouting() {
   const pathname = usePathname();
@@ -27,14 +28,18 @@ export default function PageRouting() {
   }, [pathname]);
 
   return (
-    <nav className="text-sm text-gray-600 mb-4">
-      <ol className="flex items-center space-x-2">
-        <li>
+    <nav className="mb-6">
+      <ol className="flex items-center flex-wrap gap-2">
+        <li className="group">
           <Link
             href="/"
-            className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline"
+            className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-[#cd1a40] transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
           >
-            Home
+            <Home
+              size={16}
+              className="group-hover:scale-110 transition-transform duration-300"
+            />
+            <span className="hidden sm:inline">Home</span>
           </Link>
         </li>
 
@@ -43,16 +48,21 @@ export default function PageRouting() {
           const isLast = idx === segments.length - 1;
 
           return (
-            <li key={href} className="flex items-center space-x-2">
-              <span className="text-gray-400">{">"}</span>
+            <li key={href} className="flex items-center gap-1 md:gap-2">
+              <ChevronRight
+                size={16}
+                className="text-gray-400 flex-shrink-0 animate-pulse"
+                style={{ animationDuration: "2s" }}
+              />
+
               {isLast ? (
-                <span className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide text-red">
+                <span className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-bold bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white shadow-md">
                   {formatSegment(segment)}
                 </span>
               ) : (
                 <Link
                   href={href}
-                  className="text-[14px] md:text-[16px] font-semibold leading-[100%] tracking-wide hover:underline"
+                  className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-[#cd1a40] transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
                 >
                   {formatSegment(segment)}
                 </Link>
