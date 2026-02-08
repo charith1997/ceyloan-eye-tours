@@ -24,7 +24,7 @@ const Timeline = ({ places }: TimelineProps) => {
         </p>
       </div>
 
-      <div className="relative bg-gradient-to-br from-white to-orange-50/30 rounded-2xl p-4 sm:p-6 md:p-8 shadow-xl mb-8 border border-orange-100/50">
+      <div className="relative bg-gradient-to-br from-white to-orange-50/30 rounded-2xl p-0 sm:p-6 md:p-8 shadow-xl mb-8 border border-orange-100/50">
         <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-orange-100/40 to-transparent rounded-2xl blur-2xl" />
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-red-100/40 to-transparent rounded-2xl blur-2xl" />
 
