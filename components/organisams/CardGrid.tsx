@@ -11,7 +11,7 @@ interface CardGridProps {
   children: (
     cardTitle: string,
     cardDescription: string,
-    count: number
+    count: number,
   ) => React.ReactNode;
 }
 
@@ -36,7 +36,7 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
         {
           threshold: 0.1,
           rootMargin: "50px",
-        }
+        },
       );
 
       observer.observe(cardRef);
@@ -81,7 +81,7 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 py-4 sm:py-6 px-2 sm:px-0">
       {isLinked &&
         data.map((item: any, index: number) => (
           <div
@@ -89,7 +89,7 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
             ref={(el: any) => (cardRefs.current[index] = el)}
             className={`transition-all duration-700 ease-out ${getAnimationClass(
               index,
-              visibleCards.has(index)
+              visibleCards.has(index),
             )}`}
             style={{
               transitionDelay: `${(index % 3) * 100}ms`,
@@ -99,12 +99,13 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
               href={`${pathname}/${item.url_prefix
                 .toLowerCase()
                 .replace(/\s+/g, "-")}`}
+              className="block"
             >
               <Card title={item.name} imageUrl={item.image_url}>
                 {children(
                   item.cardTitle,
                   item.cardDescription,
-                  item.count ?? ""
+                  item.count ?? "",
                 )}
               </Card>
             </Link>
@@ -118,7 +119,7 @@ function CardGrid({ data, isLinked = true, children }: CardGridProps) {
             ref={(el: any) => (cardRefs.current[index] = el)}
             className={`transition-all duration-700 ease-out ${getAnimationClass(
               index,
-              visibleCards.has(index)
+              visibleCards.has(index),
             )}`}
             style={{
               transitionDelay: `${(index % 3) * 100}ms`,
