@@ -40,7 +40,7 @@ export default function DetailCardGrid({
         {
           threshold: 0.1,
           rootMargin: "50px",
-        }
+        },
       );
 
       observer.observe(cardRef);
@@ -83,30 +83,62 @@ export default function DetailCardGrid({
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
-      {data?.map((item, index) => (
-        <div
-          key={index}
-          ref={(el: any) => (cardRefs.current[index] = el)}
-          className={`transition-all duration-700 ease-out ${getAnimationClass(
-            index,
-            visibleCards.has(index)
-          )}`}
-          style={{
-            transitionDelay: `${(index % 3) * 120}ms`,
-          }}
-        >
-          <DetailCard
-            {...item}
-            imageUrl={item.images.length > 0 ? item.images[0] : null}
-            title={item.title}
-            price={item.price}
-            slug={item.url_prefix}
-          >
-            {children(item)}
-          </DetailCard>
+    <div className="px-2 sm:px-0">
+      {/* Empty State */}
+      {data.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 sm:py-24">
+          <div className="text-center space-y-4">
+            <div className="w-20 h-20 mx-auto bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+              <svg
+                className="w-10 h-10 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                />
+              </svg>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-700">
+              No tours found
+            </h3>
+            <p className="text-sm sm:text-base text-gray-500 max-w-md">
+              We couldn't find any tours matching your criteria. Try adjusting
+              your filters.
+            </p>
+          </div>
         </div>
-      ))}
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 py-4 sm:py-6">
+          {data?.map((item, index) => (
+            <div
+              key={index}
+              ref={(el: any) => (cardRefs.current[index] = el)}
+              className={`transition-all duration-700 ease-out ${getAnimationClass(
+                index,
+                visibleCards.has(index),
+              )}`}
+              style={{
+                transitionDelay: `${(index % 3) * 120}ms`,
+              }}
+            >
+              <DetailCard
+                {...item}
+                imageUrl={item.images.length > 0 ? item.images[0] : null}
+                title={item.title}
+                price={item.price}
+                slug={item.url_prefix}
+              >
+                {children(item)}
+              </DetailCard>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
