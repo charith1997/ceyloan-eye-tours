@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import CardGrid from "../organisams/CardGrid";
-import { CARD_DESCRIPTION, CARD_TITLE } from "@/styles/font";
 import { useLazyGetAllHotelTypesWithHotelsPaginatedQuery } from "@/services/hotelTypeApi";
 import PageContainer from "../containers/PageContainer";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
 import { setTotalPages } from "@/features/paginatorSlice";
+import { Hotel } from "lucide-react";
 
 function HotelTypesPage() {
   const [hotelTypes, setHotelTypes] = useState<any[]>([]);
   const [getAllHotelTypesWithHotelsPaginated] =
     useLazyGetAllHotelTypesWithHotelsPaginatedQuery();
   const { currentPage } = useAppSelector((state) => state.paginator);
-
   const dispatch = useDispatch();
 
   const getAllHotelTypes = async () => {
@@ -33,6 +32,7 @@ function HotelTypesPage() {
       getAllHotelTypes();
     }
   }, [currentPage]);
+
   return (
     <PageContainer>
       <Jumbotron
@@ -54,14 +54,23 @@ function HotelTypesPage() {
           }))}
         >
           {(cardTitle: string, cardDescription: string, count: number) => (
-            <div className="absolute inset-0 p-6 flex flex-col justify-end z-10">
-              <div>
-                <h3 className={CARD_DESCRIPTION}>{cardTitle}</h3>
-                <p className={CARD_TITLE}>{cardDescription}</p>
+            <div className="absolute inset-0 flex flex-col justify-end z-10">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent rounded-md" />
+
+              <div className="relative z-10 p-4 sm:p-5 md:p-6">
+                <p className="text-white/70 text-xs sm:text-sm font-medium uppercase tracking-widest mb-1">
+                  {cardTitle}
+                </p>
+
+                <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold uppercase leading-tight drop-shadow-lg mb-3">
+                  {cardDescription}
+                </h3>
+
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white text-xs sm:text-sm font-bold shadow-lg uppercase tracking-wide">
+                  <Hotel className="w-3.5 h-3.5" />
+                  {Number(count).toString().padStart(2, "0")} Hotels
+                </span>
               </div>
-              <span className="self-start px-3 py-2 rounded-xl bg-gradient-to-r from-red to-orange text-white text-sm font-medium mt-2 uppercase">
-                {Number(count).toString().padStart(2, "0")} hotels
-              </span>
             </div>
           )}
         </CardGrid>
