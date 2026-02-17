@@ -1,6 +1,6 @@
 // Page Typography Styles
 export const PAGE_TITLE =
-  "text-3xl sm:text-4xl md:text-5xl font-bold pb-6 pt-3 capitalize tracking-wide transition-all duration-300";
+  "text-3xl sm:text-4xl md:text-5xl font-bold py-4 capitalize tracking-wide transition-all duration-300";
 
 export const PAGE_DESCRIPTION =
   "text-gray-600 text-sm sm:text-base md:text-md leading-relaxed text-justify";

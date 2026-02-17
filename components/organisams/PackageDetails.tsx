@@ -25,11 +25,10 @@ const PackageDetails = ({
   handleBooking,
 }: PackageDetailsProps) => {
   return (
-    <>
-      <div className="py-5">
-        <div className="flex flex-col lg:flex-row gap-10">
+    <div className="space-y-8 sm:space-y-12 lg:space-y-16">
+      <div className="py-4 sm:py-6 lg:py-8">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           <PackageOverview description={description} images={images} />
-
           <PackageHighlights
             highlights={highlights}
             handleBooking={handleBooking}
@@ -37,20 +36,25 @@ const PackageDetails = ({
         </div>
       </div>
 
+      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+
       <Timeline places={places} />
 
-      <div className="flex flex-col lg:flex-row">
+      <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent" />
+
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 py-4 sm:py-6">
         <IncludesAndExcludes includes={includes} excludes={excludes} />
-        <div className="relative lg:w-1/2">
+
+        <div className="lg:w-1/2 lg:sticky lg:top-24 lg:self-start">
           {places.length > 0 && (
             <MapWithLines
               places={places.map((item) => ({
                 coordinates: [
                   parseFloat(item.place.longitude).toFixed(
-                    4
+                    4,
                   ) as unknown as number,
                   parseFloat(item.place.latitude).toFixed(
-                    4
+                    4,
                   ) as unknown as number,
                 ] as [number, number],
                 name: item.place.name,
@@ -63,7 +67,7 @@ const PackageDetails = ({
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
