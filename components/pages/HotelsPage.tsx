@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Jumbotron from "../molecules/Jumbotron";
 import PageDetails from "../organisams/PageDetails";
 import { useLazyGetAllHotelsPaginatedQuery } from "@/services/hotelApi";
-import { renderStars } from "@/utils/common";
+import { renderStarsWhite } from "@/utils/common";
 import DetailCardGrid from "../organisams/DetailCardGrid";
 import PageContainer from "../containers/PageContainer";
 import { useAppSelector } from "@/hooks/reduxHooks";
@@ -76,7 +76,7 @@ export function HotelCardContent({ item }: { item: any }) {
 
           <div className="flex flex-col items-end gap-0.5 flex-shrink-0">
             <div className="flex items-center gap-0.5">
-              {renderStars(item.rating, 5)}
+              {renderStarsWhite(item.rating, 5)}
             </div>
             {item.rating && (
               <span className="text-white/80 text-xs font-semibold">

@@ -70,7 +70,7 @@ export default function DetailCardGrid({
   };
 
   return (
-    <div className="px-2 sm:px-0">
+    <div className="px-0">
       {data.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 sm:py-24">
           <div className="text-center space-y-4">
