@@ -136,7 +136,7 @@ const CategoryCard = ({
           >
             <Link
               href={`/${category.url_prefix}`}
-              className="block px-8 py-3.5 text-sm font-bold bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/50 text-center transform hover:scale-105"
+              className="block px-8 py-3.5 text-sm font-bold bg-gradient-to-r from-red to-orange rounded-full transition-all duration-300 hover:shadow-2xl hover:shadow-orange-500/50 text-center transform hover:scale-105"
             >
               <span className="flex items-center justify-center gap-2">
                 Explore Tours
@@ -234,7 +234,7 @@ export default function TourTypeSection() {
         {/* Decorative background element */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-orange-100/30 to-red-100/30 rounded-full blur-3xl -z-10" />
 
-        <h2 className="font-[Carattere] text-6xl text-[#cd1a40] leading-none m-0 mb-2 drop-shadow-sm">
+        <h2 className="font-[Carattere] text-6xl text-red leading-none m-0 mb-2 drop-shadow-sm">
           Choose your
         </h2>
         <h1 className="text-7xl font-light uppercase text-[#1a1a1a] my-3 leading-none tracking-wider">
@@ -243,7 +243,7 @@ export default function TourTypeSection() {
         <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto font-light">
           Discover extraordinary adventures tailored to your passion
         </p>
-        <div className="mt-6 mx-auto w-32 h-1.5 bg-gradient-to-r from-[#cd1a40] via-[#ff803c] to-[#cd1a40] rounded-full shadow-lg" />
+        <div className="mt-6 mx-auto w-32 h-1.5 bg-gradient-to-r from-red via-orange to-red rounded-full shadow-lg" />
       </div>
 
       {/* Category Grid */}
@@ -254,7 +254,7 @@ export default function TourTypeSection() {
         <div className="flex justify-center mt-16">
           <Link
             href="/categories"
-            className="group relative inline-flex items-center gap-3 px-12 py-5 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-bold rounded-full shadow-xl hover:shadow-2xl hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+            className="group relative inline-flex items-center gap-3 px-12 py-5 bg-gradient-to-r from-red to-orange text-white font-bold rounded-full shadow-xl hover:shadow-2xl hover:shadow-orange-500/50 hover:-translate-y-1 transition-all duration-500 overflow-hidden"
           >
             {/* Animated background shine */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />

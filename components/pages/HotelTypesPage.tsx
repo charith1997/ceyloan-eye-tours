@@ -66,7 +66,7 @@ function HotelTypesPage() {
                   {cardDescription}
                 </h3>
 
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white text-xs sm:text-sm font-bold shadow-lg uppercase tracking-wide">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-red to-orange text-white text-xs sm:text-sm font-bold shadow-lg uppercase tracking-wide">
                   <Hotel className="w-3.5 h-3.5" />
                   {Number(count).toString().padStart(2, "0")} Hotels
                 </span>

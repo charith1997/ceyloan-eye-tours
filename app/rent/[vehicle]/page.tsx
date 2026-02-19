@@ -10,6 +10,7 @@ import Paginator from "@/components/organisams/Paginator";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useDispatch } from "react-redux";
 import { setTotalPages } from "@/features/paginatorSlice";
+import { Car } from "lucide-react";
 
 interface VehicleTypeProps {
   name: string;
@@ -31,6 +32,7 @@ function RentVehicle() {
   const pathname = usePathname();
   const segments = pathname.split("/").filter(Boolean);
   const dispatch = useDispatch();
+  const vehicleType = segments[segments.length - 1];
 
   const getAllVehicles = async () => {
     const { data } = await getAllVehiclesPaginated({
@@ -62,10 +64,7 @@ function RentVehicle() {
             }
           });
         },
-        {
-          threshold: 0.1,
-          rootMargin: "50px",
-        }
+        { threshold: 0.1, rootMargin: "50px" },
       );
 
       observer.observe(cardRef);
@@ -77,70 +76,91 @@ function RentVehicle() {
     };
   }, [vehicles]);
 
-  // Different animation patterns for variety
   const getAnimationClass = (index: number, isVisible: boolean) => {
     const patterns = [
-      // Pattern 0: Slide from left
       isVisible
         ? "opacity-100 translate-x-0 scale-100"
         : "opacity-0 -translate-x-16 scale-95",
-      // Pattern 1: Slide from right
       isVisible
         ? "opacity-100 translate-x-0 scale-100"
         : "opacity-0 translate-x-16 scale-95",
-      // Pattern 2: Slide from bottom
       isVisible
         ? "opacity-100 translate-y-0 scale-100"
         : "opacity-0 translate-y-16 scale-95",
-      // Pattern 3: Zoom in
       isVisible ? "opacity-100 scale-100" : "opacity-0 scale-85",
     ];
-
     return patterns[index % patterns.length];
   };
 
   return (
     <section className="pt-24 pb-16 px-4 md:px-16">
       <Jumbotron
-        title={
-          <span className="capitalize">{segments[segments.length - 1]}</span>
-        }
+        title={<span className="capitalize">{vehicleType}s</span>}
         description="Find the perfect vehicle for your journey."
         imageUrl="/rent/Rent Vehicle.jpg"
       />
+
       <PageDetails
-        title={segments[segments.length - 1]}
-        description="Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text
-          ever since the 1500s, when an unknown printer took a galley of type
-          and scrambled it to make a type specimen book. It has survived not
-          only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum."
+        title={`Available ${vehicleType}s`}
+        description="Explore our fleet of well-maintained vehicles designed for comfort and safety. Each vehicle comes with an experienced driver and flexible rental packages to suit your travel needs. Whether you're planning a short trip or an extended journey, we have the perfect vehicle for you."
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-4">
-        {vehicles.length > 0
-          ? vehicles.map((vehicle: any, index: number) => (
-              <div
-                key={vehicle.id}
-                ref={(el: any) => (cardRefs.current[index] = el)}
-                className={`transition-all duration-700 ease-out ${getAnimationClass(
-                  index,
-                  visibleCards.has(index)
-                )}`}
-                style={{
-                  transitionDelay: `${(index % 2) * 120}ms`,
-                }}
-              >
-                <VehicleType {...vehicle} />
+
+      <div className="pb-4">
+        {vehicles.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+              {vehicles.map((vehicle: any, index: number) => (
+                <div
+                  key={vehicle.id}
+                  ref={(el: any) => (cardRefs.current[index] = el)}
+                  className={`transition-all duration-700 ease-out ${getAnimationClass(
+                    index,
+                    visibleCards.has(index),
+                  )}`}
+                  style={{
+                    transitionDelay: `${(index % 2) * 120}ms`,
+                  }}
+                >
+                  <VehicleType {...vehicle} />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-12 flex justify-center">
+              <Paginator />
+            </div>
+          </>
+        ) : (
+          /* Empty State */
+          <div className="flex flex-col items-center justify-center py-16 sm:py-24">
+            <div className="text-center space-y-4">
+              <div className="relative mx-auto w-20 h-20">
+                <div className="absolute inset-0 bg-gradient-to-br from-red/20 to-orange/20 rounded-full blur-xl" />
+                <div className="relative w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-inner">
+                  <Car className="w-9 h-9 text-gray-400" />
+                </div>
               </div>
-            ))
-          : null}
-      </div>
-      <div className="mt-12 flex justify-center">
-        <Paginator />
+
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-700">
+                No vehicles available
+              </h3>
+              <p className="text-sm sm:text-base text-gray-500 max-w-sm mx-auto leading-relaxed">
+                We don't have any {vehicleType}s available at the moment. Please
+                check back later or contact us for more information.
+              </p>
+
+              <div className="flex justify-center gap-2 pt-2">
+                {[0, 1, 2].map((i) => (
+                  <div
+                    key={i}
+                    className="w-2 h-2 rounded-full bg-gradient-to-r from-red to-orange animate-pulse"
+                    style={{ animationDelay: `${i * 200}ms` }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );

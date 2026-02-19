@@ -21,13 +21,13 @@ function TripDetails({ events, id, isHovered = false }: TripDetailsProps) {
       />
 
       <div className="flex items-center gap-2 mb-4 relative z-10">
-        <div className="p-2 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-lg">
+        <div className="p-2 bg-gradient-to-r from-red to-orange rounded-lg">
           <ListChecks className="w-4 h-4 text-white" />
         </div>
         <h6 className="font-bold text-gray-800 text-base">Daily Activities</h6>
       </div>
 
-      <div className="w-16 h-0.5 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full mb-4" />
+      <div className="w-16 h-0.5 bg-gradient-to-r from-red to-orange rounded-full mb-4" />
 
       <ul className="space-y-2 text-gray-700 text-sm relative z-10">
         {events.map((point: any, idx: number) => (
@@ -36,7 +36,7 @@ function TripDetails({ events, id, isHovered = false }: TripDetailsProps) {
             className="flex items-start gap-2 group animate-slideIn"
             style={{ animationDelay: `${idx * 50}ms` }}
           >
-            <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full mt-1.5 flex-shrink-0 group-hover:scale-150 transition-transform duration-300" />
+            <div className="w-1.5 h-1.5 bg-gradient-to-r from-red to-orange rounded-full mt-1.5 flex-shrink-0 group-hover:scale-150 transition-transform duration-300" />
             <span className="leading-relaxed">{point}</span>
           </li>
         ))}

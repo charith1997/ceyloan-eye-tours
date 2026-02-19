@@ -147,7 +147,7 @@ export default function MapWithLines({ places }: { places: any[] }) {
     <div className="relative">
       {/* Map Header */}
       <div className="mb-4 flex items-center gap-2 px-4 lg:px-0">
-        <MapPin className="w-6 h-6 text-[#cd1a40]" />
+        <MapPin className="w-6 h-6 text-red" />
         <h3 className="text-xl sm:text-2xl font-bold text-gray-800">
           Journey Map
         </h3>
@@ -172,7 +172,7 @@ export default function MapWithLines({ places }: { places: any[] }) {
         {/* Info Badge */}
         <div className="absolute bottom-4 left-4 z-20 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-xl shadow-lg border border-gray-200">
           <div className="flex items-center gap-2 text-sm">
-            <div className="w-2 h-2 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full animate-pulse" />
+            <div className="w-2 h-2 bg-gradient-to-r from-red to-orange rounded-full animate-pulse" />
             <span className="font-semibold text-gray-700">
               {places.length} stops on this journey
             </span>
@@ -183,7 +183,7 @@ export default function MapWithLines({ places }: { places: any[] }) {
       {/* Legend */}
       <div className="mt-4 flex flex-wrap gap-4 justify-center text-sm text-gray-600">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 bg-[#cd1a40] rounded-full" />
+          <div className="w-3 h-3 bg-red rounded-full" />
           <span>Route</span>
         </div>
         <div className="flex items-center gap-2">

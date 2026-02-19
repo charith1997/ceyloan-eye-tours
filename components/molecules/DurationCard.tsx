@@ -12,7 +12,7 @@ const DurationCard = ({ duration, tour_type }: DurationCardProps) => {
   return (
     <div className="pt-8 sm:pt-12 pb-6 sm:pb-8">
       <div className="relative group">
-        <div className="relative flex flex-col sm:flex-row items-stretch sm:items-center justify-between bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white px-4 sm:px-6 py-4 rounded-2xl shadow-xl w-full sm:w-fit overflow-hidden">
+        <div className="relative flex flex-col sm:flex-row items-stretch sm:items-center justify-between bg-gradient-to-r from-red to-orange text-white px-4 sm:px-6 py-4 rounded-2xl shadow-xl w-full sm:w-fit overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
           <div className="flex items-center gap-3 sm:gap-4 relative z-10 pb-3 sm:pb-0">

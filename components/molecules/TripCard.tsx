@@ -41,7 +41,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id, isHovered = false }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
 
           <div
-            className={`absolute top-0 left-0 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white px-4 py-2.5 text-sm font-bold shadow-lg transition-all duration-500 ${
+            className={`absolute top-0 left-0 bg-gradient-to-r from-red to-orange text-white px-4 py-2.5 text-sm font-bold shadow-lg transition-all duration-500 ${
               id % 2 === 0
                 ? "rounded-tr-xl rounded-bl-xl rounded-br-xl"
                 : "rounded-tl-xl rounded-bl-xl rounded-br-xl"
@@ -55,7 +55,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id, isHovered = false }) => {
 
           <div className="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm px-4 py-2.5 rounded-xl shadow-lg border border-gray-100 transition-all duration-500 group-hover:bg-white">
             <div className="flex items-center gap-2 text-gray-800">
-              <MapPin className="w-4 h-4 text-[#cd1a40] flex-shrink-0" />
+              <MapPin className="w-4 h-4 text-red flex-shrink-0" />
               <span className="font-bold text-sm truncate">{place.name}</span>
               <span className="text-gray-400">•</span>
               <span className="text-xs text-gray-600 truncate">
@@ -67,7 +67,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id, isHovered = false }) => {
 
         <div className="md:hidden mt-4">
           <div className="flex items-center gap-2 mb-3">
-            <div className="p-1.5 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-lg">
+            <div className="p-1.5 bg-gradient-to-r from-red to-orange rounded-lg">
               <Clock className="w-3.5 h-3.5 text-white" />
             </div>
             <h6 className="font-bold text-gray-800 text-sm">
@@ -78,7 +78,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id, isHovered = false }) => {
           <ul className="space-y-2 text-gray-700 text-sm pl-2">
             {packagePlace.events.map((point: any, idx: number) => (
               <li key={idx} className="flex items-start gap-2">
-                <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full mt-1.5 flex-shrink-0" />
+                <div className="w-1.5 h-1.5 bg-gradient-to-r from-red to-orange rounded-full mt-1.5 flex-shrink-0" />
                 <span className="leading-relaxed">{point}</span>
               </li>
             ))}

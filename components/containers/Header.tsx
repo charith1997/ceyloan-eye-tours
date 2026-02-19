@@ -24,7 +24,7 @@ export default function HeaderWrapper() {
   const pathname = usePathname();
 
   const bgClass =
-    "bg-gradient-to-r from-[#CD1A40] to-[#FF803C] backdrop-blur-md bg-opacity-95";
+    "bg-gradient-to-r from-red to-orange backdrop-blur-md bg-opacity-95";
 
   return <Header bgClass={bgClass} pathname={pathname} />;
 }
@@ -246,7 +246,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                           <Link
                             key={subItem.label}
                             href={subItem.href}
-                            className={`block px-5 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-[#CD1A40]/10 hover:to-[#FF803C]/10 hover:text-[#CD1A40] transition-all duration-200 text-[14px] font-medium ${
+                            className={`block px-5 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-red/10 hover:to-orange/10 hover:text-red transition-all duration-200 text-[14px] font-medium ${
                               index !== item.group.length - 1
                                 ? "border-b border-gray-100"
                                 : ""
@@ -297,7 +297,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     <Link
                       key={subItem.label}
                       href={subItem.href}
-                      className={`block px-5 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-[#CD1A40]/10 hover:to-[#FF803C]/10 hover:text-[#CD1A40] transition-all duration-200 text-[14px] font-medium ${
+                      className={`block px-5 py-3 text-gray-700 hover:bg-gradient-to-r hover:from-red/10 hover:to-orange/10 hover:text-red transition-all duration-200 text-[14px] font-medium ${
                         index !== secondaryNavItems.length - 1
                           ? "border-b border-gray-100"
                           : ""
@@ -322,7 +322,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
               </Link>
               <Link
                 href="/register"
-                className="bg-white text-[#CD1A40] px-6 py-2.5 rounded-full font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
+                className="bg-white text-red px-6 py-2.5 rounded-full font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105"
               >
                 Sign Up
               </Link>
@@ -345,7 +345,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 <Link
                   href="/profile"
                   onClick={() => setShowModal(false)}
-                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
+                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
                 >
                   <CircleUser width={20} height={20} />
                   <h6>My Profile</h6>
@@ -353,7 +353,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 <Link
                   href="/custom-packages"
                   onClick={() => setShowModal(false)}
-                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
+                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
                 >
                   <Package width={20} height={20} />
                   <h6>My Packages</h6>
@@ -361,13 +361,13 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 <Link
                   href="/bookings"
                   onClick={() => setShowModal(false)}
-                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
+                  className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium"
                 >
                   <Calendar width={20} height={20} />
                   <h6>My Bookings</h6>
                 </Link>
                 <div
-                  className="flex text-gray-700 gap-3 items-center hover:bg-[#CD1A40]/5 hover:text-[#CD1A40] p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium mt-2 border-t border-gray-100 pt-4"
+                  className="flex text-gray-700 gap-3 items-center hover:bg-red/5 hover:text-red p-3 rounded-xl cursor-pointer transition-all duration-200 font-medium mt-2 border-t border-gray-100 pt-4"
                   onClick={handleLogout}
                 >
                   <Power width={20} height={20} />
@@ -401,7 +401,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
             }`}
           >
             {/* Header */}
-            <div className="bg-gradient-to-r from-[#CD1A40] to-[#FF803C] px-6 py-5 flex justify-between items-center shadow-lg">
+            <div className="bg-gradient-to-r from-red to-orange px-6 py-5 flex justify-between items-center shadow-lg">
               <h2 className="text-white font-bold text-lg">Menu</h2>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -418,17 +418,17 @@ function Header({ bgClass, pathname }: HeaderProps) {
                 {/* User Profile - Only show when logged in */}
                 {isLogged && userDetails && (
                   <div className="mb-6 pb-6 border-b-2 border-gray-200">
-                    <div className="flex items-center gap-4 px-4 py-4 bg-gradient-to-r from-[#CD1A40]/5 to-[#FF803C]/5 rounded-xl">
+                    <div className="flex items-center gap-4 px-4 py-4 bg-gradient-to-r from-red/5 to-orange/5 rounded-xl">
                       {userDetails?.profile_image ? (
                         <Image
-                          className="w-14 h-14 rounded-full border-2 border-[#CD1A40]/30 shadow-md"
+                          className="w-14 h-14 rounded-full border-2 border-red/30 shadow-md"
                           src={checkImageUrl(userDetails?.profile_image)}
                           alt="Profile"
                           width={56}
                           height={56}
                         />
                       ) : (
-                        <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-r from-[#CD1A40] to-[#FF803C] rounded-full border-2 border-[#CD1A40]/30 shadow-md">
+                        <div className="w-14 h-14 flex items-center justify-center bg-gradient-to-r from-red to-orange rounded-full border-2 border-red/30 shadow-md">
                           <span className="text-white font-bold text-lg">
                             {userDetails?.name
                               .split(" ")
@@ -453,7 +453,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                       {item.group ? (
                         <div>
                           <button
-                            className="w-full flex items-center justify-between text-gray-800 font-semibold px-4 py-3.5 rounded-xl hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 transition-all duration-200"
+                            className="w-full flex items-center justify-between text-gray-800 font-semibold px-4 py-3.5 rounded-xl hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 transition-all duration-200"
                             onClick={() =>
                               setActiveDropdown(
                                 activeDropdown === item.label
@@ -484,7 +484,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                                 <Link
                                   key={subItem.label}
                                   href={subItem.href}
-                                  className="block py-3 px-4 text-gray-600 hover:text-[#CD1A40] hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 rounded-lg transition-all duration-200 font-medium"
+                                  className="block py-3 px-4 text-gray-600 hover:text-red hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 rounded-lg transition-all duration-200 font-medium"
                                   onClick={() => {
                                     setMobileMenuOpen(false);
                                     setActiveDropdown(null);
@@ -499,7 +499,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                       ) : (
                         <Link
                           href={item.href}
-                          className="block py-3.5 px-4 text-gray-800 hover:text-[#CD1A40] hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 rounded-xl font-semibold transition-all duration-200"
+                          className="block py-3.5 px-4 text-gray-800 hover:text-red hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 rounded-xl font-semibold transition-all duration-200"
                           onClick={() => {
                             setMobileMenuOpen(false);
                             setActiveDropdown(null);
@@ -518,7 +518,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     <Link
                       href="/profile"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl transition-all duration-200 font-medium"
+                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl transition-all duration-200 font-medium"
                     >
                       <CircleUser width={20} height={20} />
                       <h6>My Profile</h6>
@@ -526,7 +526,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     <Link
                       href="/custom-packages"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl transition-all duration-200 font-medium"
+                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl transition-all duration-200 font-medium"
                     >
                       <Package width={20} height={20} />
                       <h6>My Packages</h6>
@@ -534,7 +534,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     <Link
                       href="/bookings"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-[#CD1A40]/5 hover:to-[#FF803C]/5 hover:text-[#CD1A40] p-3 rounded-xl transition-all duration-200 font-medium"
+                      className="flex text-gray-700 gap-3 items-center hover:bg-gradient-to-r hover:from-red/5 hover:to-orange/5 hover:text-red p-3 rounded-xl transition-all duration-200 font-medium"
                     >
                       <Calendar width={20} height={20} />
                       <h6>My Bookings</h6>
@@ -547,7 +547,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                   <div className="mt-6 pt-6 border-t border-gray-200 space-y-3">
                     <Link
                       href="/login"
-                      className="block w-full py-3.5 px-4 text-gray-800 border-2 border-gray-300 hover:border-[#CD1A40] hover:text-[#CD1A40] font-semibold rounded-xl text-center transition-all duration-200"
+                      className="block w-full py-3.5 px-4 text-gray-800 border-2 border-gray-300 hover:border-red hover:text-red font-semibold rounded-xl text-center transition-all duration-200"
                       onClick={() => {
                         setMobileMenuOpen(false);
                         dispatch(setRedirectPath(pathname));
@@ -557,7 +557,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
                     </Link>
                     <Link
                       href="/register"
-                      className="block w-full py-3.5 px-4 bg-gradient-to-r from-[#CD1A40] to-[#FF803C] text-white font-semibold rounded-xl text-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02]"
+                      className="block w-full py-3.5 px-4 bg-gradient-to-r from-red to-orange text-white font-semibold rounded-xl text-center shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-[1.02]"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Sign Up
@@ -570,7 +570,7 @@ function Header({ bgClass, pathname }: HeaderProps) {
               {isLogged && (
                 <div className="px-4 py-4 border-t-2 border-gray-200 bg-gray-50">
                   <button
-                    className="w-full flex text-[#CD1A40] gap-3 items-center justify-center hover:bg-[#CD1A40]/5 p-3.5 rounded-xl transition-all duration-200 font-semibold"
+                    className="w-full flex text-red gap-3 items-center justify-center hover:bg-red/5 p-3.5 rounded-xl transition-all duration-200 font-semibold"
                     onClick={handleLogout}
                   >
                     <Power width={22} height={22} />

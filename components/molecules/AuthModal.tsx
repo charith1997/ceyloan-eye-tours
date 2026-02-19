@@ -40,7 +40,7 @@ export default function AuthModal({
         <div className="flex flex-col items-center text-center space-y-4 py-4">
           <div className="relative">
             <div className="relative bg-gradient-to-br from-orange-100 to-red-100 p-4 rounded-full">
-              <ShieldAlert className="w-10 h-10 sm:w-12 sm:h-12 text-[#cd1a40]" />
+              <ShieldAlert className="w-10 h-10 sm:w-12 sm:h-12 text-red" />
             </div>
           </div>
 
@@ -65,7 +65,7 @@ export default function AuthModal({
           <Button
             type="button"
             onClick={handleLogin}
-            className="group relative flex-1 py-3 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-[#cd1a40] to-[#ff803c] hover:shadow-md hover:shadow-orange-500/50 transition-all duration-300 text-center transform overflow-hidden"
+            className="group relative flex-1 py-3 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-red to-orange hover:shadow-md hover:shadow-orange-500/50 transition-all duration-300 text-center transform overflow-hidden"
             label={
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Login to Continue

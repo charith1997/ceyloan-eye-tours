@@ -45,7 +45,7 @@ const HotelPage = ({
 
             {hotelData?.Place?.name && (
               <div className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#cd1a40] flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-red flex-shrink-0" />
                 <span className="text-sm sm:text-base font-semibold text-gray-700">
                   {hotelData.Place.name}
                 </span>

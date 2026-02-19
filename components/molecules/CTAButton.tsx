@@ -33,7 +33,7 @@ const CTAButton = () => {
                   <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform duration-300" />
                 </span>
               }
-              className="relative bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-bold px-6 py-3 sm:px-10 sm:py-4 md:px-12 md:py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 overflow-hidden"
+              className="relative bg-gradient-to-r from-red to-orange text-white font-bold px-6 py-3 sm:px-10 sm:py-4 md:px-12 md:py-5 rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-orange-500/50 transition-all duration-500 transform hover:-translate-y-1 hover:scale-105 overflow-hidden"
             />
 
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 rounded-2xl pointer-events-none" />

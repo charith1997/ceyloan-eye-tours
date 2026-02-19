@@ -21,7 +21,7 @@ const HotelDetails = ({ hotelData }: HotelDetailsProps) => {
         <div className="flex-1 min-w-0">
           <div className="mb-8 sm:mb-10">
             <div className="flex items-center gap-3 mb-4 sm:mb-6">
-              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-[#cd1a40]" />
+              <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-red" />
               <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
                 Overview
               </h1>
@@ -51,7 +51,7 @@ const HotelDetails = ({ hotelData }: HotelDetailsProps) => {
                 Available Rooms
               </h1>
             </div>
-            <div className="w-20 h-1 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-full mb-6" />
+            <div className="w-20 h-1 bg-gradient-to-r from-red to-orange rounded-full mb-6" />
 
             <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8 max-w-2xl">
               Lorem Ipsum is simply dummy text of the printing and typesetting
@@ -71,10 +71,10 @@ const HotelDetails = ({ hotelData }: HotelDetailsProps) => {
           <div className="lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
             <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-6 sm:p-8 shadow-xl border border-orange-100">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] rounded-xl">
+                <div className="p-2 bg-gradient-to-r from-red to-orange rounded-xl">
                   <Star className="w-5 h-5 text-white" />
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#cd1a40] to-[#ff803c] bg-clip-text text-transparent">
+                <h3 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-red to-orange bg-clip-text text-transparent">
                   Facilities
                 </h3>
               </div>
@@ -86,7 +86,7 @@ const HotelDetails = ({ hotelData }: HotelDetailsProps) => {
                     className="flex items-start gap-3 group"
                     style={{ animationDelay: `${i * 60}ms` }}
                   >
-                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#cd1a40] flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-red flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300" />
                     <span className="text-gray-700 text-sm sm:text-base leading-relaxed">
                       {point}
                     </span>
@@ -109,7 +109,7 @@ function MasonryImageGrid({ images }: { images: string[] }) {
   return (
     <div>
       <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-        <span className="w-2 h-2 bg-[#cd1a40] rounded-full" />
+        <span className="w-2 h-2 bg-red rounded-full" />
         Photo Gallery
       </h2>
       <div className="columns-2 md:columns-3 gap-3 sm:gap-4 space-y-3 sm:space-y-4">
@@ -190,7 +190,7 @@ const HotelRoom = ({ room }: { room: RoomData }) => {
         />
 
         {/* Room type badge */}
-        <div className="absolute top-3 left-3 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] px-3 py-1.5 rounded-xl shadow-lg">
+        <div className="absolute top-3 left-3 bg-gradient-to-r from-red to-orange px-3 py-1.5 rounded-xl shadow-lg">
           <span className="text-white font-bold text-xs capitalize">
             {room.room_type}
           </span>
@@ -198,7 +198,7 @@ const HotelRoom = ({ room }: { room: RoomData }) => {
       </div>
 
       {/* Room Details */}
-      <div className="bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white p-4 sm:p-5 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-red to-orange text-white p-4 sm:p-5 relative overflow-hidden">
         {/* Shimmer effect */}
         <div
           className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-1000 ${

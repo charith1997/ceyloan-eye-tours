@@ -19,13 +19,13 @@ export const SECTION_SUBTITLE =
   "text-lg sm:text-xl md:text-2xl font-light text-gray-600 leading-relaxed mb-6";
 
 export const BUTTON_PRIMARY =
-  "px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base md:text-lg";
+  "px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-red to-orange text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base md:text-lg";
 
 export const BUTTON_SECONDARY =
-  "px-6 py-3 sm:px-8 sm:py-4 bg-white text-gray-900 font-semibold rounded-full shadow-md hover:shadow-lg border-2 border-gray-200 hover:border-[#cd1a40] hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base md:text-lg";
+  "px-6 py-3 sm:px-8 sm:py-4 bg-white text-gray-900 font-semibold rounded-full shadow-md hover:shadow-lg border-2 border-gray-200 hover:border-red hover:-translate-y-1 transition-all duration-300 text-sm sm:text-base md:text-lg";
 
 export const INPUT_FIELD =
-  "w-full px-4 py-3 sm:px-5 sm:py-4 rounded-xl border-2 border-gray-200 focus:border-[#cd1a40] focus:ring-2 focus:ring-[#cd1a40]/20 outline-none transition-all duration-300 text-sm sm:text-base";
+  "w-full px-4 py-3 sm:px-5 sm:py-4 rounded-xl border-2 border-gray-200 focus:border-red focus:ring-2 focus:ring-red/20 outline-none transition-all duration-300 text-sm sm:text-base";
 
 export const BADGE_STYLE =
-  "inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold bg-gradient-to-r from-[#cd1a40]/10 to-[#ff803c]/10 text-[#cd1a40] border border-[#cd1a40]/20";
+  "inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold bg-gradient-to-r from-red/10 to-orange/10 text-red border border-red/20";

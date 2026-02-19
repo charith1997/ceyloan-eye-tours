@@ -75,7 +75,7 @@ export default function DetailCardGrid({
         <div className="flex flex-col items-center justify-center py-16 sm:py-24">
           <div className="text-center space-y-4">
             <div className="relative mx-auto w-20 h-20">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#cd1a40]/20 to-[#ff803c]/20 rounded-full blur-xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-red/20 to-orange/20 rounded-full blur-xl" />
               <div className="relative w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center shadow-inner">
                 <Hotel className="w-9 h-9 text-gray-400" />
               </div>
@@ -91,7 +91,7 @@ export default function DetailCardGrid({
               {[0, 1, 2].map((i) => (
                 <div
                   key={i}
-                  className="w-2 h-2 rounded-full bg-gradient-to-r from-[#cd1a40] to-[#ff803c] animate-pulse"
+                  className="w-2 h-2 rounded-full bg-gradient-to-r from-red to-orange animate-pulse"
                   style={{ animationDelay: `${i * 200}ms` }}
                 />
               ))}

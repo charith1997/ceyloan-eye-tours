@@ -58,7 +58,7 @@ export default HotelsPage;
 export function HotelCardContent({ item }: { item: any }) {
   return (
     <div className="absolute bottom-0 left-0 right-0 z-10">
-      <div className="bg-gradient-to-r from-[#cd1a40] to-[#ff803c] p-3 sm:p-4 relative overflow-hidden group">
+      <div className="bg-gradient-to-r from-red to-orange p-3 sm:p-4 relative overflow-hidden group">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
         <div className="flex flex-row justify-between gap-2 items-center relative z-10">

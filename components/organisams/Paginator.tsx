@@ -40,7 +40,7 @@ const Paginator = () => {
                 ${
                   currentPage === 1
                     ? "text-gray-300 cursor-not-allowed bg-gray-50"
-                    : "text-gray-700 hover:bg-gradient-to-r hover:from-[#cd1a40] hover:to-[#ff803c] hover:text-white hover:shadow-md hover:-translate-x-0.5 bg-gray-50 hover:scale-105 cursor-pointer"
+                    : "text-gray-700 hover:bg-gradient-to-r hover:from-red hover:to-orange hover:text-white hover:shadow-md hover:-translate-x-0.5 bg-gray-50 hover:scale-105 cursor-pointer"
                 }
               `}
               aria-label="Previous page"
@@ -72,8 +72,8 @@ const Paginator = () => {
                     transition-all duration-300 transform overflow-hidden
                     ${
                       pageNumber === currentPage
-                        ? "bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white shadow-lg scale-110 cursor-default"
-                        : "text-gray-700 hover:bg-gradient-to-r hover:from-[#cd1a40] hover:to-[#ff803c] hover:text-white hover:shadow-md hover:scale-105 bg-gray-50 cursor-pointer"
+                        ? "bg-gradient-to-r from-red to-orange text-white shadow-lg scale-110 cursor-default"
+                        : "text-gray-700 hover:bg-gradient-to-r hover:from-red hover:to-orange hover:text-white hover:shadow-md hover:scale-105 bg-gray-50 cursor-pointer"
                     }
                   `}
                   aria-label={`Page ${pageNumber}`}
@@ -106,7 +106,7 @@ const Paginator = () => {
                 ${
                   currentPage === totalPages
                     ? "text-gray-300 cursor-not-allowed bg-gray-50"
-                    : "text-gray-700 hover:bg-gradient-to-r hover:from-[#cd1a40] hover:to-[#ff803c] hover:text-white hover:shadow-md hover:translate-x-0.5 bg-gray-50 hover:scale-105 cursor-pointer"
+                    : "text-gray-700 hover:bg-gradient-to-r hover:from-red hover:to-orange hover:text-white hover:shadow-md hover:translate-x-0.5 bg-gray-50 hover:scale-105 cursor-pointer"
                 }
               `}
               aria-label="Next page"

@@ -35,7 +35,7 @@ const PackageOverview = ({ description, images }: PackageOverviewProps) => {
       {images && images.length > 0 && (
         <div>
           <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#cd1a40] rounded-full" />
+            <span className="w-2 h-2 bg-red rounded-full" />
             Photo Gallery
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">

@@ -49,7 +49,7 @@ const Jumbotron: React.FC<JumbotronProps> = ({
             >
               {title}
             </h1>
-            <div className="mt-3 mx-auto w-24 h-1 bg-gradient-to-r from-[#cd1a40] via-[#ff803c] to-[#cd1a40] rounded-full shadow-lg transform transition-all duration-500 group-hover:w-32" />
+            <div className="mt-3 mx-auto w-24 h-1 bg-gradient-to-r from-red via-orange to-red rounded-full shadow-lg transform transition-all duration-500 group-hover:w-32" />
           </div>
         </div>
 

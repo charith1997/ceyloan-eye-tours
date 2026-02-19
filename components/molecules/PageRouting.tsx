@@ -33,7 +33,7 @@ export default function PageRouting() {
         <li className="group">
           <Link
             href="/"
-            className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-[#cd1a40] transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
+            className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-red transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
           >
             <Home
               size={16}
@@ -56,13 +56,13 @@ export default function PageRouting() {
               />
 
               {isLast ? (
-                <span className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-bold bg-gradient-to-r from-[#cd1a40] to-[#ff803c] text-white shadow-md">
+                <span className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-bold bg-gradient-to-r from-red to-orange text-white shadow-md">
                   {formatSegment(segment)}
                 </span>
               ) : (
                 <Link
                   href={href}
-                  className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-[#cd1a40] transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
+                  className="px-2 py-1.5 rounded-lg text-[13px] sm:text-[14px] md:text-[15px] font-semibold text-gray-700 hover:text-red transition-all duration-300 hover:bg-white hover:shadow-md transform hover:-translate-y-0.5"
                 >
                   {formatSegment(segment)}
                 </Link>
