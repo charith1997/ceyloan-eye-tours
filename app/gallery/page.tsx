@@ -115,7 +115,7 @@ function GalleryPage() {
           <p className="text-gray-600 leading-relaxed text-sm sm:text-base max-w-4xl">
             Step into a visual journey through the eyes of travelers who have
             explored the wonders of Sri Lanka. Our gallery is a curated
-            collection of breathtaking photographs that capture the island's
+            collection of breathtaking photographs that capture the island&apos;s
             diverse landscapes, vibrant culture, and unforgettable moments. From
             golden sunsets on southern beaches and misty mornings in tea country
             to lively local festivals and ancient architectural marvels, each

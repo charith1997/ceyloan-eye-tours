@@ -77,7 +77,7 @@ function AddImage({ show, onClose }: AddImageProps) {
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
               <p className="text-sm text-blue-800 leading-relaxed">
                 <strong>Note:</strong> Your photo will be reviewed before
-                appearing in the gallery. Please ensure it's appropriate and
+                appearing in the gallery. Please ensure it&apos;s appropriate and
                 related to travel in Sri Lanka.
               </p>
             </div>

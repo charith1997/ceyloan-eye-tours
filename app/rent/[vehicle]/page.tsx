@@ -145,7 +145,7 @@ function RentVehicle() {
                 No vehicles available
               </h3>
               <p className="text-sm sm:text-base text-gray-500 max-w-sm mx-auto leading-relaxed">
-                We don't have any {vehicleType}s available at the moment. Please
+                We don&apos;t have any {vehicleType}s available at the moment. Please
                 check back later or contact us for more information.
               </p>
 

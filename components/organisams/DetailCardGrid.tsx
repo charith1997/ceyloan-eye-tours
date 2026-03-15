@@ -84,7 +84,7 @@ export default function DetailCardGrid({
               Nothing found
             </h3>
             <p className="text-sm sm:text-base text-gray-500 max-w-sm mx-auto leading-relaxed">
-              We couldn't find any results matching your criteria. Try adjusting
+              We couldn&apos;t find any results matching your criteria. Try adjusting
               your filters.
             </p>
             <div className="flex justify-center gap-2 pt-2">

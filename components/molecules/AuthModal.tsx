@@ -75,7 +75,7 @@ export default function AuthModal({
         </div>
 
         <p className="text-xs sm:text-sm text-gray-500 text-center pt-2">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button
             onClick={() => {
               router.push("/register");

@@ -18,7 +18,7 @@ const IncludesAndExcludes: React.FC<IncludesAndExcludesProps> = ({
             <CheckCircle2 className="w-6 h-6 text-green-600" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
-            What's Included
+            What&apos;s Included
           </h2>
         </div>
         <div className="w-20 h-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6" />
@@ -47,7 +47,7 @@ const IncludesAndExcludes: React.FC<IncludesAndExcludesProps> = ({
             <XCircle className="w-6 h-6 text-red-600" />
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">
-            What's Not Included
+            What&apos;s Not Included
           </h2>
         </div>
         <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-full mb-6" />

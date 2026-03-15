@@ -71,7 +71,7 @@ const TripCard: React.FC<TripCardProps> = ({ trip, id, isHovered = false }) => {
               <Clock className="w-3.5 h-3.5 text-white" />
             </div>
             <h6 className="font-bold text-gray-800 text-sm">
-              Today's Activities
+              Today&apos;s Activities
             </h6>
           </div>
 

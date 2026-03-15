@@ -143,7 +143,7 @@ export default function RentVehicle() {
 
           <p className="text-gray-600 leading-relaxed text-sm sm:text-base mb-4 max-w-4xl">
             Travel in comfort and style with our wide selection of rental
-            vehicles. Whether you're heading to the airport, exploring local
+            vehicles. Whether you&apos;re heading to the airport, exploring local
             attractions, or planning a long-distance trip, we provide safe and
             comfortable rides to suit your needs. From cars and vans to luxury
             vehicles, each option is designed to make your journey smooth and
